@@ -3,32 +3,35 @@
 #include"Game.h"
 
 Player::Player() {
-	m_animationClips[enAnimClip_Run].Load("Assets/animData/run.tka");
-	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
-
-	m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
-	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
-
-	m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
-	m_animationClips[enAnimClip_Jump].SetLoopFlag(false);
-	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
-
-	m_modelRender.Update();
-	//m_enemy = FindGO<Enemy>("enemy");
-
-	rotation.SetRotationDegY(90.0f);
-
-	m_modelRender.SetRotation(rotation);
-
-
-	//キャラクターコントローラーを初期化する
-	characterController.Init(25.0f, 75.0f, m_position);
 
 }
+
 Player::~Player()
 {
 
 }
+
+bool Player:: Start()
+{
+	m_animationClips[enAnimClip_Run].Load("Assets/animData/run.tka");
+	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
+	m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
+	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
+	m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
+	m_animationClips[enAnimClip_Jump].SetLoopFlag(false);
+	// キャラクターを読み込む。
+	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
+	// キャラクターの更新。
+	m_modelRender.Update();
+	// キャラクターの向きを変える。
+	rotation.SetRotationDegY(180.0f);
+	m_modelRender.SetRotation(rotation);
+	//キャラクターコントローラーを初期化する
+	characterController.Init(25.0f, 75.0f, m_position);
+
+	return true;
+}
+
 void Player::Update() {
 	Move();//キャラクターの移動
 	Rotation();//キャラクターの回転
@@ -41,6 +44,7 @@ void Player::Update() {
 
 
 }
+
 void Player::Move() {
 
 	// xzの移動速度を0.0fにする。
@@ -90,7 +94,6 @@ void Player::Move() {
 	m_position = characterController.Execute(moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
 	m_modelRender.SetPosition(m_position);
-
 }
 
 void Player::Rotation()
@@ -103,6 +106,7 @@ void Player::Rotation()
 		m_modelRender.SetRotation(rotation);
 	}
 }
+
 //ステート管理。
 void Player::ManageState()
 {
@@ -129,6 +133,7 @@ void Player::ManageState()
 		m_playerState = 0;
 	}
 }
+
 //アニメーションの再生。
 void Player::PlayAnimation()
 {
@@ -151,6 +156,7 @@ void Player::PlayAnimation()
 		break;
 	}
 }
+
 void Player::Render(RenderContext& rc) {
 	m_modelRender.Draw(rc);
 }

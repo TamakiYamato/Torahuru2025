@@ -18,6 +18,7 @@ public:
 	void Render(RenderContext& rc);
 	float m_timer = 0.0f;
 	FontRender				m_fontRender;
+	Vector3 m_position;
 private:
 	Player* m_player = nullptr;
 	

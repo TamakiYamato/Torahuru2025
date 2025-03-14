@@ -1,13 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\",
+  "WorkspaceRootPath": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|solutionrelative:Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\ReverseFloor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|solutionrelative:Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|solutionrelative:Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\ReverseFloor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{282445E9-421F-46C0-9165-6C90D7C7EFC4}|Game.vcxproj|solutionrelative:ReverseFloor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -18,33 +30,101 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{605322a2-17ae-43f4-b60f-766556e46c87}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{68487888-204a-11d3-87eb-00c04f7971a5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{be4d7042-ba3f-11d2-840e-00c04f9902c1}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Player.h",
+              "DocumentMoniker": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Player.h",
+              "RelativeDocumentMoniker": "Player.h",
+              "ToolTip": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Player.h",
+              "RelativeToolTip": "Player.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-03-14T03:10:22.958Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Player.cpp",
+              "RelativeDocumentMoniker": "Player.cpp",
+              "ToolTip": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Player.cpp",
+              "RelativeToolTip": "Player.cpp",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAA0AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-14T03:08:22.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Game.h",
+              "DocumentMoniker": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.h",
+              "RelativeDocumentMoniker": "Game.h",
+              "ToolTip": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.h",
+              "RelativeToolTip": "Game.h",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABQAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-03-14T03:07:11.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Game.cpp",
-              "DocumentMoniker": "C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.cpp",
+              "DocumentMoniker": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.cpp",
               "RelativeDocumentMoniker": "Game.cpp",
-              "ToolTip": "C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.cpp",
+              "ToolTip": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\Game.cpp",
               "RelativeToolTip": "Game.cpp",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACkAAAA/AAAAAAAAAA==",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAADAAAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-14T00:38:59.409Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "ReverseFloor.h",
-              "DocumentMoniker": "C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\ReverseFloor.h",
+              "DocumentMoniker": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\ReverseFloor.h",
               "RelativeDocumentMoniker": "ReverseFloor.h",
-              "ToolTip": "C:\\Users\\CA01244028\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\ReverseFloor.h",
+              "ToolTip": "C:\\Users\\CA01244017\\Desktop\\MyGame\\Torahuru2025\\TorahuruGame\\Game\\ReverseFloor.h",
               "RelativeToolTip": "ReverseFloor.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-14T00:35:31.634Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-14T00:35:31.634Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1268,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
             }
           ]
         }
