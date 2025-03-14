@@ -39,7 +39,7 @@ void Game::InitSky() {
 bool Game::Start()
 {
 	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 10.0f,10.0f,10.0f };//プレイヤーのぽししょん還る
+	m_player->m_position = { 10.0f,10.0f,10.0f };//プレイヤーのポジションを変える
 
 	m_background = NewGO<BackGround>(0, "background");
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
