@@ -12,7 +12,7 @@ Title::~Title() {
 
 }
 bool Title::Start() {
-    m_spriteRender.Init("Assets/modelData/takatora.DDS", 1920, 1080);
+    m_spriteRender.Init("Assets/modelData/title.DDS", 1920, 1080);
 
     return true;
 
