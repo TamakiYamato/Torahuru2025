@@ -39,15 +39,14 @@ void Game::InitSky() {
 bool Game::Start()
 {
 	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 10.0f,10.0f,10.0f };//プレイヤーのポジションを変える
+	m_player->m_position = { 00.0f,-200.0f,10.0f };//プレイヤーのポジションを変える
 
 	m_background = NewGO<BackGround>(0, "background");
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
-
-	/*m_sumaho = NewGO<Sumaho>(0, "sumaho");
-	m_sumaho->position = { 500.0f,100.0f,100.0f };*/
 	InitSky();
 
+
+	m_modelRender.SetPosition(m_position);
 	return true;
 }
 void Game::CountTimer() {
@@ -64,7 +63,7 @@ void Game::Update()
 	//表示するテキストを設定。
 	m_fontRender.SetText(text);
 	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(200.0f, 200.0f, 0.0f));
+	m_fontRender.SetPosition(Vector3(-100.0f, 500.0f, 0.0f));
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(2.0f);
 	//フォントの色を設定。
