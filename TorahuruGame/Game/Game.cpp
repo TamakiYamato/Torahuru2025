@@ -6,6 +6,7 @@
 #include"Title.h"
 #include"Game.h"
 #include"Player.h"
+#include"ReverseFloor.h"
 
 Game::Game()
 {
