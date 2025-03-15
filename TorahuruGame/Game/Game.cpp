@@ -45,7 +45,6 @@ bool Game::Start()
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
 	InitSky();
 
-
 	m_modelRender.SetPosition(m_position);
 	return true;
 }
