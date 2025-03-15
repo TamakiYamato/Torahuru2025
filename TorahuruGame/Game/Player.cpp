@@ -65,8 +65,8 @@ void Player::Move() {
 
 	//左スティックの入力量と120.0fを
 	// 乗算。
-	right *= stickL.x * 1500.0f;
-	forward *= stickL.y * 1500.0f;
+	right *= stickL.x * 800.0f;
+	forward *= stickL.y * 800.0f;
 
 
 	//移動速度にスティックの入力量を加算する。
@@ -81,14 +81,14 @@ void Player::Move() {
 		if (g_pad[0]->IsTrigger(enButtonA))
 		{
 			//ジャンプさせる。
-			moveSpeed.y = 300.0f;
+			moveSpeed.y = 250.0f;
 		}
 	}
 	//地面に付いていなかったら。
 	else
 	{
 		//重力を発生させる。
-		moveSpeed.y -= 2.5f;
+		moveSpeed.y -= 5.0f;
 	}
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = characterController.Execute(moveSpeed, 1.0f / 60.0f);
