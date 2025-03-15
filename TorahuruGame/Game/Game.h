@@ -16,7 +16,7 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	float m_timer = 0.0f;
+	float m_timer = 120.0f;
 	FontRender				m_fontRender;
 	Vector3 m_position;
 private:
