@@ -13,14 +13,33 @@ Player::~Player()
 
 bool Player:: Start()
 {
-	m_animationClips[enAnimClip_Run].Load("Assets/animData/run.tka");
-	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
-	m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
+	// 待機アニメーション
+	m_animationClips[enAnimClip_Idle].Load("Assets/animData/player/playerIdle.tka");
 	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
-	m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
-	m_animationClips[enAnimClip_Jump].SetLoopFlag(false);
+	// 歩きアニメーション。
+	m_animationClips[enAnimClip_Walk].Load("Assets/animData/player/playerWalking.tka");
+	m_animationClips[enAnimClip_Walk].SetLoopFlag(true);
+	// 走りアニメーション。
+	m_animationClips[enAnimClip_Run].Load("Assets/animData/player/playerRunning.tka");
+	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
+	// しゃがみアニメーション。
+	m_animationClips[enAnimClip_Crouch].Load("Assets/animData/player/playerCrouch.tka");
+	m_animationClips[enAnimClip_Crouch].SetLoopFlag(true);
+	// しゃがみ歩きアニメーション。
+	m_animationClips[enAnimClip_CrouchWalk].Load("Assets/animData/player/playerCrouch walking.tka");
+	m_animationClips[enAnimClip_CrouchWalk].SetLoopFlag(true);
+	// しゃがみこみアニメーション。
+	m_animationClips[enAnimClip_Crouching].Load("Assets/animData/player/playerCrouching.tka");
+	m_animationClips[enAnimClip_Crouching].SetLoopFlag(true);
+	// 立ち上がりアニメーション。
+	m_animationClips[enAnimClip_CrouchStanding].Load("Assets/animData/player/playerCrouch Standing.tka");
+	m_animationClips[enAnimClip_CrouchStanding].SetLoopFlag(true);
+
+	/*m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
+	m_animationClips[enAnimClip_Jump].SetLoopFlag(false);*/
 	// キャラクターを読み込む。
-	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
+	//m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
+	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);
 	// キャラクターの更新。
 	m_modelRender.Update();
 	// キャラクターの向きを変える。
@@ -35,14 +54,12 @@ bool Player:: Start()
 void Player::Update() {
 	Move();//キャラクターの移動
 	Rotation();//キャラクターの回転
-	Anim();
+	//Anim();
 	//ステート管理。
 	ManageState();
 	//アニメーションの再生。
 	PlayAnimation();
 	m_modelRender.Update();//モデル更新
-
-
 }
 
 void Player::Move() {
@@ -65,8 +82,8 @@ void Player::Move() {
 
 	//左スティックの入力量と120.0fを
 	// 乗算。
-	right *= stickL.x * 800.0f;
-	forward *= stickL.y * 800.0f;
+	right *= stickL.x * 180.0f;
+	forward *= stickL.y * 180.0f;
 
 
 	//移動速度にスティックの入力量を加算する。
@@ -78,11 +95,11 @@ void Player::Move() {
 		//重力を無くす。
 		moveSpeed.y = 0.0f;
 		//Aボタンが押されたら。
-		if (g_pad[0]->IsTrigger(enButtonA))
-		{
-			//ジャンプさせる。
-			moveSpeed.y = 250.0f;
-		}
+		//if (g_pad[0]->IsTrigger(enButtonA))
+		//{
+		//	//ジャンプさせる。
+		//	moveSpeed.y = 250.0f;
+		//}
 	}
 	//地面に付いていなかったら。
 	else
@@ -152,7 +169,7 @@ void Player::PlayAnimation()
 		//プレイヤーステートが2(歩き)だったら。
 	case 2:
 		//歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Run);
+		m_modelRender.PlayAnimation(enAnimClip_Walk);
 		break;
 	}
 }
