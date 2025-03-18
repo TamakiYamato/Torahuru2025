@@ -4,10 +4,8 @@
 #include"BackGround.h"
 #include"GameCamera.h"
 #include"Title.h"
-#include"Game.h"
-#include"Player.h"
 #include"ReverseFloor.h"
-
+#include "Specialfloor.h"
 Game::Game()
 {
 
@@ -16,7 +14,6 @@ Game::~Game() {
 
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
-	/*DeleteGO(m_sumaho);*/
 	DeleteGO(m_background);
 
 
@@ -47,6 +44,12 @@ bool Game::Start()
 	InitSky();
 
 	m_modelRender.SetPosition(m_position);
+
+	//レベルを構築する
+	m_levelRender.Init("Assets/level/tokusyuyuka2.tkl",[&](LevelObjectData& objData) {
+
+	return true;
+		});
 	return true;
 }
 void Game::CountTimer() {
@@ -74,6 +77,7 @@ void Game::Update()
 }
 void Game::Render(RenderContext& rc)
 {
-
 	m_fontRender.Draw(rc);
+	//レベルで読み込んだモデルを表示させる。
+	m_levelRender.Draw(rc);
 }
