@@ -18,6 +18,16 @@ public:
 	//アニメーションの再生。
 	void PlayAnimation();
 
+	enum PlayerState {
+		State_Idle,// 待機。
+		State_Walk,// 歩く。
+		State_Run,// 走る。
+		State_Crouch,// しゃがむ。
+		State_Crouching,// しゃがみこむ。
+		State_CrouchStanding,// 立ち上がる。
+		State_CrouchWalk,// しゃがみ歩き。
+	};
+
 	enum EnAnimationClip {
 		enAnimClip_Idle,// 待機。
 		enAnimClip_Walk,// 歩く
@@ -33,7 +43,8 @@ public:
 	CharacterController characterController;//キャラコン
 	ModelRender m_modelRender;
 	Vector3 m_position;
-	Vector3 moveSpeed;//移動速度
+	Vector3 m_moveSpeed;//移動速度
+	Vector3 m_dash;
 	AnimationClip m_animationClips[enAnimationClip_Num];
 	int m_playerState;//歩くプログラム
 	Quaternion rotation;
@@ -41,6 +52,3 @@ public:
 private:
 	//Enemy* m_enemy = nullptr;
 };
-
-
-
