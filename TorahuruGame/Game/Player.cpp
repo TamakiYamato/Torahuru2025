@@ -11,151 +11,228 @@ Player::~Player()
 
 }
 
-bool Player:: Start()
+bool Player::Start()
 {
-	//m_animationClips[enAnimClip_Run].Load("Assets/animData/run.tka");
-	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
-	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
-	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
-	//m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
-	//m_animationClips[enAnimClip_Jump].SetLoopFlag(false);
-	// ƒLƒƒƒ‰ƒNƒ^[‚ğ“Ç‚İ‚ŞB
-	//m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//Oí—Ş‚ÌƒAƒjƒ[ƒVƒ‡ƒ“:m_animationClips=‰½í—Ş‚ ‚é‚©
-	m_modelRender.Init("Assets/modelData/player/player.tkm");//Oí—Ş‚ÌƒAƒjƒ[ƒVƒ‡ƒ“:m_animationClips=‰½í—Ş‚ ‚é‚©
-	// ƒLƒƒƒ‰ƒNƒ^[‚ÌXVB
+	// å¾…æ©Ÿã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+	m_animationClips[enAnimClip_Idle].Load("Assets/animData/player/playerIdle.tka");
+	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
+	// æ­©ãã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
+	m_animationClips[enAnimClip_Walk].Load("Assets/animData/player/playerWalking.tka");
+	m_animationClips[enAnimClip_Walk].SetLoopFlag(true);
+	// èµ°ã‚Šã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
+	m_animationClips[enAnimClip_Run].Load("Assets/animData/player/playerRunning.tka");
+	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
+	// ã—ã‚ƒãŒã¿ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
+	m_animationClips[enAnimClip_Crouch].Load("Assets/animData/player/playerCrouch.tka");
+	m_animationClips[enAnimClip_Crouch].SetLoopFlag(true);
+	// ã—ã‚ƒãŒã¿æ­©ãã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
+	m_animationClips[enAnimClip_CrouchWalk].Load("Assets/animData/player/playerCrouched walking.tka");
+	m_animationClips[enAnimClip_CrouchWalk].SetLoopFlag(true);
+	// ã—ã‚ƒãŒã¿ã“ã¿ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
+	m_animationClips[enAnimClip_Crouching].Load("Assets/animData/player/playerCrouching.tka");
+	m_animationClips[enAnimClip_Crouching].SetLoopFlag(false);
+	// ç«‹ã¡ä¸ŠãŒã‚Šã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
+	m_animationClips[enAnimClip_CrouchStanding].Load("Assets/animData/player/playerCrouch Standing.tka");
+	m_animationClips[enAnimClip_CrouchStanding].SetLoopFlag(false);
+
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’èª­ã¿è¾¼ã‚€ã€‚
+	//m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//ä¸‰ç¨®é¡ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³:m_animationClips=ä½•ç¨®é¡ã‚ã‚‹ã‹
+	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®æ›´æ–°ã€‚
 	m_modelRender.Update();
-	// ƒLƒƒƒ‰ƒNƒ^[‚ÌŒü‚«‚ğ•Ï‚¦‚éB
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®å‘ãã‚’å¤‰ãˆã‚‹ã€‚
 	rotation.SetRotationDegY(180.0f);
 	m_modelRender.SetRotation(rotation);
-	//ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[‚ğ‰Šú‰»‚·‚é
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
 	characterController.Init(25.0f, 75.0f, m_position);
 
 	return true;
 }
 
 void Player::Update() {
-	Move();//ƒLƒƒƒ‰ƒNƒ^[‚ÌˆÚ“®
-	Rotation();//ƒLƒƒƒ‰ƒNƒ^[‚Ì‰ñ“]
-	Anim();
-	//ƒXƒe[ƒgŠÇ—B
+	Move();//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ç§»å‹•
+	Rotation();//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®å›è»¢
+	//Anim();
+	//ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã€‚
 	ManageState();
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÄ¶B
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å†ç”Ÿã€‚
 	PlayAnimation();
-	m_modelRender.Update();//ƒ‚ƒfƒ‹XV
-
-
+	m_modelRender.Update();//ãƒ¢ãƒ‡ãƒ«æ›´æ–°
 }
 
 void Player::Move() {
+	// ä¹—ç®—ç”¨
+	float m_dash = 1.0f;
+	// ã‚‚ã—Aãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€‚
+	if (g_pad[0]->IsPress(enButtonA))
+	{
+		// ç§»å‹•é€Ÿåº¦ã‚’ä¸Šã’ã‚‹ã€‚
+		m_dash *= 2.0f;
+	}
+	// ã‚‚ã—Bãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€‚
+	if (g_pad[0]->IsPress(enButtonB))
+	{
+		m_dash /= 2.0f;
+	}
 
-	// xz‚ÌˆÚ“®‘¬“x‚ğ0.0f‚É‚·‚éB
-	moveSpeed.x = 0.0f;
-	moveSpeed.z = 0.0f;
+	// xzã®ç§»å‹•é€Ÿåº¦ã‚’0.0fã«ã™ã‚‹ã€‚
+	// 0.0fã§åˆæœŸåŒ–ã™ã‚‹ã“ã¨ã§å‰å›ã®ç§»å‹•é€Ÿåº¦ã®å½±éŸ¿ã‚’
+	// å—ã‘ãšã«æ–°ã—ã„å…¥åŠ›ã«åŸºã¥ã„ãŸç§»å‹•ãŒå¯èƒ½ã€‚
+	m_moveSpeed.x = 0.0f;
+	m_moveSpeed.z = 0.0f;
 
-	//¶ƒXƒeƒBƒbƒN‚Ì“ü—Í—Ê‚ğæ“¾B
+	//å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›é‡ã‚’å–å¾—ã€‚
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²è¡Œæ–¹å‘ã‚’æ±ºå®šã™ã‚‹ã€‚
 	Vector3 stickL;
+	//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®æ°´å¹³æ–¹å‘ã€‚
 	stickL.x = g_pad[0]->GetLStickXF();
+	//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚ç›´æ–¹å‘ã€‚
 	stickL.y = g_pad[0]->GetLStickYF();
 
-	//ƒJƒƒ‰‚Ì‘O•ûŒü‚Æ‰E•ûŒü‚ÌƒxƒNƒgƒ‹‚ğ‚Á‚Ä‚­‚éB
+	//ã‚«ãƒ¡ãƒ©ã®å‰æ–¹å‘ã¨å³æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æŒã£ã¦ãã‚‹ã€‚
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã©ã®æ–¹å‘ã«ç§»å‹•ã™ã‚‹ã‹ã‚’æ±ºã‚ã‚‹ã€‚
+	//ã‚«ãƒ¡ãƒ©ã®å‰æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã€‚
 	Vector3 forward = g_camera3D->GetForward();
+	//ã‚«ãƒ¡ãƒ©ã®å³æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã€‚
 	Vector3 right = g_camera3D->GetRight();
-	//y•ûŒü‚É‚ÍˆÚ“®‚³‚¹‚È‚¢B
+	//yæ–¹å‘ã«ã¯ç§»å‹•ã•ã›ãªã„ã€‚
+	//ã“ã†ã™ã‚‹ã“ã¨ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯åœ°é¢ä¸Šã§ã®ã¿ç§»å‹•ã™ã‚‹ã€‚
 	forward.y = 0.0f;
 	right.y = 0.0f;
 
-	//¶ƒXƒeƒBƒbƒN‚Ì“ü—Í—Ê‚Æ120.0f‚ğ
-	// æZB
-	right *= stickL.x * 800.0f;
-	forward *= stickL.y * 800.0f;
+	//å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›é‡ã¨120.0fã‚’
+	// ä¹—ç®—ã€‚
+	//ç§»å‹•é€Ÿåº¦ã‚’æ±ºã‚ã‚‹ã€‚
+	right *= stickL.x * 180.0f * m_dash;
+	forward *= stickL.y * 180.0f * m_dash;
 
+	//ç§»å‹•é€Ÿåº¦ã«ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›é‡ã‚’åŠ ç®—ã™ã‚‹ã€‚
+	// m_runâ†’ãƒ€ãƒƒã‚·ãƒ¥æ™‚ç”¨ã®å¤‰æ•°ã€‚
+	m_moveSpeed += right + forward;
 
-	//ˆÚ“®‘¬“x‚ÉƒXƒeƒBƒbƒN‚Ì“ü—Í—Ê‚ğ‰ÁZ‚·‚éB
-	moveSpeed += right + forward;
-
-	//’n–Ê‚É•t‚¢‚Ä‚¢‚½‚çB
+	//åœ°é¢ã«ä»˜ã„ã¦ã„ãŸã‚‰ã€‚
 	if (characterController.IsOnGround())
 	{
-		//d—Í‚ğ–³‚­‚·B
-		moveSpeed.y = 0.0f;
-		//Aƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çB
-		if (g_pad[0]->IsTrigger(enButtonA))
-		{
-			//ƒWƒƒƒ“ƒv‚³‚¹‚éB
-			moveSpeed.y = 250.0f;
-		}
+		//é‡åŠ›ã‚’ç„¡ãã™ã€‚
+		m_moveSpeed.y = 0.0f;
+		//Aãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€‚
+		//if (g_pad[0]->IsTrigger(enButtonA))
+		//{
+		//	//ã‚¸ãƒ£ãƒ³ãƒ—ã•ã›ã‚‹ã€‚
+		//	moveSpeed.y = 250.0f;
+		//}
 	}
-	//’n–Ê‚É•t‚¢‚Ä‚¢‚È‚©‚Á‚½‚çB
+	//åœ°é¢ã«ä»˜ã„ã¦ã„ãªã‹ã£ãŸã‚‰ã€‚
 	else
 	{
-		//d—Í‚ğ”­¶‚³‚¹‚éB
-		moveSpeed.y -= 5.0f;
+		//é‡åŠ›ã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚
+		m_moveSpeed.y -= 5.0f;
 	}
-	//ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[‚ğg‚Á‚ÄÀ•W‚ğˆÚ“®‚³‚¹‚éB
-	m_position = characterController.Execute(moveSpeed, 1.0f / 60.0f);
-	//ŠG•`‚«‚³‚ñ‚ÉÀ•W‚ğ‹³‚¦‚éB
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚’ä½¿ã£ã¦åº§æ¨™ã‚’ç§»å‹•ã•ã›ã‚‹ã€‚
+	m_position = characterController.Execute(m_moveSpeed, 1.0f / 60.0f);
+	//çµµæãã•ã‚“ã«åº§æ¨™ã‚’æ•™ãˆã‚‹ã€‚
 	m_modelRender.SetPosition(m_position);
 }
 
 void Player::Rotation()
-{//x‚©z‚ÌˆÚ“®‘¬“x‚ª‚ ‚Á‚½‚ç(ƒXƒeƒBƒbƒN‚Ì“ü—Í‚ª‚ ‚Á‚½‚ç)B
-	if (fabsf(moveSpeed.x) >= 0.001f || fabsf(moveSpeed.z) >= 0.001f)
+{//xã‹zã®ç§»å‹•é€Ÿåº¦ãŒã‚ã£ãŸã‚‰(ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›ãŒã‚ã£ãŸã‚‰)ã€‚
+	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 	{
-		//ƒLƒƒƒ‰ƒNƒ^[‚Ì•ûŒü‚ğ•Ï‚¦‚éB
-		rotation.SetRotationYFromDirectionXZ(moveSpeed);
-		//ŠG•`‚«‚³‚ñ‚É‰ñ“]‚ğ‹³‚¦‚éB
+		//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®æ–¹å‘ã‚’å¤‰ãˆã‚‹ã€‚
+		rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
+		//çµµæãã•ã‚“ã«å›è»¢ã‚’æ•™ãˆã‚‹ã€‚
 		m_modelRender.SetRotation(rotation);
 	}
 }
 
-//ƒXƒe[ƒgŠÇ—B
+//ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã€‚
 void Player::ManageState()
 {
-	//’n–Ê‚É•t‚¢‚Ä‚¢‚È‚©‚Á‚½‚çB
+	//åœ°é¢ã«ä»˜ã„ã¦ã„ãªã‹ã£ãŸã‚‰ã€‚
 	if (characterController.IsOnGround() == false)
 	{
-		//ƒXƒe[ƒg‚ğ1(ƒWƒƒƒ“ƒv’†)‚É‚·‚éB
+		//ã‚¹ãƒ†ãƒ¼ãƒˆã‚’1(ã‚¸ãƒ£ãƒ³ãƒ—ä¸­)ã«ã™ã‚‹ã€‚
 		m_playerState = 1;
-		//‚±‚±‚ÅManageState‚Ìˆ—‚ğI‚í‚ç‚¹‚éB
+		//ã“ã“ã§ManageStateã®å‡¦ç†ã‚’çµ‚ã‚ã‚‰ã›ã‚‹ã€‚
 		return;
 	}
 
-	//’n–Ê‚É•t‚¢‚Ä‚¢‚½‚çB
-	//x‚©z‚ÌˆÚ“®‘¬“x‚ª‚ ‚Á‚½‚ç(ƒXƒeƒBƒbƒN‚Ì“ü—Í‚ª‚ ‚Á‚½‚ç)B
-	if (fabsf(moveSpeed.x) >= 0.001f || fabsf(moveSpeed.z) >= 0.001f)
+	//åœ°é¢ã«ä»˜ã„ã¦ã„ãŸã‚‰ã€‚
+	//xã‹zã®ç§»å‹•é€Ÿåº¦ãŒã‚ã£ãŸã‚‰(ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›ãŒã‚ã£ãŸã‚‰)ã€‚
+	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 	{
-		//ƒXƒe[ƒg‚ğ2(•à‚«)‚É‚·‚éB
-		m_playerState = 2;
+		//ã‚¹ãƒ†ãƒ¼ãƒˆã‚’2(æ­©ã)ã«ã™ã‚‹ã€‚
+		m_playerState = State_Walk;
+
+		// ã‚‚ã—Aãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€‚
+		if (g_pad[0]->IsPress(enButtonA))
+		{
+			// èµ°ã‚‹ã€‚
+			m_playerState = State_Run;
+		}
+		// ã‚‚ã—Bãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€‚
+		else if (g_pad[0]->IsPress(enButtonB))
+		{
+			// ã—ã‚ƒãŒã‚€ã€‚
+			m_playerState = State_CrouchWalk;
+		}
 	}
-	//x‚Æz‚ÌˆÚ“®‘¬“x‚ª–³‚©‚Á‚½‚ç(ƒXƒeƒBƒbƒN‚Ì“ü—Í‚ª–³‚©‚Á‚½‚ç)B
+	//xã¨zã®ç§»å‹•é€Ÿåº¦ãŒç„¡ã‹ã£ãŸã‚‰(ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›ãŒç„¡ã‹ã£ãŸã‚‰)ã€‚
 	else
 	{
-		//ƒXƒe[ƒg‚ğ0(‘Ò‹@)‚É‚·‚éB
-		m_playerState = 0;
+		//ã‚¹ãƒ†ãƒ¼ãƒˆã‚’0(å¾…æ©Ÿ)ã«ã™ã‚‹ã€‚
+		m_playerState = State_Idle;
+
+		// ã‚‚ã—Bãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€‚
+		if (g_pad[0]->IsPress(enButtonB))
+		{
+			// ã—ã‚ƒãŒã‚€ã€‚
+			m_playerState = State_Crouch;
+		}
 	}
 }
 
-//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÄ¶B
+//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å†ç”Ÿã€‚
 void Player::PlayAnimation()
 {
-	//switch•¶B
-	//switch (m_playerState) {
-	//	//ƒvƒŒƒCƒ„[ƒXƒe[ƒg‚ª0(‘Ò‹@)‚¾‚Á‚½‚çB
-	//case 0:
-	//	//‘Ò‹@ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éB
-	//	m_modelRender.PlayAnimation(enAnimClip_Idle);
-	//	break;
-	//	//ƒvƒŒƒCƒ„[ƒXƒe[ƒg‚ª1(ƒWƒƒƒ“ƒv’†)‚¾‚Á‚½‚çB
-	//case 1:
-	//	//ƒWƒƒƒ“ƒvƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éB
-	//	m_modelRender.PlayAnimation(enAnimClip_Jump);
-	//	break;
-	//	//ƒvƒŒƒCƒ„[ƒXƒe[ƒg‚ª2(•à‚«)‚¾‚Á‚½‚çB
-	//case 2:
-	//	//•à‚«ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éB
-	//	m_modelRender.PlayAnimation(enAnimClip_Run);
-	//	break;
-	//}
+	//switchæ–‡ã€‚
+	switch (m_playerState) {
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒIdleã ã£ãŸã‚‰ã€‚
+	case State_Idle:
+		//å¾…æ©Ÿã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_Idle);
+		break;
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒWalkã ã£ãŸã‚‰ã€‚
+	case State_Walk:
+		//æ­©ãã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_Walk);
+		break;
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒRunã ã£ãŸã‚‰ã€‚
+	case State_Run:
+		// èµ°ã‚Šã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_Run);
+		break;
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒCrouchã ã£ãŸã‚‰ã€‚
+	case State_Crouch:
+		// ã—ã‚ƒãŒã¿ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_Crouch);
+		break;
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒCrouchWalkã ã£ãŸã‚‰ã€‚
+	case State_CrouchWalk:
+		// ã—ã‚ƒãŒã¿æ­©ãã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_CrouchWalk);
+		break;
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒCrouchingã ã£ãŸã‚‰ã€‚
+	case State_Crouching:
+		// ã—ã‚ƒãŒã¿ã“ã¿ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_Crouching);
+		break;
+		// ã‚¹ãƒ†ãƒ¼ãƒˆãŒCrouchStandingã ã£ãŸã‚‰ã€‚
+	case State_CrouchStanding:
+		// ç«‹ã¡ä¸ŠãŒã‚Šã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
+		m_modelRender.PlayAnimation(enAnimClip_CrouchStanding);
+		break;
+	}
 }
 
 void Player::Render(RenderContext& rc) {
