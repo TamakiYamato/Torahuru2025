@@ -3,6 +3,7 @@ class Player;
 class Game;
 class Specialfloor:public IGameObject
 {
+public:
 	Specialfloor();
 	~Specialfloor();
 	bool Start();

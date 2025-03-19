@@ -6,6 +6,8 @@
 #include"Title.h"
 #include"ReverseFloor.h"
 #include "Specialfloor.h"
+#include"kaidan.h"
+#include"GameClear.h"
 Game::Game()
 {
 
@@ -38,16 +40,18 @@ bool Game::Start()
 {
 	m_player = NewGO<Player>(0, "player");
 	m_player->m_position = { 00.0f,-200.0f,10.0f };//プレイヤーのポジションを変える
+	m_kaidan = NewGO<kaidan>(0, "kaidan");
+	m_kaidan->m_position = { 0.0f,-100.0f,20.0f };
 
 	m_background = NewGO<BackGround>(0, "background");
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
 	InitSky();
-
+	
 	m_modelRender.SetPosition(m_position);
 
 	//レベルを構築する
 	m_levelRender.Init("Assets/level/tokusyuyuka2.tkl",[&](LevelObjectData& objData) {
-
+		
 	return true;
 		});
 	return true;
@@ -59,6 +63,7 @@ void Game::CountTimer() {
 
 void Game::Update()
 {
+
 	wchar_t text[256];
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
@@ -71,9 +76,10 @@ void Game::Update()
 	m_fontRender.SetScale(2.0f);
 	//フォントの色を設定。
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
-
+	
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 	m_modelRender.Update();
+	
 }
 void Game::Render(RenderContext& rc)
 {

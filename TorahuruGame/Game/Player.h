@@ -17,7 +17,7 @@ public:
 	void ManageState();
 	//アニメーションの再生。
 	void PlayAnimation();
-
+	int ClearCount=0;//クリアカウント
 	enum PlayerState {
 		State_Idle,// 待機。
 		State_Walk,// 歩く。

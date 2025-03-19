@@ -3,8 +3,7 @@
 #include "Game.h"
 #include"Player.h"
 #include"BackGround.h"
-#include"sound/SoundEngine.h"
-#include"sound/SoundSource.h"
+#include"GameClear.h"
 Title::Title() {
 
 }

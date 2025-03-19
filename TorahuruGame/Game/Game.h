@@ -6,8 +6,9 @@ class Player;
 class BackGround;
 class GameCamera;
 class Specialfloor;
-
+class kaidan;
 class Title;
+class GameClear;
 class Game : public IGameObject
 {
 public:
@@ -19,6 +20,7 @@ public:
 	float                   m_timer = 120.0f;
 	FontRender				m_fontRender;
 	Vector3                 m_position;
+	SpriteRender m_spriteRender;
 private:
 	Player* m_player = nullptr;
 	SoundSource* m_bgm = nullptr;
@@ -27,6 +29,7 @@ private:
 	ModelRender m_modelRender;
 	LevelRender m_levelRender;//ƒŒƒxƒ‹
 	GameCamera* m_gamecamera = nullptr;
+	kaidan* m_kaidan = nullptr;//ŠK’i
 	SkyCube* m_SkyCube = nullptr; //”wŒi
 	int m_skycubeType = enSkyCubeType_NightToon;
 	void InitSky();
