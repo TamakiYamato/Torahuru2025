@@ -26,7 +26,7 @@ bool Player:: Start()
 	m_animationClips[enAnimClip_Crouch].Load("Assets/animData/player/playerCrouch.tka");
 	m_animationClips[enAnimClip_Crouch].SetLoopFlag(true);
 	// しゃがみ歩きアニメーション。
-	m_animationClips[enAnimClip_CrouchWalk].Load("Assets/animData/player/playerCrouch walking.tka");
+	m_animationClips[enAnimClip_CrouchWalk].Load("Assets/animData/player/playerCrouched walking.tka");
 	m_animationClips[enAnimClip_CrouchWalk].SetLoopFlag(true);
 	// しゃがみこみアニメーション。
 	m_animationClips[enAnimClip_Crouching].Load("Assets/animData/player/playerCrouching.tka");
@@ -169,20 +169,14 @@ void Player::ManageState()
 		// もしAボタンが押されたら。
 		if (g_pad[0]->IsPress(enButtonA))
 		{
-			m_dash *= 3.0f;
+			// 走る。
 			m_playerState = State_Run;
 		}
 		// もしBボタンが押されたら。
-		if (g_pad[0]->IsPress(enButtonB))
+		else if (g_pad[0]->IsPress(enButtonB))
 		{
-			m_playerState = State_Crouch;
-
-			//xかzの移動速度があったら(スティックの入力があったら)。
-			if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
-			{
-				//ステートを2(歩き)にする。
-				m_playerState = State_CrouchWalk;
-			}
+			// しゃがむ。
+			m_playerState = State_CrouchWalk;
 		}
 	}
 	//xとzの移動速度が無かったら(スティックの入力が無かったら)。
@@ -191,7 +185,12 @@ void Player::ManageState()
 		//ステートを0(待機)にする。
 		m_playerState = State_Idle;
 
-		
+		// もしBボタンが押されたら。
+	    if (g_pad[0]->IsPress(enButtonB))
+	    {
+		    // しゃがむ。
+		    m_playerState = State_Crouch;
+	    }
 	}
 }
 
