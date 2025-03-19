@@ -13,14 +13,15 @@ Player::~Player()
 
 bool Player:: Start()
 {
-	m_animationClips[enAnimClip_Run].Load("Assets/animData/run.tka");
-	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
-	m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
-	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
-	m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
-	m_animationClips[enAnimClip_Jump].SetLoopFlag(false);
+	//m_animationClips[enAnimClip_Run].Load("Assets/animData/run.tka");
+	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
+	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
+	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
+	//m_animationClips[enAnimClip_Jump].Load("Assets/animData/jump.tka");
+	//m_animationClips[enAnimClip_Jump].SetLoopFlag(false);
 	// キャラクターを読み込む。
-	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
+	//m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
+	m_modelRender.Init("Assets/modelData/player/player.tkm");//三種類のアニメーション:m_animationClips=何種類あるか
 	// キャラクターの更新。
 	m_modelRender.Update();
 	// キャラクターの向きを変える。
@@ -138,23 +139,23 @@ void Player::ManageState()
 void Player::PlayAnimation()
 {
 	//switch文。
-	switch (m_playerState) {
-		//プレイヤーステートが0(待機)だったら。
-	case 0:
-		//待機アニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Idle);
-		break;
-		//プレイヤーステートが1(ジャンプ中)だったら。
-	case 1:
-		//ジャンプアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Jump);
-		break;
-		//プレイヤーステートが2(歩き)だったら。
-	case 2:
-		//歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Run);
-		break;
-	}
+	//switch (m_playerState) {
+	//	//プレイヤーステートが0(待機)だったら。
+	//case 0:
+	//	//待機アニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Idle);
+	//	break;
+	//	//プレイヤーステートが1(ジャンプ中)だったら。
+	//case 1:
+	//	//ジャンプアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Jump);
+	//	break;
+	//	//プレイヤーステートが2(歩き)だったら。
+	//case 2:
+	//	//歩きアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Run);
+	//	break;
+	//}
 }
 
 void Player::Render(RenderContext& rc) {
