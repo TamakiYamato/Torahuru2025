@@ -1,6 +1,7 @@
 #pragma once
 
-//class Enemy;
+class GameClear;
+class Staier;
 class Player : public IGameObject
 {
 public:
@@ -17,7 +18,7 @@ public:
 	void ManageState();
 	//アニメーションの再生。
 	void PlayAnimation();
-
+	int StairsCount ;//Stairs=階段のカウント
 	enum PlayerState {
 		State_Idle,// 待機。
 		State_Walk,// 歩く。
@@ -50,5 +51,5 @@ public:
 	Quaternion rotation;
 
 private:
-	//Enemy* m_enemy = nullptr;
+	
 };
