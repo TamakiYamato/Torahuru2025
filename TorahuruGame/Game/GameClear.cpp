@@ -15,7 +15,7 @@ GameClear::~GameClear() {
 
 bool GameClear:: Start() {
 	
-	m_spriteRender.Init("Assets/modelData/takatora2.DDS", 1920, 1080);
+	m_spriteRender.Init("Assets/modelData/takatora2.DDS", 1920, 1080);//ƒQ[ƒ€ƒNƒŠƒA
 	return true;
 }
 void GameClear::Update()

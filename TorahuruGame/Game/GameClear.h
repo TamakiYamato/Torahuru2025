@@ -8,9 +8,9 @@ class GameClear :public IGameObject
 public:
 	GameClear();
 	~GameClear();
-	bool Start() override;
-	void Update() override;
-	void Render(RenderContext& rc);//override’Ç‰Á‚µ‚½
+	bool Start() ;
+	void Update() ;
+	void Render(RenderContext& rc);//ƒQ[ƒ€ƒNƒŠƒA‚ğ‚Á‚Ä‚­‚é‚½‚ß
 	Player* m_player;
 	SpriteRender m_spriteRender;
 };
