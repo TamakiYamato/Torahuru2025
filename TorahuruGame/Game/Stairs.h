@@ -7,8 +7,8 @@ class Stairs :public IGameObject
 public:
 	Stairs();
 	~Stairs();
-	bool Start() override;
-	void Update() override;
+	bool Start() ;
+	void Update() ;
 
 	void Render(RenderContext& renderContext);
 	ModelRender m_modelRender;
