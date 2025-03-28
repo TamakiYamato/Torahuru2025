@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Level3DRender/LevelRender.h"
-
 class Player;
 class BackGround;
 class GameCamera;
-class Specialfloor;
+class Floor1;
 class Stairs;
 class Title;
 class GameClear;

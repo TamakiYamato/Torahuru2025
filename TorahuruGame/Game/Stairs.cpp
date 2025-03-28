@@ -26,7 +26,6 @@ void Stairs::Update() {
 	if (diff.Length() <= 120.0f)
 	{
 		m_player->StairsCount =1; 
-		//MessageBox(NULL, L"ŠK’i‚ª‚«‚¦‚½‚æ!", L"Debug", MB_OK);
 		DeleteGO(this);
 	}
 	

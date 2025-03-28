@@ -5,7 +5,7 @@
 #include"GameCamera.h"
 #include"Title.h"
 #include"ReverseFloor.h"
-#include "Specialfloor.h"
+#include "Floor1.h"
 #include"Stairs.h"
 #include"GameClear.h"
 Game::Game()
@@ -18,7 +18,6 @@ Game::~Game() {
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
-
 }
 
 void Game::InitSky() {
@@ -42,7 +41,6 @@ bool Game::Start()
 	m_player = NewGO<Player>(0, "player");
 	m_player->m_position = { 00.0f,-200.0f,10.0f };//プレイヤーのポジションを変える
 	
-
 	m_stairs = NewGO<Stairs>(0, "stairs");//階段を追加
 	m_stairs->m_position = { 860.0f,-300.0f,20.0f };//階段座標
 	m_background = NewGO<BackGround>(0, "background");
@@ -79,6 +77,7 @@ void Game::Update()
 	m_modelRender.Update();
 
 	if (m_player->StairsCount == 1) {
+
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
 	}
