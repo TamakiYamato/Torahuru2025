@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include"Game.h"
+#include"ReverseFloor.h"
 #include <string>
 
 // constを使用して定数を作成する。
@@ -16,6 +17,7 @@ namespace
 	// const を使用し定数を定義。 const→変数が変更不可であることを示す。
 	// ヒューマンエラーを防ぐ。　ヒューマンエラー→タイピング等のミスで起こるエラー。
 	const std::string animationFilePath = "Assets/animData/player/";
+	const int PLAYER_STICK_REVERSE = -1;	//プレイヤーの進行方向を入力した方向の逆にする
 
 	const std::string animationExtention = ".tka";
 }
@@ -61,7 +63,7 @@ bool Player::Start()
 	rotation.SetRotationDegY(180.0f);
 	m_modelRender.SetRotation(rotation);
 	//キャラクターコントローラーを初期化する
-	characterController.Init(25.0f, 75.0f, m_position);
+	m_charCon.Init(25.0f, 75.0f, m_position);
 
 	return true;
 }
@@ -128,7 +130,7 @@ void Player::Move() {
 	m_moveSpeed += right + forward;
 
 	//地面に付いていたら。
-	if (characterController.IsOnGround())
+	if (m_charCon.IsOnGround())
 	{
 		//重力を無くす。
 		m_moveSpeed.y = 0.0f;
@@ -139,8 +141,19 @@ void Player::Move() {
 		//重力を発生させる。
 		m_moveSpeed.y -= 5.0f;
 	}
+	//ステージ内にあるreversefloorをすべて見つける。
+	const auto& reverseFloors = FindGOs<ReverseFloor>("reverseFloor");
+	
+	//forはすべてのreversefloorを繰り返す
+	for (auto revereseFloor : reverseFloors) {
+		//プレイヤーが床の上にいたとき、操作を逆にする。
+		if (revereseFloor->m_onReverseFloor == true) {
+			stickL.x *= PLAYER_STICK_REVERSE;
+			stickL.y *= PLAYER_STICK_REVERSE;
+		}
+	}
 	//キャラクターコントローラーを使って座標を移動させる。
-	m_position = characterController.Execute(m_moveSpeed, 1.0f / 60.0f);
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
 	m_modelRender.SetPosition(m_position);
 }
@@ -160,8 +173,11 @@ void Player::Rotation()
 void Player::ManageState()
 {
 	//地面に付いていなかったら。
-	if (characterController.IsOnGround() == false)
+	if (m_charCon.IsOnGround() == false)
 	{
+		//ステートを1(ジャンプ中)にする。
+		m_playerState = 1;
+		//ここでManageStateの処理を終わらせる。
 		return;
 	}
 

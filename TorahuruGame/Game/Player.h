@@ -1,6 +1,9 @@
 #pragma once
 
 //class Enemy;
+class GameClear;
+class Staier;
+class ReverseFloor;
 class Player : public IGameObject
 {
 public:
@@ -16,6 +19,8 @@ public:
 	void ManageState();
 	//アニメーションの再生。
 	void PlayAnimation();
+
+	int StairsCount ;//Stairs=階段のカウント
 
 	enum PlayerState {
 		State_Idle,// 待機。
@@ -43,13 +48,20 @@ public:
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
 	AnimationClip          m_animationClips[enAnimationClip_Num];
-	CharacterController    characterController;//キャラコン
+	CharacterController m_charCon;//キャラコン
+	ReverseFloor* m_reverseFloor;
 	ModelRender            m_modelRender;
 	Vector3                m_position;
 	Vector3                m_moveSpeed;//移動速度
 	Vector3                m_dash;
 	PlayerState            m_playerState = State_Idle;
 	Quaternion             rotation;
+	int m_playerState;//歩くプログラム
+
+	CharacterController& GetCharacterController()
+	{
+		return m_charCon;
+	}
 
 private:
 };
