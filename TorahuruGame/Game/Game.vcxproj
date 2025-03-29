@@ -226,9 +226,13 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameClear.cpp" />
+    <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ReverseFloor.cpp" />
+    <ClCompile Include="Specialfloor.cpp" />
+    <ClCompile Include="Stairs.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -241,11 +245,19 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameClear.h" />
+    <ClInclude Include="Gameover.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ReverseFloor.h" />
+    <ClInclude Include="Specialfloor.h" />
+    <ClInclude Include="Stairs.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Title.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dxcompiler.dll" />
+    <None Include="dxil.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
