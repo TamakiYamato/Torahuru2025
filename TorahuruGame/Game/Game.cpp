@@ -5,7 +5,6 @@
 #include"GameCamera.h"
 #include"Title.h"
 #include"ReverseFloor.h"
-#include "Specialfloor.h"
 #include"Stairs.h"
 #include"GameClear.h"
 Game::Game()
@@ -52,9 +51,27 @@ bool Game::Start()
 	m_modelRender.SetPosition(m_position);
 
 	////レベルを構築する
-	//m_levelRender.Init("Assets/level/tokusyuyuka2.tkl",[&](LevelObjectData& objData) {
-	//return true;
-	//	});
+	m_levelRender.Init("Assets/level/tokusyuyuka2.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
+		if (objData.EqualObjectName(L"ReverseFloor") == true) {							//あべこべ床の3dsMaxの名前。
+			m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
+			m_reverseFloor->SetPosition(objData.position);
+			m_reverseFloor->SetScale(objData.scale);
+			return true;
+		}
+		//if (objData.EqualObjectName(L"tokusyuyuka") == true) {						//鈍足床の3dsMaxの名前。
+		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
+		//	m_reverseFloor->SetPosition(objData.position);
+		//	m_reverseFloor->SetScale(objData.scale);
+		//	return true;
+		//}
+		//if (objData.EqualObjectName(L"tokusyuyuka") == true) {						//視界制限床の3dsMaxの名前。
+		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
+		//	m_reverseFloor->SetPosition(objData.position);
+		//	m_reverseFloor->SetScale(objData.scale);
+		//	return true;
+		//}
+	return true;
+	});
 	return true;
 
 }
