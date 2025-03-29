@@ -1,7 +1,6 @@
 #pragma once
 
-class GameClear;
-class Staier;
+//class Enemy;
 class Player : public IGameObject
 {
 public:
@@ -9,7 +8,6 @@ public:
 	~Player();
 	bool Start();
 	void Update();
-	Player* player;
 	void Render(RenderContext& rc);
 	void Move();
 	void Anim() {};
@@ -18,7 +16,7 @@ public:
 	void ManageState();
 	//アニメーションの再生。
 	void PlayAnimation();
-	int StairsCount ;//Stairs=階段のカウント
+
 	enum PlayerState {
 		State_Idle,// 待機。
 		State_Walk,// 歩く。
@@ -26,7 +24,7 @@ public:
 		State_Crouch,// しゃがむ。
 		State_Crouching,// しゃがみこむ。
 		State_CrouchStanding,// 立ち上がる。
-		State_CrouchWalk,// しゃがみ歩き。
+		State_CrouchWalk// しゃがみ歩き。
 	};
 
 	enum EnAnimationClip {
@@ -38,18 +36,20 @@ public:
 		enAnimClip_CrouchStanding,// 立ち上がる。
 		enAnimClip_CrouchWalk,// しゃがみ歩き。
 		enAnimClip_Jump,
-		enAnimationClip_Num,
+		enAnimationClip_Num
 	};
 
-	CharacterController characterController;//キャラコン
-	ModelRender m_modelRender;
-	Vector3 m_position;
-	Vector3 m_moveSpeed;//移動速度
-	Vector3 m_dash;
-	AnimationClip m_animationClips[enAnimationClip_Num];
-	int m_playerState;//歩くプログラム
-	Quaternion rotation;
+	//アニメーションを共通化する。
+	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
+
+	AnimationClip          m_animationClips[enAnimationClip_Num];
+	CharacterController    characterController;//キャラコン
+	ModelRender            m_modelRender;
+	Vector3                m_position;
+	Vector3                m_moveSpeed;//移動速度
+	Vector3                m_dash;
+	PlayerState            m_playerState = State_Idle;
+	Quaternion             rotation;
 
 private:
-	
 };

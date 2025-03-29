@@ -1,43 +1,60 @@
+// include→このクラス内で他クラスを参照する。
 #include "stdafx.h"
 #include "Player.h"
 #include"Game.h"
+#include <string>
 
-Player::Player() {
+// constを使用して定数を作成する。
+// namespace→無名名前空間
+// 外部からアクセスされないようにしたい定数や関数を格納する。
+namespace
+{
+	// ファイルパスを定数定義
+	//char string;
 
+	// ファイルパスは文字列なので string を使用する。
+	// const を使用し定数を定義。 const→変数が変更不可であることを示す。
+	// ヒューマンエラーを防ぐ。　ヒューマンエラー→タイピング等のミスで起こるエラー。
+	const std::string animationFilePath = "Assets/animData/player/";
+
+	const std::string animationExtention = ".tka";
+}
+
+Player::Player()
+{
 }
 
 Player::~Player()
 {
-
 }
 
+// constでファイルを読み取る。
+void Player::SetAnimation(EnAnimationClip animationClip , std::string animationFileName, bool loopFlag)
+{
+	// 共通化したファイル名。
+	std::string FileName = animationFilePath + animationFileName + animationExtention;
+	//std::strinstr();
+	// c_str()メゾットを呼び出すことで const char* に変換される。
+	m_animationClips[animationClip].Load(FileName.c_str());
+	m_animationClips[animationClip].SetLoopFlag(loopFlag);
+}
+
+// bool→ trueとfalseを判別する。(この2種類の値しか取れない。)
 bool Player::Start()
 {
-	// 待機アニメーション
-	m_animationClips[enAnimClip_Idle].Load("Assets/animData/player/playerIdle.tka");
-	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
+	// 待機アニメーション。
+	SetAnimation(enAnimClip_Idle, "playerIdle", true);
 	// 歩きアニメーション。
-	m_animationClips[enAnimClip_Walk].Load("Assets/animData/player/playerWalking.tka");
-	m_animationClips[enAnimClip_Walk].SetLoopFlag(true);
+	SetAnimation(enAnimClip_Walk, "playerWalking", true);
 	// 走りアニメーション。
-	m_animationClips[enAnimClip_Run].Load("Assets/animData/player/playerRunning.tka");
-	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
+	SetAnimation(enAnimClip_Run, "playerRunning", true);
 	// しゃがみアニメーション。
-	m_animationClips[enAnimClip_Crouch].Load("Assets/animData/player/playerCrouch.tka");
-	m_animationClips[enAnimClip_Crouch].SetLoopFlag(true);
+	SetAnimation(enAnimClip_Crouch, "playerCrouch", true);
 	// しゃがみ歩きアニメーション。
-	m_animationClips[enAnimClip_CrouchWalk].Load("Assets/animData/player/playerCrouched walking.tka");
-	m_animationClips[enAnimClip_CrouchWalk].SetLoopFlag(true);
-	// しゃがみこみアニメーション。
-	m_animationClips[enAnimClip_Crouching].Load("Assets/animData/player/playerCrouching.tka");
-	m_animationClips[enAnimClip_Crouching].SetLoopFlag(false);
-	// 立ち上がりアニメーション。
-	m_animationClips[enAnimClip_CrouchStanding].Load("Assets/animData/player/playerCrouch Standing.tka");
-	m_animationClips[enAnimClip_CrouchStanding].SetLoopFlag(false);
+	SetAnimation(enAnimClip_CrouchWalk, "playerCrouched walking", true);
 
 	// キャラクターを読み込む。
-	//m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//三種類のアニメーション:m_animationClips=何種類あるか
-	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);
+	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
 	// キャラクターの更新。
 	m_modelRender.Update();
 	// キャラクターの向きを変える。
@@ -115,12 +132,6 @@ void Player::Move() {
 	{
 		//重力を無くす。
 		m_moveSpeed.y = 0.0f;
-		//Aボタンが押されたら。
-		//if (g_pad[0]->IsTrigger(enButtonA))
-		//{
-		//	//ジャンプさせる。
-		//	moveSpeed.y = 250.0f;
-		//}
 	}
 	//地面に付いていなかったら。
 	else
@@ -151,9 +162,6 @@ void Player::ManageState()
 	//地面に付いていなかったら。
 	if (characterController.IsOnGround() == false)
 	{
-		//ステートを1(ジャンプ中)にする。
-		m_playerState = 1;
-		//ここでManageStateの処理を終わらせる。
 		return;
 	}
 

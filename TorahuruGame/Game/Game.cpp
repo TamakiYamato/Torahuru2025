@@ -78,10 +78,10 @@ void Game::Update()
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 	m_modelRender.Update();
 
-	if (m_player->StairsCount == 1) {
+	/*if (m_player->StairsCount == 1) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
-	}
+	}*/
 
 }
 

@@ -1,8 +1,6 @@
-﻿  BackGround.cpp
-  Game.cpp
-  main.cpp
+﻿  Gameover.cpp
+  Stairs.cpp
   コードを生成中...
-  LINK : 前回のインクリメンタル リンクで C:\Users\CA01244017\Desktop\MyGame\Torahuru2025\TorahuruGame\Game\x64\Debug\Game.exe が見つからなかったか、ビルドされませんでした。フル リンクを行います。
 k2Engine.lib(btCollisionObject.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionObject.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(btCollisionWorld.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionWorld.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(btCapsuleShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCapsuleShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
