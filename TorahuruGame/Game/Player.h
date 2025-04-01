@@ -56,7 +56,6 @@ public:
 	Vector3                m_dash;
 	PlayerState            m_playerState = State_Idle;
 	Quaternion             rotation;
-	int m_playerState;//•à‚­ƒvƒƒOƒ‰ƒ€
 
 	CharacterController& GetCharacterController()
 	{
