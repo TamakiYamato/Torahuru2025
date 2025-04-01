@@ -36,8 +36,4 @@
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="Gameover.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="dxcompiler.dll" />
-    <None Include="dxil.dll" />
-  </ItemGroup>
 </Project>
