@@ -11,7 +11,8 @@ public:
 	bool Start() ;
 	void Update() ;
 	void Render(RenderContext& rc);//ゲームクリアを持ってくるため
-	Player* m_player;
+	Player* m_player;//*=インスタンスを保持する
 	SpriteRender m_spriteRender;
+	Stairs*m_stairs=nullptr;//ここだと階段のインスタンスを保持する
 };
 

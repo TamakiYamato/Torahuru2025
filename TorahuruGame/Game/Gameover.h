@@ -12,7 +12,7 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	Player* m_player;
+	Player* m_player;//ƒvƒŒƒCƒ„[
 	SpriteRender m_spriteRender;
 	float m_timer = 120.0f;
 };

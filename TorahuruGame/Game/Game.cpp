@@ -14,7 +14,7 @@ Game::Game()
 }
 
 Game::~Game() {
-	MessageBox(NULL, L"Game Deleted", L"Debug", MB_OK);
+	
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
@@ -45,6 +45,7 @@ bool Game::Start()
 
 	m_stairs = NewGO<Stairs>(0, "stairs");//階段を追加
 	m_stairs->m_position = { 860.0f,-300.0f,20.0f };//階段座標
+
 	m_background = NewGO<BackGround>(0, "background");
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
 
@@ -95,12 +96,12 @@ void Game::Update()
 
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_position;//diffでPlayerとStairsとの距離を測るために追加しています
+	Vector3 diff = m_player->m_position - m_stairs->m_position;//diffでPlayerとStairsとの距離を測るために追加しています
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
-
 	}
+
 	//ゲームオーバー用のタイマー
 	if (m_timer <= 0.0f) {
 		NewGO<Gameover>(0, "Gameover");

@@ -18,7 +18,7 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	float                   m_timer = 120.0f;
+	float                   m_timer = 120.0f;//タイマーの値
 
 	void SetPosition(const Vector3 position)
 	{

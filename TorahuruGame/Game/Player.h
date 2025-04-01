@@ -1,6 +1,4 @@
 #pragma once
-
-//class Enemy;
 class GameClear;
 class Staier;
 class ReverseFloor;
