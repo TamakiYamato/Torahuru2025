@@ -20,7 +20,7 @@ public:
 	//アニメーションの再生。
 	void PlayAnimation();
 
-	int StairsCount ;//Stairs=階段のカウント
+	//int StairsCount=0 ;//Stairs=階段のカウント
 
 	enum PlayerState {
 		State_Idle,// 待機。
@@ -56,7 +56,7 @@ public:
 	Vector3                m_dash;
 	PlayerState            m_playerState = State_Idle;
 	Quaternion             rotation;
-	int m_playerState;//歩くプログラム
+	//int m_playerState;//歩くプログラム
 
 	CharacterController& GetCharacterController()
 	{
