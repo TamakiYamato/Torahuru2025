@@ -172,14 +172,14 @@ void Player::Rotation()
 //ステート管理。
 void Player::ManageState()
 {
-	//地面に付いていなかったら。
-	if (m_charCon.IsOnGround() == false)
-	{
-		//ステートを1(ジャンプ中)にする。
-		m_playerState = 1;
-		//ここでManageStateの処理を終わらせる。
-		return;
-	}
+	////地面に付いていなかったら。
+	//if (m_charCon.IsOnGround() == false)
+	//{
+	//	//ステートを1(ジャンプ中)にする。
+	//	m_playerState = 1;
+	//	//ここでManageStateの処理を終わらせる。
+	//	return;
+	//}
 
 	//地面に付いていたら。
 	//xかzの移動速度があったら(スティックの入力があったら)。

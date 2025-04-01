@@ -7,17 +7,18 @@
 #include"ReverseFloor.h"
 #include"Stairs.h"
 #include"GameClear.h"
+#include"Gameover.h"
 Game::Game()
 {
 
 }
 
 Game::~Game() {
-
+	MessageBox(NULL, L"Game Deleted", L"Debug", MB_OK);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
-
+	DeleteGO(m_stairs);
 }
 
 void Game::InitSky() {
@@ -94,12 +95,17 @@ void Game::Update()
 
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 	m_modelRender.Update();
-
-	/*if (m_player->StairsCount == 1) {
+	Vector3 diff = m_player->m_position - m_position;//diffでPlayerとStairsとの距離を測るために追加しています
+	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
-	}*/
 
+	}
+	//ゲームオーバー用のタイマー
+	if (m_timer <= 0.0f) {
+		NewGO<Gameover>(0, "Gameover");
+		DeleteGO(this);
+	}
 }
 
 void SetPosition(const Vector3 position) {

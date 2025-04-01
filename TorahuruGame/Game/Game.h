@@ -9,6 +9,7 @@ class ReverseFloor;
 class Stairs;
 class Title;
 class GameClear;
+class Gameover;
 class Game : public IGameObject
 {
 public:
