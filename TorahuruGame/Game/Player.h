@@ -4,6 +4,7 @@
 class GameClear;
 class Staier;
 class ReverseFloor;
+class SlowFloor;
 class Player : public IGameObject
 {
 public:
@@ -60,8 +61,9 @@ public:
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
 	AnimationClip          m_animationClips[enAnimationClip_Num];
-	CharacterController m_charCon;//キャラコン
-	ReverseFloor* m_reverseFloor;
+	CharacterController		m_charCon;//キャラコン
+	ReverseFloor*			m_reverseFloor;
+	SlowFloor*				m_slowFloor;
 	ModelRender            m_modelRender;
 	Vector3                m_position;
 	Vector3                m_moveSpeed;//移動速度

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include"Game.h"
 #include"ReverseFloor.h"
+#include"SlowFloor.h"
 #include <string>
 
 // constを使用して定数を作成する。
@@ -91,7 +92,7 @@ void Player::Move() {
 	// もしBボタンが押されたら。
 	if (g_pad[0]->IsPress(enButtonB))
 	{
-		m_dash /= 2.0f;
+		m_dash *= 0.5f;
 	}
 
 	// xzの移動速度を0.0fにする。
@@ -141,17 +142,32 @@ void Player::Move() {
 		//重力を発生させる。
 		m_moveSpeed.y -= 5.0f;
 	}
+
+	////////特殊床プログラム/////////////////////////////////////////
+	
 	//ステージ内にあるreversefloorをすべて見つける。
-	const auto& reverseFloors = FindGOs<ReverseFloor>("reverseFloor");
+	const auto& reverseFloors = FindGOs<SlowFloor>("reverseFloor");
 	
 	//forはすべてのreversefloorを繰り返す
 	for (auto revereseFloor : reverseFloors) {
 		//プレイヤーが床の上にいたとき、操作を逆にする。
-		if (revereseFloor->m_onReverseFloor == true) {
+		if (revereseFloor->m_onSlowFloor == true) {
 			stickL.x *= PLAYER_STICK_REVERSE;
 			stickL.y *= PLAYER_STICK_REVERSE;
 		}
 	}
+	//ステージ内にあるreversefloorをすべて見つける。
+	const auto& slowFloors = FindGOs<SlowFloor>("slowFloor");
+
+	//forはすべてのreversefloorを繰り返す
+	for (auto slowFloor : slowFloors) {
+		//プレイヤーが床の上にいたとき、操作を逆にする。
+		if (slowFloor->m_onSlowFloor == true) {
+			m_dash *= 0.5f;
+		}
+	}
+
+
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
