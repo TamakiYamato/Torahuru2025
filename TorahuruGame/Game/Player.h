@@ -19,6 +19,18 @@ public:
 	void ManageState();
 	//アニメーションの再生。
 	void PlayAnimation();
+	// 座標を取得
+	const Vector3& GetPosition() const
+	{
+		return m_position;
+	}
+
+	/// プレイヤーが死亡している？
+	const bool isPlayerDead() const
+	{
+		return m_hp <= 0;
+	}
+
 
 	//int StairsCount=0 ;//Stairs=階段のカウント
 
@@ -57,6 +69,7 @@ public:
 	PlayerState            m_playerState = State_Idle;
 	Quaternion             rotation;
 	//int m_playerState;//歩くプログラム
+	int						m_hp = 0;
 
 	CharacterController& GetCharacterController()
 	{
