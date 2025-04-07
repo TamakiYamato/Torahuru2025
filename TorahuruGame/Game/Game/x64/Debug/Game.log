@@ -1,52 +1,19 @@
-﻿  Gameover.cpp
+﻿  BackGround.cpp
+  Game.cpp
+  GameCamera.cpp
+  Gameover.cpp
+  main.cpp
+  Player.cpp
+C:\Users\CA01244028\Desktop\MyGame\Torahuru2025\TorahuruGame\Game\Player.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   Stairs.cpp
+  Title.cpp
   コードを生成中...
-k2Engine.lib(btCollisionObject.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionObject.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCollisionWorld.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionWorld.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCapsuleShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCapsuleShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btGhostObject.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btGhostObject.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btStridingMeshInterface.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btStridingMeshInterface.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btTriangleIndexVertexArray.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btTriangleIndexVertexArray.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btBvhTriangleMeshShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btBvhTriangleMeshShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCollisionDispatcher.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionDispatcher.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btDefaultCollisionConfiguration.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btDefaultCollisionConfiguration.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btDbvtBroadphase.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btDbvtBroadphase.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+C:\Users\CA01244028\Desktop\MyGame\Torahuru2025\TorahuruGame\Game\Game.cpp(115,1): warning C4717: 'SetPosition': すべてのコントロールのパス、関数を回帰するとランタイム スタック オーバーフローが発生します。
 k2Engine.lib(Effekseer.Effect.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.Effect.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.Manager.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.Manager.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.CurveLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.CurveLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(EffekseerRendererDX12.Renderer.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerRendererDX12.Renderer.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Common.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Common.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btManifoldResult.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btManifoldResult.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCollisionShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btGjkEpaPenetrationDepthSolver.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btGjkEpaPenetrationDepthSolver.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexInternalShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexInternalShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btSphereShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btSphereShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btTriangleCallback.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btTriangleCallback.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btRaycastCallback.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btRaycastCallback.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexCast.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexCast.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btSubSimplexConvexCast.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btSubSimplexConvexCast.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btGjkConvexCast.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btGjkConvexCast.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btContinuousConvexCollision.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btContinuousConvexCollision.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btPersistentManifold.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btPersistentManifold.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btBoxShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btBoxShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btOverlappingPairCache.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btOverlappingPairCache.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btTriangleMeshShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btTriangleMeshShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btQuantizedBvh.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btQuantizedBvh.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btOptimizedBvh.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btOptimizedBvh.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btDispatcher.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btDispatcher.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexConvexAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexConvexAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btEmptyCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btEmptyCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexConcaveCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexConcaveCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCompoundCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCompoundCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCompoundCompoundCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCompoundCompoundCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexPlaneCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexPlaneCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btBoxBoxCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btBoxBoxCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btSphereSphereCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btSphereSphereCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btSphereTriangleCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btSphereTriangleCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btMinkowskiPenetrationDepthSolver.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btMinkowskiPenetrationDepthSolver.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btDbvt.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btDbvt.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btSimulationIslandManager.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btSimulationIslandManager.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.CustomAllocator.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.CustomAllocator.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.Vector3D.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.Vector3D.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.DefaultEffectLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.DefaultEffectLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -75,18 +42,6 @@ k2Engine.lib(LLGI.CommandListDX12.obj) : warning LNK4099: PDB '' が 'k2Engine.l
 k2Engine.lib(EffekseerMaterialCompilerDX12.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerMaterialCompilerDX12.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(GraphicsDevice.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(GraphicsDevice.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(EffekseerRendererLLGI.Renderer.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerRendererLLGI.Renderer.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btGjkEpa2.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btGjkEpa2.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btPolyhedralConvexShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btPolyhedralConvexShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btVoronoiSimplexSolver.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btVoronoiSimplexSolver.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btGjkPairDetector.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btGjkPairDetector.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConcaveShape.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConcaveShape.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btActivatingCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btActivatingCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btPolyhedralContactClipping.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btPolyhedralContactClipping.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btCollisionAlgorithm.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btCollisionAlgorithm.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btHashedSimplePairCache.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btHashedSimplePairCache.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btBoxBoxDetector.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btBoxBoxDetector.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(SphereTriangleDetector.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(SphereTriangleDetector.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btUnionFind.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btUnionFind.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.Color.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.Color.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.FCurves.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.FCurves.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.RectF.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.RectF.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -132,7 +87,6 @@ k2Engine.lib(EffekseerRendererLLGI.Shader.obj) : warning LNK4099: PDB '' が 'k2
 k2Engine.lib(EffekseerRendererLLGI.VertexBuffer.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerRendererLLGI.VertexBuffer.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(ModelLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(ModelLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(TextureLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(TextureLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-k2Engine.lib(btConvexPolyhedron.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(btConvexPolyhedron.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(Effekseer.Vector2D.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(Effekseer.Vector2D.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(CurlNoise.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(CurlNoise.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(LLGI.PipelineState.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(LLGI.PipelineState.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -149,4 +103,4 @@ k2Engine.lib(ModelLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(ModelL
 k2Engine.lib(EffekseerRenderer.DDSTextureLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerRenderer.DDSTextureLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(EffekseerRenderer.PngTextureLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerRenderer.PngTextureLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 k2Engine.lib(EffekseerRenderer.TGATextureLoader.obj) : warning LNK4099: PDB '' が 'k2Engine.lib(EffekseerRenderer.TGATextureLoader.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Game.vcxproj -> C:\Users\CA01244017\Desktop\MyGame\Torahuru2025\TorahuruGame\Game\x64\Debug\Game.exe
+  Game.vcxproj -> C:\Users\CA01244028\Desktop\MyGame\Torahuru2025\TorahuruGame\Game\x64\Debug\Game.exe

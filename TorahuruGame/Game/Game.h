@@ -6,6 +6,7 @@ class Player;
 class BackGround;
 class GameCamera;
 class ReverseFloor;
+class SlowFloor;
 class Stairs;
 class Title;
 class GameClear;
@@ -18,7 +19,7 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	float                   m_timer = 120.0f;
+	float m_timer = 120.0f;
 
 	void SetPosition(const Vector3 position)
 	{
@@ -36,7 +37,8 @@ private:
 	ModelRender m_modelRender;
 	Stairs* m_stairs = nullptr;	//äKíi
 	LevelRender m_levelRender;
-	ReverseFloor* m_reverseFloor;
+	ReverseFloor* m_reverseFloor;	//Ç†Ç◊Ç±Ç◊è∞
+	SlowFloor* m_slowFloor;			//ì›ë´è∞
 	GameCamera* m_gamecamera = nullptr;
 	SkyCube* m_SkyCube = nullptr; //îwåi
 	int m_skycubeType = enSkyCubeType_NightToon;

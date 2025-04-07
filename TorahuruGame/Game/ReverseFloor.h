@@ -1,6 +1,6 @@
 #pragma once
 class Player;
-class ReverseFloor;
+class RevreseFloor;
 class ReverseFloor : public IGameObject
 {
 public:
@@ -29,7 +29,7 @@ public:
 
 	CollisionObject* m_collisionObject = nullptr;
 	Player* m_player;
-												//‘å‚«‚³
+
 
 	bool m_onReverseFloor = false;
 };

@@ -5,6 +5,7 @@
 #include"GameCamera.h"
 #include"Title.h"
 #include"ReverseFloor.h"
+#include"SlowFloor.h"
 #include"Stairs.h"
 #include"GameClear.h"
 #include"Gameover.h"
@@ -59,12 +60,12 @@ bool Game::Start()
 			m_reverseFloor->SetScale(objData.scale);
 			return true;
 		}
-		//if (objData.EqualObjectName(L"tokusyuyuka") == true) {						//鈍足床の3dsMaxの名前。
-		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
-		//	m_reverseFloor->SetPosition(objData.position);
-		//	m_reverseFloor->SetScale(objData.scale);
-		//	return true;
-		//}
+		if (objData.EqualObjectName(L"slowFloor") == true) {						//鈍足床の3dsMaxの名前。
+			m_slowFloor = NewGO<SlowFloor>(0, "slowFloor");
+			m_slowFloor->SetPosition(objData.position);
+			m_slowFloor->SetScale(objData.scale);
+			return true;
+		}
 		//if (objData.EqualObjectName(L"tokusyuyuka") == true) {						//視界制限床の3dsMaxの名前。
 		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
 		//	m_reverseFloor->SetPosition(objData.position);

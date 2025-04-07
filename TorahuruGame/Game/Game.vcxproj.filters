@@ -20,6 +20,7 @@
     <ClCompile Include="Stairs.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="Gameover.cpp" />
+    <ClCompile Include="SlowFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -35,5 +36,6 @@
     <ClInclude Include="Stairs.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="Gameover.h" />
+    <ClInclude Include="SlowFloor.h" />
   </ItemGroup>
 </Project>
