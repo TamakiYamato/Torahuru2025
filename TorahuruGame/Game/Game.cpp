@@ -66,10 +66,10 @@ bool Game::Start()
 			m_slowFloor->SetScale(objData.scale);
 			return true;
 		}
-		//if (objData.EqualObjectName(L"tokusyuyuka") == true) {						//視界制限床の3dsMaxの名前。
-		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
-		//	m_reverseFloor->SetPosition(objData.position);
-		//	m_reverseFloor->SetScale(objData.scale);
+		//if (objData.EqualObjectName(L"BlindFloor") == true) {						//視界制限床の3dsMaxの名前。
+		//	m_blindFloor = NewGO<BlindFloor>(0, "blindFloor");
+		//	m_blindFloor->SetPosition(objData.position);
+		//	m_blindFloor->SetScale(objData.scale);
 		//	return true;
 		//}
 	return true;

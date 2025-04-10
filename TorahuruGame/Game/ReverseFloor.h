@@ -11,6 +11,7 @@ public:
 	void ReverseControlFloor();
 	void Update();
 	void Render(RenderContext& rc);
+
 	void SetPosition(const Vector3& position)
 	{
 		m_position = position;
@@ -24,11 +25,9 @@ public:
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 	PhysicsStaticObject			m_physicsStaticObject;
-	
 	ModelRender					m_modelRender;
-
-	CollisionObject* m_collisionObject = nullptr;
-	Player* m_player;
+	CollisionObject*			m_collisionObject = nullptr;
+	Player*						m_player;
 
 
 	bool m_onReverseFloor = false;

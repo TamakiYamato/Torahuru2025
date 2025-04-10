@@ -7,6 +7,7 @@ class BackGround;
 class GameCamera;
 class ReverseFloor;
 class SlowFloor;
+class BlindFloor;
 class Stairs;
 class Title;
 class GameClear;
@@ -35,12 +36,13 @@ private:
 	SoundSource* m_se = nullptr;
 	BackGround* m_background = nullptr;
 	ModelRender m_modelRender;
-	Stairs* m_stairs = nullptr;	//äKíi
+	Stairs* m_stairs = nullptr;		//äKíi
 	LevelRender m_levelRender;
 	ReverseFloor* m_reverseFloor;	//Ç†Ç◊Ç±Ç◊è∞
 	SlowFloor* m_slowFloor;			//ì›ë´è∞
+	BlindFloor* m_blindFloor;		//éãäEêßå¿è∞
 	GameCamera* m_gamecamera = nullptr;
-	SkyCube* m_SkyCube = nullptr; //îwåi
+	SkyCube* m_SkyCube = nullptr;	//îwåi
 	int m_skycubeType = enSkyCubeType_NightToon;
 	void InitSky();
 	Vector3 m_pos;

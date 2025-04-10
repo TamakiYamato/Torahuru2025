@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SlowFloor.h"
+#include "BlindFloor.h"
 #include "Player.h"
 #include "collision/CollisionObject.h"
 
@@ -9,19 +9,13 @@ namespace
 	const Vector3 COLLISION_SIZE = Vector3(200.0f, 150.0f, 300.0f);
 }
 
-SlowFloor::SlowFloor()
+BlindFloor::~BlindFloor()
 {
-
 }
 
-SlowFloor::~SlowFloor()
+bool BlindFloor::Start()
 {
-
-}
-
-bool SlowFloor::Start()
-{
-	//m_modelRender.Init("Assets/modelData/background/SlowFloor.tkm");		//鈍足床の読み込み。
+	//m_modelRender.Init("Assets/modelData/background/BlindFloor.tkm");		//あべこべ床の読み込み。
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
@@ -38,27 +32,30 @@ bool SlowFloor::Start()
 	return true;
 }
 
-void SlowFloor::SlowControlFloor()
+void BlindFloor::BlindControlFloor()
 {
 	//プレイヤーが床の上にいたらtrue。
 	//player.hにて効果を発動。
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
-		m_onSlowFloor = true;
+		m_onBlindFloor = true;
 	}
 	else
 	{
-		m_onSlowFloor = false;
+		m_onBlindFloor = false;
 	}
 }
 
-void SlowFloor::Update()
+void BlindFloor::Update()
 {
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 }
 
-void SlowFloor::Render(RenderContext& rc)
+void BlindFloor::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);
+
 }
+
+
