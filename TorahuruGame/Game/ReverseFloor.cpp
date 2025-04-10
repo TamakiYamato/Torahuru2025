@@ -41,6 +41,7 @@ bool ReverseFloor::Start()
 void ReverseFloor::ReverseControlFloor()
 {
 	//プレイヤーが床の上にいたらtrue。
+	//player.hにて効果を発動
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
 		m_onReverseFloor = true;

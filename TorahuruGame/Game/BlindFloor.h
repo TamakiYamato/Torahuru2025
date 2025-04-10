@@ -1,14 +1,13 @@
 #pragma once
 class Player;
-class SlowFloor;
-class SlowFloor : public IGameObject
+class BlindFloor;
+class BlindFloor : public IGameObject
 {
-public:
-	SlowFloor();
-	~SlowFloor();
+	BlindFloor();
+	~BlindFloor();
 
 	bool Start();
-	void SlowControlFloor();
+	void BlindControlFloor();
 	void Update();
 	void Render(RenderContext& rc);
 
@@ -26,10 +25,10 @@ public:
 	Vector3						m_position = Vector3::Zero;
 	PhysicsStaticObject			m_physicsStaticObject;
 	ModelRender					m_modelRender;
-
-	CollisionObject*			m_collisionObject = nullptr;
+	CollisionObject*			m_collisionObject;
 	Player*						m_player;
 
-	bool m_onSlowFloor = false;
+	bool m_onBlindFloor = false;
+
 };
 

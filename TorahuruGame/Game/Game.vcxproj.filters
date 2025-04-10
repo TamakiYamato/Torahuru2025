@@ -21,6 +21,7 @@
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="SlowFloor.cpp" />
+    <ClCompile Include="BlindFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -37,5 +38,6 @@
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="SlowFloor.h" />
+    <ClInclude Include="BlindFloor.h" />
   </ItemGroup>
 </Project>
