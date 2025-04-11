@@ -12,6 +12,7 @@ class Stairs;
 class Title;
 class GameClear;
 class Gameover;
+class FireGimmic;
 class Game : public IGameObject
 {
 public:
@@ -43,6 +44,8 @@ private:
 	BlindFloor* m_blindFloor;		//‹ŠE§ŒÀ°
 	GameCamera* m_gamecamera = nullptr;
 	SkyCube* m_SkyCube = nullptr;	//”wŒi
+	FireGimmic* m_fireGimmic = nullptr; //‰Š‚ÌƒMƒ~ƒbƒN
+
 	int m_skycubeType = enSkyCubeType_NightToon;
 	void InitSky();
 	Vector3 m_pos;
