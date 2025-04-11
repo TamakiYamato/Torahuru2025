@@ -54,6 +54,7 @@ void SlowFloor::SlowControlFloor()
 
 void SlowFloor::Update()
 {
+	SlowControlFloor();
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 }

@@ -6,6 +6,7 @@
 #include"Title.h"
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
+#include"BlindFloor.h"
 #include"Stairs.h"
 #include"GameClear.h"
 #include"Gameover.h"
@@ -58,27 +59,27 @@ bool Game::Start()
 	m_modelRender.SetPosition(m_position);
 
 	////レベルを構築する
-	m_levelRender.Init("Assets/level/tokusyuyuka2.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
-		if (objData.EqualObjectName(L"ReverseFloor") == true) {							//あべこべ床の3dsMaxの名前。
-			m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
-			m_reverseFloor->SetPosition(objData.position);
-			m_reverseFloor->SetScale(objData.scale);
-			return true;
-		}
-		if (objData.EqualObjectName(L"slowFloor") == true) {						//鈍足床の3dsMaxの名前。
-			m_slowFloor = NewGO<SlowFloor>(0, "slowFloor");
-			m_slowFloor->SetPosition(objData.position);
-			m_slowFloor->SetScale(objData.scale);
-			return true;
-		}
+	//m_levelRender.Init("Assets/level/level.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
+		//if (objData.EqualObjectName(L"ReverseFloor") == true) {						//あべこべ床の3dsMaxの名前。
+		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
+		//	m_reverseFloor->SetPosition(objData.position);
+		//	m_reverseFloor->SetScale(objData.scale);
+		//	return true;
+		//}
+		//if (objData.EqualObjectName(L"SlowFloor") == true) {						//鈍足床の3dsMaxの名前。
+		//	m_slowFloor = NewGO<SlowFloor>(0, "slowFloor");
+		//	m_slowFloor->SetPosition(objData.position);
+		//	m_slowFloor->SetScale(objData.scale);
+		//	return true;
+		//}
 		//if (objData.EqualObjectName(L"BlindFloor") == true) {						//視界制限床の3dsMaxの名前。
 		//	m_blindFloor = NewGO<BlindFloor>(0, "blindFloor");
 		//	m_blindFloor->SetPosition(objData.position);
 		//	m_blindFloor->SetScale(objData.scale);
 		//	return true;
 		//}
-	return true;
-	});
+	/*return true;
+	});*/
 	return true;
 
 }

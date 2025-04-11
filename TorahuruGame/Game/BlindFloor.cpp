@@ -9,6 +9,10 @@ namespace
 	const Vector3 COLLISION_SIZE = Vector3(200.0f, 150.0f, 300.0f);
 }
 
+BlindFloor::BlindFloor()
+{
+}
+
 BlindFloor::~BlindFloor()
 {
 }
@@ -48,6 +52,7 @@ void BlindFloor::BlindControlFloor()
 
 void BlindFloor::Update()
 {
+	BlindControlFloor();
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 }

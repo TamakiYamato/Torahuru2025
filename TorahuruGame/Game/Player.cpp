@@ -4,6 +4,7 @@
 #include"Game.h"
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
+#include"BlindFloor.h"
 #include <string>
 
 // constを使用して定数を作成する。
@@ -156,18 +157,27 @@ void Player::Move() {
 			stickL.y *= PLAYER_STICK_REVERSE;
 		}
 	}
-	//ステージ内にあるreversefloorをすべて見つける。
+	//ステージ内にあるslowfloorをすべて見つける。
 	const auto& slowFloors = FindGOs<SlowFloor>("slowFloor");
 
-	//forはすべてのreversefloorを繰り返す
+	//forはすべてのslowfloorを繰り返す
 	for (auto slowFloor : slowFloors) {
-		//プレイヤーが床の上にいたとき、操作を逆にする。
+		//プレイヤーが床の上にいたとき、スピードが半分になる
 		if (slowFloor->m_onSlowFloor == true) {
 			m_dash *= 0.5f;
 		}
 	}
 
+	//ステージ内にあるblindfloorをすべて見つける。
+	const auto& blindFloors = FindGOs<BlindFloor>("blindFloor");
 
+	//forはすべてのblindfloorを繰り返す
+	for (auto blindFloor : blindFloors) {
+		//プレイヤーが床の上にいたとき、視界を制限する。
+		if (blindFloor->m_onBlindFloor == true) {
+			
+		}
+	}
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
