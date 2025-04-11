@@ -3,6 +3,7 @@ class Player;
 class BlindFloor;
 class BlindFloor : public IGameObject
 {
+public:
 	BlindFloor();
 	~BlindFloor();
 

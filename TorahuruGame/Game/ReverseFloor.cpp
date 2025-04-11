@@ -54,6 +54,7 @@ void ReverseFloor::ReverseControlFloor()
 
 void ReverseFloor::Update()
 {
+	ReverseControlFloor();
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 }

@@ -39,7 +39,7 @@ bool FireGimmic::Start()
 
 	m_firstPosition = m_position;
 
-	
+
 
 	return true;
 }

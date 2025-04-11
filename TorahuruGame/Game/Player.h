@@ -5,6 +5,7 @@ class GameClear;
 class Staier;
 class ReverseFloor;
 class SlowFloor;
+class BlindFloor;
 class Player : public IGameObject
 {
 public:
@@ -32,8 +33,10 @@ public:
 		return m_hp <= 0;
 	}
 
-
-	//int StairsCount=0 ;//Stairs=階段のカウント
+	CharacterController& GetCharacterController()
+	{
+		return m_charCon;
+	}
 
 	enum PlayerState {
 		State_Idle,// 待機。
@@ -60,23 +63,22 @@ public:
 	//アニメーションを共通化する。
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
-	AnimationClip          m_animationClips[enAnimationClip_Num];
+	AnimationClip			m_animationClips[enAnimationClip_Num];
 	CharacterController		m_charCon;//キャラコン
 	ReverseFloor*			m_reverseFloor;
 	SlowFloor*				m_slowFloor;
-	ModelRender            m_modelRender;
-	Vector3                m_position;
-	Vector3                m_moveSpeed;//移動速度
-	Vector3                m_dash;
-	PlayerState            m_playerState = State_Idle;
-	Quaternion             rotation;
+	BlindFloor*				m_blindFloor;
+	ModelRender				m_modelRender;
+	Vector3					m_position;
+	Vector3					m_moveSpeed;//移動速度
+	Vector3					m_dash;
+	PlayerState				m_playerState = State_Idle;
+	Quaternion				rotation;
+
 	//int m_playerState;//歩くプログラム
 	int						m_hp = 0;
+	//int StairsCount=0 ;//Stairs=階段のカウント
 
-	CharacterController& GetCharacterController()
-	{
-		return m_charCon;
-	}
 
 private:
 };
