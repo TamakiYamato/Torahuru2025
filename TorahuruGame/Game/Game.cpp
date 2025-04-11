@@ -10,6 +10,9 @@
 #include"GameClear.h"
 #include"Gameover.h"
 #include "FireGimmic.h"
+
+#include "sound/SoundSource.h"
+#include "sound/SoundEngine.h"
 Game::Game()
 {
 
@@ -49,6 +52,7 @@ bool Game::Start()
 	m_background = NewGO<BackGround>(0, "background");
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
 	m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");
+	m_se = NewGO<SoundSource>(0, "se");
 
 	InitSky();
 	m_modelRender.SetPosition(m_position);

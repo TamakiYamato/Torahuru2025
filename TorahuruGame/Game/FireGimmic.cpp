@@ -15,7 +15,7 @@ namespace {
 	Vector3 firePosition = Vector3(0.0f, 0.0f, 0.0f);
 	Vector3 fireScale = Vector3(10.0f, 10.0f, 10.0f);
 
-	const float LENGTH = 500.0f;			//Œø‰Ê‰¹‚ğÄ¶‚·‚é‹——£
+	const float LENGTH = 1.0f;			//Œø‰Ê‰¹‚ğÄ¶‚·‚é‹——£
 	const float SE_VOLUME = 1.0f;
 }
 
@@ -39,9 +39,7 @@ bool FireGimmic::Start()
 
 	m_firstPosition = m_position;
 
-	m_se = NewGO<SoundSource>(0);
-	m_se->Init(0);
-	m_se->SetVolume(SE_VOLUME);
+	
 
 	return true;
 }
@@ -57,6 +55,15 @@ void FireGimmic::Update()
 	if (g_pad[0]->IsPress(enButtonB))
 	{
 		PlayEffect(enEffectName_Fire, firePosition, m_rotation, fireScale);
+		if (m_fire->IsPlay())
+		{
+			m_se = NewGO<SoundSource>(0);
+			m_se->Init(0);
+			m_se->Play(false);
+			m_se->SetVolume(SE_VOLUME);
+		}
+		
+		
 
 	}
 	Collision();
