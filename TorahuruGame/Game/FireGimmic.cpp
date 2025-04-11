@@ -55,13 +55,12 @@ void FireGimmic::Update()
 	if (g_pad[0]->IsPress(enButtonB))
 	{
 		PlayEffect(enEffectName_Fire, firePosition, m_rotation, fireScale);
-		if (m_fire->IsPlay())
-		{
+		
 			m_se = NewGO<SoundSource>(0);
 			m_se->Init(0);
 			m_se->Play(false);
 			m_se->SetVolume(SE_VOLUME);
-		}
+		
 		
 		
 

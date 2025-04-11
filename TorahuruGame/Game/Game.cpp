@@ -101,12 +101,12 @@ void Game::Update()
 
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_position;//diffでPlayerとStairsとの距離を測るために追加しています
+	Vector3 diff = m_player->m_position - m_stairs->m_position;//diffでPlayerとStairsとの距離を測るために追加しています
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
-
 	}
+
 	//ゲームオーバー用のタイマー
 	if (m_timer <= 0.0f) {
 		NewGO<Gameover>(0, "Gameover");

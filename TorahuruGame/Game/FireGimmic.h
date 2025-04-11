@@ -38,7 +38,7 @@ public:
 		m_moveFlag = flag;
 	}
 
-	void PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);
+	void PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//エフェクトの基本的な情報を登録する!!
 private:												
 	//void PlayEffect();											//エフェクトの再生
 	void Collision();											//エフェクト再生中のみコリジョンを作成

@@ -15,7 +15,10 @@ GameClear::~GameClear() {
 
 bool GameClear:: Start() {
 	
-	m_spriteRender.Init("Assets/modelData/takatora2.DDS", 1920, 1080);//ゲームクリア
+	m_spriteRender.Init("Assets/modelData/GameClear.DDS", 1920, 1080);//ゲームクリア
+	m_player = FindGO<Player>("player");
+	m_stairs = FindGO<Stairs>("stairs");//ここでインスタンスを呼び込む!!
+
 	return true;
 }
 void GameClear::Update()
@@ -23,7 +26,10 @@ void GameClear::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		NewGO<Title>(0, "title");		
+		DeleteGO(m_player);
+		DeleteGO(m_stairs);
+
+		NewGO<Title>(0, "title");
 		DeleteGO(this);
 		//自身を削除する
 	}
