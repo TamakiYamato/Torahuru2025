@@ -1,5 +1,6 @@
 #pragma once
 
+
 enum EffectName
 {
 	enEffectName_Fire,
