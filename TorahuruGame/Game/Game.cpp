@@ -9,13 +9,13 @@
 #include"Stairs.h"
 #include"GameClear.h"
 #include"Gameover.h"
+#include "FireGimmic.h"
 Game::Game()
 {
 
 }
 
 Game::~Game() {
-	MessageBox(NULL, L"Game Deleted", L"Debug", MB_OK);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
@@ -48,6 +48,7 @@ bool Game::Start()
 	m_stairs->m_position = { 860.0f,-300.0f,20.0f };//äKíiç¿ïW
 	m_background = NewGO<BackGround>(0, "background");
 	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
+	m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");
 
 	InitSky();
 	m_modelRender.SetPosition(m_position);

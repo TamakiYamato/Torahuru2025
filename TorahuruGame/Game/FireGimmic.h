@@ -1,4 +1,5 @@
 #pragma once
+#include "MakeEffect.h"
 
 class Game;
 class Player;
@@ -37,27 +38,21 @@ public:
 		m_moveFlag = flag;
 	}
 
-private:
-	void Move();												//移動
-	void PlayEffect();											//エフェクトの再生
+	void PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);
+private:												
+	//void PlayEffect();											//エフェクトの再生
 	void Collision();											//エフェクト再生中のみコリジョンを作成
 	void PlaySE();												//効果音を再生する											//マップ移動の処理
 	ModelRender				m_modelRender;
 	Vector3					m_position = Vector3::Zero;
 	Vector3					m_firstPosition = Vector3::Zero;
-	EffectEmitter* m_fire = nullptr;					//炎のギミックエフェクト
+	EffectEmitter* m_fire = nullptr;							//炎のギミックエフェクト
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
 	SoundSource* m_se;								//炎SE
 	SpriteRender			m_mapSprite;						//マップの画像
 
-	enum enMovingState																//動きのステート
-	{
-		enMovingState_MovingRight,													//右に移動
-		enMovingState_MovingLeft													//左に移動
-	};
-	enMovingState			m_MovingFloorState = enMovingState_MovingRight;	//ステートの変数
-
+	Quaternion m_rotation;
 	bool					m_moveFlag = false;					//trueだったら動く
 
 	float					m_effectIntervalTimer = 0.0f;		//エフェクトの間隔制御のタイマー
