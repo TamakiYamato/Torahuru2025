@@ -19,12 +19,10 @@ bool Gameover::Start()
 }
 
 void Gameover::Update() {
-	m_timer--;
-	if (m_timer <=0.0f , g_pad[0]->IsTrigger(enButtonA)) {
+	if (g_pad[0]->IsTrigger(enButtonA)) {
 		NewGO<Title>(0, "Title");
 		DeleteGO(this);
 	}
-	
 	m_spriteRender.Update();
 }
 void Gameover::Render(RenderContext& rc) {

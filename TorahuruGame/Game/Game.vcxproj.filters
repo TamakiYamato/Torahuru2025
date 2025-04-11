@@ -22,6 +22,8 @@
     <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="SlowFloor.cpp" />
     <ClCompile Include="BlindFloor.cpp" />
+    <ClCompile Include="FireGimmic.cpp" />
+    <ClCompile Include="MakeEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -39,5 +41,7 @@
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="SlowFloor.h" />
     <ClInclude Include="BlindFloor.h" />
+    <ClInclude Include="FireGimmic.h" />
+    <ClInclude Include="MakeEffect.h" />
   </ItemGroup>
 </Project>

@@ -13,5 +13,6 @@ public:
 	void Render(RenderContext& rc);//ゲームクリアを持ってくるため
 	Player* m_player;
 	SpriteRender m_spriteRender;
+	Stairs* m_stairs = nullptr;//ここだと階段のインスタンスを保持する
 };
 
