@@ -16,6 +16,7 @@ bool MakeEffect::Start()
 	return true;
 }
 
+
 void MakeEffect::Update()
 {
 }

@@ -60,4 +60,5 @@ private:
 
 	float	m_limit = 100.0f;
 	float	m_speed = 20.0f;
+
 };
