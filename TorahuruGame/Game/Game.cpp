@@ -11,7 +11,6 @@
 #include"GameClear.h"
 #include"Gameover.h"
 #include "FireGimmic.h"
-
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 Game::Game()
@@ -45,16 +44,14 @@ bool Game::Start()
 {
 	
 	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 00.0f,-200.0f,10.0f };			//プレイヤーのポジションを変える
-	
-
+	m_player->m_position = { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
 	m_stairs		= NewGO<Stairs>(0, "stairs");			//階段を追加
-	m_stairs->m_position = { 860.0f,-300.0f,20.0f };		//階段座標
+	m_stairs->m_position = { 900.0f,100.0f,100.0f };		//階段座標
 	m_background	= NewGO<BackGround>(0, "background");
 	m_gamecamera	= NewGO<GameCamera>(0, "gamecamera");
 	m_fireGimmic	= NewGO<FireGimmic>(0, "firegimmic");
 	m_se			= NewGO<SoundSource>(0, "se");
-
+	
 	InitSky();
 	m_modelRender.SetPosition(m_position);
 
