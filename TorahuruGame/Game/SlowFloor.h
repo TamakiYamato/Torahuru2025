@@ -22,14 +22,14 @@ public:
 		m_scale = scale;
 	}
 
-	Vector3						m_scale;
-	Vector3						m_position = Vector3::Zero;
 	PhysicsStaticObject			m_physicsStaticObject;
 	ModelRender					m_modelRender;
-
 	CollisionObject*			m_collisionObject = nullptr;
 	Player*						m_player;
 
-	bool m_onSlowFloor = false;
+	Vector3						m_scale;
+	Vector3						m_position = Vector3::Zero;
+
+	bool m_onSlowFloor = false;	//è∞Ç…ç⁄Ç¡ÇƒÇ¢ÇÈÇ©ÇÃîªíËópïœêîÅB
 };
 

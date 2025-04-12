@@ -21,37 +21,37 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	float m_timer = 120.0f;
 
+	void InitSky();
+	void UpdateFont();				//フォントを更新
+	void CountTimer();				//タイマーの更新
+	
 	void SetPosition(const Vector3 position)
 	{
 		m_position = position;
 	}
 
-	
-	FontRender				m_fontRender;
-	Vector3                 m_position;
+
 private:
 	Player* m_player = nullptr;
 	SoundSource* m_bgm = nullptr;
 	SoundSource* m_se = nullptr;
 	BackGround* m_background = nullptr;
 	ModelRender m_modelRender;
-	Stairs* m_stairs = nullptr;		//階段
-	LevelRender m_levelRender;
-	ReverseFloor* m_reverseFloor;	//あべこべ床
-	SlowFloor* m_slowFloor;			//鈍足床
-	BlindFloor* m_blindFloor;		//視界制限床
-	GameCamera* m_gamecamera = nullptr;
-	SkyCube* m_SkyCube = nullptr;	//背景
-	FireGimmic* m_fireGimmic = nullptr; //炎のギミック
+	Stairs* m_stairs = nullptr;						//階段
+	LevelRender m_levelRender;						//レベル
+	ReverseFloor* m_reverseFloor;					//あべこべ床
+	SlowFloor* m_slowFloor;							//鈍足床
+	BlindFloor* m_blindFloor;						//視界制限床
+	GameCamera* m_gamecamera = nullptr;				//カメラ
+	SkyCube* m_SkyCube = nullptr;					//背景
+	FireGimmic* m_fireGimmic = nullptr;				//炎のギミック
+	FontRender				m_fontRender;
 
+	Vector3                 m_position;
+	Vector3					m_pos;
 	int m_skycubeType = enSkyCubeType_NightToon;
-	void InitSky();
-	Vector3 m_pos;
-	//フォントを更新
-	void UpdateFont();
-	//タイマーの更新
-	void CountTimer();
+	float m_timer = 120.0f;
+	
 };
 

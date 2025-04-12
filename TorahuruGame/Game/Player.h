@@ -17,10 +17,9 @@ public:
 	void Move();
 	void Anim() {};
 	void Rotation();
-	//ステート管理。
-	void ManageState();
-	//アニメーションの再生。
-	void PlayAnimation();
+	void ManageState();						//ステート管理。
+	void PlayAnimation();					//アニメーションの再生。
+
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
@@ -33,30 +32,31 @@ public:
 		return m_hp <= 0;
 	}
 
+	//キャラコンの取得
 	CharacterController& GetCharacterController()
 	{
 		return m_charCon;
 	}
 
 	enum PlayerState {
-		State_Idle,// 待機。
-		State_Walk,// 歩く。
-		State_Run,// 走る。
-		State_Crouch,// しゃがむ。
-		State_Crouching,// しゃがみこむ。
-		State_CrouchStanding,// 立ち上がる。
-		State_CrouchWalk// しゃがみ歩き。
+		State_Idle,					// 待機。
+		State_Walk,					// 歩く。
+		State_Run,					// 走る。
+		State_Crouch,				// しゃがむ。
+		State_Crouching,			// しゃがみこむ。
+		State_CrouchStanding,		// 立ち上がる。
+		State_CrouchWalk			// しゃがみ歩き。
 	};
 
 	enum EnAnimationClip {
-		enAnimClip_Idle,// 待機。
-		enAnimClip_Walk,// 歩く
-		enAnimClip_Run,// 走る。
-		enAnimClip_Crouch,// しゃがむ。
-		enAnimClip_Crouching,// しゃがみこむ。
-		enAnimClip_CrouchStanding,// 立ち上がる。
-		enAnimClip_CrouchWalk,// しゃがみ歩き。
-		enAnimClip_Jump,
+		enAnimClip_Idle,			// 待機。
+		enAnimClip_Walk,			// 歩く
+		enAnimClip_Run,				// 走る。
+		enAnimClip_Crouch,			// しゃがむ。
+		enAnimClip_Crouching,		// しゃがみこむ。
+		enAnimClip_CrouchStanding,	// 立ち上がる。
+		enAnimClip_CrouchWalk,		// しゃがみ歩き。
+		enAnimClip_Jump,			// ジャンプ
 		enAnimationClip_Num
 	};
 
@@ -64,13 +64,13 @@ public:
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
 	AnimationClip			m_animationClips[enAnimationClip_Num];
-	CharacterController		m_charCon;//キャラコン
-	ReverseFloor*			m_reverseFloor;
-	SlowFloor*				m_slowFloor;
-	BlindFloor*				m_blindFloor;
+	CharacterController		m_charCon;		//キャラコン
+	ReverseFloor*			m_reverseFloor;	//あべこべ床
+	SlowFloor*				m_slowFloor;	//鈍足床
+	BlindFloor*				m_blindFloor;	//視界制限床
 	ModelRender				m_modelRender;
 	Vector3					m_position;
-	Vector3					m_moveSpeed;//移動速度
+	Vector3					m_moveSpeed;	//移動速度
 	Vector3					m_dash;
 	PlayerState				m_playerState = State_Idle;
 	Quaternion				rotation;

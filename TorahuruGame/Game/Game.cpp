@@ -45,22 +45,22 @@ bool Game::Start()
 {
 	
 	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 00.0f,-200.0f,10.0f };//プレイヤーのポジションを変える
+	m_player->m_position = { 00.0f,-200.0f,10.0f };			//プレイヤーのポジションを変える
 	
 
-	m_stairs = NewGO<Stairs>(0, "stairs");//階段を追加
-	m_stairs->m_position = { 860.0f,-300.0f,20.0f };//階段座標
-	m_background = NewGO<BackGround>(0, "background");
-	m_gamecamera = NewGO<GameCamera>(0, "gamecamera");
-	m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");
-	m_se = NewGO<SoundSource>(0, "se");
+	m_stairs		= NewGO<Stairs>(0, "stairs");			//階段を追加
+	m_stairs->m_position = { 860.0f,-300.0f,20.0f };		//階段座標
+	m_background	= NewGO<BackGround>(0, "background");
+	m_gamecamera	= NewGO<GameCamera>(0, "gamecamera");
+	m_fireGimmic	= NewGO<FireGimmic>(0, "firegimmic");
+	m_se			= NewGO<SoundSource>(0, "se");
 
 	InitSky();
 	m_modelRender.SetPosition(m_position);
 
 	////レベルを構築する
 	//m_levelRender.Init("Assets/level/level.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
-		//if (objData.EqualObjectName(L"ReverseFloor") == true) {						//あべこべ床の3dsMaxの名前。
+		//if (objData.EqualObjectName(L"ReverseFloor") == true) {					//あべこべ床の3dsMaxの名前。
 		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
 		//	m_reverseFloor->SetPosition(objData.position);
 		//	m_reverseFloor->SetScale(objData.scale);
@@ -91,6 +91,8 @@ void Game::Update()
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
 	swprintf_s(text, 256, L"%02d:%02d", minute, sec);
+
+
 	//表示するテキストを設定。
 	m_fontRender.SetText(text);
 	//フォントの位置を設定。
@@ -100,9 +102,10 @@ void Game::Update()
 	//フォントの色を設定。
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
+
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_stairs->m_position;//diffでPlayerとStairsとの距離を測るために追加しています
+	Vector3 diff = m_player->m_position - m_stairs->m_position;		//diffでPlayerとStairsとの距離を測るために追加しています
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
