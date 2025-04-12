@@ -93,7 +93,8 @@ namespace nsK2Engine {
 		//インスタンシング描画用のデータを初期化。
 		InitInstancingDraw(1);
 		InitSkeleton(initData.m_tkmFilePath);
-
+		// アニメーションを初期化。
+		InitAnimation(initData.animationClips, initData.numAnimationClips, initData.m_modelUpAxis);
 		// todo アニメーション済み頂点バッファの計算処理を初期化。
 		InitComputeAnimatoinVertexBuffer(initData.m_tkmFilePath, initData.m_modelUpAxis);
 
