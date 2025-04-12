@@ -9,11 +9,11 @@
 #include "sound/SoundEngine.h"
 
 namespace {
-	Vector3 COLLISION_SIZE = Vector3(20.0f, 150.0f, 20.0f);
-	Vector3 COLLISION_POSITION = Vector3(0.0f, 0.0f, 100.0f);
+	Vector3 COLLISION_SIZE		= Vector3(20.0f, 150.0f, 20.0f);
+	Vector3 COLLISION_POSITION	= Vector3(0.0f, 0.0f, 100.0f);
 
-	Vector3 firePosition = Vector3(0.0f, 0.0f, 0.0f);
-	Vector3 fireScale = Vector3(10.0f, 10.0f, 10.0f);
+	Vector3 firePosition		= Vector3(0.0f, 0.0f, 0.0f);
+	Vector3 fireScale			= Vector3(10.0f, 10.0f, 10.0f);
 
 	const float LENGTH = 1.0f;			//Œø‰Ê‰¹‚ðÄ¶‚·‚é‹——£
 	const float SE_VOLUME = 1.0f;
@@ -60,9 +60,6 @@ void FireGimmic::Update()
 			m_se->Init(0);
 			m_se->Play(false);
 			m_se->SetVolume(SE_VOLUME);
-		
-		
-		
 
 	}
 	Collision();

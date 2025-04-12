@@ -24,11 +24,12 @@ public:
 
 public://作るときはこっちが先に作る必要がある。
     //モデルレンダー
-    ModelRender modelRender;
-    Vector3 m_position;
+    ModelRender             modelRender;
+    Quaternion              m_rotation;
+    PhysicsStaticObject     m_physicsStaticObject;
+
+    Vector3                 m_position;
     Vector3 m_scale = Vector3::One;
-    Quaternion m_rotation;
-    PhysicsStaticObject  m_physicsStaticObject;
 };
 
 

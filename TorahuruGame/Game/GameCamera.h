@@ -14,8 +14,9 @@ public:
 	void Update();
 
 	Player* m_player;
-	Vector3 m_toCameraPos;
 	SpringCamera m_springCamera;   // バネカメラ。
+
+	Vector3 m_toCameraPos;
 };
 
 
