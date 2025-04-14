@@ -56,7 +56,12 @@ private:
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
 	SpriteRender			m_mapSprite;						//マップの画像
-	Quaternion m_rotation;
+	Quaternion m_fireRot_North;                                    //炎の角度　北
+	Quaternion m_fireRot_South;                                    //炎の角度　南
+	Quaternion m_fireRot_East;                                    //炎の角度　東
+	Quaternion m_fireRot_West;                                    //炎の角度　西
+
+	CollisionObject* m_fireCollision;
 
 	Vector3					m_position = Vector3::Zero;
 	Vector3					m_firstPosition = Vector3::Zero;
