@@ -40,7 +40,8 @@ namespace nsK2EngineLow {
 			DXGI_FORMAT_UNKNOWN,
 			DXGI_FORMAT_UNKNOWN,
 		};	//レンダリングするカラーバッファのフォーマット。
-		
+		AnimationClip* animationClips = nullptr;
+		int numAnimationClips = 0;
 	};
 	/// <summary>
 	/// マテリアルを再初期化するためのデータ。

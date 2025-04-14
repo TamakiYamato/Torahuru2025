@@ -81,7 +81,7 @@ namespace nsK2Engine {
         m_bloom.Render(rc, mainRenderTarget);
 
         // トーンマップ
-        m_tonemap.Render(rc, mainRenderTarget);
+        //m_tonemap.Render(rc, mainRenderTarget);
 
         g_renderingEngine->SetMainRenderTargetAndDepthStencilBuffer(rc);
 

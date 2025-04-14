@@ -91,6 +91,7 @@ float4 PSMainCore( SPSIn In, uniform int isSoftShadow )
 	//G-Bufferの内容を使ってライティング
     //アルベドカラーをサンプリング。
     float4 albedoColor = albedoTexture.Sample(Sampler, In.uv);
+    return albedoColor;
     //法線をサンプリング。
     float3 normal = normalTexture.Sample(Sampler, In.uv).xyz;
     //ワールド座標をサンプリング。

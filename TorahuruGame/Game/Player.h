@@ -19,7 +19,7 @@ public:
 	void Rotation();
 	void ManageState();						//ステート管理。
 	void PlayAnimation();					//アニメーションの再生。
-
+	void SetPointLight();					//ポイントライトの設置
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
@@ -74,10 +74,9 @@ public:
 	Vector3					m_dash;
 	PlayerState				m_playerState = State_Idle;
 	Quaternion				rotation;
+	PointLight				m_pointLight;	//ポイントライト
 
-	//int m_playerState;//歩くプログラム
 	int						m_hp = 0;
-	//int StairsCount=0 ;//Stairs=階段のカウント
 
 
 private:

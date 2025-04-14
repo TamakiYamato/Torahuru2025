@@ -11,6 +11,7 @@
 #include"GameClear.h"
 #include"Gameover.h"
 #include "FireGimmic.h"
+
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 Game::Game()
@@ -23,11 +24,17 @@ Game::~Game() {
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
 	DeleteGO(m_stairs);
+
+	for (auto pointLight : m_pointLightList)
+	{
+		//ポイントライトを削除する。
+		delete pointLight;
+	}
 }
 
 void Game::InitSky() {
 
-	DeleteGO(m_SkyCube);
+	DeleteGO(m_skyCube);
 	SkyCube* m_SkyCube = NewGO<SkyCube>(0, "skycube");
 
 	m_SkyCube->SetType(enSkyCubeType_NightToon);
@@ -36,22 +43,66 @@ void Game::InitSky() {
 
 	// 環境光の計算のためのIBLテクスチャをセットする。
 	g_renderingEngine->SetAmbientByIBLTexture(m_SkyCube->GetTextureFilePath(), 1.0f);
+
 	// 環境日光の影響が分かりやすいように、ディレクションライトはオフに。
 	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
+	
 
+}
+void Game::Intensity()
+{
+	//forはすべてのblindfloorを繰り返す
+	//ステージ内にあるblindfloorをすべて見つける。
+	const auto& blindFloors = FindGOs<BlindFloor>("blindFloor");
+
+	for (auto blindFloor : blindFloors) {
+		////周囲の明るさの設定////
+		if (m_blindFloor->m_onBlindFloor == true) {				//ステージを暗くする
+			// 環境光の計算のためのIBLテクスチャをセットする。
+			g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
+
+			// シーンの中間の明るさを示す明度率を指定する。
+			g_renderingEngine->SetSceneMiddleGray(0.01f);
+
+			// ブルームが発生する閾値を設定。
+			// ブルーム…明るい部分がにじむように見える視覚効果、光を強調し、リアル・美しい・幻想的に見せる
+			g_renderingEngine->SetBloomThreshold(10.0f);
+		}
+
+		else {													// 環境光を元に戻す
+			g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
+			g_renderingEngine->SetSceneMiddleGray(0.18f);
+			g_renderingEngine->SetBloomThreshold(1.0f);
+		}
+	}
+
+	//todo Texture test
+	if (g_pad[0]->IsPress(enButtonA)) {				//ステージを暗くする
+		// 環境光の計算のためのIBLテクスチャをセットする。
+		g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
+
+		// シーンの中間の明るさを示す明度率を指定する。
+		g_renderingEngine->SetSceneMiddleGray(0.01f);
+
+		// ブルームが発生する閾値を設定。
+		// ブルーム…明るい部分がにじむように見える視覚効果、光を強調し、リアル・美しい・幻想的に見せる
+		g_renderingEngine->SetBloomThreshold(10.0f);
+	}
 }
 bool Game::Start()
 {
 	
 	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
+	m_player->m_position = { 00.0f,-200.0f,10.0f };			//プレイヤーのポジションを変える
+	
+
 	m_stairs		= NewGO<Stairs>(0, "stairs");			//階段を追加
-	m_stairs->m_position = { 900.0f,100.0f,100.0f };		//階段座標
+	m_stairs->m_position = { 860.0f,-300.0f,20.0f };		//階段座標
 	m_background	= NewGO<BackGround>(0, "background");
 	m_gamecamera	= NewGO<GameCamera>(0, "gamecamera");
 	m_fireGimmic	= NewGO<FireGimmic>(0, "firegimmic");
 	m_se			= NewGO<SoundSource>(0, "se");
-	
+
 	InitSky();
 	m_modelRender.SetPosition(m_position);
 
@@ -73,6 +124,16 @@ bool Game::Start()
 		//	m_blindFloor = NewGO<BlindFloor>(0, "blindFloor");
 		//	m_blindFloor->SetPosition(objData.position);
 		//	m_blindFloor->SetScale(objData.scale);
+		// 
+		////ポイントライトを作成する。
+		//PointLight* pointLight = new PointLight;
+		//pointLight->Init();
+		//Vector3 pointLightPosition = objData.position;
+		//pointLightPosition.y += 200.0f;
+		////ポイントライトの座標を設定する。
+		//pointLight->SetPosition(pointLightPosition);
+		//m_pointLightList.push_back(pointLight);
+		////trueにすると、レベルの方でモデルが読み込まれない。
 		//	return true;
 		//}
 	/*return true;
@@ -83,13 +144,16 @@ bool Game::Start()
 
 void Game::Update()
 {
+	Intensity();	//視界を制限するための環境光の値変更。
 
-	wchar_t text[256];
+	//時間の計算
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
+	m_timer -= g_gameTime->GetFrameDeltaTime();
+
+	//////タイマーの表示///////
+	wchar_t text[256];
 	swprintf_s(text, 256, L"%02d:%02d", minute, sec);
-
-
 	//表示するテキストを設定。
 	m_fontRender.SetText(text);
 	//フォントの位置を設定。
@@ -100,7 +164,7 @@ void Game::Update()
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 
-	m_timer -= g_gameTime->GetFrameDeltaTime();
+
 	m_modelRender.Update();
 	Vector3 diff = m_player->m_position - m_stairs->m_position;		//diffでPlayerとStairsとの距離を測るために追加しています
 	if (diff.Length() <= 100.0f) {

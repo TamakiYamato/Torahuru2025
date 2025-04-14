@@ -59,6 +59,14 @@ bool Player::Start()
 
 	// キャラクターを読み込む。
 	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
+	/*ModelInitData modelInitData;
+	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
+	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
+	modelInitData.m_vsSkinEntryPointFunc = "VSMainSkin";
+	modelInitData.m_psEntryPointFunc = "PSMainHardShadow";
+	modelInitData.animationClips = m_animationClips;
+	modelInitData.numAnimationClips = enAnimationClip_Num;
+	m_modelRender.InitForwardRendering(modelInitData);*/
 	// キャラクターの更新。
 	m_modelRender.Update();
 	// キャラクターの向きを変える。
@@ -67,6 +75,7 @@ bool Player::Start()
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
+	SetPointLight();	//ポイントライトの設置
 	return true;
 }
 
@@ -79,6 +88,15 @@ void Player::Update() {
 	//アニメーションの再生。
 	PlayAnimation();
 	m_modelRender.Update();//モデル更新
+
+
+	//todo pointLight test
+	Vector3 pointLightPosition = m_position;
+	pointLightPosition.y += 200;
+	m_pointLight.SetPosition(pointLightPosition);
+	m_pointLight.Update();
+
+
 }
 
 void Player::Move() {
@@ -168,16 +186,6 @@ void Player::Move() {
 		}
 	}
 
-	//ステージ内にあるblindfloorをすべて見つける。
-	const auto& blindFloors = FindGOs<BlindFloor>("blindFloor");
-
-	//forはすべてのblindfloorを繰り返す
-	for (auto blindFloor : blindFloors) {
-		//プレイヤーが床の上にいたとき、視界を制限する。
-		if (blindFloor->m_onBlindFloor == true) {
-			
-		}
-	}
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
@@ -283,6 +291,37 @@ void Player::PlayAnimation()
 		m_modelRender.PlayAnimation(enAnimClip_CrouchStanding);
 		break;
 	}
+}
+
+void Player::SetPointLight()
+{
+	//forはすべてのblindfloorを繰り返す
+	//ステージ内にあるblindfloorをすべて見つける。
+	const auto& blindFloors = FindGOs<BlindFloor>("blindFloor");
+
+	for (auto blindFloor : blindFloors) {
+		//プレイヤーが床の上にいたとき、視界を制限する。
+		if (blindFloor->m_onBlindFloor == true) {
+			m_pointLight.Init();
+			m_pointLight.SetPosition(m_position);
+			m_pointLight.SetColor(Vector3(5.0f, 5.0f, 5.0f));
+			m_pointLight.SetAffectPowParam(0.7f);
+			m_pointLight.SetRange(300.0f);
+
+			Vector3 pointLightPosition = m_position;
+			pointLightPosition.y += 50.0f;
+			m_pointLight.SetPosition(pointLightPosition);
+			m_pointLight.Update();
+		}	
+	}
+
+	//todo pointLight test
+	m_pointLight.Init();
+	m_pointLight.SetPosition(m_position);
+	m_pointLight.SetColor(Vector3(5.0f, 5.0f, 5.0f));
+	m_pointLight.SetAffectPowParam(0.7f);
+	m_pointLight.SetRange(300.0f);
+
 }
 
 void Player::Render(RenderContext& rc) {
