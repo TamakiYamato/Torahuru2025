@@ -52,8 +52,8 @@ private:
 	std::vector<PointLight*>	m_pointLightList;					//ポイントライト。
 	Vector3						m_position;
 	Vector3						m_pos;
-	int m_skycubeType = enSkyCubeType_NightToon;
-	float m_timer = 120.0f;
+	int		m_skycubeType	= enSkyCubeType_NightToon;
+	float	m_timer			= 120.0f;
 	
 };
 
