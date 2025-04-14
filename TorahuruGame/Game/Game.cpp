@@ -35,14 +35,14 @@ Game::~Game() {
 void Game::InitSky() {
 
 	DeleteGO(m_skyCube);
-	SkyCube* m_SkyCube = NewGO<SkyCube>(0, "skycube");
+	m_skyCube = NewGO<SkyCube>(0, "skycube");
 
-	m_SkyCube->SetType(enSkyCubeType_NightToon);
-	m_SkyCube->SetLuminance(1.0f);
-	m_SkyCube->SetScale(10000.0f);
-
+	m_skyCube->SetType(enSkyCubeType_NightToon);
+	m_skyCube->SetLuminance(1.0f);
+	m_skyCube->SetScale(10000.0f);
+	
 	// 環境光の計算のためのIBLテクスチャをセットする。
-	g_renderingEngine->SetAmbientByIBLTexture(m_SkyCube->GetTextureFilePath(), 1.0f);
+	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
 
 	// 環境日光の影響が分かりやすいように、ディレクションライトはオフに。
 	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
@@ -77,9 +77,11 @@ void Game::Intensity()
 	}
 
 	//todo Texture test
-	if (g_pad[0]->IsPress(enButtonA)) {				//ステージを暗くする
-		// 環境光の計算のためのIBLテクスチャをセットする。
+	if (g_pad[0]->IsPress(enButtonB)) {				//ステージを暗くする
+
+		//// 環境光の計算のためのIBLテクスチャをセットする。
 		g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
+		//g_renderingEngine->m_intencity
 
 		// シーンの中間の明るさを示す明度率を指定する。
 		g_renderingEngine->SetSceneMiddleGray(0.01f);
