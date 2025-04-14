@@ -42,14 +42,19 @@ public:
 		m_moveFlag = flag;
 	}
 
-	void PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//エフェクトの基本的な情報を登録する!!
+	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//エフェクトの基本的な情報を登録する!!
 
-private:												
+private:
+	enum Status {
+		enStatus_Idle,	// 火が出ていない状態
+		enStatus_Fire,	// 火が出ている状態
+	};
+	Status					m_status = enStatus_Idle;
 	ModelRender				m_modelRender;
-	EffectEmitter*			m_fire = nullptr;					//炎のギミックエフェクト
-	SoundSource*			m_se;								//炎SE
-	Player*					m_player = nullptr;
-	Game*					m_game = nullptr;
+	EffectEmitter* m_fire = nullptr;					//炎のギミックエフェクト
+	SoundSource* m_se;								//炎SE
+	Player* m_player = nullptr;
+	Game* m_game = nullptr;
 	SpriteRender			m_mapSprite;						//マップの画像
 	Quaternion m_rotation;
 
