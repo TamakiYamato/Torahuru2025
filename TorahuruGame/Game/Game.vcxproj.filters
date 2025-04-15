@@ -24,6 +24,7 @@
     <ClCompile Include="BlindFloor.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
     <ClCompile Include="MakeEffect.cpp" />
+    <ClCompile Include="FloorManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -43,5 +44,6 @@
     <ClInclude Include="BlindFloor.h" />
     <ClInclude Include="FireGimmic.h" />
     <ClInclude Include="MakeEffect.h" />
+    <ClInclude Include="FloorManager.h" />
   </ItemGroup>
 </Project>

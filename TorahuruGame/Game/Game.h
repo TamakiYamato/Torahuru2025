@@ -8,6 +8,7 @@ class GameCamera;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
+class FloorManager;
 class Stairs;
 class Title;
 class GameClear;
@@ -25,7 +26,6 @@ public:
 	void InitSky();
 	void UpdateFont();				//フォントを更新
 	void CountTimer();				//タイマーの更新
-	void Intensity();				//スカイキューブのテクスチャの光の強さの変更
 	
 	void SetPosition(const Vector3 position)
 	{
@@ -41,6 +41,7 @@ private:
 	ModelRender					m_modelRender;
 	Stairs*						m_stairs = nullptr;					//階段
 	LevelRender					m_levelRender;						//レベル
+	FloorManager*				m_floorManager;						//3種の床を管理
 	ReverseFloor*				m_reverseFloor;						//あべこべ床
 	SlowFloor*					m_slowFloor;						//鈍足床
 	BlindFloor*					m_blindFloor;						//視界制限床
@@ -49,7 +50,6 @@ private:
 	FireGimmic*					m_fireGimmic = nullptr;				//炎のギミック
 	FontRender					m_fontRender;
 
-	std::vector<PointLight*>	m_pointLightList;					//ポイントライト。
 	Vector3						m_position;
 	Vector3						m_pos;
 	int		m_skycubeType	= enSkyCubeType_NightToon;

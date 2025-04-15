@@ -19,7 +19,7 @@ public:
 	void Rotation();
 	void ManageState();						//ステート管理。
 	void PlayAnimation();					//アニメーションの再生。
-	void SetPointLight();					//ポイントライトの設置
+
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
@@ -60,24 +60,21 @@ public:
 		enAnimationClip_Num
 	};
 
+
 	//アニメーションを共通化する。
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
-	AnimationClip			m_animationClips[enAnimationClip_Num];
-	CharacterController		m_charCon;		//キャラコン
-	ReverseFloor*			m_reverseFloor;	//あべこべ床
-	SlowFloor*				m_slowFloor;	//鈍足床
-	BlindFloor*				m_blindFloor;	//視界制限床
-	ModelRender				m_modelRender;
-	Vector3					m_position;
-	Vector3					m_moveSpeed;	//移動速度
-	Vector3					m_dash;
-	PlayerState				m_playerState = State_Idle;
-	Quaternion				rotation;
-	PointLight				m_pointLight;	//ポイントライト
+	AnimationClip				m_animationClips[enAnimationClip_Num];
+	CharacterController			m_charCon;							//キャラコン
+	ModelRender					m_modelRender;
+	Vector3						stickL;								//プレイヤーの進行方向を決定する。
+	Vector3						m_position;
+	Vector3						m_moveSpeed;						//移動速度
+	Vector3						m_dash;	
+	PlayerState					m_playerState = State_Idle;
+	Quaternion					rotation;
 
-	int						m_hp = 0;
-
-
+	int						m_hp			= 0;
+	float					m_moveDir		= 1.0f;
 private:
 };

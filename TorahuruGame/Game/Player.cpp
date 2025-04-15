@@ -19,9 +19,8 @@ namespace
 	// const を使用し定数を定義。 const→変数が変更不可であることを示す。
 	// ヒューマンエラーを防ぐ。　ヒューマンエラー→タイピング等のミスで起こるエラー。
 	const std::string animationFilePath = "Assets/animData/player/";
-	const int PLAYER_STICK_REVERSE = -1;	//プレイヤーの進行方向を入力した方向の逆にする
-
 	const std::string animationExtention = ".tka";
+
 }
 
 Player::Player()
@@ -30,6 +29,7 @@ Player::Player()
 
 Player::~Player()
 {
+	
 }
 
 // constでファイルを読み取る。
@@ -75,28 +75,15 @@ bool Player::Start()
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
-	SetPointLight();	//ポイントライトの設置
 	return true;
 }
 
 void Player::Update() {
-	Move();//キャラクターの移動
-	Rotation();//キャラクターの回転
-	//Anim();
-	//ステート管理。
-	ManageState();
-	//アニメーションの再生。
-	PlayAnimation();
-	m_modelRender.Update();//モデル更新
-
-
-	//todo pointLight test
-	Vector3 pointLightPosition = m_position;
-	pointLightPosition.y += 200;
-	m_pointLight.SetPosition(pointLightPosition);
-	m_pointLight.Update();
-
-
+	Move();					//キャラクターの移動
+	Rotation();				//キャラクターの回転
+	ManageState();			//ステート管理。
+	PlayAnimation();		//アニメーションの再生。
+	m_modelRender.Update();	//モデル更新
 }
 
 void Player::Move() {
@@ -121,29 +108,10 @@ void Player::Move() {
 	m_moveSpeed.z = 0.0f;
 
 	//左スティックの入力量を取得。
-	//プレイヤーの進行方向を決定する。
-	Vector3 stickL;
 	//スティックの水平方向。
 	stickL.x = g_pad[0]->GetLStickXF();
 	//スティックの垂直方向。
 	stickL.y = g_pad[0]->GetLStickYF();
-
-	// @todo for test
-	//ステージ内にあるreversefloorをすべて見つける。(記述した箇所の変更)
-	const auto& reverseFloors = FindGOs<ReverseFloor>("reverseFloor");
-
-	//forはすべてのreversefloorを繰り返す
-	bool onReverseFloor = false;
-	for (auto revereseFloor : reverseFloors) {
-		//プレイヤーが床の上にいたとき、操作を逆にする。
-		if (revereseFloor->m_onReverseFloor == true) {
-			onReverseFloor = true;
-		}
-	}
-	if (onReverseFloor) {
-		stickL.x *= PLAYER_STICK_REVERSE;
-		stickL.y *= PLAYER_STICK_REVERSE;
-	}
 
 	//カメラの前方向と右方向のベクトルを持ってくる。
 	//プレイヤーがどの方向に移動するかを決める。
@@ -156,11 +124,11 @@ void Player::Move() {
 	forward.y = 0.0f;
 	right.y = 0.0f;
 
-	//左スティックの入力量と120.0fを
+	//左スティックの入力量と180.0fを
 	// 乗算。
 	//移動速度を決める。
-	right *= stickL.x * 180.0f * m_dash;
-	forward *= stickL.y * 180.0f * m_dash;
+	right	*= stickL.x * 180.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
 
 	//移動速度にスティックの入力量を加算する。
 	// m_run→ダッシュ時用の変数。
@@ -177,20 +145,6 @@ void Player::Move() {
 	{
 		//重力を発生させる。
 		m_moveSpeed.y -= 5.0f;
-	}
-
-	////////特殊床プログラム/////////////////////////////////////////
-	
-	
-	//ステージ内にあるslowfloorをすべて見つける。
-	const auto& slowFloors = FindGOs<SlowFloor>("slowFloor");
-
-	//forはすべてのslowfloorを繰り返す
-	for (auto slowFloor : slowFloors) {
-		//プレイヤーが床の上にいたとき、スピードが半分になる
-		if (slowFloor->m_onSlowFloor == true) {
-			m_dash *= 0.5f;
-		}
 	}
 
 	//キャラクターコントローラーを使って座標を移動させる。
@@ -213,15 +167,6 @@ void Player::Rotation()
 //ステート管理。
 void Player::ManageState()
 {
-	////地面に付いていなかったら。
-	//if (m_charCon.IsOnGround() == false)
-	//{
-	//	//ステートを1(ジャンプ中)にする。
-	//	m_playerState = 1;
-	//	//ここでManageStateの処理を終わらせる。
-	//	return;
-	//}
-
 	//地面に付いていたら。
 	//xかzの移動速度があったら(スティックの入力があったら)。
 	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
@@ -300,36 +245,6 @@ void Player::PlayAnimation()
 	}
 }
 
-void Player::SetPointLight()
-{
-	//forはすべてのblindfloorを繰り返す
-	//ステージ内にあるblindfloorをすべて見つける。
-	const auto& blindFloors = FindGOs<BlindFloor>("blindFloor");
-
-	for (auto blindFloor : blindFloors) {
-		//プレイヤーが床の上にいたとき、視界を制限する。
-		if (blindFloor->m_onBlindFloor == true) {
-			m_pointLight.Init();
-			m_pointLight.SetPosition(m_position);
-			m_pointLight.SetColor(Vector3(5.0f, 5.0f, 5.0f));
-			m_pointLight.SetAffectPowParam(0.7f);
-			m_pointLight.SetRange(300.0f);
-
-			Vector3 pointLightPosition = m_position;
-			pointLightPosition.y += 50.0f;
-			m_pointLight.SetPosition(pointLightPosition);
-			m_pointLight.Update();
-		}	
-	}
-
-	//todo pointLight test
-	m_pointLight.Init();
-	m_pointLight.SetPosition(m_position);
-	m_pointLight.SetColor(Vector3(5.0f, 5.0f, 5.0f));
-	m_pointLight.SetAffectPowParam(0.7f);
-	m_pointLight.SetRange(300.0f);
-
-}
 
 void Player::Render(RenderContext& rc) {
 	m_modelRender.Draw(rc);

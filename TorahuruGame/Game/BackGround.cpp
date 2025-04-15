@@ -16,7 +16,8 @@ bool BackGround::Start()
 
 	//	//“–‚½‚è”»’è‚ðì¬‚·‚éB
 	m_physicsStaticObject.CreateFromModel(modelRender.GetModel(), modelRender.GetModel().GetWorldMatrix());
-
+	//“–‚½‚è”»’è‚ð‰ÂŽ‹‰»‚·‚éB
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
 void BackGround::Render(RenderContext& rc) {
