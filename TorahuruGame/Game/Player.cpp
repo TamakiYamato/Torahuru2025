@@ -128,6 +128,23 @@ void Player::Move() {
 	//スティックの垂直方向。
 	stickL.y = g_pad[0]->GetLStickYF();
 
+	// @todo for test
+	//ステージ内にあるreversefloorをすべて見つける。(記述した箇所の変更)
+	const auto& reverseFloors = FindGOs<ReverseFloor>("reverseFloor");
+
+	//forはすべてのreversefloorを繰り返す
+	bool onReverseFloor = false;
+	for (auto revereseFloor : reverseFloors) {
+		//プレイヤーが床の上にいたとき、操作を逆にする。
+		if (revereseFloor->m_onReverseFloor == true) {
+			onReverseFloor = true;
+		}
+	}
+	if (onReverseFloor) {
+		stickL.x *= PLAYER_STICK_REVERSE;
+		stickL.y *= PLAYER_STICK_REVERSE;
+	}
+
 	//カメラの前方向と右方向のベクトルを持ってくる。
 	//プレイヤーがどの方向に移動するかを決める。
 	//カメラの前方向のベクトルを取得。
@@ -164,17 +181,7 @@ void Player::Move() {
 
 	////////特殊床プログラム/////////////////////////////////////////
 	
-	//ステージ内にあるreversefloorをすべて見つける。
-	const auto& reverseFloors = FindGOs<SlowFloor>("reverseFloor");
 	
-	//forはすべてのreversefloorを繰り返す
-	for (auto revereseFloor : reverseFloors) {
-		//プレイヤーが床の上にいたとき、操作を逆にする。
-		if (revereseFloor->m_onSlowFloor == true) {
-			stickL.x *= PLAYER_STICK_REVERSE;
-			stickL.y *= PLAYER_STICK_REVERSE;
-		}
-	}
 	//ステージ内にあるslowfloorをすべて見つける。
 	const auto& slowFloors = FindGOs<SlowFloor>("slowFloor");
 

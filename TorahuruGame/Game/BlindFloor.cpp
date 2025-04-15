@@ -11,6 +11,7 @@ namespace
 
 BlindFloor::BlindFloor()
 {
+
 }
 
 BlindFloor::~BlindFloor()
@@ -19,7 +20,7 @@ BlindFloor::~BlindFloor()
 
 bool BlindFloor::Start()
 {
-	//m_modelRender.Init("Assets/modelData/background/BlindFloor.tkm");		//‚ ‚×‚±‚×°‚Ì“Ç‚İ‚İB
+	//m_modelRender.Init("Assets/modelData/BlindFloor.tkm");		//‚ ‚×‚±‚×°‚Ì“Ç‚İ‚İB
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 

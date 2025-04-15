@@ -21,7 +21,7 @@ SlowFloor::~SlowFloor()
 
 bool SlowFloor::Start()
 {
-	//m_modelRender.Init("Assets/modelData/background/SlowFloor.tkm");		//“İ‘«°‚Ì“Ç‚İ‚İB
+	m_modelRender.Init("Assets/modelData/SlowFloor.tkm");		//“İ‘«°‚Ì“Ç‚İ‚İB
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
