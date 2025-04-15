@@ -11,7 +11,6 @@
 #include"GameClear.h"
 #include"Gameover.h"
 #include "FireGimmic.h"
-
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 Game::Game()
@@ -95,12 +94,10 @@ bool Game::Start()
 {
 	
 	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 00.0f,-200.0f,10.0f };			//プレイヤーのポジションを変える
-	
-
+	m_player->m_position = { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
 	m_stairs		= NewGO<Stairs>(0, "stairs");			//階段を追加
-	m_stairs->m_position = { 860.0f,-300.0f,20.0f };		//階段座標
-	m_background	= NewGO<BackGround>(0, "background");
+	m_stairs->m_position = { 2600.0f,-1200.0f,20.0f };		//階段座標
+	//m_background	= NewGO<BackGround>(0, "background");
 	m_gamecamera	= NewGO<GameCamera>(0, "gamecamera");
 	m_fireGimmic	= NewGO<FireGimmic>(0, "firegimmic");
 	m_se			= NewGO<SoundSource>(0, "se");
@@ -108,26 +105,34 @@ bool Game::Start()
 	InitSky();
 	m_modelRender.SetPosition(m_position);
 
-	////レベルを構築する
-	//m_levelRender.Init("Assets/level/level.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
-		//if (objData.EqualObjectName(L"ReverseFloor") == true) {					//あべこべ床の3dsMaxの名前。
-		//	m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
-		//	m_reverseFloor->SetPosition(objData.position);
-		//	m_reverseFloor->SetScale(objData.scale);
-		//	return true;
-		//}
-		//if (objData.EqualObjectName(L"SlowFloor") == true) {						//鈍足床の3dsMaxの名前。
-		//	m_slowFloor = NewGO<SlowFloor>(0, "slowFloor");
-		//	m_slowFloor->SetPosition(objData.position);
-		//	m_slowFloor->SetScale(objData.scale);
-		//	return true;
-		//}
-		//if (objData.EqualObjectName(L"BlindFloor") == true) {						//視界制限床の3dsMaxの名前。
+	//レベルを構築する
+	m_levelRender.Init("Assets/modelData/BackGround1.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
+		if (objData.ForwardMatchName(L"Box") == true) {					//あべこべ床の3dsMaxの名前。
+			m_background = NewGO<BackGround>(0, "Box");
+			m_background->SetPosition(objData.position);
+			m_background->SetScale(objData.scale);
+			return true;
+		}
+		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//あべこべ床の3dsMaxの名前。
+			m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
+			m_reverseFloor->SetPosition(objData.position);
+			m_reverseFloor->SetScale(objData.scale);
+			return true;
+		}
+		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//鈍足床の3dsMaxの名前。
+			m_slowFloor = NewGO<SlowFloor>(0, "slowFloor");
+			m_slowFloor->SetPosition(objData.position);
+			m_slowFloor->SetScale(objData.scale);
+			return true;
+		}
+		//if (objData.ForwardMatchName(L"BlindFloor") == true) {						////視界制限床の3dsMaxの名前。
 		//	m_blindFloor = NewGO<BlindFloor>(0, "blindFloor");
 		//	m_blindFloor->SetPosition(objData.position);
 		//	m_blindFloor->SetScale(objData.scale);
-		// 
-		////ポイントライトを作成する。
+		//    return true;
+	 // }
+	      
+	//	ポイントライトを作成する。
 		//PointLight* pointLight = new PointLight;
 		//pointLight->Init();
 		//Vector3 pointLightPosition = objData.position;
@@ -137,9 +142,8 @@ bool Game::Start()
 		//m_pointLightList.push_back(pointLight);
 		////trueにすると、レベルの方でモデルが読み込まれない。
 		//	return true;
-		//}
-	/*return true;
-	});*/
+	
+	});
 	return true;
 
 }
@@ -189,5 +193,5 @@ void Game::Render(RenderContext& rc)
 {
 	m_fontRender.Draw(rc);
 	//レベルで読み込んだモデルを表示させる。
-	//m_levelRender.Draw(rc);
+	m_levelRender.Draw(rc);
 }

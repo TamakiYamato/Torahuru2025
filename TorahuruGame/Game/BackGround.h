@@ -19,6 +19,9 @@ public:
         m_rotation = rotation;
 
     }
+    void SetScale(const Vector3& scale) {
+        m_scale = scale;
+    }
 
 
 

@@ -5,8 +5,9 @@
 
 namespace 
 {
-	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 0.0f, 10.0f);
-	const Vector3 COLLISION_SIZE = Vector3(200.0f, 150.0f, 300.0f);
+	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
+	const Vector3 COLLISION_SIZE = Vector3(1.0f, 150.0f, 1.0f);//‚±‚±‚Ì“–‚½‚è”»’è‚ğ¬‚³‚­‚·‚é!!
+
 }
 
 ReverseFloor::ReverseFloor()
@@ -21,7 +22,7 @@ ReverseFloor::~ReverseFloor()
 
 bool ReverseFloor::Start()
 {
-	//m_modelRender.Init("Assets/modelData/background/ReverseFloor.tkm");		//‚ ‚×‚±‚×°‚Ì“Ç‚İ‚İB
+	m_modelRender.Init("Assets/modelData/ReverseFloor.tkm");		//‚ ‚×‚±‚×°‚Ì“Ç‚İ‚İB
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
