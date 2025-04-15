@@ -12,11 +12,13 @@ namespace {
 	Vector3 COLLISION_SIZE = Vector3(20.0f, 150.0f, 20.0f);
 	Vector3 COLLISION_POSITION = Vector3(100.0f, 0.0f, 100.0f);
 
-	Vector3 firePosition = Vector3(200.0f, 0.0f, 200.0f);
+	Vector3 firePosition = Vector3(400.0f, -250.0f, -900.0f);
+	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 	Vector3 fireScale = Vector3(10.0f, 10.0f, 10.0f);
 
 	const float LENGTH = 1000.0f;			//効果音を再生する距離
 	const float SE_VOLUME = 0.3f;
+
 }
 
 FireGimmic::FireGimmic()
@@ -31,6 +33,8 @@ FireGimmic::~FireGimmic()
 	if (m_fire != nullptr) {
 		DeleteGO(m_fire);
 	}
+
+	DeleteGO(m_fireCollision);
 }
 
 bool FireGimmic::Start()
@@ -44,7 +48,38 @@ bool FireGimmic::Start()
 
 	m_firstPosition = m_position;
 
+	//コリジョンオブジェクトの初期化
+	//4種類つくって
+	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->CreateBox(
+		m_firstPosition,
+		m_fireRot_East,
+		COLLISION_SIZE
+	);
 
+	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->CreateBox(
+		m_firstPosition,
+		m_fireRot_West,
+		COLLISION_SIZE
+	);
+
+	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->CreateBox(
+		m_firstPosition,
+		m_fireRot_North,
+		COLLISION_SIZE
+	);
+
+	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->CreateBox(
+		m_firstPosition,
+		m_fireRot_South,
+		COLLISION_SIZE
+	);
+
+	//コリジョンオブジェクトが自動で削除されないようにする
+	m_fireCollision->SetIsEnableAutoDelete(false);
 
 	return true;
 }
@@ -69,7 +104,15 @@ void FireGimmic::Collision()
 
 	if (disToPlayer <= LENGTH)
 	{
-		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_rotation, fireScale);
+		m_fireRot_North.SetRotationDegY(270.0f);
+		m_fireRot_South.SetRotationDegY(90.0f);
+		m_fireRot_East.SetRotationDegY(180.0f);
+		m_fireRot_West.SetRotationDegY(360.0f);
+
+		//enumで4方向分作って、すぐ切り替えられるように関数を作る
+		//引数で回転値(m_fireRot)を渡してみるかな？
+
+		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_West, fireScale);
 
 		/*if (!m_fire->IsPlay())
 		{
