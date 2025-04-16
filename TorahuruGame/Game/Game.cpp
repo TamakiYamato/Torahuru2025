@@ -7,6 +7,7 @@
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
 #include"BlindFloor.h"
+#include"FloorManager.h"
 #include"Stairs.h"
 #include"GameClear.h"
 #include"Gameover.h"
@@ -23,12 +24,6 @@ Game::~Game() {
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
 	DeleteGO(m_stairs);
-
-	for (auto pointLight : m_pointLightList)
-	{
-		//ポイントライトを削除する。
-		delete pointLight;
-	}
 }
 
 void Game::InitSky() {
@@ -45,51 +40,8 @@ void Game::InitSky() {
 
 	// 環境日光の影響が分かりやすいように、ディレクションライトはオフに。
 	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
-	
-
 }
-void Game::Intensity()
-{
-	//forはすべてのblindfloorを繰り返す
-	//ステージ内にあるblindfloorをすべて見つける。
-	const auto& blindFloors = FindGOs<BlindFloor>("blindFloor");
 
-	for (auto blindFloor : blindFloors) {
-		////周囲の明るさの設定////
-		if (m_blindFloor->m_onBlindFloor == true) {				//ステージを暗くする
-			// 環境光の計算のためのIBLテクスチャをセットする。
-			g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
-
-			// シーンの中間の明るさを示す明度率を指定する。
-			g_renderingEngine->SetSceneMiddleGray(0.01f);
-
-			// ブルームが発生する閾値を設定。
-			// ブルーム…明るい部分がにじむように見える視覚効果、光を強調し、リアル・美しい・幻想的に見せる
-			g_renderingEngine->SetBloomThreshold(10.0f);
-		}
-
-		else {													// 環境光を元に戻す
-			g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
-			g_renderingEngine->SetSceneMiddleGray(0.18f);
-			g_renderingEngine->SetBloomThreshold(1.0f);
-		}
-	}
-
-	//todo Texture test
-	if (g_pad[0]->IsPress(enButtonB)) {				//ステージを暗くする
-
-		//// 環境光の計算のためのIBLテクスチャをセットする。
-		g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
-		//g_renderingEngine->m_intencity
-
-		// シーンの中間の明るさを示す明度率を指定する。
-		g_renderingEngine->SetSceneMiddleGray(0.01f);
-
-		// ブルームが発生する閾値を設定。
-		// ブルーム…明るい部分がにじむように見える視覚効果、光を強調し、リアル・美しい・幻想的に見せる
-		g_renderingEngine->SetBloomThreshold(10.0f);
-	}
-}
 bool Game::Start()
 {
 	
@@ -97,10 +49,10 @@ bool Game::Start()
 	m_player->m_position = { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
 	m_stairs		= NewGO<Stairs>(0, "stairs");			//階段を追加
 	m_stairs->m_position = { 2600.0f,-1200.0f,20.0f };		//階段座標
-	//m_background	= NewGO<BackGround>(0, "background");
 	m_gamecamera	= NewGO<GameCamera>(0, "gamecamera");
 	m_fireGimmic	= NewGO<FireGimmic>(0, "firegimmic");
 	m_se			= NewGO<SoundSource>(0, "se");
+	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 
 	InitSky();
 	m_modelRender.SetPosition(m_position);
@@ -114,19 +66,19 @@ bool Game::Start()
 			return true;
 		}
 		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//あべこべ床の3dsMaxの名前。
-			m_reverseFloor = NewGO<ReverseFloor>(0, "reverseFloor");
+			m_reverseFloor = NewGO<ReverseFloor>(0, "ReverseFloor");
 			m_reverseFloor->SetPosition(objData.position);
 			m_reverseFloor->SetScale(objData.scale);
 			return true;
 		}
 		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//鈍足床の3dsMaxの名前。
-			m_slowFloor = NewGO<SlowFloor>(0, "slowFloor");
+			m_slowFloor = NewGO<SlowFloor>(0, "SlowFloor");
 			m_slowFloor->SetPosition(objData.position);
 			m_slowFloor->SetScale(objData.scale);
 			return true;
 		}
 		//if (objData.ForwardMatchName(L"BlindFloor") == true) {						////視界制限床の3dsMaxの名前。
-		//	m_blindFloor = NewGO<BlindFloor>(0, "blindFloor");
+		//	m_blindFloor = NewGO<BlindFloor>(0, "BlindFloor");
 		//	m_blindFloor->SetPosition(objData.position);
 		//	m_blindFloor->SetScale(objData.scale);
 		//    return true;
@@ -150,8 +102,6 @@ bool Game::Start()
 
 void Game::Update()
 {
-	Intensity();	//視界を制限するための環境光の値変更。
-
 	//時間の計算
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
