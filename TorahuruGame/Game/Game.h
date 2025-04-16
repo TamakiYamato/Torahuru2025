@@ -50,6 +50,10 @@ private:
 	FireGimmic*					m_fireGimmic = nullptr;				//炎のギミック
 	FontRender					m_fontRender;
 
+	std::vector<ReverseFloor*>	m_reverseFloorLists;		//あべこべ床の削除用。
+	std::vector<SlowFloor*>		m_slowFloorLists;			//鈍足床の削除用。
+	std::vector<BlindFloor*>	m_blindFloorLists;			//視界制限床の削除用。
+
 	Vector3						m_position;
 	Vector3						m_pos;
 	int		m_skycubeType	= enSkyCubeType_NightToon;
