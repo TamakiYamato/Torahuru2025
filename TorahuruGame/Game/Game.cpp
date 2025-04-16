@@ -77,12 +77,12 @@ bool Game::Start()
 			m_slowFloor->SetScale(objData.scale);
 			return true;
 		}
-		//if (objData.ForwardMatchName(L"BlindFloor") == true) {						////視界制限床の3dsMaxの名前。
-		//	m_blindFloor = NewGO<BlindFloor>(0, "BlindFloor");
-		//	m_blindFloor->SetPosition(objData.position);
-		//	m_blindFloor->SetScale(objData.scale);
-		//    return true;
-	 // }
+		if (objData.ForwardMatchName(L"BlindFloor") == true) {						////視界制限床の3dsMaxの名前。
+			m_blindFloor = NewGO<BlindFloor>(0, "BlindFloor");
+			m_blindFloor->SetPosition(objData.position);
+			m_blindFloor->SetScale(objData.scale);
+		    return true;
+		}
 	      
 	//	ポイントライトを作成する。
 		//PointLight* pointLight = new PointLight;

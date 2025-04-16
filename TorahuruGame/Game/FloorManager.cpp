@@ -86,14 +86,14 @@ void FloorManager::FindFloor()
 
 void FloorManager::AddStatus()	/////状態ごとの効果反映/////
 {
-	if (m_floorTimer == 10.0f) {
+	if (m_floorTimer == 5.0f) {		//時間が初期化されている＝他の効果がない場合
 		switch (m_floorState) {
 		case ReverseState:
 			m_player->m_moveDir *= -1.0f;
 			break;
 
 		case SlowState:
-			m_player->m_dash *= PLAYER_MOVE_SLOW;
+			m_player->m_moveDir *= PLAYER_MOVE_SLOW;
 			break;
 
 		case BlindState:
@@ -147,7 +147,7 @@ void FloorManager::CalcStatusTime()
 	if (m_floorTimer <= 0) {							//時間が０になった場合
 		RevertState();									//床の効果を消す
 		m_saveState = Normal;							//状態を通常に
-		m_floorTimer = 10.0f;							//効果時間をリセット
+		m_floorTimer = 5.0f;							//効果時間をリセット
 	}
 }
 
@@ -161,10 +161,10 @@ void FloorManager::RevertState()
 		m_player->m_moveDir = 1.0f;
 		break;
 	case ReverseState:
-		m_player->m_moveDir = -1.0f;
+		m_player->m_moveDir *= -1.0f;
 		break;
 	case SlowState:
-		m_player->m_dash /= PLAYER_MOVE_SLOW;
+		m_player->m_moveDir /= PLAYER_MOVE_SLOW;
 		break;
 	case BlindState:
 		// 環境光を元に戻す
