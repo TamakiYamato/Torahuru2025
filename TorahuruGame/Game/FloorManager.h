@@ -39,7 +39,7 @@ public:
 
 	int						m_floorState	= Normal;			//特殊床を踏んだかどうかのステータス。
 	int						m_saveState		= Normal;			//プレイヤーの状態を保存。
-	float					m_floorTimer	= 10.0f;			//特殊床の効果時間。
+	float					m_floorTimer	= 5.0f;			//特殊床の効果時間。
 	bool					m_setLight		= true;				//ライトの初期設定の有無。
 
 private:
