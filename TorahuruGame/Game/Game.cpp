@@ -24,6 +24,30 @@ Game::~Game() {
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
 	DeleteGO(m_stairs);
+
+	//ステージ内にあるreversefloorをすべて見つける。
+	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
+	for (auto reverseFloor : reverseFloors)
+	{
+		//ポイントライトを削除する。
+		DeleteGO(reverseFloor);
+	}
+
+	//ステージ内にあるslowfloorをすべて見つける。
+	const auto& slowFloors = FindGOs<SlowFloor>("SlowFloor");
+	for (auto slowFloor : slowFloors)
+	{
+		//ポイントライトを削除する。
+		DeleteGO(slowFloor);
+	}
+
+	//ステージ内にあるblindfloorをすべて見つける。
+	const auto& blindFloors = FindGOs<BlindFloor>("BlindFloor");
+	for (auto blindFloor : blindFloors)
+	{
+		//ポイントライトを削除する。
+		DeleteGO(blindFloor);
+	}
 }
 
 void Game::InitSky() {
@@ -45,21 +69,21 @@ void Game::InitSky() {
 bool Game::Start()
 {
 	
-	m_player = NewGO<Player>(0, "player");
-	m_player->m_position = { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
-	m_stairs		= NewGO<Stairs>(0, "stairs");			//階段を追加
-	m_stairs->m_position = { 2600.0f,-1200.0f,20.0f };		//階段座標
-	m_gamecamera	= NewGO<GameCamera>(0, "gamecamera");
-	m_fireGimmic	= NewGO<FireGimmic>(0, "firegimmic");
-	m_se			= NewGO<SoundSource>(0, "se");
-	m_floorManager = NewGO<FloorManager>(0, "floorManager");
+	m_player				= NewGO<Player>(0, "player");
+	m_player->m_position	= { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
+	m_stairs				= NewGO<Stairs>(0, "stairs");			//階段を追加
+	m_stairs->m_position	= { 2600.0f,-1200.0f,20.0f };		//階段座標
+	m_gamecamera			= NewGO<GameCamera>(0, "gamecamera");
+	m_fireGimmic			= NewGO<FireGimmic>(0, "firegimmic");
+	m_se					= NewGO<SoundSource>(0, "se");
+	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
 
 	InitSky();
 	m_modelRender.SetPosition(m_position);
 
 	//レベルを構築する
 	m_levelRender.Init("Assets/modelData/BackGround1.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
-		if (objData.ForwardMatchName(L"Box") == true) {					//あべこべ床の3dsMaxの名前。
+		if (objData.ForwardMatchName(L"Box") == true) {								//あべこべ床の3dsMaxの名前。
 			m_background = NewGO<BackGround>(0, "Box");
 			m_background->SetPosition(objData.position);
 			m_background->SetScale(objData.scale);
