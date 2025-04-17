@@ -74,7 +74,7 @@ void GameCamera::Update()
 		m_toCameraPos = toCameraPosOld;
 	}
 
-	//視点を計算する。
+	//視点を計算する。w
 	Vector3 pos = target + m_toCameraPos;
 
 	// バネカメラに注視点と視点を設定する。

@@ -4,7 +4,7 @@
 #include"Player.h"
 
 BackGround::BackGround() {
-	modelRender.Init("Assets/modelData/BackGround1.tkm");
+	modelRender.Init("Assets/modelData/Stage1.tkm");
 
 	modelRender.Update();
 }

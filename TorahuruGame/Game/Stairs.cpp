@@ -10,7 +10,7 @@ Stairs::~Stairs() {
 	
 }
 bool Stairs::Start() {
-	m_modelRender.Init("Assets/modelData/kaidan.tkm");	//階段オブジェクト
+	m_modelRender.Init("Assets/modelData/Stairs.tkm");	//階段オブジェクト
 	
 	//プレイヤー側のオブジェクトを持ってくる
 	m_player = FindGO<Player>("player");
