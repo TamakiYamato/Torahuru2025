@@ -21,7 +21,13 @@ public:
 		m_position = position;
 	}
 
-
+	void SetScale(const Vector3& scale)
+	{
+		m_scale = scale;
+	}
+	void SetRotation(const Quaternion& rotation) {
+		m_rotaion = rotation;
+	}
 	// エフェクトの再生間隔を設定する
 	void SetEffectInterval(const float& time)
 	{
@@ -61,12 +67,11 @@ private:
 	Quaternion m_fireRot_East;                                    //炎の角度　東
 	Quaternion m_fireRot_West;                                    //炎の角度　西
 
-	CollisionObject* m_fireCollision_North;
-	CollisionObject* m_fireCollision_South;
-	CollisionObject* m_fireCollision_East;
-	CollisionObject* m_fireCollision_West;
+	CollisionObject* m_fireCollision;
 
 	Vector3					m_position = Vector3::Zero;
+	Vector3                 m_scale = Vector3::Zero;
+    Quaternion              m_rotaion;
 	Vector3					m_firstPosition = Vector3::Zero;
 	bool					m_moveFlag = false;					//trueだったら動く
 	float					m_effectIntervalTimer = 0.0f;		//エフェクトの間隔制御のタイマー

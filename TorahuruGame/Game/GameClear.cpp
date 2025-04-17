@@ -15,7 +15,7 @@ GameClear::~GameClear() {
 
 bool GameClear:: Start() {
 	
-	m_spriteRender.Init("Assets/modelData/GameClear.DDS", 1920, 1080);	//ゲームクリア
+	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);	//ゲームクリア
 	m_player = FindGO<Player>("player");
 	m_stairs = FindGO<Stairs>("stairs");	//ここでインスタンスを呼び込む!!
 
