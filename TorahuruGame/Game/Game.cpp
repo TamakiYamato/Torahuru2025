@@ -72,7 +72,7 @@ bool Game::Start()
 	m_player				= NewGO<Player>(0, "player");
 	m_player->m_position	= { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
 	m_stairs				= NewGO<Stairs>(0, "stairs");			//階段を追加
-	m_stairs->m_position	= { 2600.0f,-1200.0f,20.0f };		//階段座標
+	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };		//階段座標
 	m_gamecamera			= NewGO<GameCamera>(0, "gamecamera");
 	m_fireGimmic			= NewGO<FireGimmic>(0, "firegimmic");
 	m_se					= NewGO<SoundSource>(0, "se");
@@ -82,7 +82,7 @@ bool Game::Start()
 	m_modelRender.SetPosition(m_position);
 
 	//レベルを構築する
-	m_levelRender.Init("Assets/modelData/BackGround1.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
+	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//3種類の床すべて配置したtkl。
 		if (objData.ForwardMatchName(L"Box") == true) {								//あべこべ床の3dsMaxの名前。
 			m_background = NewGO<BackGround>(0, "Box");
 			m_background->SetPosition(objData.position);
@@ -107,7 +107,13 @@ bool Game::Start()
 			m_blindFloor->SetScale(objData.scale);
 		    return true;
 		}
-	      
+		if (objData.ForwardMatchName(L"FireGimmic") == true) {
+			m_fireGimmic = NewGO<FireGimmic>(0, "FireGimmic");                      ////ファイアーギミックの3dsMaxの名前
+			m_fireGimmic->SetPosition(objData.position);
+			m_fireGimmic->SetScale(objData.scale);
+			m_fireGimmic->SetRotation(objData.rotation);
+			return true;
+		 }
 	//	ポイントライトを作成する。
 		//PointLight* pointLight = new PointLight;
 		//pointLight->Init();
