@@ -61,7 +61,10 @@ private:
 	Quaternion m_fireRot_East;                                    //炎の角度　東
 	Quaternion m_fireRot_West;                                    //炎の角度　西
 
-	CollisionObject* m_fireCollision;
+	CollisionObject* m_fireCollision_North;
+	CollisionObject* m_fireCollision_South;
+	CollisionObject* m_fireCollision_East;
+	CollisionObject* m_fireCollision_West;
 
 	Vector3					m_position = Vector3::Zero;
 	Vector3					m_firstPosition = Vector3::Zero;
