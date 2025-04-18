@@ -12,11 +12,14 @@ namespace {
 	Vector3 COLLISION_SIZE = Vector3(20.0f, 150.0f, 20.0f);
 	Vector3 COLLISION_POSITION = Vector3(100.0f, 0.0f, 100.0f);
 
-	Vector3 firePosition = Vector3(400.0f, -250.0f, -900.0f);
-	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-	Vector3 fireScale = Vector3(10.0f, 10.0f, 10.0f);
+	Vector3 firePosition = Vector3(400.0f, 125.0f, -825.0f);
+	Vector3 firePosition2 = Vector3(2100.0f, 150.0f, -1200.0f);
 
-	const float LENGTH = 1000.0f;			//Œø‰Ê‰¹‚ðÄ¶‚·‚é‹——£
+	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+
+	Vector3 fireScale = Vector3(35.0f, 10.0f, 10.0f);
+
+	const float LENGTH = 3000.0f;			//Œø‰Ê‰¹‚ðÄ¶‚·‚é‹——£
 	const float SE_VOLUME = 0.3f;
 
 }
@@ -32,6 +35,9 @@ FireGimmic::~FireGimmic()
 	}
 	if (m_fire != nullptr) {
 		DeleteGO(m_fire);
+	}
+	if (m_fire2 != nullptr) {
+		DeleteGO(m_fire2);
 	}
 
 	DeleteGO(m_fireCollision);
@@ -113,6 +119,7 @@ void FireGimmic::Collision()
 		//ˆø”‚Å‰ñ“]’l(m_fireRot)‚ð“n‚µ‚Ä‚Ý‚é‚©‚ÈH
 
 		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_West, fireScale);
+		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale);
 
 		/*if (!m_fire->IsPlay())
 		{
@@ -158,8 +165,10 @@ void FireGimmic::Update()
 			}
 			DeleteGO(m_se);
 			DeleteGO(m_fire);
+			DeleteGO(m_fire2);
 			m_se = nullptr;
 			m_fire = nullptr;
+			m_fire2 = nullptr;
 			m_status = enStatus_Idle;
 		}
 	}
