@@ -58,6 +58,7 @@ private:
 	Status					m_status = enStatus_Idle;
 	ModelRender				m_modelRender;
 	EffectEmitter* m_fire = nullptr;					//炎のギミックエフェクト
+	EffectEmitter* m_fire2 = nullptr;					//炎のギミックエフェクト
 	SoundSource* m_se;								//炎SE
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
