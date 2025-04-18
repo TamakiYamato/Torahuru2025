@@ -32,6 +32,7 @@ public:
 		m_position = position;
 	}
 
+	SkyCube* m_skyCube = nullptr;				//”wŒi
 
 private:
 	Player*						m_player = nullptr;
@@ -46,7 +47,6 @@ private:
 	SlowFloor*					m_slowFloor;						//“İ‘«°
 	BlindFloor*					m_blindFloor;						//‹ŠE§ŒÀ°
 	GameCamera*					m_gamecamera = nullptr;				//ƒJƒƒ‰
-	SkyCube*					m_skyCube = nullptr;				//”wŒi
 	FireGimmic*					m_fireGimmic = nullptr;				//‰Š‚ÌƒMƒ~ƒbƒN
 	FontRender					m_fontRender;
 
