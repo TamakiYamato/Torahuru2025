@@ -4,7 +4,8 @@ namespace nsK2Engine {
 	/// <summary>
 	/// ポイントライト
 	/// </summary>
-	class PointLight : Noncopyable {
+	//class PointLight : Noncopyable {
+    class PointLight : public IGameObject{
 	public:
 		// デストラクタ
 		~PointLight();

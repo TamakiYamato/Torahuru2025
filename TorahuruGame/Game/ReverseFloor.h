@@ -1,6 +1,6 @@
 #pragma once
 class Player;
-class RevreseFloor;
+class ReverseFloor;
 class ReverseFloor : public IGameObject
 {
 public:

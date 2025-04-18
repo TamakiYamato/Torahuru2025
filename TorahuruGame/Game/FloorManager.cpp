@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "FloorManager.h"
-#include"ReverseFloor.h"
-#include"SlowFloor.h"
-#include"BlindFloor.h"
-#include"Player.h"
+#include "ReverseFloor.h"
+#include "SlowFloor.h"
+#include "BlindFloor.h"
+#include "Player.h"
+#include "Game.h"
 
 namespace {
 	const float PLAYER_MOVE_SLOW = 0.5;		//プレイヤーの速度を変更。
@@ -11,31 +12,41 @@ namespace {
 
 FloorManager::FloorManager()
 {
+
 }
 
 FloorManager::~FloorManager()
 {
-	for (auto pointLight : m_pointLightList)
-	{
-		//ポイントライトを削除する。
-		delete pointLight;
-	}
+	
 }
 
 bool FloorManager::Start()
 {
-	m_player = FindGO<Player>("player");
+	m_game = FindGO<Game>("game");
+	m_player = FindGO<Player>("player");	
+
 	return true;
 }
 
 void FloorManager::Update()
 {
-	FindFloor();	//3種類の床をすべて見つける
-	AddStatus();	//状態ごとの効果反映
+	
+	////タイマーが動いてない＝他の床が作動してないとき////
+	if (m_floorTimer >= 7.0f) {
+		FindFloor();		//3種類の床をすべて見つける
+	}
+
+	AddStatus();			//状態ごとの効果反映
 
 	////プレイヤーが床の影響を受けている場合////
 	if (m_saveState != Normal) {
-		CalcStatusTime();
+		CalcStatusTime();	//効果時間のタイマーを動かす
+	}
+
+	////プレイヤーが視界制限状態の場合////
+	if (m_saveState == BlindState) {
+		pointLightPosition = m_player->m_position +Vector3(0.0f,200.0f,0.0f);
+		m_pointL->SetPosition(pointLightPosition);
 	}
 }
 
@@ -86,7 +97,7 @@ void FloorManager::FindFloor()
 
 void FloorManager::AddStatus()	/////状態ごとの効果反映/////
 {
-	if (m_floorTimer == 5.0f) {		//時間が初期化されている＝他の効果がない場合
+	if (m_floorTimer == 7.0f) {		//時間が初期化されている＝他の効果がない場合
 		switch (m_floorState) {
 		case ReverseState:
 			m_player->m_moveDir *= -1.0f;
@@ -101,7 +112,7 @@ void FloorManager::AddStatus()	/////状態ごとの効果反映/////
 			//////////////ステージを暗くする///////////////////////////
 
 			// 環境光の計算のためのIBLテクスチャをセットする。
-			g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
+			g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 0.1f);
 
 			// シーンの中間の明るさを示す明度率を指定する。
 			g_renderingEngine->SetSceneMiddleGray(0.01f);
@@ -125,29 +136,28 @@ void FloorManager::AddStatus()	/////状態ごとの効果反映/////
 
 void FloorManager::SetPointLight()
 {
-	//ライトの初期設定
-	Vector3 pointLightPosition = m_player->m_position;
-	pointLightPosition.y += 200;
-	m_pointLight.SetPosition(pointLightPosition);
-	m_pointLight.Update();
-	m_setLight = false;
+	m_pointL = NewGO<PointLight>(0,"pointLight");
+	
+	m_pointL->Init();
+	m_pointL->SetPosition(pointLightPosition);
+	m_pointL->SetAffectPowParam(0.7f);				//影響力を持たせる。
+	m_pointL->SetColor(Vector3(5.0f, 5.0f, 5.0f));
+	m_pointL->SetRange(250.0f);
+	m_pointL->Update();	
+}
 
-	//明るさの設定
-	m_pointLight.Init();
-	m_pointLight.SetPosition(m_player->m_position);
-	m_pointLight.SetColor(Vector3(5.0f, 5.0f, 5.0f));
-	m_pointLight.SetAffectPowParam(0.7f);
-	m_pointLight.SetRange(300.0f);
+void FloorManager::DeletePointLight()
+{
+	DeleteGO(m_pointL);
 }
 
 
 void FloorManager::CalcStatusTime()
 {
-	m_floorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間のカウントダウン10秒
-	if (m_floorTimer <= 0) {							//時間が０になった場合
+	m_floorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間のカウントダウン5秒
+	if (m_floorTimer <= 0) {							//時間が0になった場合
 		RevertState();									//床の効果を消す
-		m_saveState = Normal;							//状態を通常に
-		m_floorTimer = 5.0f;							//効果時間をリセット
+		m_floorTimer = 7.0f;							//効果時間をリセット
 	}
 }
 
@@ -168,9 +178,11 @@ void FloorManager::RevertState()
 		break;
 	case BlindState:
 		// 環境光を元に戻す
-		g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
+		g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 1.0f);
 		g_renderingEngine->SetSceneMiddleGray(0.18f);
 		g_renderingEngine->SetBloomThreshold(1.0f);
+		//ポイントライト
+		DeletePointLight();
 		break;
 	}
 	m_saveState = Normal;	//保存したものを通常に。
