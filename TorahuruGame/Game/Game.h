@@ -3,12 +3,14 @@
 #include "Level3DRender/LevelRender.h"
 
 class Player;
+class Sutamina;
 class BackGround;
 class GameCamera;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
 class FloorManager;
+class Tutorial;
 class Stairs;
 class Title;
 class GameClear;
@@ -22,8 +24,9 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-
+	void SetSutamina();
 	void InitSky();
+	void TutorialText();
 	void UpdateFont();				//フォントを更新
 	void CountTimer();				//タイマーの更新
 	
@@ -33,9 +36,14 @@ public:
 	}
 
 	SkyCube* m_skyCube = nullptr;				//背景
+	Tutorial* m_tutorial;                         //チュートリアル
+	Tutorial* m_tutorial2;                        //チュートリアル
+	Tutorial* m_tutorial3;                        //チュートリアル
+	Tutorial* m_tutorial4;                        //チュートリアル
 
 private:
 	Player*						m_player = nullptr;
+	Sutamina*                   m_setSutamina;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;
 	BackGround*					m_background = nullptr;
@@ -46,6 +54,7 @@ private:
 	ReverseFloor*				m_reverseFloor;						//あべこべ床
 	SlowFloor*					m_slowFloor;						//鈍足床
 	BlindFloor*					m_blindFloor;						//視界制限床
+	
 	GameCamera*					m_gamecamera = nullptr;				//カメラ
 	FireGimmic*					m_fireGimmic = nullptr;				//炎のギミック
 	FontRender					m_fontRender;

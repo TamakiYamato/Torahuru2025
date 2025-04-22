@@ -18,6 +18,7 @@ public:
 	void Anim() {};
 	void Rotation();
 	void ManageState();						//ステート管理。
+	void SutaminaCalk();
 	void PlayAnimation();					//アニメーションの再生。
 
 	// 座標を取得
@@ -71,10 +72,11 @@ public:
 	Vector3						m_position;
 	Vector3						m_moveSpeed;						//移動速度
 	Vector3						m_dash;	
+	float		     	        m_hp = 0;
+	float                       m_max_sutamina = 100;               // スタミナの最大値。
+	float                       m_sutamina = m_max_sutamina;    	// 現在のスタミナ。
 	PlayerState					m_playerState = State_Idle;
 	Quaternion					rotation;
-
-	int						m_hp			= 0;
-	float					m_moveDir		= 1.0f;
+	float				    	m_moveDir		= 1.0f;
 private:
 };

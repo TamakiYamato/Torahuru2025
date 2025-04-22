@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "Game.h"
 #include"Player.h"
+#include"Sutamina.h"
 #include"BackGround.h"
 #include"GameCamera.h"
 #include"Title.h"
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
 #include"BlindFloor.h"
+#include"Tutorial.h"
 #include"FloorManager.h"
 #include"Stairs.h"
 #include"GameClear.h"
@@ -66,6 +68,28 @@ void Game::InitSky() {
 	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
 }
 
+void Game::TutorialText()
+{
+	m_tutorial = NewGO<Tutorial>(0, "tutorial");
+	m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // ‰Î‰Š•úËŠí
+	// 2‚Â‚ß‚Ì‰Î‰Š•úËŠí‚ÌÀ•W
+	//m_tutorial4->m_position = { 2000.0f,40.0f,-1300.0f };   // ‰Î‰Š•úËŠí
+
+	m_tutorial2 = NewGO<Tutorial>(0, "tutorial");
+	m_tutorial2->m_position = { -950.0f,40.0f,-1050.0f };  // ‚ ‚×‚±‚×°
+
+	m_tutorial3 = NewGO<Tutorial>(0, "tutorial");
+	m_tutorial3->m_position = { -500.0f, 40.0f, -1850.0f }; // “İ‘«°
+	
+	m_tutorial4 = NewGO<Tutorial>(0, "tutorial");
+	m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // ‹ŠE§ŒÀ°
+}
+
+void Game::SetSutamina()
+{
+	m_setSutamina = NewGO<Sutamina>(0, "sutamina");
+}
+
 bool Game::Start()
 {
 	
@@ -79,6 +103,8 @@ bool Game::Start()
 	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
 
 	InitSky();
+	SetSutamina();
+	TutorialText();
 	m_modelRender.SetPosition(m_position);
 
 	//ƒŒƒxƒ‹‚ğ\’z‚·‚é
