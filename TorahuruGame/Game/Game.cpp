@@ -24,6 +24,8 @@ Game::~Game() {
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
 	DeleteGO(m_stairs);
+	DeleteGO(m_floorManager);
+	DeleteGO(m_fireGimmic);
 
 	//ステージ内にあるreversefloorをすべて見つける。
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -73,8 +75,7 @@ bool Game::Start()
 	m_player->m_position	= { 0.0f,0.0f,0.0f };			//プレイヤーのポジションを変える
 	m_stairs				= NewGO<Stairs>(0, "stairs");			//階段を追加
 	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };		//階段座標
-	m_gamecamera			= NewGO<GameCamera>(0, "gamecamera");
-	m_fireGimmic			= NewGO<FireGimmic>(0, "firegimmic");
+	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
 
@@ -108,7 +109,7 @@ bool Game::Start()
 		    return true;
 		}
 		if (objData.ForwardMatchName(L"FireGimmic") == true) {
-			m_fireGimmic = NewGO<FireGimmic>(0, "FireGimmic");                      ////ファイアーギミックの3dsMaxの名前
+			m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");                      ////ファイアーギミックの3dsMaxの名前
 			m_fireGimmic->SetPosition(objData.position);
 			m_fireGimmic->SetScale(objData.scale);
 			m_fireGimmic->SetRotation(objData.rotation);

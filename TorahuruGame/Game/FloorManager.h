@@ -17,6 +17,7 @@ public:
 	void SetPointLight();			//ポイントライトの初期設定と明るさ変更
 	void DeletePointLight();		//ポイントライトのdelele
 	void AddStatus();				//効果の反映
+	void AddStatusTimer();			//効果時間
 	void CalcStatusTime();			//効果時間の計測、状態の変更
 	void RevertState();				//受けた効果を戻す
 
@@ -34,6 +35,8 @@ public:
 	ReverseFloor*				m_reverseFloor;						//あべこべ床。
 	SlowFloor*					m_slowFloor;						//鈍足床。
 	BlindFloor*					m_blindFloor;						//視界制限床。
+	SpriteRender*				m_spriteRender;
+	FontRender*					m_fontRender;
 	PointLight*					m_pointL;						//ポイントライト。
 	Player*						m_player;							//プレイヤー。
 	Game*						m_game = nullptr;								//ゲーム。

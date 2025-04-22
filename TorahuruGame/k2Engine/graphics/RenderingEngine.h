@@ -134,6 +134,9 @@ namespace nsK2Engine {
         /// <param name="renderObject"></param>
         void AddRenderObject(IRenderer* renderObject)
         {
+            if (renderObject == nullptr) {
+                int test = 0;
+            }
             m_renderObjects.push_back(renderObject);
         }
         /// <summary>
