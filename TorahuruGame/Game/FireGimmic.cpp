@@ -18,9 +18,10 @@ namespace {
 	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
 	Vector3 fireScale = Vector3(35.0f, 10.0f, 10.0f);
+	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
 
 	const float LENGTH = 3000.0f;			//Œø‰Ê‰¹‚ðÄ¶‚·‚é‹——£
-	const float SE_VOLUME = 0.3f;
+	const float SE_VOLUME = 0.05f;
 
 }
 
@@ -119,7 +120,7 @@ void FireGimmic::Collision()
 		//ˆø”‚Å‰ñ“]’l(m_fireRot)‚ð“n‚µ‚Ä‚Ý‚é‚©‚ÈH
 
 		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_West, fireScale);
-		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale);
+		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale2);
 
 		/*if (!m_fire->IsPlay())
 		{

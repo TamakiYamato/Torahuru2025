@@ -4,7 +4,8 @@ namespace nsK2Engine {
 	/// <summary>
 	/// スプライトレンダラー。
 	/// </summary>
-	class SpriteRender : public IRenderer
+	//class SpriteRender : public IRenderer
+	class SpriteRender : public IGameObject, public IRenderer
 	{
 	public:
 		/// <summary>
