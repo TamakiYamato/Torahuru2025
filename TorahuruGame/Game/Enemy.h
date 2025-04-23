@@ -1,5 +1,6 @@
 #pragma once
 class Enemy;
+class EnemyAnimation;
 class Game;
 class Player;
 class Enemy : public IGameObject
@@ -25,12 +26,7 @@ public:
 		enEnemyState_Attack,		//攻撃
 
 	};
-	enum EnAnimationClip {
-		enAnimationClip_Idle,		//待機・監視
-		enAnimationClip_Run,		//走る
-		enAnimationClip_Walk,		//歩く
-		enAnimationClip_Num		
-	};
+	
 
 	// 座標を取得
 	const Vector3& GetPosition() const
@@ -43,15 +39,13 @@ public:
 	{
 		return m_charCon;
 	}
-	//アニメーションを共通化する。
-	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
 	
 
-	AnimationClip				m_enemyAnim[enAnimationClip_Num];
 	CharacterController			m_charCon;										//キャラコン。
 	ModelRender					m_modelRender;									//モデルレンダー。
 	Player*						m_player;
+	EnemyAnimation*				m_enemyAnim;
 
 	Vector3						m_position		= Vector3::Zero;				//座標。
 	Vector3						m_scale			= Vector3::One;					//大きさ。

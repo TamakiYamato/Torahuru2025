@@ -1,13 +1,11 @@
 #include "stdafx.h"
 #include "Enemy.h"
+#include "EnemyAnimation.h"
 #include "Game.h"
 #include "Player.h"
 using namespace std;
 
 namespace {
-// ファイルパスは文字列なので string を使用する。
-	const string ANIMATION_FAILPATH = "Assets/animData//";
-	const string ANIMATION_EXTENTION = ".tka";
 
 	const float SEARCH_LENGTH = 500.0f;	//プレイヤーを発見する距離。
 
@@ -21,26 +19,11 @@ Enemy::~Enemy()
 {
 }
 
-// constでファイルを読み取る。
-void Enemy::SetAnimation(const EnAnimationClip animationClip, const string animationFileName, const bool loopFlag)
-{
-	// 共通化したファイル名。
-	string FileName = ANIMATION_FAILPATH + animationFileName + ANIMATION_EXTENTION;
-	//std::strinstr();
-	// c_str()メゾットを呼び出すことで const char* に変換される。
-	m_enemyAnim[animationClip].Load(FileName.c_str());
-	m_enemyAnim[animationClip].SetLoopFlag(loopFlag);
-}
+
 bool Enemy::Start()
 {
-	// 待機アニメーション。
-	SetAnimation(enAnimationClip_Idle, "playerIdle", true);
-	// 歩きアニメーション。
-	SetAnimation(enAnimationClip_Walk, "playerWalking", true);
-	// 走るアニメーション。
-	SetAnimation(enAnimationClip_Run, "playerRun", true);
 	// キャラクターを読み込む。
-	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim, enAnimationClip_Num);//m_enemyAnim=何種類あるか
+	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
 	return true;
 
 	//初期設定
@@ -158,15 +141,15 @@ void Enemy::PlayAnimation()
 {
 	switch (m_enemyState) {
 	case enEnemyState_Idle:		//待機
-		m_modelRender.PlayAnimation(enAnimationClip_Idle);
+		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Idle);
 		break;
 
 	case enEnemyState_Walk:		//監視
-		m_modelRender.PlayAnimation(enAnimationClip_Walk);
+		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Walk);
 		break;
 
 	case enEnemyState_Chase:	//走る
-		m_modelRender.PlayAnimation(enAnimationClip_Run);
+		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Run);
 		break;
 
 	default:
