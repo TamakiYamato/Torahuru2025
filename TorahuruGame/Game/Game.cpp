@@ -116,16 +116,7 @@ bool Game::Start()
 			m_fireGimmic->SetRotation(objData.rotation);
 			return true;
 		 }
-	//	ポイントライトを作成する。
-		//PointLight* pointLight = new PointLight;
-		//pointLight->Init();
-		//Vector3 pointLightPosition = objData.position;
-		//pointLightPosition.y += 200.0f;
-		////ポイントライトの座標を設定する。
-		//pointLight->SetPosition(pointLightPosition);
-		//m_pointLightList.push_back(pointLight);
-		////trueにすると、レベルの方でモデルが読み込まれない。
-		//	return true;
+
 	
 	});
 

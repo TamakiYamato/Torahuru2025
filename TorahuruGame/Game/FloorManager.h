@@ -37,14 +37,16 @@ public:
 	BlindFloor*					m_blindFloor;						//視界制限床。
 	SpriteRender*				m_spriteRender;
 	FontRender*					m_fontRender;
-	PointLight*					m_pointL;						//ポイントライト。
+	PointLight*					m_pointL;							//ポイントライト。
 	Player*						m_player;							//プレイヤー。
-	Game*						m_game = nullptr;								//ゲーム。
+	Game*						m_game = nullptr;					//ゲーム。
 
-	Vector3 pointLightPosition;
+	Vector3					pointLightPosition;
 	int						m_floorState	= Normal;			//特殊床を踏んだかどうかのステータス。
 	int						m_saveState		= Normal;			//プレイヤーの状態を保存、値を２回以上計算されるのを防ぐ。
 	float					m_floorTimer	= 7.0f;				//特殊床の効果時間。
+
 private:
+	bool					m_isAddStatus = false;
 };
 

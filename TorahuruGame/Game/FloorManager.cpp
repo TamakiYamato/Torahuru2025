@@ -107,76 +107,78 @@ void FloorManager::FindFloor()
 void FloorManager::AddStatus()	/////状態ごとの効果反映/////
 {
 	if (m_floorTimer == 7.0f) {		//時間が初期化されている＝他の効果がない場合
-		switch (m_floorState) {
-		case ReverseState:
-			if (m_spriteRender) {
-				DeleteGO(m_spriteRender);
+		if (!m_isAddStatus && m_floorState != Normal) {
+			switch (m_floorState) {
+			case ReverseState:
+				if (m_spriteRender) {
+					DeleteGO(m_spriteRender);
+				}
+
+				//テクスチャを読み込む
+				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
+				m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
+				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+				m_player->m_moveDir *= -1.0f;
+
+				AddStatusTimer();
+
+				break;
+
+			case SlowState:
+				if (m_spriteRender) {
+					DeleteGO(m_spriteRender);
+				}
+
+				m_floorTimer -= g_gameTime->GetFrameDeltaTime();
+
+				//テクスチャを読み込む
+
+				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
+				m_spriteRender->Init("Assets/sprite/slow.DDS", 100.0f, 100.0f);
+				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+				m_player->m_moveDir *= PLAYER_MOVE_SLOW;
+
+				AddStatusTimer();
+
+				break;
+
+			case BlindState:
+				if (m_spriteRender) {
+					DeleteGO(m_spriteRender);
+				}
+
+				m_floorTimer -= g_gameTime->GetFrameDeltaTime();
+
+				//テクスチャを読み込む
+
+				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
+				m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
+				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+
+				AddStatusTimer();
+
+				//////////////ステージを暗くする///////////////////////////
+
+				// 環境光の計算のためのIBLテクスチャをセットする。
+				g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 0.01f);
+
+				// シーンの中間の明るさを示す明度率を指定する。
+				g_renderingEngine->SetSceneMiddleGray(0.01f);
+
+				// ブルームが発生する閾値を設定。
+				// ブルーム…明るい部分がにじむように見える視覚効果、光を強調し、リアル・美しい・幻想的に見せる
+				g_renderingEngine->SetBloomThreshold(10.0f);
+
+				//////////////スポットライト//////////////////////////////
+				SetPointLight();
+
+				break;
+			default:
+				break;
 			}
-
-			//テクスチャを読み込む
-			m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
-			m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
-			m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
-			m_player->m_moveDir *= -1.0f;
-
-			AddStatusTimer();
-			
-			break;
-
-		case SlowState:
-			if (m_spriteRender) {
-				DeleteGO(m_spriteRender);
-			}
-
-			m_floorTimer -= g_gameTime->GetFrameDeltaTime();
-
-			//テクスチャを読み込む
-
-			m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
-			m_spriteRender->Init("Assets/sprite/slow.DDS", 100.0f, 100.0f);
-			m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
-			m_player->m_moveDir *= PLAYER_MOVE_SLOW;
-
-			AddStatusTimer();
-
-			break;
-
-		case BlindState:
-			if (m_spriteRender) {
-				DeleteGO(m_spriteRender);
-			}
-
-			m_floorTimer -= g_gameTime->GetFrameDeltaTime();
-
-			//テクスチャを読み込む
-
-			m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
-			m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
-			m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
-
-			AddStatusTimer();
-
-			//////////////ステージを暗くする///////////////////////////
-
-			// 環境光の計算のためのIBLテクスチャをセットする。
-			g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 0.01f);
-
-			// シーンの中間の明るさを示す明度率を指定する。
-			g_renderingEngine->SetSceneMiddleGray(0.01f);
-
-			// ブルームが発生する閾値を設定。
-			// ブルーム…明るい部分がにじむように見える視覚効果、光を強調し、リアル・美しい・幻想的に見せる
-			g_renderingEngine->SetBloomThreshold(10.0f);
-
-			//////////////スポットライト//////////////////////////////
-			SetPointLight();
-
-			break;
-		default:
-			break;
+			m_saveState = m_floorState;
+			m_floorState = Normal;
 		}
-		m_saveState = m_floorState;
-		m_floorState = Normal;
 	}
 }
 
@@ -238,6 +240,9 @@ void FloorManager::CalcStatusTime()
 /// </summary>
 void FloorManager::RevertState()
 {
+	if (!m_isAddStatus) {
+		return;
+	}
 	switch (m_saveState) {
 	case Normal:
 		m_player->m_moveDir = 1.0f;

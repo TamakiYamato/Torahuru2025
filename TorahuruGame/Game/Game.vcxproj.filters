@@ -26,6 +26,7 @@
     <ClCompile Include="MakeEffect.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -47,5 +48,6 @@
     <ClInclude Include="MakeEffect.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyAnimation.h" />
   </ItemGroup>
 </Project>
