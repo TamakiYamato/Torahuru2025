@@ -133,11 +133,11 @@ void Player::Move() {
 	//左スティックの入力量と180.0fを
 	// 乗算。
 	//移動速度を決める。
-	/*right	*= stickL.x * 180.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 180.0f * m_dash * m_moveDir;*/
+	right	*= stickL.x * 180.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
 
-	right *= stickL.x * 500.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 500.0f * m_dash * m_moveDir;
+	/*right *= stickL.x * 500.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 500.0f * m_dash * m_moveDir;*/
 
 	//移動速度にスティックの入力量を加算する。
 	// m_run→ダッシュ時用の変数。
@@ -179,7 +179,7 @@ void Player::ManageState()
 {
 	//地面に付いていたら。
 	//xかzの移動速度があったら(スティックの入力があったら)。
-	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f && m_sutamina == 0.0f)
 	{
 		//ステートを2(歩き)にする。
 		m_playerState = State_Walk;
@@ -231,18 +231,18 @@ void Player::SutaminaCalk()
 		}
 	}
 	// 走っていないとき。
-	else if(m_playerState != State_Run)
-	{
-		// スタミナを回復する。
-		auto hoge = 20.0f * g_gameTime->GetFrameDeltaTime();
-		m_sutamina += hoge;
-		// スタミナが100以上になったら。
-		if (m_sutamina >= 100)
-		{
-			//スタミナを100にする。
-			m_sutamina = m_max_sutamina;
-		}
-	}
+	//else if(m_playerState != State_Run)
+	//{
+	//	// スタミナを回復する。
+	//	auto hoge = 20.0f * g_gameTime->GetFrameDeltaTime();
+	//	m_sutamina += hoge;
+	//	// スタミナが100以上になったら。
+	//	if (m_sutamina >= 100)
+	//	{
+	//		//スタミナを100にする。
+	//		m_sutamina = m_max_sutamina;
+	//	}
+	//}
 }
 
 //アニメーションの再生。
