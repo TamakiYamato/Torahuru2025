@@ -70,19 +70,21 @@ void Game::InitSky() {
 
 void Game::TutorialText()
 {
-	m_tutorial = NewGO<Tutorial>(0, "tutorial");
-	m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // 火炎放射器
-	// 2つめの火炎放射器の座標
-	//m_tutorial4->m_position = { 2000.0f,40.0f,-1300.0f };   // 火炎放射器
-
-	m_tutorial2 = NewGO<Tutorial>(0, "tutorial");
-	m_tutorial2->m_position = { -950.0f,40.0f,-1050.0f };  // あべこべ床
-
-	m_tutorial3 = NewGO<Tutorial>(0, "tutorial");
-	m_tutorial3->m_position = { -500.0f, 40.0f, -1850.0f }; // 鈍足床
+	// todo:tamaki チュートリアル配置用(後ほど追加します。)
 	
-	m_tutorial4 = NewGO<Tutorial>(0, "tutorial");
-	m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // 視界制限床
+	//m_tutorial = NewGO<Tutorial>(0, "tutorial");
+	//m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // 火炎放射器
+	//// 2つめの火炎放射器の座標
+	////m_tutorial4->m_position = { 2000.0f,40.0f,-1300.0f };   // 火炎放射器
+
+	//m_tutorial2 = NewGO<Tutorial>(0, "tutorial");
+	//m_tutorial2->m_position = { -950.0f,40.0f,-1050.0f };  // あべこべ床
+
+	//m_tutorial3 = NewGO<Tutorial>(0, "tutorial");
+	//m_tutorial3->m_position = { -500.0f, 40.0f, -1850.0f }; // 鈍足床
+	//
+	//m_tutorial4 = NewGO<Tutorial>(0, "tutorial");
+	//m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // 視界制限床
 }
 
 void Game::SetSutamina()

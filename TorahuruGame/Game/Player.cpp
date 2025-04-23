@@ -179,16 +179,27 @@ void Player::ManageState()
 {
 	//地面に付いていたら。
 	//xかzの移動速度があったら(スティックの入力があったら)。
-	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f && m_sutamina == 0.0f)
+	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 	{
 		//ステートを2(歩き)にする。
 		m_playerState = State_Walk;
+		// 走ってない判定にする。
+		m_dashFlag = false;
 
-		// もしAボタンが押されたら。 スタミナが0のとき。
-		if (g_pad[0]->IsPress(enButtonA) && m_sutamina > 0.0f)
+		// もしAボタンが押されたら。
+		if (g_pad[0]->IsPress(enButtonA))
 		{
 			// 走る。
 			m_playerState = State_Run;
+			// 走っている判定にする。
+			m_dashFlag = true;
+
+			// スタミナが0で走ってない判定のとき
+		    if (m_sutamina <= 0 && m_dashFlag != false)
+		    {
+				// ダッシュ状態から歩く判定になる。
+			    m_playerState = State_StayRun;
+		    }
 		}
 		// もしBボタンが押されたら。
 		else if (g_pad[0]->IsPress(enButtonB))
@@ -221,7 +232,6 @@ void Player::SutaminaCalk()
 		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
 		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
 		// これを好きな数で乗算→FPSに左右されずに減らせる。
-		auto hoge = g_gameTime->GetFrameDeltaTime();
 		m_sutamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
 		// スタミナが0以下になったら。
 		if (m_sutamina <= 0)
@@ -231,18 +241,17 @@ void Player::SutaminaCalk()
 		}
 	}
 	// 走っていないとき。
-	//else if(m_playerState != State_Run)
-	//{
-	//	// スタミナを回復する。
-	//	auto hoge = 20.0f * g_gameTime->GetFrameDeltaTime();
-	//	m_sutamina += hoge;
-	//	// スタミナが100以上になったら。
-	//	if (m_sutamina >= 100)
-	//	{
-	//		//スタミナを100にする。
-	//		m_sutamina = m_max_sutamina;
-	//	}
-	//}
+	else if(m_dashFlag != true)
+	{
+		// スタミナを回復する。
+		m_sutamina += 20.0f * g_gameTime->GetFrameDeltaTime();
+		// スタミナが100以上になったら。
+		if (m_sutamina >= 100)
+		{
+			//スタミナを100にする。
+			m_sutamina = m_max_sutamina;
+		}
+	}
 }
 
 //アニメーションの再生。
@@ -257,6 +266,10 @@ void Player::PlayAnimation()
 		break;
 		// ステートがWalkだったら。
 	case State_Walk:
+		//歩きアニメーションを再生する。
+		m_modelRender.PlayAnimation(enAnimClip_Walk);
+		break;
+	case State_StayRun:
 		//歩きアニメーションを再生する。
 		m_modelRender.PlayAnimation(enAnimClip_Walk);
 		break;

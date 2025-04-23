@@ -46,7 +46,8 @@ public:
 		State_Crouch,				// しゃがむ。
 		State_Crouching,			// しゃがみこむ。
 		State_CrouchStanding,		// 立ち上がる。
-		State_CrouchWalk			// しゃがみ歩き。
+		State_CrouchWalk,			// しゃがみ歩き。
+		State_StayRun		     	// しゃがみ歩き。
 	};
 
 	enum EnAnimationClip {
@@ -75,6 +76,7 @@ public:
 	float		     	        m_hp = 0;
 	float                       m_max_sutamina = 100;               // スタミナの最大値。
 	float                       m_sutamina = m_max_sutamina;    	// 現在のスタミナ。
+	bool                        m_dashFlag = false;                 // 走り判定。
 	PlayerState					m_playerState = State_Idle;
 	Quaternion					rotation;
 	float				    	m_moveDir		= 1.0f;
