@@ -3,6 +3,7 @@
 #include "Level3DRender/LevelRender.h"
 
 class Player;
+class Enemy;
 class BackGround;
 class GameCamera;
 class ReverseFloor;
@@ -36,6 +37,7 @@ public:
 
 private:
 	Player*						m_player = nullptr;
+	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;
 	BackGround*					m_background = nullptr;

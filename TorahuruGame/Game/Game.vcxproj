@@ -225,6 +225,7 @@
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BlindFloor.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -248,6 +249,7 @@
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BlindFloor.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FireGimmic.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Game.h" />

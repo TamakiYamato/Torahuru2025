@@ -1,16 +1,17 @@
 #include "stdafx.h"
 #include "Game.h"
-#include"Player.h"
-#include"BackGround.h"
-#include"GameCamera.h"
-#include"Title.h"
-#include"ReverseFloor.h"
-#include"SlowFloor.h"
-#include"BlindFloor.h"
-#include"FloorManager.h"
-#include"Stairs.h"
-#include"GameClear.h"
-#include"Gameover.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "BackGround.h"
+#include "GameCamera.h"
+#include "Title.h"
+#include "ReverseFloor.h"
+#include "SlowFloor.h"
+#include "BlindFloor.h"
+#include "FloorManager.h"
+#include "Stairs.h"
+#include "GameClear.h"
+#include "Gameover.h"
 #include "FireGimmic.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
@@ -127,6 +128,8 @@ bool Game::Start()
 		//	return true;
 	
 	});
+
+
 	return true;
 
 }
