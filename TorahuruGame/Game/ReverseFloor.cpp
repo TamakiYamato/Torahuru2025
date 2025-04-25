@@ -6,7 +6,7 @@
 namespace 
 {
 	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
-	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);//‚±‚±‚Ì“–‚½‚è”»’è‚ğ¬‚³‚­‚·‚é!!
+	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);//ã“ã“ã®å½“ãŸã‚Šåˆ¤å®šã‚’å°ã•ãã™ã‚‹!!
 
 }
 
@@ -22,27 +22,27 @@ ReverseFloor::~ReverseFloor()
 
 bool ReverseFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/ReverseFloor.tkm");		//‚ ‚×‚±‚×°‚Ì“Ç‚İ‚İB
+	m_modelRender.Init("Assets/modelData/ReverseFloor.tkm");		//ã‚ã¹ã“ã¹åºŠã®èª­ã¿è¾¼ã¿ã€‚
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
 	m_collisionObject = NewGO<CollisionObject>(0, "collisionObject");
 	m_collisionObject->CreateBox(
-		m_position + COLLISION_HEIGHT,	//”»’è‚ÌÀ•WB
-		Quaternion::Identity,			//”»’è‚Ì‰ñ“]B
-		COLLISION_SIZE					//”»’è‚Ì‘å‚«‚³B
+		m_position + COLLISION_HEIGHT,	//åˆ¤å®šã®åº§æ¨™ã€‚
+		Quaternion::Identity,			//åˆ¤å®šã®å›è»¢ã€‚
+		COLLISION_SIZE					//åˆ¤å®šã®å¤§ãã•ã€‚
 	);
 
 	m_player = FindGO<Player>("player");
 
-	m_collisionObject->SetIsEnableAutoDelete(false);	//ƒRƒŠƒWƒ‡ƒ“‚ªÁ‚¦‚È‚¢‚æ‚¤‚É‚·‚éB
+	m_collisionObject->SetIsEnableAutoDelete(false);	//ã‚³ãƒªã‚¸ãƒ§ãƒ³ãŒæ¶ˆãˆãªã„ã‚ˆã†ã«ã™ã‚‹ã€‚
 	return true;
 }
 
 void ReverseFloor::ReverseControlFloor()
 {
-	//ƒvƒŒƒCƒ„[‚ª°‚Ìã‚É‚¢‚½‚çtrueB
-	//player.h‚É‚ÄŒø‰Ê‚ğ”­“®
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã®ä¸Šã«ã„ãŸã‚‰trueã€‚
+	//player.hã«ã¦åŠ¹æœã‚’ç™ºå‹•
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
 		m_onReverseFloor = true;

@@ -12,9 +12,9 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	//void PlayEffect();											//ƒGƒtƒFƒNƒg‚ÌÄ¶
-	void Collision();											//ƒGƒtƒFƒNƒgÄ¶’†‚Ì‚İƒRƒŠƒWƒ‡ƒ“‚ğì¬
-	void PlaySE();												//Œø‰Ê‰¹‚ğÄ¶‚·‚é
+	//void PlayEffect();											//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿ
+	void Collision();											//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆå†ç”Ÿä¸­ã®ã¿ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚’ä½œæˆ
+	void PlaySE();												//åŠ¹æœéŸ³ã‚’å†ç”Ÿã™ã‚‹
 
 	void SetPosition(const Vector3& position)
 	{
@@ -28,13 +28,13 @@ public:
 	void SetRotation(const Quaternion& rotation) {
 		m_rotaion = rotation;
 	}
-	// ƒGƒtƒFƒNƒg‚ÌÄ¶ŠÔŠu‚ğİ’è‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿé–“éš”ã‚’è¨­å®šã™ã‚‹
 	void SetEffectInterval(const float& time)
 	{
 		m_effectInterval = time;
 	}
 
-	// ƒXƒs[ƒh‚ÆˆÚ“®§ŒÀ‚ğİ’è‚·‚é
+	// ã‚¹ãƒ”ãƒ¼ãƒ‰ã¨ç§»å‹•åˆ¶é™ã‚’è¨­å®šã™ã‚‹
 	void SetSppedLimit(const float& speed, const float& limit)
 	{
 		m_speed = speed;
@@ -42,31 +42,31 @@ public:
 	}
 
 
-	// ˆÚ“®‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚é
+	// ç§»å‹•ã™ã‚‹ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã™ã‚‹
 	void SetMoveFlag(const bool& flag)
 	{
 		m_moveFlag = flag;
 	}
 
-	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//ƒGƒtƒFƒNƒg‚ÌŠî–{“I‚Èî•ñ‚ğ“o˜^‚·‚é!!
+	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®åŸºæœ¬çš„ãªæƒ…å ±ã‚’ç™»éŒ²ã™ã‚‹!!
 
 private:
 	enum Status {
-		enStatus_Idle,	// ‰Î‚ªo‚Ä‚¢‚È‚¢ó‘Ô
-		enStatus_Fire,	// ‰Î‚ªo‚Ä‚¢‚éó‘Ô
+		enStatus_Idle,	// ç«ãŒå‡ºã¦ã„ãªã„çŠ¶æ…‹
+		enStatus_Fire,	// ç«ãŒå‡ºã¦ã„ã‚‹çŠ¶æ…‹
 	};
 	Status					m_status = enStatus_Idle;
 	ModelRender				m_modelRender;
-	EffectEmitter* m_fire = nullptr;					//‰Š‚ÌƒMƒ~ƒbƒNƒGƒtƒFƒNƒg
-	EffectEmitter* m_fire2 = nullptr;					//‰Š‚ÌƒMƒ~ƒbƒNƒGƒtƒFƒNƒg
-	SoundSource* m_se;								//‰ŠSE
+	EffectEmitter* m_fire = nullptr;					//ç‚ã®ã‚®ãƒŸãƒƒã‚¯ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+	EffectEmitter* m_fire2 = nullptr;					//ç‚ã®ã‚®ãƒŸãƒƒã‚¯ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+	SoundSource* m_se;								//ç‚SE
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
-	SpriteRender			m_mapSprite;						//ƒ}ƒbƒv‚Ì‰æ‘œ
-	Quaternion m_fireRot_North;                                    //‰Š‚ÌŠp“x@–k
-	Quaternion m_fireRot_South;                                    //‰Š‚ÌŠp“x@“ì
-	Quaternion m_fireRot_East;                                    //‰Š‚ÌŠp“x@“Œ
-	Quaternion m_fireRot_West;                                    //‰Š‚ÌŠp“x@¼
+	SpriteRender			m_mapSprite;						//ãƒãƒƒãƒ—ã®ç”»åƒ
+	Quaternion m_fireRot_North;                                    //ç‚ã®è§’åº¦ã€€åŒ—
+	Quaternion m_fireRot_South;                                    //ç‚ã®è§’åº¦ã€€å—
+	Quaternion m_fireRot_East;                                    //ç‚ã®è§’åº¦ã€€æ±
+	Quaternion m_fireRot_West;                                    //ç‚ã®è§’åº¦ã€€è¥¿
 
 	CollisionObject* m_fireCollision;
 
@@ -74,9 +74,9 @@ private:
 	Vector3                 m_scale = Vector3::Zero;
     Quaternion              m_rotaion;
 	Vector3					m_firstPosition = Vector3::Zero;
-	bool					m_moveFlag = false;					//true‚¾‚Á‚½‚ç“®‚­
-	float					m_effectIntervalTimer = 0.0f;		//ƒGƒtƒFƒNƒg‚ÌŠÔŠu§Œä‚Ìƒ^ƒCƒ}[
-	float					m_effectInterval = 5.0f;			//ƒGƒtƒFƒNƒg‚ğ’â~‚³‚¹‚éŠÔŠu
+	bool					m_moveFlag = false;					//trueã ã£ãŸã‚‰å‹•ã
+	float					m_effectIntervalTimer = 0.0f;		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®é–“éš”åˆ¶å¾¡ã®ã‚¿ã‚¤ãƒãƒ¼
+	float					m_effectInterval = 5.0f;			//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’åœæ­¢ã•ã›ã‚‹é–“éš”
 	float	m_limit = 100.0f;
 	float	m_speed = 20.0f;
 

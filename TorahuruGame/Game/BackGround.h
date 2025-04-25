@@ -8,12 +8,12 @@ public:
     bool Start();
     void Update();
 
-    //•`‰æŠÖ”
+    //æç”»é–¢æ•°
     void Render(RenderContext& rc);
     void SetPosition(const Vector3& position)
 
     {
-        m_position = position;//ƒ|ƒWƒVƒ‡ƒ“
+        m_position = position;//ãƒã‚¸ã‚·ãƒ§ãƒ³
     }
     void SetRotation(const Quaternion& rotation) {
         m_rotation = rotation;
@@ -25,8 +25,8 @@ public:
 
 
 
-public://ì‚é‚Æ‚«‚Í‚±‚Á‚¿‚ªæ‚Éì‚é•K—v‚ª‚ ‚éB
-    //ƒ‚ƒfƒ‹ƒŒƒ“ƒ_[
+public://ä½œã‚‹ã¨ãã¯ã“ã£ã¡ãŒå…ˆã«ä½œã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
+    //ãƒ¢ãƒ‡ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ¼
     ModelRender             modelRender;
     Quaternion              m_rotation;
     PhysicsStaticObject     m_physicsStaticObject;

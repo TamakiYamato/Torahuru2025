@@ -30,7 +30,7 @@ public:
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 
-	bool m_onReverseFloor = false;	//°‚ÉÚ‚Á‚Ä‚¢‚é‚©‚Ì”»’è—p•Ï”B
+	bool m_onReverseFloor = false;	//åºŠã«è¼‰ã£ã¦ã„ã‚‹ã‹ã®åˆ¤å®šç”¨å¤‰æ•°ã€‚
 };
 
 

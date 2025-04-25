@@ -15,9 +15,9 @@ GameClear::~GameClear() {
 
 bool GameClear:: Start() {
 	
-	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);	//ƒQ[ƒ€ƒNƒŠƒA
+	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);	//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢
 	m_player = FindGO<Player>("player");
-	m_stairs = FindGO<Stairs>("stairs");	//‚±‚±‚ÅƒCƒ“ƒXƒ^ƒ“ƒX‚ğŒÄ‚Ñ‚Ş!!
+	m_stairs = FindGO<Stairs>("stairs");	//ã“ã“ã§ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å‘¼ã³è¾¼ã‚€!!
 
 	return true;
 }
@@ -31,15 +31,15 @@ void GameClear::Update()
 
 		NewGO<Title>(0, "title");
 		DeleteGO(this);
-		//©g‚ğíœ‚·‚é
+		//è‡ªèº«ã‚’å‰Šé™¤ã™ã‚‹
 	}
-	//‰æ‘œ‚ÌXVB
+	//ç”»åƒã®æ›´æ–°ã€‚
 	m_spriteRender.Update();
 }
 
 
 void GameClear::Render(RenderContext& rc)
 {
-	//‰æ‘œ‚Ì•`‰æB
+	//ç”»åƒã®æç”»ã€‚
 	m_spriteRender.Draw(rc);
 }

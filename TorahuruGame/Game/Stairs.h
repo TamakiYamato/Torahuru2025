@@ -15,7 +15,7 @@ public:
 	Player*		m_player = nullptr;
 
 	Vector3		m_position;
-	int			moveState = 0;		//ã‚ÉˆÚ“®‚©‰º‚ÉˆÚ“®
+	int			moveState = 0;		//ä¸Šã«ç§»å‹•ã‹ä¸‹ã«ç§»å‹•
 
 	
 };

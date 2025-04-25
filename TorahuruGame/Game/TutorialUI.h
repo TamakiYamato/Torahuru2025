@@ -3,9 +3,9 @@
 class Game;
 class Player;
 class Tutorial;
-class ReverseFloor;      // ‚ ‚×‚±‚×°B
-class SlowFloor;         // “İ‘«°B
-class BlindFloor;        // “İ‘«°B
+class ReverseFloor;      // ã‚ã¹ã“ã¹åºŠã€‚
+class SlowFloor;         // éˆè¶³åºŠã€‚
+class BlindFloor;        // éˆè¶³åºŠã€‚
 
 class TutorialUI:public IGameObject
 {
@@ -17,8 +17,8 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	// ƒƒ“ƒo•Ï”B
-	Player* m_player = nullptr;           // ƒvƒŒƒCƒ„[B
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°ã€‚
+	Player* m_player = nullptr;           // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€‚
 	Game* m_game;
 
 public:

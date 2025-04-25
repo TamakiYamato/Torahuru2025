@@ -17,67 +17,68 @@ public:
 	void Move();
 	void Anim() {};
 	void Rotation();
-	void ManageState();						//ƒXƒe[ƒgŠÇ—B
+	void StateManagement();
+	void ManageState();						//ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã€‚
 	void SutaminaCalk();
-	void PlayAnimation();					//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÄ¶B
+	void PlayAnimation();					//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å†ç”Ÿã€‚
 
-	// À•W‚ğæ“¾
+	// åº§æ¨™ã‚’å–å¾—
 	const Vector3& GetPosition() const
 	{
 		return m_position;
 	}
 
-	/// ƒvƒŒƒCƒ„[‚ª€–S‚µ‚Ä‚¢‚éH
+	/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­»äº¡ã—ã¦ã„ã‚‹ï¼Ÿ
 	const bool isPlayerDead() const
 	{
 		return m_hp <= 0;
 	}
 
-	//ƒLƒƒƒ‰ƒRƒ“‚Ìæ“¾
+	//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã®å–å¾—
 	CharacterController& GetCharacterController()
 	{
 		return m_charCon;
 	}
 
-	enum PlayerState {
-		State_Idle,					// ‘Ò‹@B
-		State_Walk,					// •à‚­B
-		State_Run,					// ‘–‚éB
-		State_Crouch,				// ‚µ‚á‚ª‚ŞB
-		State_Crouching,			// ‚µ‚á‚ª‚İ‚±‚ŞB
-		State_CrouchStanding,		// —§‚¿ã‚ª‚éB
-		State_CrouchWalk,			// ‚µ‚á‚ª‚İ•à‚«B
-		State_StayRun		     	// ‚µ‚á‚ª‚İ•à‚«B
+	enum Move {
+		State_Idle,					// å¾…æ©Ÿã€‚
+		State_Walk,					// æ­©ãã€‚
+		State_Run,					// èµ°ã‚‹ã€‚
+		State_Crouch,				// ã—ã‚ƒãŒã‚€ã€‚
+		State_Crouching,			// ã—ã‚ƒãŒã¿ã“ã‚€ã€‚
+		State_CrouchStanding,		// ç«‹ã¡ä¸ŠãŒã‚‹ã€‚
+		State_CrouchWalk,			// ã—ã‚ƒãŒã¿æ­©ãã€‚
+		State_StayRun		     	// ã—ã‚ƒãŒã¿æ­©ãã€‚
 	};
 
 	enum EnAnimationClip {
-		enAnimClip_Idle,			// ‘Ò‹@B
-		enAnimClip_Walk,			// •à‚­
-		enAnimClip_Run,				// ‘–‚éB
-		enAnimClip_Crouch,			// ‚µ‚á‚ª‚ŞB
-		enAnimClip_Crouching,		// ‚µ‚á‚ª‚İ‚±‚ŞB
-		enAnimClip_CrouchStanding,	// —§‚¿ã‚ª‚éB
-		enAnimClip_CrouchWalk,		// ‚µ‚á‚ª‚İ•à‚«B
-		enAnimClip_Jump,			// ƒWƒƒƒ“ƒv
+		enAnimClip_Idle,			// å¾…æ©Ÿã€‚
+		enAnimClip_Walk,			// æ­©ã
+		enAnimClip_Run,				// èµ°ã‚‹ã€‚
+		enAnimClip_Crouch,			// ã—ã‚ƒãŒã‚€ã€‚
+		enAnimClip_Crouching,		// ã—ã‚ƒãŒã¿ã“ã‚€ã€‚
+		enAnimClip_CrouchStanding,	// ç«‹ã¡ä¸ŠãŒã‚‹ã€‚
+		enAnimClip_CrouchWalk,		// ã—ã‚ƒãŒã¿æ­©ãã€‚
+		enAnimClip_Jump,			// ã‚¸ãƒ£ãƒ³ãƒ—
 		enAnimationClip_Num
 	};
 
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‹¤’Ê‰»‚·‚éB
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å…±é€šåŒ–ã™ã‚‹ã€‚
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
 	AnimationClip				m_animationClips[enAnimationClip_Num];
-	CharacterController			m_charCon;							//ƒLƒƒƒ‰ƒRƒ“
+	CharacterController			m_charCon;							//ã‚­ãƒ£ãƒ©ã‚³ãƒ³
 	ModelRender					m_modelRender;
-	Vector3						stickL;								//ƒvƒŒƒCƒ„[‚Ìis•ûŒü‚ğŒˆ’è‚·‚éB
+	Vector3						stickL;								//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²è¡Œæ–¹å‘ã‚’æ±ºå®šã™ã‚‹ã€‚
 	Vector3						m_position;
-	Vector3						m_moveSpeed;						//ˆÚ“®‘¬“x
+	Vector3						m_moveSpeed;						//ç§»å‹•é€Ÿåº¦
 	Vector3						m_dash;	
-	float		     	        m_hp = 0;
-	float                       m_max_sutamina = 100;               // ƒXƒ^ƒ~ƒi‚ÌÅ‘å’lB
-	float                       m_sutamina = m_max_sutamina;    	// Œ»İ‚ÌƒXƒ^ƒ~ƒiB
-	bool                        m_dashFlag = false;                 // ‘–‚è”»’èB
-	PlayerState					m_playerState = State_Idle;
+	float						m_hp = 0;
+	float						m_max_sutamina = 100;               // ã‚¹ã‚¿ãƒŸãƒŠã®æœ€å¤§å€¤ã€‚
+	float						m_sutamina = m_max_sutamina;    	// ç¾åœ¨ã®ã‚¹ã‚¿ãƒŸãƒŠã€‚
+	bool						m_dashFlag = false;                 // èµ°ã‚Šåˆ¤å®šã€‚
+	//Move						m_currentState = State_Idle;
 	Quaternion					rotation;
 	float				    	m_moveDir		= 1.0f;
 private:

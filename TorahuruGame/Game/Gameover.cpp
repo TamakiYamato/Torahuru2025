@@ -13,7 +13,7 @@ Gameover::~Gameover() {
 bool Gameover::Start()
 {
 
-	m_spriteRender.Init("Assets/modelData/Gameover/gameover.DDS", 1920, 1080);//ƒQ[ƒ€ƒNƒŠƒA
+	m_spriteRender.Init("Assets/modelData/Gameover/gameover.DDS", 1920, 1080);//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢
 	
 	return true;
 }

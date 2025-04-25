@@ -174,6 +174,62 @@ void Player::Rotation()
 	}
 }
 
+void Player::StateManagement()
+{
+	// todo:tamaki 
+	// switch文をここに入れる。〇
+	// enumの名前はMoveでおk。 〇
+	// プレイヤーステートの配列を作る。
+	// その配列の中にplayerMoveやplayerRunとかのインスタンスが入る。
+	// リクエストステートのメンバ変数を作る。〇
+	// switch文は必要ない可能性が大。
+
+	//switch文。
+	//switch (m_currentState) {
+	//	// ステートがIdleだったら。
+	//case State_Idle:
+	//	//待機アニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Idle);
+	//	break;
+	//	// ステートがWalkだったら。
+	//case State_Walk:
+	//	//歩きアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Walk);
+	//	break;
+	//case State_StayRun:
+	//	//歩きアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Walk);
+	//	break;
+	//	// ステートがRunだったら。
+	//case State_Run:
+	//	// 走りアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Run);
+	//	break;
+	//	// ステートがCrouchだったら。
+	//case State_Crouch:
+	//	// しゃがみアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Crouch);
+	//	break;
+	//	// ステートがCrouchWalkだったら。
+	//case State_CrouchWalk:
+	//	// しゃがみ歩きアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_CrouchWalk);
+	//	break;
+	//	// ステートがCrouchingだったら。
+	//case State_Crouching:
+	//	// しゃがみこみアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_Crouching);
+	//	break;
+	//	// ステートがCrouchStandingだったら。
+	//case State_CrouchStanding:
+	//	// 立ち上がりアニメーションを再生する。
+	//	m_modelRender.PlayAnimation(enAnimClip_CrouchStanding);
+	//	break;
+	//}
+
+	// Move[];
+}
+
 //ステート管理。
 void Player::ManageState()
 {
@@ -182,7 +238,7 @@ void Player::ManageState()
 	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 	{
 		//ステートを2(歩き)にする。
-		m_playerState = State_Walk;
+		m_currentState = State_Walk;
 		// 走ってない判定にする。
 		m_dashFlag = false;
 
@@ -190,7 +246,7 @@ void Player::ManageState()
 		if (g_pad[0]->IsPress(enButtonA))
 		{
 			// 走る。
-			m_playerState = State_Run;
+			m_currentState = State_Run;
 			// 走っている判定にする。
 			m_dashFlag = true;
 
@@ -198,27 +254,27 @@ void Player::ManageState()
 		    if (m_sutamina <= 0 && m_dashFlag != false)
 		    {
 				// ダッシュ状態から歩く判定になる。
-			    m_playerState = State_StayRun;
+			    m_currentState = State_StayRun;
 		    }
 		}
 		// もしBボタンが押されたら。
 		else if (g_pad[0]->IsPress(enButtonB))
 		{
 			// しゃがむ。
-			m_playerState = State_CrouchWalk;
+			m_currentState = State_CrouchWalk;
 		}
 	}
 	//xとzの移動速度が無かったら(スティックの入力が無かったら)。
 	else
 	{
 		//ステートを0(待機)にする。
-		m_playerState = State_Idle;
+		m_currentState = State_Idle;
 
 		// もしBボタンが押されたら。
 		if (g_pad[0]->IsPress(enButtonB))
 		{
 			// しゃがむ。
-			m_playerState = State_Crouch;
+			m_currentState = State_Crouch;
 		}
 	}
 }
@@ -226,7 +282,7 @@ void Player::ManageState()
 void Player::SutaminaCalk()
 {
 	// プレイヤーがダッシュしてたら。
-	if (m_playerState == State_Run)
+	if (m_currentState == State_Run)
 	{
 		// スタミナを減らす。
 		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
@@ -258,7 +314,7 @@ void Player::SutaminaCalk()
 void Player::PlayAnimation()
 {
 	//switch文。
-	switch (m_playerState) {
+	switch (m_currentState) {
 		// ステートがIdleだったら。
 	case State_Idle:
 		//待機アニメーションを再生する。

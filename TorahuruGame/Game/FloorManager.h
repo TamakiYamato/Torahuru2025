@@ -13,38 +13,38 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	void FindFloor();				//‚·‚×‚Ä°‚ğŒ©‚Â‚¯‚é
-	void SetPointLight();			//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Ì‰Šúİ’è‚Æ–¾‚é‚³•ÏX
-	void DeletePointLight();		//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Ìdelele
-	void AddStatus();				//Œø‰Ê‚Ì”½‰f
-	void AddStatusTimer();			//Œø‰ÊŠÔ
-	void CalcStatusTime();			//Œø‰ÊŠÔ‚ÌŒv‘ªAó‘Ô‚Ì•ÏX
-	void RevertState();				//ó‚¯‚½Œø‰Ê‚ğ–ß‚·
+	void FindFloor();				//ã™ã¹ã¦åºŠã‚’è¦‹ã¤ã‘ã‚‹
+	void SetPointLight();			//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã®åˆæœŸè¨­å®šã¨æ˜ã‚‹ã•å¤‰æ›´
+	void DeletePointLight();		//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã®delele
+	void AddStatus();				//åŠ¹æœã®åæ˜ 
+	void AddStatusTimer();			//åŠ¹æœæ™‚é–“
+	void CalcStatusTime();			//åŠ¹æœæ™‚é–“ã®è¨ˆæ¸¬ã€çŠ¶æ…‹ã®å¤‰æ›´
+	void RevertState();				//å—ã‘ãŸåŠ¹æœã‚’æˆ»ã™
 
 	/// <summary>
-	/// “Áê°‚ÌƒXƒe[ƒ^ƒX
+	/// ç‰¹æ®ŠåºŠã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	/// </summary>
 	enum FloorState {
-		Normal,			//Œø‰Ê‚È‚µB
-		ReverseState,	//‚ ‚×‚±‚×°B
-		SlowState,		//“İ‘«°B
-		BlindState,		//‹ŠE§ŒÀ°B
+		Normal,			//åŠ¹æœãªã—ã€‚
+		ReverseState,	//ã‚ã¹ã“ã¹åºŠã€‚
+		SlowState,		//éˆè¶³åºŠã€‚
+		BlindState,		//è¦–ç•Œåˆ¶é™åºŠã€‚
 	};
 
 
-	ReverseFloor*				m_reverseFloor;						//‚ ‚×‚±‚×°B
-	SlowFloor*					m_slowFloor;						//“İ‘«°B
-	BlindFloor*					m_blindFloor;						//‹ŠE§ŒÀ°B
+	ReverseFloor*				m_reverseFloor;						//ã‚ã¹ã“ã¹åºŠã€‚
+	SlowFloor*					m_slowFloor;						//éˆè¶³åºŠã€‚
+	BlindFloor*					m_blindFloor;						//è¦–ç•Œåˆ¶é™åºŠã€‚
 	SpriteRender*				m_spriteRender;
 	FontRender*					m_fontRender;
-	PointLight*					m_pointL;							//ƒ|ƒCƒ“ƒgƒ‰ƒCƒgB
-	Player*						m_player;							//ƒvƒŒƒCƒ„[B
-	Game*						m_game = nullptr;					//ƒQ[ƒ€B
+	PointLight*					m_pointL;							//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã€‚
+	Player*						m_player;							//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€‚
+	Game*						m_game = nullptr;					//ã‚²ãƒ¼ãƒ ã€‚
 
 	Vector3					pointLightPosition;
-	int						m_floorState	= Normal;			//“Áê°‚ğ“¥‚ñ‚¾‚©‚Ç‚¤‚©‚ÌƒXƒe[ƒ^ƒXB
-	int						m_saveState		= Normal;			//ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğ•Û‘¶A’l‚ğ‚Q‰ñˆÈãŒvZ‚³‚ê‚é‚Ì‚ğ–h‚®B
-	float					m_floorTimer	= 7.0f;				//“Áê°‚ÌŒø‰ÊŠÔB
+	int						m_floorState	= Normal;			//ç‰¹æ®ŠåºŠã‚’è¸ã‚“ã ã‹ã©ã†ã‹ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã€‚
+	int						m_saveState		= Normal;			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹ã‚’ä¿å­˜ã€å€¤ã‚’ï¼’å›ä»¥ä¸Šè¨ˆç®—ã•ã‚Œã‚‹ã®ã‚’é˜²ãã€‚
+	float					m_floorTimer	= 7.0f;				//ç‰¹æ®ŠåºŠã®åŠ¹æœæ™‚é–“ã€‚
 
 private:
 	bool					m_isAddStatus = false;

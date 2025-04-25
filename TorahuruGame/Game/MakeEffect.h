@@ -4,7 +4,7 @@
 enum EffectName
 {
 	enEffectName_Fire,
-	//‚±‚±‚É’Ç‰Á‚µ‚Ä‚¢‚­
+	//ã“ã“ã«è¿½åŠ ã—ã¦ã„ã
 	enEffectName_Num,
 
 };

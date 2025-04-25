@@ -20,7 +20,7 @@ namespace {
 	Vector3 fireScale = Vector3(35.0f, 10.0f, 10.0f);
 	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
 
-	const float LENGTH = 3000.0f;			//Œø‰Ê‰¹‚ğÄ¶‚·‚é‹——£
+	const float LENGTH = 3000.0f;			//åŠ¹æœéŸ³ã‚’å†ç”Ÿã™ã‚‹è·é›¢
 	const float SE_VOLUME = 0.05f;
 
 }
@@ -55,8 +55,8 @@ bool FireGimmic::Start()
 
 	m_firstPosition = m_position;
 
-	//ƒRƒŠƒWƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
-	//4í—Ş‚Â‚­‚Á‚Ä
+	//ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
+	//4ç¨®é¡ã¤ãã£ã¦
 	m_fireCollision = NewGO<CollisionObject>(0);
 	m_fireCollision->CreateBox(
 		m_firstPosition,
@@ -85,7 +85,7 @@ bool FireGimmic::Start()
 		COLLISION_SIZE
 	);
 
-	//ƒRƒŠƒWƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ª©“®‚Åíœ‚³‚ê‚È‚¢‚æ‚¤‚É‚·‚é
+	//ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè‡ªå‹•ã§å‰Šé™¤ã•ã‚Œãªã„ã‚ˆã†ã«ã™ã‚‹
 	m_fireCollision->SetIsEnableAutoDelete(false);
 
 	return true;
@@ -93,7 +93,7 @@ bool FireGimmic::Start()
 
 EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale)
 {
-	//ƒGƒtƒFƒNƒg‚ÌÄ¶
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿ
 	EffectEmitter* effect = NewGO<EffectEmitter>(0);
 	effect->Init(name);
 	effect->SetPosition(pos);
@@ -105,7 +105,7 @@ EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion r
 
 void FireGimmic::Collision()
 {
-	//ƒvƒŒƒCƒ„[‚Æ‰Î‰Š•úËŠí‚Ì‹——£‚ğŒvZ
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ç«ç‚æ”¾å°„å™¨ã®è·é›¢ã‚’è¨ˆç®—
 	Vector3 toPlayer = m_player->m_position - COLLISION_POSITION;
 	float disToPlayer = toPlayer.Length();
 
@@ -116,8 +116,8 @@ void FireGimmic::Collision()
 		m_fireRot_East.SetRotationDegY(180.0f);
 		m_fireRot_West.SetRotationDegY(360.0f);
 
-		//enum‚Å4•ûŒü•ªì‚Á‚ÄA‚·‚®Ø‚è‘Ö‚¦‚ç‚ê‚é‚æ‚¤‚ÉŠÖ”‚ğì‚é
-		//ˆø”‚Å‰ñ“]’l(m_fireRot)‚ğ“n‚µ‚Ä‚İ‚é‚©‚ÈH
+		//enumã§4æ–¹å‘åˆ†ä½œã£ã¦ã€ã™ãåˆ‡ã‚Šæ›¿ãˆã‚‰ã‚Œã‚‹ã‚ˆã†ã«é–¢æ•°ã‚’ä½œã‚‹
+		//å¼•æ•°ã§å›è»¢å€¤(m_fireRot)ã‚’æ¸¡ã—ã¦ã¿ã‚‹ã‹ãªï¼Ÿ
 
 		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_West, fireScale);
 		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale2);
@@ -151,15 +151,15 @@ void FireGimmic::Update()
 		Collision();
 	}
 	else {
-		//‰Î‚ªo‚Ä‚¢‚éó‘Ô
-		// ƒGƒtƒFƒNƒg‚ÌÄ¶‚ªI‚í‚é or ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’èˆÈã‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
+		//ç«ãŒå‡ºã¦ã„ã‚‹çŠ¶æ…‹
+		// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”ŸãŒçµ‚ã‚ã‚‹ or ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒä¸€å®šä»¥ä¸Šã«ãªã£ãŸã‚‰ãŠã—ã¾ã„
 		Vector3 toPlayer = m_player->m_position - COLLISION_POSITION;
 		float disToPlayer = toPlayer.Length();
-		//‰Î‰Š•úË‚Ì•úË‚·‚éŠÔ‚ğ’²ß‚·‚éŒvZ
+		//ç«ç‚æ”¾å°„ã®æ”¾å°„ã™ã‚‹æ™‚é–“ã‚’èª¿ç¯€ã™ã‚‹è¨ˆç®—
 		m_effectIntervalTimer += g_gameTime->GetFrameDeltaTime();
 		if (m_effectIntervalTimer >= m_effectInterval || disToPlayer > LENGTH)
 		{
-			// ƒGƒtƒFƒNƒg‚ÌÄ¶ŠÔ‚ªˆê’èŠÔ‚ğŒo‰ß‚µ‚½‚çI—¹‚·‚é
+			// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿæ™‚é–“ãŒä¸€å®šæ™‚é–“ã‚’çµŒéã—ãŸã‚‰çµ‚äº†ã™ã‚‹
 			if (m_se->IsPlaying())
 			{
 				m_se->Stop();

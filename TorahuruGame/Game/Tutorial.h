@@ -11,23 +11,23 @@ public:
 	void Render(RenderContext& rc);
 
 	enum TextState {
-		State_Normal,    // ‰½‚àw‚µ‚Ä‚È‚¢ó‘ÔB
-		State_Fire,      // ‰Î‰Š•úËŠíB
-		State_Reverse,   // ‚ ‚×‚±‚×°B
-		State_Slow,      // “İ‘«°B
-		State_Blind      // ‹ŠE§ŒÀ°B
+		State_Normal,    // ä½•ã‚‚æŒ‡ã—ã¦ãªã„çŠ¶æ…‹ã€‚
+		State_Fire,      // ç«ç‚æ”¾å°„å™¨ã€‚
+		State_Reverse,   // ã‚ã¹ã“ã¹åºŠã€‚
+		State_Slow,      // éˆè¶³åºŠã€‚
+		State_Blind      // è¦–ç•Œåˆ¶é™åºŠã€‚
 	};
 
-	// ƒƒ“ƒo•Ï”B
-	Vector3                    m_position;                   // ƒ‚ƒfƒ‹‚ÌˆÊ’uB
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°ã€‚
+	Vector3                    m_position;                   // ãƒ¢ãƒ‡ãƒ«ã®ä½ç½®ã€‚
 	
-	ModelRender			       m_modelRender;                // ƒ‚ƒfƒ‹ƒŒƒ“ƒ_[B
+	ModelRender			       m_modelRender;                // ãƒ¢ãƒ‡ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 private:
-	// ƒƒ“ƒo•Ï”B
-	TextState                  m_text = State_Normal;        // ó‘ÔB
-	ReverseFloor*              m_reverseFloor;               // ‚ ‚×‚±‚×°B
-	SlowFloor*                 m_slowFloor;                  // “İ‘«°B
-	BlindFloor*                m_BlindFloor;                 // ‹ŠE§ŒÀ°B
-	SpriteRender               m_spriteRender;               // ƒXƒvƒ‰ƒCƒgƒŒƒ“ƒ_[B
-	FontRender                 m_fontRender;                 // ƒtƒHƒ“ƒgƒŒƒ“ƒ_[B
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°ã€‚
+	TextState                  m_text = State_Normal;        // çŠ¶æ…‹ã€‚
+	ReverseFloor*              m_reverseFloor;               // ã‚ã¹ã“ã¹åºŠã€‚
+	SlowFloor*                 m_slowFloor;                  // éˆè¶³åºŠã€‚
+	BlindFloor*                m_BlindFloor;                 // è¦–ç•Œåˆ¶é™åºŠã€‚
+	SpriteRender               m_spriteRender;               // ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
+	FontRender                 m_fontRender;                 // ãƒ•ã‚©ãƒ³ãƒˆãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 };

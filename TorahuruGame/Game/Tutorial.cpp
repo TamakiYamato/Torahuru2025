@@ -9,10 +9,10 @@
 namespace
 
 {
-	// ‰æ‘œ‚ÌˆÊ’uB
+	// ç”»åƒã®ä½ç½®ã€‚
 	//Vector3 TEXT_POSITION = Vector3(-500.0f, 500.0f, 0.0f);
 	Vector3 TEXT_POSITION = Vector3(500.0f, 500.0f, 0.0f);
-	// ‰æ‘œ‚Ì‘å‚«‚³B
+	// ç”»åƒã®å¤§ãã•ã€‚
 	Vector3 TEXT_SCALE = Vector3(0.5f, 0.5f, 0.5f);
 	Vector3 SCALE = Vector3{ 5.0f,5.0f,5.0f };
 	Vector4 TEXT_COLOR = Vector4::White;
@@ -30,18 +30,18 @@ Tutorial::~Tutorial()
 
 bool Tutorial::Start()
 {
-	// ƒ{ƒbƒNƒX‚ğ“Ç‚İ‚ŞB
+	// ãƒœãƒƒã‚¯ã‚¹ã‚’èª­ã¿è¾¼ã‚€ã€‚
 	m_modelRender.Init("Assets/Tutorial/TutorialObject.tkm");
-	// ‰æ‘œ‚ğ“Ç‚İ‚ŞB
-	// ‚ ‚×‚±‚×°B
+	// ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
+	// ã‚ã¹ã“ã¹åºŠã€‚
 	m_spriteRender.Init("Assets/Tutorial/reverseTutorial1.DDS", 600.0f, 250.0f);
-	// ˆÊ’uB
+	// ä½ç½®ã€‚
 	//m_spriteRender.SetPosition((m_position));
 	//m_spriteRender.SetPosition((TEXT_POSITION));
 
-	// ‘å‚«‚³B
+	// å¤§ãã•ã€‚
 	m_modelRender.SetScale(Vector3(SCALE));
-	//m_fontRender.SetText(L"‚ ‚×‚±‚×°");
+	//m_fontRender.SetText(L"ã‚ã¹ã“ã¹åºŠ");
 	//m_fontRender.SetPosition((TEXT_POSITION));
 	//m_fontRender.SetColor((TEXT_COLOR));
 	return true;
@@ -54,9 +54,9 @@ void Tutorial::HintText()
 
 void Tutorial::Update()
 {
-	// ƒ|ƒWƒVƒ‡ƒ“B
+	// ãƒã‚¸ã‚·ãƒ§ãƒ³ã€‚
 	m_modelRender.SetPosition(m_position);
-	// XVˆ—B
+	// æ›´æ–°å‡¦ç†ã€‚
 	m_modelRender.Update();
 	m_spriteRender.Update();
 
@@ -65,11 +65,11 @@ void Tutorial::Update()
 
 void Tutorial::Render(RenderContext& rc)
 {
-	// ƒ‚ƒfƒ‹ƒŒƒ“ƒ_[
+	// ãƒ¢ãƒ‡ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ¼
 	m_modelRender.Draw(rc);
-	// ƒXƒvƒ‰ƒCƒgƒŒƒ“ƒ_[B
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 	m_spriteRender.Draw(rc);
-	// ƒtƒHƒ“ƒgƒŒƒ“ƒ_[B
+	// ãƒ•ã‚©ãƒ³ãƒˆãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 	m_fontRender.Draw(rc);
 }
 

@@ -3,7 +3,7 @@
 using namespace std;
 
 namespace {
-	// ƒtƒ@ƒCƒ‹ƒpƒX‚Í•¶š—ñ‚È‚Ì‚Å string ‚ğg—p‚·‚éB
+	// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã¯æ–‡å­—åˆ—ãªã®ã§ string ã‚’ä½¿ç”¨ã™ã‚‹ã€‚
 	const string ANIMATION_FAILPATH = "Assets/animData//";
 	const string ANIMATION_EXTENTION = ".tka";
 
@@ -19,11 +19,11 @@ EnemyAnimation::~EnemyAnimation()
 
 bool EnemyAnimation::Start()
 {
-	// ‘Ò‹@ƒAƒjƒ[ƒVƒ‡ƒ“B
+	// å¾…æ©Ÿã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
 	SetAnimation(enAnimationClip_Idle, "playerIdle", true);
-	// •à‚«ƒAƒjƒ[ƒVƒ‡ƒ“B
+	// æ­©ãã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
 	SetAnimation(enAnimationClip_Walk, "playerWalking", true);
-	// ‘–‚éƒAƒjƒ[ƒVƒ‡ƒ“B
+	// èµ°ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã€‚
 	SetAnimation(enAnimationClip_Run, "playerRun", true);
 
 	return true;
@@ -41,13 +41,13 @@ void EnemyAnimation::Render(RenderContext& rc)
 
 }
 
-// const‚Åƒtƒ@ƒCƒ‹‚ğ“Ç‚İæ‚éB
+// constã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿å–ã‚‹ã€‚
 void EnemyAnimation::SetAnimation(const EnAnimationClip animationClip, const string animationFileName, const bool loopFlag)
 {
-	// ‹¤’Ê‰»‚µ‚½ƒtƒ@ƒCƒ‹–¼B
+	// å…±é€šåŒ–ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«åã€‚
 	string FileName = ANIMATION_FAILPATH + animationFileName + ANIMATION_EXTENTION;
 	//std::strinstr();
-	// c_str()ƒƒ]ƒbƒg‚ğŒÄ‚Ño‚·‚±‚Æ‚Å const char* ‚É•ÏŠ·‚³‚ê‚éB
+	// c_str()ãƒ¡ã‚¾ãƒƒãƒˆã‚’å‘¼ã³å‡ºã™ã“ã¨ã§ const char* ã«å¤‰æ›ã•ã‚Œã‚‹ã€‚
 	m_enemyAnim[animationClip].Load(FileName.c_str());
 	m_enemyAnim[animationClip].SetLoopFlag(loopFlag);
 }
