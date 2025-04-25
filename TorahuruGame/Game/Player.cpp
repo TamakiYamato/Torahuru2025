@@ -82,6 +82,7 @@ void Player::Update() {
 	Move();					//キャラクターの移動
 	Rotation();				//キャラクターの回転
 	ManageState();			//ステート管理。
+	SutaminaCalk();
 	PlayAnimation();		//アニメーションの再生。
 	m_modelRender.Update();	//モデル更新
 }
@@ -94,9 +95,14 @@ void Player::Move() {
 	{
 		// 移動速度を上げる。
 		m_dash *= 2.0f;
+
+		if (m_sutamina <= 0.0f)
+		{
+			m_dash /= m_dash;
+		}
 	}
 	// もしBボタンが押されたら。
-	if (g_pad[0]->IsPress(enButtonB))
+	else if (g_pad[0]->IsPress(enButtonB))
 	{
 		m_dash *= 0.5f;
 	}
@@ -130,6 +136,9 @@ void Player::Move() {
 	right	*= stickL.x * 180.0f * m_dash * m_moveDir;
 	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
 
+	/*right *= stickL.x * 500.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 500.0f * m_dash * m_moveDir;*/
+
 	//移動速度にスティックの入力量を加算する。
 	// m_run→ダッシュ時用の変数。
 	m_moveSpeed += right + forward;
@@ -146,6 +155,7 @@ void Player::Move() {
 		//重力を発生させる。
 		m_moveSpeed.y -= 5.0f;
 	}
+	
 
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
@@ -173,12 +183,23 @@ void Player::ManageState()
 	{
 		//ステートを2(歩き)にする。
 		m_playerState = State_Walk;
+		// 走ってない判定にする。
+		m_dashFlag = false;
 
 		// もしAボタンが押されたら。
 		if (g_pad[0]->IsPress(enButtonA))
 		{
 			// 走る。
 			m_playerState = State_Run;
+			// 走っている判定にする。
+			m_dashFlag = true;
+
+			// スタミナが0で走ってない判定のとき
+		    if (m_sutamina <= 0 && m_dashFlag != false)
+		    {
+				// ダッシュ状態から歩く判定になる。
+			    m_playerState = State_StayRun;
+		    }
 		}
 		// もしBボタンが押されたら。
 		else if (g_pad[0]->IsPress(enButtonB))
@@ -202,6 +223,37 @@ void Player::ManageState()
 	}
 }
 
+void Player::SutaminaCalk()
+{
+	// プレイヤーがダッシュしてたら。
+	if (m_playerState == State_Run)
+	{
+		// スタミナを減らす。
+		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
+		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
+		// これを好きな数で乗算→FPSに左右されずに減らせる。
+		m_sutamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
+		// スタミナが0以下になったら。
+		if (m_sutamina <= 0)
+		{
+			// スタミナを0にする。
+			m_sutamina = 0;
+		}
+	}
+	// 走っていないとき。
+	else if(m_dashFlag != true)
+	{
+		// スタミナを回復する。
+		m_sutamina += 20.0f * g_gameTime->GetFrameDeltaTime();
+		// スタミナが100以上になったら。
+		if (m_sutamina >= 100)
+		{
+			//スタミナを100にする。
+			m_sutamina = m_max_sutamina;
+		}
+	}
+}
+
 //アニメーションの再生。
 void Player::PlayAnimation()
 {
@@ -214,6 +266,10 @@ void Player::PlayAnimation()
 		break;
 		// ステートがWalkだったら。
 	case State_Walk:
+		//歩きアニメーションを再生する。
+		m_modelRender.PlayAnimation(enAnimClip_Walk);
+		break;
+	case State_StayRun:
 		//歩きアニメーションを再生する。
 		m_modelRender.PlayAnimation(enAnimClip_Walk);
 		break;

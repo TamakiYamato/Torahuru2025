@@ -25,6 +25,9 @@
     <ClCompile Include="FireGimmic.cpp" />
     <ClCompile Include="MakeEffect.cpp" />
     <ClCompile Include="FloorManager.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
+    <ClCompile Include="TutorialUI.cpp" />
+    <ClCompile Include="Sutamina.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
   </ItemGroup>
@@ -47,6 +50,9 @@
     <ClInclude Include="FireGimmic.h" />
     <ClInclude Include="MakeEffect.h" />
     <ClInclude Include="FloorManager.h" />
+    <ClInclude Include="Tutorial.h" />
+    <ClInclude Include="TutorialUI.h" />
+    <ClInclude Include="Sutamina.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
   </ItemGroup>
