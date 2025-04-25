@@ -7,7 +7,7 @@
 #include "Game.h"
 
 namespace {
-	const float PLAYER_MOVE_SLOW = 0.5;		//ƒvƒŒƒCƒ„[‚Ì‘¬“x‚ğ•ÏXB
+	const float PLAYER_MOVE_SLOW = 0.5;		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€Ÿåº¦ã‚’å¤‰æ›´ã€‚
 }
 
 FloorManager::FloorManager()
@@ -32,20 +32,20 @@ bool FloorManager::Start()
 void FloorManager::Update()
 {
 	
-	////ƒ^ƒCƒ}[‚ª“®‚¢‚Ä‚È‚¢‘¼‚Ì°‚ªì“®‚µ‚Ä‚È‚¢‚Æ‚«////
+	////ã‚¿ã‚¤ãƒãƒ¼ãŒå‹•ã„ã¦ãªã„ï¼ä»–ã®åºŠãŒä½œå‹•ã—ã¦ãªã„ã¨ã////
 	if (m_floorTimer >= 7.0f) {
-		FindFloor();		//3í—Ş‚Ì°‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚é
+		FindFloor();		//3ç¨®é¡ã®åºŠã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹
 	}
 
-	AddStatus();			//ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f
+	AddStatus();			//çŠ¶æ…‹ã”ã¨ã®åŠ¹æœåæ˜ 
 
-	////ƒvƒŒƒCƒ„[‚ª°‚Ì‰e‹¿‚ğó‚¯‚Ä‚¢‚éê‡////
+	////ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã®å½±éŸ¿ã‚’å—ã‘ã¦ã„ã‚‹å ´åˆ////
 	if (m_saveState != Normal) {
-		AddStatusTimer();       //ó‘Ô‚ÌŠÔ
-		CalcStatusTime();	//Œø‰ÊŠÔ‚Ìƒ^ƒCƒ}[‚ğ“®‚©‚·
+		AddStatusTimer();       //çŠ¶æ…‹ã®æ™‚é–“
+		CalcStatusTime();	//åŠ¹æœæ™‚é–“ã®ã‚¿ã‚¤ãƒãƒ¼ã‚’å‹•ã‹ã™
 	}
 
-	////ƒvƒŒƒCƒ„[‚ª‹ŠE§ŒÀó‘Ô‚Ìê‡////
+	////ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒè¦–ç•Œåˆ¶é™çŠ¶æ…‹ã®å ´åˆ////
 	if (m_saveState == BlindState) {
 		pointLightPosition = m_player->m_position +Vector3(0.0f,200.0f,0.0f);
 		m_pointL->SetPosition(pointLightPosition);
@@ -67,36 +67,36 @@ void FloorManager::Render(RenderContext& rc)
 
 void FloorManager::FindFloor()
 {
-	//ƒXƒe[ƒW“à‚É‚ ‚éreversefloor‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚éB
+	//ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã«ã‚ã‚‹reversefloorã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹ã€‚
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
 
-	//for‚Í‚·‚×‚Ä‚Ìreversefloor‚ğŒJ‚è•Ô‚·B
+	//forã¯ã™ã¹ã¦ã®reversefloorã‚’ç¹°ã‚Šè¿”ã™ã€‚
 	for (auto reverseFloor : reverseFloors) {
-		//ƒvƒŒƒCƒ„[‚ª°‚Ìã‚É‚¢‚½‚Æ‚«A‘€ì‚ğ‹t‚É‚·‚éB
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã®ä¸Šã«ã„ãŸã¨ãã€æ“ä½œã‚’é€†ã«ã™ã‚‹ã€‚
 		if (reverseFloor->m_onReverseFloor == true) {
 			m_floorState = ReverseState;
 		}
 	}
 
 	///////////////////////////////////////////////////
-	//ƒXƒe[ƒW“à‚É‚ ‚éslowfloor‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚éB
+	//ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã«ã‚ã‚‹slowfloorã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹ã€‚
 	const auto& slowFloors = FindGOs<SlowFloor>("SlowFloor");
 
-	//for‚Í‚·‚×‚Ä‚Ìslowfloor‚ğŒJ‚è•Ô‚·
+	//forã¯ã™ã¹ã¦ã®slowfloorã‚’ç¹°ã‚Šè¿”ã™
 	for (auto slowFloor : slowFloors) {
-		//ƒvƒŒƒCƒ„[‚ª°‚Ìã‚É‚¢‚½‚Æ‚«AƒXƒs[ƒh‚ª”¼•ª‚É‚È‚é
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã®ä¸Šã«ã„ãŸã¨ãã€ã‚¹ãƒ”ãƒ¼ãƒ‰ãŒåŠåˆ†ã«ãªã‚‹
 		if (slowFloor->m_onSlowFloor == true) {
 			m_floorState = SlowState;
 		}
 	}
 
 	//////////////////////////////////////////////////
-	//for‚Í‚·‚×‚Ä‚Ìblindfloor‚ğŒJ‚è•Ô‚·
-	//ƒXƒe[ƒW“à‚É‚ ‚éblindfloor‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚éB
+	//forã¯ã™ã¹ã¦ã®blindfloorã‚’ç¹°ã‚Šè¿”ã™
+	//ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã«ã‚ã‚‹blindfloorã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹ã€‚
 	const auto& blindFloors = FindGOs<BlindFloor>("BlindFloor");
 
 	for (auto blindFloor : blindFloors) {
-		//ƒvƒŒƒCƒ„[‚ª°‚Ìã‚É‚¢‚½‚Æ‚«Aó‘Ô‚ğ•ÏX
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã®ä¸Šã«ã„ãŸã¨ãã€çŠ¶æ…‹ã‚’å¤‰æ›´
 		if (blindFloor->m_onBlindFloor == true) {
 			m_floorState = BlindState;
 		}
@@ -104,9 +104,9 @@ void FloorManager::FindFloor()
 }
 
 
-void FloorManager::AddStatus()	/////ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f/////
+void FloorManager::AddStatus()	/////çŠ¶æ…‹ã”ã¨ã®åŠ¹æœåæ˜ /////
 {
-	if (m_floorTimer == 7.0f) {		//ŠÔ‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚é‘¼‚ÌŒø‰Ê‚ª‚È‚¢ê‡
+	if (m_floorTimer == 7.0f) {		//æ™‚é–“ãŒåˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ï¼ä»–ã®åŠ¹æœãŒãªã„å ´åˆ
 		if (!m_isAddStatus && m_floorState != Normal) {
 			switch (m_floorState) {
 			case ReverseState:
@@ -114,7 +114,7 @@ void FloorManager::AddStatus()	/////ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f/////
 					DeleteGO(m_spriteRender);
 				}
 
-				//ƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş
+				//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 				m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
 				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
@@ -131,7 +131,7 @@ void FloorManager::AddStatus()	/////ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f/////
 
 				m_floorTimer -= g_gameTime->GetFrameDeltaTime();
 
-				//ƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş
+				//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€
 
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 				m_spriteRender->Init("Assets/sprite/slow.DDS", 100.0f, 100.0f);
@@ -149,7 +149,7 @@ void FloorManager::AddStatus()	/////ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f/////
 
 				m_floorTimer -= g_gameTime->GetFrameDeltaTime();
 
-				//ƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş
+				//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€
 
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 				m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
@@ -157,19 +157,19 @@ void FloorManager::AddStatus()	/////ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f/////
 
 				AddStatusTimer();
 
-				//////////////ƒXƒe[ƒW‚ğˆÃ‚­‚·‚é///////////////////////////
+				//////////////ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’æš—ãã™ã‚‹///////////////////////////
 
-				// ŠÂ‹«Œõ‚ÌŒvZ‚Ì‚½‚ß‚ÌIBLƒeƒNƒXƒ`ƒƒ‚ğƒZƒbƒg‚·‚éB
+				// ç’°å¢ƒå…‰ã®è¨ˆç®—ã®ãŸã‚ã®IBLãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
 				g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 0.01f);
 
-				// ƒV[ƒ“‚Ì’†ŠÔ‚Ì–¾‚é‚³‚ğ¦‚·–¾“x—¦‚ğw’è‚·‚éB
+				// ã‚·ãƒ¼ãƒ³ã®ä¸­é–“ã®æ˜ã‚‹ã•ã‚’ç¤ºã™æ˜åº¦ç‡ã‚’æŒ‡å®šã™ã‚‹ã€‚
 				g_renderingEngine->SetSceneMiddleGray(0.01f);
 
-				// ƒuƒ‹[ƒ€‚ª”­¶‚·‚éè‡’l‚ğİ’èB
-				// ƒuƒ‹[ƒ€c–¾‚é‚¢•”•ª‚ª‚É‚¶‚Ş‚æ‚¤‚ÉŒ©‚¦‚é‹ŠoŒø‰ÊAŒõ‚ğ‹­’²‚µAƒŠƒAƒ‹E”ü‚µ‚¢EŒ¶‘z“I‚ÉŒ©‚¹‚é
+				// ãƒ–ãƒ«ãƒ¼ãƒ ãŒç™ºç”Ÿã™ã‚‹é–¾å€¤ã‚’è¨­å®šã€‚
+				// ãƒ–ãƒ«ãƒ¼ãƒ â€¦æ˜ã‚‹ã„éƒ¨åˆ†ãŒã«ã˜ã‚€ã‚ˆã†ã«è¦‹ãˆã‚‹è¦–è¦šåŠ¹æœã€å…‰ã‚’å¼·èª¿ã—ã€ãƒªã‚¢ãƒ«ãƒ»ç¾ã—ã„ãƒ»å¹»æƒ³çš„ã«è¦‹ã›ã‚‹
 				g_renderingEngine->SetBloomThreshold(10.0f);
 
-				//////////////ƒXƒ|ƒbƒgƒ‰ƒCƒg//////////////////////////////
+				//////////////ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ//////////////////////////////
 				SetPointLight();
 
 				break;
@@ -184,21 +184,21 @@ void FloorManager::AddStatus()	/////ó‘Ô‚²‚Æ‚ÌŒø‰Ê”½‰f/////
 
 void FloorManager::AddStatusTimer()
 {
-	//Œø‰ÊŠÔ‚Ì•\¦
+	//åŠ¹æœæ™‚é–“ã®è¡¨ç¤º
 	int effectTimer_minute = 0.0f;
 	int effectTimer_sec = m_floorTimer;
 
 	m_fontRender = NewGO<FontRender>(0, "fontrender");
-	//Œø‰ÊŠÔƒ^ƒCƒ}[‚Ì•\¦
+	//åŠ¹æœæ™‚é–“ã‚¿ã‚¤ãƒãƒ¼ã®è¡¨ç¤º
 	wchar_t reverse_text[256];
 	swprintf_s(reverse_text, 256, L"%02d:%02d", effectTimer_minute, effectTimer_sec);
-	//•\¦‚·‚éƒeƒLƒXƒg‚ğİ’èB
+	//è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆã‚’è¨­å®šã€‚
 	m_fontRender->SetText(reverse_text);
-	//ƒtƒHƒ“ƒg‚ÌˆÊ’u‚ğİ’èB
+	//ãƒ•ã‚©ãƒ³ãƒˆã®ä½ç½®ã‚’è¨­å®šã€‚
 	m_fontRender->SetPosition(Vector3(700.0f, 390.0f, 0.0f));
-	//ƒtƒHƒ“ƒg‚Ì‘å‚«‚³‚ğİ’èB
+	//ãƒ•ã‚©ãƒ³ãƒˆã®å¤§ãã•ã‚’è¨­å®šã€‚
 	m_fontRender->SetScale(1.5f);
-	//ƒtƒHƒ“ƒg‚ÌF‚ğİ’èB
+	//ãƒ•ã‚©ãƒ³ãƒˆã®è‰²ã‚’è¨­å®šã€‚
 	m_fontRender->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	
 }
@@ -210,7 +210,7 @@ void FloorManager::SetPointLight()
 	
 	m_pointL->Init();
 	m_pointL->SetPosition(pointLightPosition);
-	m_pointL->SetAffectPowParam(0.7f);				//‰e‹¿—Í‚ğ‚½‚¹‚éB
+	m_pointL->SetAffectPowParam(0.7f);				//å½±éŸ¿åŠ›ã‚’æŒãŸã›ã‚‹ã€‚
 	m_pointL->SetColor(Vector3(5.0f, 5.0f, 5.0f));
 	m_pointL->SetRange(250.0f);
 	m_pointL->Update();	
@@ -224,11 +224,11 @@ void FloorManager::DeletePointLight()
 
 void FloorManager::CalcStatusTime()
 {
-	m_floorTimer -= g_gameTime->GetFrameDeltaTime();	//Œø‰ÊŠÔ‚ÌƒJƒEƒ“ƒgƒ_ƒEƒ“7•b
-	if (m_floorTimer <= 0) {							//ŠÔ‚ª0‚É‚È‚Á‚½ê‡
-		RevertState();									//°‚ÌŒø‰Ê‚ğÁ‚·
-		m_floorTimer = 7.0f;							//Œø‰ÊŠÔ‚ğƒŠƒZƒbƒg
-		DeleteGO(m_spriteRender);                       //ƒeƒNƒXƒ`ƒƒ‚ğÁ‚·
+	m_floorTimer -= g_gameTime->GetFrameDeltaTime();	//åŠ¹æœæ™‚é–“ã®ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³7ç§’
+	if (m_floorTimer <= 0) {							//æ™‚é–“ãŒ0ã«ãªã£ãŸå ´åˆ
+		RevertState();									//åºŠã®åŠ¹æœã‚’æ¶ˆã™
+		m_floorTimer = 7.0f;							//åŠ¹æœæ™‚é–“ã‚’ãƒªã‚»ãƒƒãƒˆ
+		DeleteGO(m_spriteRender);                       //ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’æ¶ˆã™
 		DeleteGO(m_fontRender);
 		m_spriteRender = nullptr;
 		m_fontRender = nullptr;
@@ -236,7 +236,7 @@ void FloorManager::CalcStatusTime()
 }
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚ª°‚©‚çó‚¯‚½Œø‰Ê‚ğ–ß‚·
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã‹ã‚‰å—ã‘ãŸåŠ¹æœã‚’æˆ»ã™
 /// </summary>
 void FloorManager::RevertState()
 {
@@ -266,13 +266,13 @@ void FloorManager::RevertState()
 			DeleteGO(m_spriteRender);
 			m_spriteRender = nullptr;
 		}
-		// ŠÂ‹«Œõ‚ğŒ³‚É–ß‚·
+		// ç’°å¢ƒå…‰ã‚’å…ƒã«æˆ»ã™
 		g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 1.0f);
 		g_renderingEngine->SetSceneMiddleGray(0.18f);
 		g_renderingEngine->SetBloomThreshold(1.0f);
-		//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg
+		//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆ
 		DeletePointLight();
 		break;
 	}
-	m_saveState = Normal;	//•Û‘¶‚µ‚½‚à‚Ì‚ğ’Êí‚ÉB
+	m_saveState = Normal;	//ä¿å­˜ã—ãŸã‚‚ã®ã‚’é€šå¸¸ã«ã€‚
 }

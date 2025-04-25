@@ -14,9 +14,9 @@ BackGround::~BackGround() {
 bool BackGround::Start()
 {
 
-	//	//“–‚½‚è”»’è‚ğì¬‚·‚éB
+	//	//å½“ãŸã‚Šåˆ¤å®šã‚’ä½œæˆã™ã‚‹ã€‚
 	m_physicsStaticObject.CreateFromModel(modelRender.GetModel(), modelRender.GetModel().GetWorldMatrix());
-	//“–‚½‚è”»’è‚ğ‰Â‹‰»‚·‚éB
+	//å½“ãŸã‚Šåˆ¤å®šã‚’å¯è¦–åŒ–ã™ã‚‹ã€‚
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
@@ -24,6 +24,6 @@ void BackGround::Render(RenderContext& rc) {
 	modelRender.Draw(rc);
 }
 void BackGround::Update() {
-	//ƒ‚ƒfƒ‹‚ÌXVˆ—B
+	//ãƒ¢ãƒ‡ãƒ«ã®æ›´æ–°å‡¦ç†ã€‚
 	modelRender.Update();
 }

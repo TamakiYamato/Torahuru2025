@@ -6,8 +6,8 @@
 
 namespace
 {
-	// ‹——£B
-// const‚Å’è‹`‚µ‚½•Ï”‚ð•ÏX•s‰Â‚É‚·‚éB(•s‰Â‚É‚·‚é)
+	// è·é›¢ã€‚
+// constã§å®šç¾©ã—ãŸå¤‰æ•°ã‚’å¤‰æ›´ä¸å¯ã«ã™ã‚‹ã€‚(ä¸å¯ã«ã™ã‚‹)
 	const float LENGTH = 1500;
 }
 
@@ -31,19 +31,19 @@ bool TutorialUI::Start()
 
 void TutorialUI::Update()
 {
-	// ‰Î‰Š•úŽËŠí‚ÆƒvƒŒƒCƒ„[‚Ì‹——£‚ðŒvŽZ‚·‚éB
+	// ç«ç‚Žæ”¾å°„å™¨ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è·é›¢ã‚’è¨ˆç®—ã™ã‚‹ã€‚
 	Vector3 toTextLenght = m_game->m_tutorial4->m_position - m_player->m_position;
 	float disToTextLenght = toTextLenght.Length();
-	// ‚à‚µ‹——£‚ª100ˆÈ‰º‚¾‚Á‚½‚çB
+	// ã‚‚ã—è·é›¢ãŒ100ä»¥ä¸‹ã ã£ãŸã‚‰ã€‚
 	if (disToTextLenght <= LENGTH)
 	{
-		// ‰æ‘œ‚ð•\Ž¦B
+		// ç”»åƒã‚’è¡¨ç¤ºã€‚
 		NewGO<Tutorial>(0, "tutorial");
 	}
-	// ‚»‚êˆÈŠOB
+	// ãã‚Œä»¥å¤–ã€‚
 	//else
 	//{
-	//	// •\Ž¦‚µ‚È‚¢B
+	//	// è¡¨ç¤ºã—ãªã„ã€‚
 	//	DeleteGO(this);
 	//	m_text = State_Normal;
 	//}

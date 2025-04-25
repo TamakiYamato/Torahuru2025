@@ -30,6 +30,6 @@ public:
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 
-	bool m_onSlowFloor = false;	//���ɍڂ��Ă��邩�̔���p�ϐ��B
+	bool m_onSlowFloor = false;	//床に載っているかの判定用変数。
 };
 

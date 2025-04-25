@@ -7,7 +7,7 @@ using namespace std;
 
 namespace {
 
-	const float SEARCH_LENGTH = 500.0f;	//ƒvƒŒƒCƒ„[‚ğ”­Œ©‚·‚é‹——£B
+	const float SEARCH_LENGTH = 500.0f;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç™ºè¦‹ã™ã‚‹è·é›¢ã€‚
 
 }
 
@@ -22,30 +22,30 @@ Enemy::~Enemy()
 
 bool Enemy::Start()
 {
-	// ƒLƒƒƒ‰ƒNƒ^[‚ğ“Ç‚İ‚ŞB
-	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=‰½í—Ş‚ ‚é‚©
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’èª­ã¿è¾¼ã‚€ã€‚
+	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=ä½•ç¨®é¡ã‚ã‚‹ã‹
 	return true;
 
-	//‰Šúİ’è
+	//åˆæœŸè¨­å®š
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.SetScale(m_scale);
 
-	//ƒLƒƒƒ‰ƒRƒ“‚Ì‰Šú‰»
+	//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã®åˆæœŸåŒ–
 	m_charCon.Init(
 		40.0f,
 		40.0f,
 		m_position
 	);
 
-	//Œ©‚Â‚¯‚é
+	//è¦‹ã¤ã‘ã‚‹
 	m_player = FindGO<Player>("player");
 }
 
 void Enemy::Update()
 {
-	SearchPlayer();		//í‚ÉƒvƒŒƒCƒ„[‚ğ’T‚·
-	PlayAnimation();	//ƒvƒŒƒCƒ„[‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+	SearchPlayer();		//å¸¸ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æ¢ã™
+	PlayAnimation();	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	m_modelRender.Update();
 }
 
@@ -56,7 +56,7 @@ void Enemy::Render(RenderContext& rc)
 }
 
 /// <summary>
-/// ˆÚ“®‘¬“x‚ğÁ‚µA‚»‚Ìê‚Åplayer‚ª—ˆ‚é‚Ì‚ğ‘Ò‚Â
+/// ç§»å‹•é€Ÿåº¦ã‚’æ¶ˆã—ã€ãã®å ´ã§playerãŒæ¥ã‚‹ã®ã‚’å¾…ã¤
 /// </summary>
 void Enemy::Stand()
 {
@@ -64,42 +64,42 @@ void Enemy::Stand()
 }
 
 /// <summary>
-/// ƒvƒŒƒCƒ„‚ğ’T‚·B
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ã‚’æ¢ã™ã€‚
 /// </summary>
 void Enemy::SearchPlayer()
 {
 	Vector3 diff = m_player->GetPosition() - m_position;
 
-	//ƒvƒŒƒCƒ„[‚É‚ ‚é’ö“x‹ß‚©‚Á‚½‚ç
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ã‚‹ç¨‹åº¦è¿‘ã‹ã£ãŸã‚‰
 	if (diff.LengthSq() <= SEARCH_LENGTH * SEARCH_LENGTH)
 	{
-		//ƒGƒlƒ~[‚©‚çƒvƒŒƒCƒ„[‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚ğ³‹K‰»‚·‚é
+		//ã‚¨ãƒãƒŸãƒ¼ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ã™ã‚‹
 		diff.Normalize();
-		//ƒGƒlƒ~[‚Ì³–Ê‚ÌƒxƒNƒgƒ‹‚ÆAƒGƒlƒ~[‚©‚çƒvƒŒƒCƒ„[‚ÉŒü‚©‚¤
-		//ƒxƒNƒgƒ‹‚Ì“àÏ(cosƒÆ)‚ğ‹‚ß‚é
+		//ã‚¨ãƒãƒŸãƒ¼ã®æ­£é¢ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨ã€ã‚¨ãƒãƒŸãƒ¼ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã†
+		//ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©(cosÎ¸)ã‚’æ±‚ã‚ã‚‹
 		float cos = m_forward.Dot(diff);
-		//“àÏ(cosƒÆ)‚©‚çŠp“x(ƒÆ)‚ğ‹‚ß‚é
+		//å†…ç©(cosÎ¸)ã‹ã‚‰è§’åº¦(Î¸)ã‚’æ±‚ã‚ã‚‹
 		float angle = acosf(cos);
-		//Šp“x(ƒÆ)‚ª180‹‚æ‚è¬‚³‚¯‚ê‚Î
+		//è§’åº¦(Î¸)ãŒ180Â°ã‚ˆã‚Šå°ã•ã‘ã‚Œã°
 		if (angle <= Math::DegToRad(120.0f))
 		{
-			//ƒvƒŒƒCƒ„[‚ğŒ©‚Â‚¯‚½ê‡A’ÇÕŠJn
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¦‹ã¤ã‘ãŸå ´åˆã€è¿½è·¡é–‹å§‹
 			m_enemyState = enEnemyState_Chase;
 		}
 		else if (m_firstPosition.x == m_position.x &&
 				 m_firstPosition.y == m_position.y &&
-				 m_firstPosition.z == m_position.z   ) {	//ƒGƒlƒ~[‚ÌˆÊ’u‚ªÅ‰Šú‚Ìê‡‚Í‘Ò‹@
+				 m_firstPosition.z == m_position.z   ) {	//ã‚¨ãƒãƒŸãƒ¼ã®ä½ç½®ãŒæœ€åˆæœŸã®å ´åˆã¯å¾…æ©Ÿ
 			m_enemyState == enEnemyState_Idle;
 		}
 		else {
-			//ƒvƒŒƒCƒ„[‚ğŒ©‚Â‚¯‚ç‚ê‚È‚©‚Á‚½
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¦‹ã¤ã‘ã‚‰ã‚Œãªã‹ã£ãŸ
 			m_enemyState = enEnemyState_Walk;
 		}
 	}
 }
 
 /// <summary>
-/// ˆÚ“®
+/// ç§»å‹•
 /// </summary>
 void Enemy::Move()
 {
@@ -107,7 +107,7 @@ void Enemy::Move()
 }
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚ğ’ÇÕ
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½è·¡
 /// </summary>
 void Enemy::Chase()
 {
@@ -115,40 +115,40 @@ void Enemy::Chase()
 }
 
 /// <summary>
-/// ƒXƒe[ƒgŠÇ—B
+/// ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã€‚
 /// </summary>
 void Enemy::ManageState()
 {
 	switch (m_enemyState) {
 	case enEnemyState_Idle:
-		Stand();	//firstPosition‚Åplayer‚ª—ˆ‚é‚Ì‚ğ‘Ò‚ÂB
+		Stand();	//firstPositionã§playerãŒæ¥ã‚‹ã®ã‚’å¾…ã¤ã€‚
 		break;
 
 	case enEnemyState_Walk:
-		Move();		//Œ³‚ÌˆÊ’u‚É–ß‚éB
+		Move();		//å…ƒã®ä½ç½®ã«æˆ»ã‚‹ã€‚
 		break;
 
 	case enEnemyState_Chase:
-		Chase();	//’ÇÕB
+		Chase();	//è¿½è·¡ã€‚
 		break;
 	}
 }
 
 /// <summary>
-/// ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠÇ—
+/// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç®¡ç†
 /// </summary>
 void Enemy::PlayAnimation()
 {
 	switch (m_enemyState) {
-	case enEnemyState_Idle:		//‘Ò‹@
+	case enEnemyState_Idle:		//å¾…æ©Ÿ
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Idle);
 		break;
 
-	case enEnemyState_Walk:		//ŠÄ‹
+	case enEnemyState_Walk:		//ç›£è¦–
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Walk);
 		break;
 
-	case enEnemyState_Chase:	//‘–‚é
+	case enEnemyState_Chase:	//èµ°ã‚‹
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Run);
 		break;
 

@@ -11,22 +11,22 @@ public:
 	void Render(RenderContext& rc);
 
 	enum EnAnimationClip {
-		enAnimationClip_Idle,		//‘Ò‹@EŠÄ‹
-		enAnimationClip_Run,		//‘–‚é
-		enAnimationClip_Walk,		//•à‚­
+		enAnimationClip_Idle,		//å¾…æ©Ÿãƒ»ç›£è¦–
+		enAnimationClip_Run,		//èµ°ã‚‹
+		enAnimationClip_Walk,		//æ­©ã
 		enAnimationClip_Num
 	};
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‹¤’Ê‰»‚·‚éB
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å…±é€šåŒ–ã™ã‚‹ã€‚
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
-	CharacterController			m_charCon;										//ƒLƒƒƒ‰ƒRƒ“B
-	ModelRender					m_modelRender;									//ƒ‚ƒfƒ‹ƒŒƒ“ƒ_[B
+	CharacterController			m_charCon;										//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã€‚
+	ModelRender					m_modelRender;									//ãƒ¢ãƒ‡ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 	AnimationClip				m_enemyAnim[enAnimationClip_Num];
 
-	Vector3						m_position = Vector3::Zero;						//À•WB
-	Vector3						m_scale = Vector3::One;							//‘å‚«‚³B
-	Quaternion					m_rotation = Quaternion::Identity;				//‰ñ“]B
+	Vector3						m_position = Vector3::Zero;						//åº§æ¨™ã€‚
+	Vector3						m_scale = Vector3::One;							//å¤§ãã•ã€‚
+	Quaternion					m_rotation = Quaternion::Identity;				//å›è»¢ã€‚
 };
 
 

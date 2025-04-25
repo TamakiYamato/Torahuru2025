@@ -236,6 +236,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MakeEffect.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="ReverseFloor.cpp" />
     <ClCompile Include="SlowFloor.cpp" />
     <ClCompile Include="Stairs.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="MakeEffect.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="ReverseFloor.h" />
     <ClInclude Include="SlowFloor.h" />
     <ClInclude Include="Stairs.h" />

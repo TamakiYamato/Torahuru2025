@@ -20,27 +20,27 @@ BlindFloor::~BlindFloor()
 
 bool BlindFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/BlindFloor.tkm");		//‹ŠE§ŒÀ°‚Ì“Ç‚İ‚İB
+	m_modelRender.Init("Assets/modelData/BlindFloor.tkm");		//è¦–ç•Œåˆ¶é™åºŠã®èª­ã¿è¾¼ã¿ã€‚
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
 	m_collisionObject = NewGO<CollisionObject>(0, "collisionObject");
 	m_collisionObject->CreateBox(
-		m_position + COLLISION_HEIGHT,	//”»’è‚ÌÀ•WB
-		Quaternion::Identity,			//”»’è‚Ì‰ñ“]B
-		COLLISION_SIZE					//”»’è‚Ì‘å‚«‚³B
+		m_position + COLLISION_HEIGHT,	//åˆ¤å®šã®åº§æ¨™ã€‚
+		Quaternion::Identity,			//åˆ¤å®šã®å›è»¢ã€‚
+		COLLISION_SIZE					//åˆ¤å®šã®å¤§ãã•ã€‚
 	);
 
 	m_player = FindGO<Player>("player");
 
-	m_collisionObject->SetIsEnableAutoDelete(false);	//ƒRƒŠƒWƒ‡ƒ“‚ªÁ‚¦‚È‚¢‚æ‚¤‚É‚·‚éB
+	m_collisionObject->SetIsEnableAutoDelete(false);	//ã‚³ãƒªã‚¸ãƒ§ãƒ³ãŒæ¶ˆãˆãªã„ã‚ˆã†ã«ã™ã‚‹ã€‚
 	return true;
 }
 
 void BlindFloor::BlindControlFloor()
 {
-	//ƒvƒŒƒCƒ„[‚ª°‚Ìã‚É‚¢‚½‚çtrueB
-	//player.h‚É‚ÄŒø‰Ê‚ğ”­“®B
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåºŠã®ä¸Šã«ã„ãŸã‚‰trueã€‚
+	//player.hã«ã¦åŠ¹æœã‚’ç™ºå‹•ã€‚
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
 		m_onBlindFloor = true;

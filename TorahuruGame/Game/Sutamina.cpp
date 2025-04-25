@@ -4,15 +4,15 @@
 
 namespace
 {
-	// ƒXƒ^ƒ~ƒiƒo[‚ÌˆÊ’uB
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼ã®ä½ç½®ã€‚
 	Vector3 SUTAMINA_POSITION = Vector3(0.0f, -400.0f, 0.0f);
 	Vector3 SUTAMINA_POSITION2 = Vector3(-240.0f, -400.0f, 0.0f);
 
-	// ƒXƒ^ƒ~ƒiƒo[‚Ì‘å‚«‚³B
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼ã®å¤§ãã•ã€‚
 	Vector3 SUTAMINA_SCALE = Vector3(1.0f, 1.0f, 1.0f);
 	Vector3 SUTAMINA_SCALE2 = Vector3(0.96f, 0.85f, 0.85f);
 
-	// ƒsƒ{ƒbƒgB(‰E’[Œ´“_)
+	// ãƒ”ãƒœãƒƒãƒˆã€‚(å³ç«¯åŸç‚¹)
 	Vector2 SET_PIVOT = Vector2(0.0f, 0.5f);
 	//
 	//Vector3 SCALE = Vector3{ 0.425f,0.48f,0.5f };
@@ -31,26 +31,26 @@ Sutamina::~Sutamina()
 
 bool Sutamina::Start()
 {
-	// ‰æ‘œ‚ğ“Ç‚İ‚ŞB
-	// ƒXƒ^ƒ~ƒiƒo[(˜g‘g‚İ)‚Ì‰æ‘œB
+	// ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼(æ çµ„ã¿)ã®ç”»åƒã€‚
 	m_spriteRender.Init("Assets/PlayerUI/sutaminaBar.DDS", 500.0f, 100.0f);
-	// ƒXƒ^ƒ~ƒiƒo[(Œ¸‚ç‚·•”•ª)‚Ì‰æ‘œB
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼(æ¸›ã‚‰ã™éƒ¨åˆ†)ã®ç”»åƒã€‚
 	m_spriteRender2.Init("Assets/PlayerUI/sutamina.DDS", 500.0f, 100.0f);
 
-	// player‚ğ’T‚·B¨’T‚³‚È‚¢‚Ænullptr”»’è‚É‚È‚éB
+	// playerã‚’æ¢ã™ã€‚â†’æ¢ã•ãªã„ã¨nullptråˆ¤å®šã«ãªã‚‹ã€‚
 	m_player = FindGO<Player>("player");
 
-	// ƒXƒ^ƒ~ƒiƒo[(˜g‘g)‚ÌˆÊ’uB
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼(æ çµ„)ã®ä½ç½®ã€‚
 	m_spriteRender.SetPosition(Vector3(SUTAMINA_POSITION));
-	// ƒXƒ^ƒ~ƒiƒo[(Œ¸‚ç‚·•”•ª)‚ÌˆÊ’uB
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼(æ¸›ã‚‰ã™éƒ¨åˆ†)ã®ä½ç½®ã€‚
 	m_spriteRender2.SetPosition(Vector3(SUTAMINA_POSITION2));
 
-	// ƒXƒ^ƒ~ƒiƒo[(˜g‘g‚İ)‚Ì‘å‚«‚³B
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼(æ çµ„ã¿)ã®å¤§ãã•ã€‚
 	m_spriteRender.SetScale(Vector3(SUTAMINA_SCALE));
-	// ƒXƒ^ƒ~ƒiƒo[(Œ¸‚ç‚·•”•ª)‚Ì‘å‚«‚³B
+	// ã‚¹ã‚¿ãƒŸãƒŠãƒãƒ¼(æ¸›ã‚‰ã™éƒ¨åˆ†)ã®å¤§ãã•ã€‚
 	m_spriteRender2.SetScale(Vector3(SUTAMINA_SCALE2));
 
-	// ƒsƒ{ƒbƒg‚ÌˆÊ’uB
+	// ãƒ”ãƒœãƒƒãƒˆã®ä½ç½®ã€‚
 	m_spriteRender2.SetPivot(Vector2(SET_PIVOT));
 
 	return true;
@@ -58,31 +58,31 @@ bool Sutamina::Start()
 
 void Sutamina::SutaminaCalk()
 {
-		// ƒvƒŒƒCƒ„[‚ÌÅ‘åƒXƒ^ƒ~ƒi‚Ì’lB
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æœ€å¤§ã‚¹ã‚¿ãƒŸãƒŠã®å€¤ã€‚
 		float MaxVitality = m_player->m_max_sutamina;
-		// ƒvƒŒƒCƒ„[‚ÌŒ»İ‚ÌƒXƒ^ƒ~ƒi‚Ì’lB
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç¾åœ¨ã®ã‚¹ã‚¿ãƒŸãƒŠã®å€¤ã€‚
 		float newVitality = m_player->m_sutamina;
-		// Š„‡‚ğŒvZ¨scale‚ÌX’l‚ÉŠ|‚¯Z¨ƒo[‚ªk¬‚·‚éB
+		// å‰²åˆã‚’è¨ˆç®—â†’scaleã®Xå€¤ã«æ›ã‘ç®—â†’ãƒãƒ¼ãŒç¸®å°ã™ã‚‹ã€‚
 		float wari = (float)newVitality / (float)MaxVitality;
 		Vector3 scal = { SUTAMINA_SCALE2 };
-		// Š„‡‚ÌŒvZŒ‹‰Ê‚ğ‘ã“üB
-		// Š„‡‚Ì‰‚¶‚Ä‰¡•‚¾‚¯k‚ß‚éB
+		// å‰²åˆã®è¨ˆç®—çµæœã‚’ä»£å…¥ã€‚
+		// å‰²åˆã®å¿œã˜ã¦æ¨ªå¹…ã ã‘ç¸®ã‚ã‚‹ã€‚
 		scal.x *= wari;
 		m_spriteRender2.SetScale(scal);
 }
 
 void Sutamina::Update()
 {
-	// ƒXƒ^ƒ~ƒiŒvZ‚ÆXVB
+	// ã‚¹ã‚¿ãƒŸãƒŠè¨ˆç®—ã¨æ›´æ–°ã€‚
 	SutaminaCalk();
-	// ƒXƒvƒ‰ƒCƒg‚ğXVB
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’æ›´æ–°ã€‚
 	m_spriteRender.Update();
 	m_spriteRender2.Update();
 }
 
 void Sutamina::Render(RenderContext& rc)
 {
-	// ‰æ‘œ‚ğ•`‰æB
+	// ç”»åƒã‚’æç”»ã€‚
 	m_spriteRender.Draw(rc);
 	m_spriteRender2.Draw(rc);
 }

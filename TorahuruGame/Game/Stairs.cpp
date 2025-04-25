@@ -10,9 +10,9 @@ Stairs::~Stairs() {
 	
 }
 bool Stairs::Start() {
-	m_modelRender.Init("Assets/modelData/Stairs.tkm");	//ŠK’iƒIƒuƒWƒFƒNƒg
+	m_modelRender.Init("Assets/modelData/Stairs.tkm");	//éšæ®µã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	
-	//ƒvƒŒƒCƒ„[‘¤‚ÌƒIƒuƒWƒFƒNƒg‚ğ‚Á‚Ä‚­‚é
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒã£ã¦ãã‚‹
 	m_player = FindGO<Player>("player");
 	return true;
 }

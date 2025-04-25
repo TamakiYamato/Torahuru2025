@@ -14,7 +14,7 @@ public:
 	void Render(RenderContext& rc);
 
 private:
-	// ƒƒ“ƒo•Ï”/ƒNƒ‰ƒX‚Å’è‹`‚³‚ê‚½•Ï”(‘®«‚İ‚½‚¢‚ÈŠ´‚¶)B
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°/ã‚¯ãƒ©ã‚¹ã§å®šç¾©ã•ã‚ŒãŸå¤‰æ•°(å±æ€§ã¿ãŸã„ãªæ„Ÿã˜)ã€‚
 	SpriteRender m_spriteRender;
 	SpriteRender m_spriteRender2;
 	Player* m_player;

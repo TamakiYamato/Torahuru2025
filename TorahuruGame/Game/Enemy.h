@@ -20,21 +20,21 @@ public:
 	void PlayAnimation();
 
 	enum EnemyState {
-		enEnemyState_Idle,			//‘Ò‹@EŠÄ‹
-		enEnemyState_Walk,			//–ß‚é
-		enEnemyState_Chase,			//’ÇÕ
-		enEnemyState_Attack,		//UŒ‚
+		enEnemyState_Idle,			//å¾…æ©Ÿãƒ»ç›£è¦–
+		enEnemyState_Walk,			//æˆ»ã‚‹
+		enEnemyState_Chase,			//è¿½è·¡
+		enEnemyState_Attack,		//æ”»æ’ƒ
 
 	};
 	
 
-	// À•W‚ğæ“¾
+	// åº§æ¨™ã‚’å–å¾—
 	const Vector3& GetPosition() const
 	{
 		return m_position;
 	}
 
-	//ƒLƒƒƒ‰ƒRƒ“‚Ìæ“¾
+	//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã®å–å¾—
 	CharacterController& GetCharacterController()
 	{
 		return m_charCon;
@@ -42,17 +42,17 @@ public:
 
 	
 
-	CharacterController			m_charCon;										//ƒLƒƒƒ‰ƒRƒ“B
-	ModelRender					m_modelRender;									//ƒ‚ƒfƒ‹ƒŒƒ“ƒ_[B
+	CharacterController			m_charCon;										//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã€‚
+	ModelRender					m_modelRender;									//ãƒ¢ãƒ‡ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 	Player*						m_player;
 	EnemyAnimation*				m_enemyAnim;
 
-	Vector3						m_position		= Vector3::Zero;				//À•WB
-	Vector3						m_scale			= Vector3::One;					//‘å‚«‚³B
-	Vector3						m_forward		= Vector3::AxisZ;				//enemy‚Ì³–ÊƒxƒNƒgƒ‹B
-	Vector3						m_firstPosition = Vector3::Zero;				//ƒXƒ^[ƒg‚ÌÀ•WB
-	Quaternion					m_rotation		= Quaternion::Identity;			//‰ñ“]B
+	Vector3						m_position		= Vector3::Zero;				//åº§æ¨™ã€‚
+	Vector3						m_scale			= Vector3::One;					//å¤§ãã•ã€‚
+	Vector3						m_forward		= Vector3::AxisZ;				//enemyã®æ­£é¢ãƒ™ã‚¯ãƒˆãƒ«ã€‚
+	Vector3						m_firstPosition = Vector3::Zero;				//ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚ã®åº§æ¨™ã€‚
+	Quaternion					m_rotation		= Quaternion::Identity;			//å›è»¢ã€‚
 
-	int		m_enemyState = enEnemyState_Chase;		//enemy‚Ìó‘ÔB
+	int		m_enemyState = enEnemyState_Chase;		//enemyã®çŠ¶æ…‹ã€‚
 };
 
