@@ -6,7 +6,7 @@ namespace nsK2Engine {
 	/// <summary>
 	/// フォントレンダ―。
 	/// </summary>
-	class FontRender : public IRenderer
+	class FontRender :public IGameObject, public IRenderer
 	{
 	public:
 		static const int MAX_TEXT_SIZE = 256;
@@ -161,6 +161,14 @@ namespace nsK2Engine {
 		{
 			m_font.SetShadowParam(isDrawShadow, shadowOffset, shadowColor);
 		}
+		/// <summary>
+/// 自動で削除するかどうかを設定する。
+/// </summary>
+/// <param name="isFlag">trueなら自動で削除される。falseなら自動で削除されないので、DeleteGOをする必要がある。</param>
+		void SetIsEnableAutoDelete(bool isFlag)
+		{
+			m_isEnableAutoDelete = isFlag;
+		}
 	private:
 		/// <summary>
 		/// 2D描画パスから呼ばれる処理。
@@ -181,5 +189,8 @@ namespace nsK2Engine {
 		Vector2							m_pivot = Sprite::DEFAULT_PIVOT;	//ピボット。
 		wchar_t							m_text[MAX_TEXT_SIZE];				//文字。
 		Font							m_font;								//フォント。
+		bool						m_isEnableAutoDelete = true;		//自動で削除されるならtrue。
+
+
 	};
 }

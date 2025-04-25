@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "Game.h"
-#include"Player.h"
-#include"Sutamina.h"
-#include"BackGround.h"
-#include"GameCamera.h"
-#include"Title.h"
-#include"ReverseFloor.h"
-#include"SlowFloor.h"
-#include"BlindFloor.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "BackGround.h"
+#include "GameCamera.h"
+#include "Title.h"
+#include "ReverseFloor.h"
+#include "SlowFloor.h"
+#include "BlindFloor.h"
+#include "FloorManager.h"
 #include"Tutorial.h"
-#include"FloorManager.h"
-#include"Stairs.h"
-#include"GameClear.h"
-#include"Gameover.h"
+#include "Stairs.h"
+#include "GameClear.h"
+#include "Gameover.h"
 #include "FireGimmic.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
@@ -26,28 +26,30 @@ Game::~Game() {
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_background);
 	DeleteGO(m_stairs);
+	DeleteGO(m_floorManager);
+	DeleteGO(m_fireGimmic);
 
-	//ƒXƒe[ƒW“à‚É‚ ‚éreversefloor‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚éB
+	//ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã«ã‚ã‚‹reversefloorã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹ã€‚
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
 	for (auto reverseFloor : reverseFloors)
 	{
-		//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ğíœ‚·‚éB
+		//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
 		DeleteGO(reverseFloor);
 	}
 
-	//ƒXƒe[ƒW“à‚É‚ ‚éslowfloor‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚éB
+	//ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã«ã‚ã‚‹slowfloorã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹ã€‚
 	const auto& slowFloors = FindGOs<SlowFloor>("SlowFloor");
 	for (auto slowFloor : slowFloors)
 	{
-		//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ğíœ‚·‚éB
+		//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
 		DeleteGO(slowFloor);
 	}
 
-	//ƒXƒe[ƒW“à‚É‚ ‚éblindfloor‚ğ‚·‚×‚ÄŒ©‚Â‚¯‚éB
+	//ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã«ã‚ã‚‹blindfloorã‚’ã™ã¹ã¦è¦‹ã¤ã‘ã‚‹ã€‚
 	const auto& blindFloors = FindGOs<BlindFloor>("BlindFloor");
 	for (auto blindFloor : blindFloors)
 	{
-		//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ğíœ‚·‚éB
+		//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
 		DeleteGO(blindFloor);
 	}
 }
@@ -61,30 +63,30 @@ void Game::InitSky() {
 	m_skyCube->SetLuminance(1.0f);
 	m_skyCube->SetScale(10000.0f);
 	
-	// ŠÂ‹«Œõ‚ÌŒvZ‚Ì‚½‚ß‚ÌIBLƒeƒNƒXƒ`ƒƒ‚ğƒZƒbƒg‚·‚éB
+	// ç’°å¢ƒå…‰ã®è¨ˆç®—ã®ãŸã‚ã®IBLãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
 	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
 
-	// ŠÂ‹«“úŒõ‚Ì‰e‹¿‚ª•ª‚©‚è‚â‚·‚¢‚æ‚¤‚ÉAƒfƒBƒŒƒNƒVƒ‡ƒ“ƒ‰ƒCƒg‚ÍƒIƒt‚ÉB
+	// ç’°å¢ƒæ—¥å…‰ã®å½±éŸ¿ãŒåˆ†ã‹ã‚Šã‚„ã™ã„ã‚ˆã†ã«ã€ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆã¯ã‚ªãƒ•ã«ã€‚
 	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
 }
 
 void Game::TutorialText()
 {
-	// todo:tamaki ƒ`ƒ…[ƒgƒŠƒAƒ‹”z’u—p(Œã‚Ù‚Ç’Ç‰Á‚µ‚Ü‚·B)
+	// todo:tamaki ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«é…ç½®ç”¨(å¾Œã»ã©è¿½åŠ ã—ã¾ã™ã€‚)
 	
 	//m_tutorial = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // ‰Î‰Š•úËŠí
-	//// 2‚Â‚ß‚Ì‰Î‰Š•úËŠí‚ÌÀ•W
-	////m_tutorial4->m_position = { 2000.0f,40.0f,-1300.0f };   // ‰Î‰Š•úËŠí
+	//m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // ç«ç‚æ”¾å°„å™¨
+	//// 2ã¤ã‚ã®ç«ç‚æ”¾å°„å™¨ã®åº§æ¨™
+	////m_tutorial4->m_position = { 2000.0f,40.0f,-1300.0f };   // ç«ç‚æ”¾å°„å™¨
 
 	//m_tutorial2 = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial2->m_position = { -950.0f,40.0f,-1050.0f };  // ‚ ‚×‚±‚×°
+	//m_tutorial2->m_position = { -950.0f,40.0f,-1050.0f };  // ã‚ã¹ã“ã¹åºŠ
 
 	//m_tutorial3 = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial3->m_position = { -500.0f, 40.0f, -1850.0f }; // “İ‘«°
+	//m_tutorial3->m_position = { -500.0f, 40.0f, -1850.0f }; // éˆè¶³åºŠ
 	//
 	//m_tutorial4 = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // ‹ŠE§ŒÀ°
+	//m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // è¦–ç•Œåˆ¶é™åºŠ
 }
 
 void Game::SetSutamina()
@@ -96,11 +98,10 @@ bool Game::Start()
 {
 	
 	m_player				= NewGO<Player>(0, "player");
-	m_player->m_position	= { 0.0f,0.0f,0.0f };			//ƒvƒŒƒCƒ„[‚Ìƒ|ƒWƒVƒ‡ƒ“‚ğ•Ï‚¦‚é
-	m_stairs				= NewGO<Stairs>(0, "stairs");			//ŠK’i‚ğ’Ç‰Á
-	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };		//ŠK’iÀ•W
-	m_gamecamera			= NewGO<GameCamera>(0, "gamecamera");
-	m_fireGimmic			= NewGO<FireGimmic>(0, "firegimmic");
+	m_player->m_position	= { 0.0f,0.0f,0.0f };			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¸ã‚·ãƒ§ãƒ³ã‚’å¤‰ãˆã‚‹
+	m_stairs				= NewGO<Stairs>(0, "stairs");			//éšæ®µã‚’è¿½åŠ 
+	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };		//éšæ®µåº§æ¨™
+	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
 
@@ -109,84 +110,77 @@ bool Game::Start()
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
 
-	//ƒŒƒxƒ‹‚ğ\’z‚·‚é
-	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//3í—Ş‚Ì°‚·‚×‚Ä”z’u‚µ‚½tklB
-		if (objData.ForwardMatchName(L"Box") == true) {								//‚ ‚×‚±‚×°‚Ì3dsMax‚Ì–¼‘OB
+	//ãƒ¬ãƒ™ãƒ«ã‚’æ§‹ç¯‰ã™ã‚‹
+	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//3ç¨®é¡ã®åºŠã™ã¹ã¦é…ç½®ã—ãŸtklã€‚
+		if (objData.ForwardMatchName(L"Box") == true) {								//ã‚ã¹ã“ã¹åºŠã®3dsMaxã®åå‰ã€‚
 			m_background = NewGO<BackGround>(0, "Box");
 			m_background->SetPosition(objData.position);
 			m_background->SetScale(objData.scale);
 			return true;
 		}
-		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//‚ ‚×‚±‚×°‚Ì3dsMax‚Ì–¼‘OB
+		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//ã‚ã¹ã“ã¹åºŠã®3dsMaxã®åå‰ã€‚
 			m_reverseFloor = NewGO<ReverseFloor>(0, "ReverseFloor");
 			m_reverseFloor->SetPosition(objData.position);
 			m_reverseFloor->SetScale(objData.scale);
 			return true;
 		}
-		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//“İ‘«°‚Ì3dsMax‚Ì–¼‘OB
+		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//éˆè¶³åºŠã®3dsMaxã®åå‰ã€‚
 			m_slowFloor = NewGO<SlowFloor>(0, "SlowFloor");
 			m_slowFloor->SetPosition(objData.position);
 			m_slowFloor->SetScale(objData.scale);
 			return true;
 		}
-		if (objData.ForwardMatchName(L"BlindFloor") == true) {						////‹ŠE§ŒÀ°‚Ì3dsMax‚Ì–¼‘OB
+		if (objData.ForwardMatchName(L"BlindFloor") == true) {						////è¦–ç•Œåˆ¶é™åºŠã®3dsMaxã®åå‰ã€‚
 			m_blindFloor = NewGO<BlindFloor>(0, "BlindFloor");
 			m_blindFloor->SetPosition(objData.position);
 			m_blindFloor->SetScale(objData.scale);
 		    return true;
 		}
 		if (objData.ForwardMatchName(L"FireGimmic") == true) {
-			m_fireGimmic = NewGO<FireGimmic>(0, "FireGimmic");                      ////ƒtƒ@ƒCƒA[ƒMƒ~ƒbƒN‚Ì3dsMax‚Ì–¼‘O
+			m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");                      ////ãƒ•ã‚¡ã‚¤ã‚¢ãƒ¼ã‚®ãƒŸãƒƒã‚¯ã®3dsMaxã®åå‰
 			m_fireGimmic->SetPosition(objData.position);
 			m_fireGimmic->SetScale(objData.scale);
 			m_fireGimmic->SetRotation(objData.rotation);
 			return true;
 		 }
-	//	ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ğì¬‚·‚éB
-		//PointLight* pointLight = new PointLight;
-		//pointLight->Init();
-		//Vector3 pointLightPosition = objData.position;
-		//pointLightPosition.y += 200.0f;
-		////ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ÌÀ•W‚ğİ’è‚·‚éB
-		//pointLight->SetPosition(pointLightPosition);
-		//m_pointLightList.push_back(pointLight);
-		////true‚É‚·‚é‚ÆAƒŒƒxƒ‹‚Ì•û‚Åƒ‚ƒfƒ‹‚ª“Ç‚İ‚Ü‚ê‚È‚¢B
-		//	return true;
+
 	
 	});
+
+
 	return true;
 
 }
 
 void Game::Update()
 {
-	//ŠÔ‚ÌŒvZ
+	//æ™‚é–“ã®è¨ˆç®—
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 
-	//////ƒ^ƒCƒ}[‚Ì•\¦///////
+	//////ã‚¿ã‚¤ãƒãƒ¼ã®è¡¨ç¤º///////
 	wchar_t text[256];
 	swprintf_s(text, 256, L"%02d:%02d", minute, sec);
-	//•\¦‚·‚éƒeƒLƒXƒg‚ğİ’èB
+	//è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆã‚’è¨­å®šã€‚
 	m_fontRender.SetText(text);
-	//ƒtƒHƒ“ƒg‚ÌˆÊ’u‚ğİ’èB
+	//ãƒ•ã‚©ãƒ³ãƒˆã®ä½ç½®ã‚’è¨­å®šã€‚
 	m_fontRender.SetPosition(Vector3(-100.0f, 500.0f, 0.0f));
-	//ƒtƒHƒ“ƒg‚Ì‘å‚«‚³‚ğİ’èB
+	//ãƒ•ã‚©ãƒ³ãƒˆã®å¤§ãã•ã‚’è¨­å®šã€‚
 	m_fontRender.SetScale(2.0f);
-	//ƒtƒHƒ“ƒg‚ÌF‚ğİ’èB
+	//ãƒ•ã‚©ãƒ³ãƒˆã®è‰²ã‚’è¨­å®šã€‚
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 
 
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_stairs->m_position;		//diff‚ÅPlayer‚ÆStairs‚Æ‚Ì‹——£‚ğ‘ª‚é‚½‚ß‚É’Ç‰Á‚µ‚Ä‚¢‚Ü‚·
+	Vector3 diff = m_player->m_position - m_stairs->m_position;		//diffã§Playerã¨Stairsã¨ã®è·é›¢ã‚’æ¸¬ã‚‹ãŸã‚ã«è¿½åŠ ã—ã¦ã„ã¾ã™
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
 	}
 
-	//ƒQ[ƒ€ƒI[ƒo[—p‚Ìƒ^ƒCƒ}[
+	//ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”¨ã®ã‚¿ã‚¤ãƒãƒ¼
 	if (m_timer <= 0.0f) {
 		NewGO<Gameover>(0, "Gameover");
 		DeleteGO(this);
@@ -200,6 +194,6 @@ void SetPosition(const Vector3 position) {
 void Game::Render(RenderContext& rc)
 {
 	m_fontRender.Draw(rc);
-	//ƒŒƒxƒ‹‚Å“Ç‚İ‚ñ‚¾ƒ‚ƒfƒ‹‚ğ•\¦‚³‚¹‚éB
+	//ãƒ¬ãƒ™ãƒ«ã§èª­ã¿è¾¼ã‚“ã ãƒ¢ãƒ‡ãƒ«ã‚’è¡¨ç¤ºã•ã›ã‚‹ã€‚
 	m_levelRender.Draw(rc);
 }
