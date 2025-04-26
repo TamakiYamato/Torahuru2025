@@ -8,12 +8,12 @@ public:
     bool Start();
     void Update();
 
-    //描画関数
+    //謠冗判髢｢謨ｰ
     void Render(RenderContext& rc);
     void SetPosition(const Vector3& position)
 
     {
-        m_position = position;//ポジション
+        m_position = position;//繝昴ず繧ｷ繝ｧ繝ｳ
     }
     void SetRotation(const Quaternion& rotation) {
         m_rotation = rotation;
@@ -25,8 +25,8 @@ public:
 
 
 
-public://作るときはこっちが先に作る必要がある。
-    //モデルレンダー
+public://菴懊ｋ縺ｨ縺阪・縺薙▲縺｡縺悟・縺ｫ菴懊ｋ蠢・ｦ√′縺ゅｋ縲・
+    //繝｢繝・Ν繝ｬ繝ｳ繝繝ｼ
     ModelRender             modelRender;
     Quaternion              m_rotation;
     PhysicsStaticObject     m_physicsStaticObject;

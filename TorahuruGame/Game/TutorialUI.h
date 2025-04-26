@@ -3,9 +3,9 @@
 class Game;
 class Player;
 class Tutorial;
-class ReverseFloor;      // あべこべ床。
-class SlowFloor;         // 鈍足床。
-class BlindFloor;        // 鈍足床。
+class ReverseFloor;      // 縺ゅ∋縺薙∋蠎翫・
+class SlowFloor;         // 驤崎ｶｳ蠎翫・
+class BlindFloor;        // 驤崎ｶｳ蠎翫・
 
 class TutorialUI:public IGameObject
 {
@@ -17,8 +17,8 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	// メンバ変数。
-	Player* m_player = nullptr;           // プレイヤー。
+	// 繝｡繝ｳ繝仙､画焚縲・
+	Player* m_player = nullptr;           // 繝励Ξ繧､繝､繝ｼ縲・
 	Game* m_game;
 
 public:

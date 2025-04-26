@@ -6,8 +6,8 @@
 
 namespace
 {
-	// 距離。
-// constで定義した変数を変更不可にする。(不可にする)
+	// 霍晞屬縲・
+// const縺ｧ螳夂ｾｩ縺励◆螟画焚繧貞､画峩荳榊庄縺ｫ縺吶ｋ縲・荳榊庄縺ｫ縺吶ｋ)
 	const float LENGTH = 1500;
 }
 
@@ -31,19 +31,19 @@ bool TutorialUI::Start()
 
 void TutorialUI::Update()
 {
-	// 火炎放射器とプレイヤーの距離を計算する。
+	// 轣ｫ轤取叛蟆・勣縺ｨ繝励Ξ繧､繝､繝ｼ縺ｮ霍晞屬繧定ｨ育ｮ励☆繧九・
 	Vector3 toTextLenght = m_game->m_tutorial4->m_position - m_player->m_position;
 	float disToTextLenght = toTextLenght.Length();
-	// もし距離が100以下だったら。
+	// 繧ゅ＠霍晞屬縺・00莉･荳九□縺｣縺溘ｉ縲・
 	if (disToTextLenght <= LENGTH)
 	{
-		// 画像を表示。
+		// 逕ｻ蜒上ｒ陦ｨ遉ｺ縲・
 		NewGO<Tutorial>(0, "tutorial");
 	}
-	// それ以外。
+	// 縺昴ｌ莉･螟悶・
 	//else
 	//{
-	//	// 表示しない。
+	//	// 陦ｨ遉ｺ縺励↑縺・・
 	//	DeleteGO(this);
 	//	m_text = State_Normal;
 	//}

@@ -2,19 +2,19 @@
 
 namespace nsK2Engine {
 	/// <summary>
-	/// ƒ|ƒCƒ“ƒgƒ‰ƒCƒg
+	/// ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆ
 	/// </summary>
 	//class PointLight : Noncopyable {
     class PointLight : public IGameObject{
 	public:
-		// ƒfƒXƒgƒ‰ƒNƒ^
+		// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		~PointLight();
 		/// <summary>
-		/// ‰Šú‰»B
+		/// åˆæœŸåŒ–ã€‚
 		/// </summary>
 		void Init();
         /// <summary>
-        /// À•W‚ğİ’èB
+        /// åº§æ¨™ã‚’è¨­å®šã€‚
         /// </summary>
         /// <param name="position"></param>
         void SetPosition(const Vector3& position)
@@ -26,7 +26,7 @@ namespace nsK2Engine {
             m_pointLight->SetPosition(x, y, z);
         }
         /// <summary>
-        /// ƒJƒ‰[‚ğİ’èB
+        /// ã‚«ãƒ©ãƒ¼ã‚’è¨­å®šã€‚
         /// </summary>
         /// <param name="color"></param>
         void SetColor(const Vector3& color)
@@ -38,7 +38,7 @@ namespace nsK2Engine {
             m_pointLight->SetColor( r, g, b );
         }
         /// <summary>
-        /// ”ÍˆÍ‚ğİ’èB
+        /// ç¯„å›²ã‚’è¨­å®šã€‚
         /// </summary>
         /// <param name="range"></param>
         void SetRange(float range)
@@ -46,7 +46,7 @@ namespace nsK2Engine {
             m_pointLight->SetRange(range);
         }
         /// <summary>
-        /// ‰e‹¿—¦‚Ì—İæ”‚ğİ’èB
+        /// å½±éŸ¿ç‡ã®ç´¯ä¹—æ•°ã‚’è¨­å®šã€‚
         /// </summary>
         /// <param name="powParam"></param>
         void SetAffectPowParam(float powParam)
@@ -54,7 +54,7 @@ namespace nsK2Engine {
             m_pointLight->SetAffectPowParam(powParam);
         }
         /// <summary>
-        /// À•W‚ğæ“¾B
+        /// åº§æ¨™ã‚’å–å¾—ã€‚
         /// </summary>
         /// <returns></returns>
         const Vector3& GetPosition() const
@@ -62,7 +62,7 @@ namespace nsK2Engine {
             return m_pointLight->GetPosition();
         }
         /// <summary>
-        /// ƒJƒ‰[‚ğæ“¾B
+        /// ã‚«ãƒ©ãƒ¼ã‚’å–å¾—ã€‚
         /// </summary>
         /// <returns></returns>
         const Vector3& GetColor() const
@@ -70,7 +70,7 @@ namespace nsK2Engine {
             return m_pointLight->GetColor();
         }
         /// <summary>
-        /// ‰e‹¿”ÍˆÍ‚ğæ“¾B
+        /// å½±éŸ¿ç¯„å›²ã‚’å–å¾—ã€‚
         /// </summary>
         /// <returns></returns>
         float GetRange() const
@@ -78,14 +78,14 @@ namespace nsK2Engine {
             return m_pointLight->GetRange();
         }
         /// <summary>
-        /// XVB
+        /// æ›´æ–°ã€‚
         /// </summary>
         void Update()
         {
             m_pointLight->Update();
         }
         /// <summary>
-        /// ¶ƒf[ƒ^‚ğæ“¾B
+        /// ç”Ÿãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã€‚
         /// </summary>
         /// <returns></returns>
         const SPointLight& GetRawData() const
@@ -93,6 +93,6 @@ namespace nsK2Engine {
             return *m_pointLight;
         }
 	private:
-		SPointLight* m_pointLight = nullptr;	// ƒ|ƒCƒ“ƒgƒ‰ƒCƒgB
+		SPointLight* m_pointLight = nullptr;	// ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã€‚
 	};
 }

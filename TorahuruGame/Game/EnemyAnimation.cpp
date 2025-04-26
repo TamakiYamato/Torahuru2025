@@ -3,7 +3,7 @@
 using namespace std;
 
 namespace {
-	// ファイルパスは文字列なので string を使用する。
+	// 繝輔ぃ繧､繝ｫ繝代せ縺ｯ譁・ｭ怜・縺ｪ縺ｮ縺ｧ string 繧剃ｽｿ逕ｨ縺吶ｋ縲・
 	const string ANIMATION_FAILPATH = "Assets/animData//";
 	const string ANIMATION_EXTENTION = ".tka";
 
@@ -19,11 +19,11 @@ EnemyAnimation::~EnemyAnimation()
 
 bool EnemyAnimation::Start()
 {
-	// 待機アニメーション。
+	// 蠕・ｩ溘い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縲・
 	SetAnimation(enAnimationClip_Idle, "playerIdle", true);
-	// 歩きアニメーション。
+	// 豁ｩ縺阪い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縲・
 	SetAnimation(enAnimationClip_Walk, "playerWalking", true);
-	// 走るアニメーション。
+	// 襍ｰ繧九い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縲・
 	SetAnimation(enAnimationClip_Run, "playerRun", true);
 
 	return true;
@@ -41,13 +41,13 @@ void EnemyAnimation::Render(RenderContext& rc)
 
 }
 
-// constでファイルを読み取る。
+// const縺ｧ繝輔ぃ繧､繝ｫ繧定ｪｭ縺ｿ蜿悶ｋ縲・
 void EnemyAnimation::SetAnimation(const EnAnimationClip animationClip, const string animationFileName, const bool loopFlag)
 {
-	// 共通化したファイル名。
+	// 蜈ｱ騾壼喧縺励◆繝輔ぃ繧､繝ｫ蜷阪・
 	string FileName = ANIMATION_FAILPATH + animationFileName + ANIMATION_EXTENTION;
 	//std::strinstr();
-	// c_str()メゾットを呼び出すことで const char* に変換される。
+	// c_str()繝｡繧ｾ繝・ヨ繧貞他縺ｳ蜃ｺ縺吶％縺ｨ縺ｧ const char* 縺ｫ螟画鋤縺輔ｌ繧九・
 	m_enemyAnim[animationClip].Load(FileName.c_str());
 	m_enemyAnim[animationClip].SetLoopFlag(loopFlag);
 }

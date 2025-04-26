@@ -10,9 +10,9 @@ Stairs::~Stairs() {
 	
 }
 bool Stairs::Start() {
-	m_modelRender.Init("Assets/modelData/Stairs.tkm");	//階段オブジェクト
+	m_modelRender.Init("Assets/modelData/Stairs.tkm");	//髫取ｮｵ繧ｪ繝悶ず繧ｧ繧ｯ繝・
 	
-	//プレイヤー側のオブジェクトを持ってくる
+	//繝励Ξ繧､繝､繝ｼ蛛ｴ縺ｮ繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ謖√▲縺ｦ縺上ｋ
 	m_player = FindGO<Player>("player");
 	return true;
 }

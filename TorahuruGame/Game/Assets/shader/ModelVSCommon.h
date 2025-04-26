@@ -1,11 +1,11 @@
-//モデルの頂点シェーダー関係の共通ヘッダー
+//繝｢繝・Ν縺ｮ鬆らせ繧ｷ繧ｧ繝ｼ繝繝ｼ髢｢菫ゅ・蜈ｱ騾壹・繝・ム繝ｼ
 
 
 
 ///////////////////////////////////////
-// 定数バッファ。
+// 螳壽焚繝舌ャ繝輔ぃ縲・
 ///////////////////////////////////////
-// モデル用の定数バッファー
+// 繝｢繝・Ν逕ｨ縺ｮ螳壽焚繝舌ャ繝輔ぃ繝ｼ
 cbuffer ModelCb : register(b0)
 {
     float4x4 mWorld;
@@ -14,37 +14,37 @@ cbuffer ModelCb : register(b0)
 };
 
 ////////////////////////////////////////////////
-// 構造体
+// 讒矩菴・
 ////////////////////////////////////////////////
 
-// 頂点シェーダーへの入力
+// 鬆らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｸ縺ｮ蜈･蜉・
 struct SVSIn
 {
-    float4 pos : POSITION;          //頂点座標。
-    float3 normal : NORMAL;         //法線。
-    float2 uv : TEXCOORD0;          //UV座標。
-    float3 tangent  : TANGENT;      //接ベクトル。
-    float3 biNormal : BINORMAL;     //従ベクトル。
+    float4 pos : POSITION;          //鬆らせ蠎ｧ讓吶・
+    float3 normal : NORMAL;         //豕慕ｷ壹・
+    float2 uv : TEXCOORD0;          //UV蠎ｧ讓吶・
+    float3 tangent  : TANGENT;      //謗･繝吶け繝医Ν縲・
+    float3 biNormal : BINORMAL;     //蠕薙・繧ｯ繝医Ν縲・
     int4  Indices  	: BLENDINDICES0;
     float4 Weights  : BLENDWEIGHT0;
 };
 
 ////////////////////////////////////////////////
-// グローバル変数。
+// 繧ｰ繝ｭ繝ｼ繝舌Ν螟画焚縲・
 ////////////////////////////////////////////////
-StructuredBuffer<float4x4> g_boneMatrix         : register(t3);	    //ボーン行列。
-StructuredBuffer<float4x4> g_worldMatrixArray   : register(t10);	//ワールド行列の配列。インスタンシング描画の際に有効。
+StructuredBuffer<float4x4> g_boneMatrix         : register(t3);	    //繝懊・繝ｳ陦悟・縲・
+StructuredBuffer<float4x4> g_worldMatrixArray   : register(t10);	//繝ｯ繝ｼ繝ｫ繝芽｡悟・縺ｮ驟榊・縲ゅう繝ｳ繧ｹ繧ｿ繝ｳ繧ｷ繝ｳ繧ｰ謠冗判縺ｮ髫帙↓譛牙柑縲・
 
 ///////////////////////////////////////
-// 関数宣言
+// 髢｢謨ｰ螳｣險
 ///////////////////////////////////////
 SPSIn VSMainCore(SVSIn vsIn, float4x4 mWorldLocal, uniform bool isUsePreComputedVertexBuffer);
 
 ////////////////////////////////////////////////
-// 関数定義。
+// 髢｢謨ｰ螳夂ｾｩ縲・
 ////////////////////////////////////////////////
 /// <summary>
-//スキン行列を計算する。
+//繧ｹ繧ｭ繝ｳ陦悟・繧定ｨ育ｮ励☆繧九・
 /// </summary>
 float4x4 CalcSkinMatrix(SVSIn skinVert)
 {
@@ -62,45 +62,45 @@ float4x4 CalcSkinMatrix(SVSIn skinVert)
     return skinning;
 }
 /// <summary>
-/// ワールド空間の頂点座標を計算する。
+/// 繝ｯ繝ｼ繝ｫ繝臥ｩｺ髢薙・鬆らせ蠎ｧ讓吶ｒ險育ｮ励☆繧九・
 /// </summary>
-/// <param name="vertexPos">頂点座標</param>
-/// <param name="mWorld">ワールド行列</param>
-/// <param name="isUsePreComputedVertexBuffer">事前計算済みの頂点バッファを利用している？</param>
+/// <param name="vertexPos">鬆らせ蠎ｧ讓・/param>
+/// <param name="mWorld">繝ｯ繝ｼ繝ｫ繝芽｡悟・</param>
+/// <param name="isUsePreComputedVertexBuffer">莠句燕險育ｮ玲ｸ医∩縺ｮ鬆らせ繝舌ャ繝輔ぃ繧貞茜逕ｨ縺励※縺・ｋ・・/param>
 float4 CalcVertexPositionInWorldSpace(float4 vertexPos, float4x4 mWorld, uniform bool isUsePreComputedVertexBuffer)
 {
     float4 pos;
     if(isUsePreComputedVertexBuffer){
         pos = vertexPos;
     }else{
-        pos = mul(mWorld, vertexPos);  // モデルの頂点をワールド座標系に変換
+        pos = mul(mWorld, vertexPos);  // 繝｢繝・Ν縺ｮ鬆らせ繧偵Ρ繝ｼ繝ｫ繝牙ｺｧ讓咏ｳｻ縺ｫ螟画鋤
     }
 
     return pos;
 }
 /// <summary>
-/// スキンなしメッシュ用の頂点シェーダーのエントリー関数。
+/// 繧ｹ繧ｭ繝ｳ縺ｪ縺励Γ繝・す繝･逕ｨ縺ｮ鬆らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ髢｢謨ｰ縲・
 /// </summary>
 SPSIn VSMain(SVSIn vsIn)
 {
 	return VSMainCore(vsIn, mWorld, false);
 }
 /// <summary>
-/// スキンなしメッシュ用の頂点シェーダーのエントリー関数(インスタンシング描画用)。
+/// 繧ｹ繧ｭ繝ｳ縺ｪ縺励Γ繝・す繝･逕ｨ縺ｮ鬆らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ髢｢謨ｰ(繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｷ繝ｳ繧ｰ謠冗判逕ｨ)縲・
 /// </summary>
 SPSIn VSMainInstancing(SVSIn vsIn, uint instanceID : SV_InstanceID)
 {
 	return VSMainCore(vsIn, g_worldMatrixArray[instanceID], false);
 }
 /// <summary>
-/// スキンありメッシュの頂点シェーダーのエントリー関数。
+/// 繧ｹ繧ｭ繝ｳ縺ゅｊ繝｡繝・す繝･縺ｮ鬆らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ髢｢謨ｰ縲・
 /// </summary>
 SPSIn VSMainSkin( SVSIn vsIn ) 
 {
 	return VSMainCore(vsIn, CalcSkinMatrix(vsIn), false);
 }
 /// <summary>
-/// スキンありメッシュの頂点シェーダーのエントリー関数(インスタンシング描画用。
+/// 繧ｹ繧ｭ繝ｳ縺ゅｊ繝｡繝・す繝･縺ｮ鬆らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ髢｢謨ｰ(繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｷ繝ｳ繧ｰ謠冗判逕ｨ縲・
 /// </summary>
 SPSIn VSMainSkinInstancing( SVSIn vsIn, uint instanceID : SV_InstanceID )
 {
@@ -109,32 +109,32 @@ SPSIn VSMainSkinInstancing( SVSIn vsIn, uint instanceID : SV_InstanceID )
     return VSMainCore(vsIn, mWorldLocal, false);
 }
 /// <summary>
-/// 事前計算済みの頂点バッファを使う頂点シェーダーのエントリー関数。
-/// スキンメッシュ用
+/// 莠句燕險育ｮ玲ｸ医∩縺ｮ鬆らせ繝舌ャ繝輔ぃ繧剃ｽｿ縺・らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ髢｢謨ｰ縲・
+/// 繧ｹ繧ｭ繝ｳ繝｡繝・す繝･逕ｨ
 /// </summary>
 SPSIn VSMainSkinUsePreComputedVertexBuffer( SVSIn vsIn )
 {
     return VSMainCore(vsIn, (float4x4)0, true);
 }
 /// <summary>
-/// 事前計算済みの頂点バッファを使う頂点シェーダーのエントリー関数。
-/// スキンなしメッシュ用
+/// 莠句燕險育ｮ玲ｸ医∩縺ｮ鬆らせ繝舌ャ繝輔ぃ繧剃ｽｿ縺・らせ繧ｷ繧ｧ繝ｼ繝繝ｼ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ髢｢謨ｰ縲・
+/// 繧ｹ繧ｭ繝ｳ縺ｪ縺励Γ繝・す繝･逕ｨ
 /// </summary>
 SPSIn VSMainUsePreComputedVertexBuffer( SVSIn vsIn )
 {
     return VSMainCore(vsIn, (float4x4)0, true);
 }
 /// <summary>
-/// ワールドスペースの法線、接ベクトル、従ベクトルを計算する。
+/// 繝ｯ繝ｼ繝ｫ繝峨せ繝壹・繧ｹ縺ｮ豕慕ｷ壹∵磁繝吶け繝医Ν縲∝ｾ薙・繧ｯ繝医Ν繧定ｨ育ｮ励☆繧九・
 /// </summary>
-/// <param name="oNormal">法線の出力先</param>
-/// <param name="oTangent">接ベクトルの出力先</param>
-/// <param name="oBiNormal">従ベクトルの出力先</param>
-/// <param name="mWorld">ワールド行列</param>
-/// <param name="iNormal">法線</param>
-/// <param name="iTanget">接ベクトル</param>
-/// <param name="iBiNormal">従ベクトル</param>
-/// <param name="isUsePreComputedVertexBuffer">事前計算済み頂点バッファを利用する？/param>
+/// <param name="oNormal">豕慕ｷ壹・蜃ｺ蜉帛・</param>
+/// <param name="oTangent">謗･繝吶け繝医Ν縺ｮ蜃ｺ蜉帛・</param>
+/// <param name="oBiNormal">蠕薙・繧ｯ繝医Ν縺ｮ蜃ｺ蜉帛・</param>
+/// <param name="mWorld">繝ｯ繝ｼ繝ｫ繝芽｡悟・</param>
+/// <param name="iNormal">豕慕ｷ・/param>
+/// <param name="iTanget">謗･繝吶け繝医Ν</param>
+/// <param name="iBiNormal">蠕薙・繧ｯ繝医Ν</param>
+/// <param name="isUsePreComputedVertexBuffer">莠句燕險育ｮ玲ｸ医∩鬆らせ繝舌ャ繝輔ぃ繧貞茜逕ｨ縺吶ｋ・・param>
 void CalcVertexNormalTangentBiNormalInWorldSpace( 
     out float3 oNormal, 
     out float3 oTangent, 
@@ -147,7 +147,7 @@ void CalcVertexNormalTangentBiNormalInWorldSpace(
 )
 {
     if( isUsePreComputedVertexBuffer){
-        // 事前計算済み頂点バッファを利用する。
+        // 莠句燕險育ｮ玲ｸ医∩鬆らせ繝舌ャ繝輔ぃ繧貞茜逕ｨ縺吶ｋ縲・
         oNormal = iNormal;
         oTangent = iTangent;
         oBiNormal = iBiNormal;

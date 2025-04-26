@@ -1,15 +1,15 @@
 /*!
- *@brief    色空間関係のヘッダーファイル。
+ *@brief    濶ｲ遨ｺ髢馴未菫ゅ・繝倥ャ繝繝ｼ繝輔ぃ繧､繝ｫ縲・
  */
 
 #ifndef _COLOR_SPACE_H_
 #define _COLOR_SPACE_H_
 ////////////////////////////////////////////////////////
-// RGB->HSV, HSV->RGBへの色空間変換関連の関数集。
+// RGB->HSV, HSV->RGB縺ｸ縺ｮ濶ｲ遨ｺ髢灘､画鋤髢｢騾｣縺ｮ髢｢謨ｰ髮・・
 ////////////////////////////////////////////////////////
 
 /*!
- * @brief RGB系からHSV系に変換する。
+ * @brief RGB邉ｻ縺九ｉHSV邉ｻ縺ｫ螟画鋤縺吶ｋ縲・
  */
 float3 Rgb2Hsv(float3 c)
 {
@@ -22,14 +22,14 @@ float3 Rgb2Hsv(float3 c)
     return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 /*!
- * @brief RGB系からHSVのV(輝度)を求める。
+ * @brief RGB邉ｻ縺九ｉHSV縺ｮV(霈晏ｺｦ)繧呈ｱゅａ繧九・
  */
 float Rgb2V( float3 rgb)
 {
     return max(rgb.r, max(rgb.g, rgb.b));
 }
 /*!
- * @brief HSV系からRGB系に変換する。
+ * @brief HSV邉ｻ縺九ｉRGB邉ｻ縺ｫ螟画鋤縺吶ｋ縲・
  */
 float3 Hsv2Rgb(float3 c)
 {
