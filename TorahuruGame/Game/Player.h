@@ -81,5 +81,6 @@ public:
 	//Move						m_currentState = State_Idle;
 	Quaternion					rotation;
 	float				    	m_moveDir		= 1.0f;
+	int m_currentState;
 private:
 };
