@@ -17,70 +17,68 @@ public:
 	void Move();
 	void Anim() {};
 	void Rotation();
-	void StateManagement();
-	void ManageState();						//繧ｹ繝・・繝育ｮ｡逅・・
+	void ManageState();						//ステート管理。
 	void SutaminaCalk();
-	void PlayAnimation();					//繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ蜀咲函縲・
+	void PlayAnimation();					//アニメーションの再生。
 
-	// 蠎ｧ讓吶ｒ蜿門ｾ・
+	// 座標を取得
 	const Vector3& GetPosition() const
 	{
 		return m_position;
 	}
 
-	/// 繝励Ξ繧､繝､繝ｼ縺梧ｭｻ莠｡縺励※縺・ｋ・・
+	/// プレイヤーが死亡している？
 	const bool isPlayerDead() const
 	{
 		return m_hp <= 0;
 	}
 
-	//繧ｭ繝｣繝ｩ繧ｳ繝ｳ縺ｮ蜿門ｾ・
+	//キャラコンの取得
 	CharacterController& GetCharacterController()
 	{
 		return m_charCon;
 	}
 
-	enum Move {
-		State_Idle,					// 蠕・ｩ溘・
-		State_Walk,					// 豁ｩ縺上・
-		State_Run,					// 襍ｰ繧九・
-		State_Crouch,				// 縺励ｃ縺後・縲・
-		State_Crouching,			// 縺励ｃ縺後∩縺薙・縲・
-		State_CrouchStanding,		// 遶九■荳翫′繧九・
-		State_CrouchWalk,			// 縺励ｃ縺後∩豁ｩ縺阪・
-		State_StayRun		     	// 縺励ｃ縺後∩豁ｩ縺阪・
+	enum PlayerState {
+		State_Idle,					// 待機。
+		State_Walk,					// 歩く。
+		State_Run,					// 走る。
+		State_Crouch,				// しゃがむ。
+		State_Crouching,			// しゃがみこむ。
+		State_CrouchStanding,		// 立ち上がる。
+		State_CrouchWalk,			// しゃがみ歩き。
+		State_StayRun		     	// しゃがみ歩き。
 	};
 
 	enum EnAnimationClip {
-		enAnimClip_Idle,			// 蠕・ｩ溘・
-		enAnimClip_Walk,			// 豁ｩ縺・
-		enAnimClip_Run,				// 襍ｰ繧九・
-		enAnimClip_Crouch,			// 縺励ｃ縺後・縲・
-		enAnimClip_Crouching,		// 縺励ｃ縺後∩縺薙・縲・
-		enAnimClip_CrouchStanding,	// 遶九■荳翫′繧九・
-		enAnimClip_CrouchWalk,		// 縺励ｃ縺後∩豁ｩ縺阪・
-		enAnimClip_Jump,			// 繧ｸ繝｣繝ｳ繝・
+		enAnimClip_Idle,			// 待機。
+		enAnimClip_Walk,			// 歩く
+		enAnimClip_Run,				// 走る。
+		enAnimClip_Crouch,			// しゃがむ。
+		enAnimClip_Crouching,		// しゃがみこむ。
+		enAnimClip_CrouchStanding,	// 立ち上がる。
+		enAnimClip_CrouchWalk,		// しゃがみ歩き。
+		enAnimClip_Jump,			// ジャンプ
 		enAnimationClip_Num
 	};
 
 
-	//繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ繧貞・騾壼喧縺吶ｋ縲・
+	//アニメーションを共通化する。
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
 	AnimationClip				m_animationClips[enAnimationClip_Num];
-	CharacterController			m_charCon;							//繧ｭ繝｣繝ｩ繧ｳ繝ｳ
+	CharacterController			m_charCon;							//キャラコン
 	ModelRender					m_modelRender;
-	Vector3						stickL;								//繝励Ξ繧､繝､繝ｼ縺ｮ騾ｲ陦梧婿蜷代ｒ豎ｺ螳壹☆繧九・
+	Vector3						stickL;								//プレイヤーの進行方向を決定する。
 	Vector3						m_position;
-	Vector3						m_moveSpeed;						//遘ｻ蜍暮溷ｺｦ
-	Vector3						m_dash;	
-	float						m_hp = 0;
-	float						m_max_sutamina = 100;               // 繧ｹ繧ｿ繝溘リ縺ｮ譛螟ｧ蛟､縲・
-	float						m_sutamina = m_max_sutamina;    	// 迴ｾ蝨ｨ縺ｮ繧ｹ繧ｿ繝溘リ縲・
-	bool						m_dashFlag = false;                 // 襍ｰ繧雁愛螳壹・
-	//Move						m_currentState = State_Idle;
+	Vector3						m_moveSpeed;						//移動速度
+	Vector3						m_dash;
+	float		     	        m_hp = 0;
+	float                       m_max_sutamina = 100;               // スタミナの最大値。
+	float                       m_sutamina = m_max_sutamina;    	// 現在のスタミナ。
+	bool                        m_dashFlag = false;                 // 走り判定。
+	PlayerState					m_playerState = State_Idle;
 	Quaternion					rotation;
-	float				    	m_moveDir		= 1.0f;
-	int m_currentState;
+	float				    	m_moveDir = 1.0f;
 private:
 };
