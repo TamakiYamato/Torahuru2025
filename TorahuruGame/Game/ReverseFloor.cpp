@@ -6,7 +6,7 @@
 namespace 
 {
 	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
-	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);//ここの当たり判定を小さくする!!
+	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);//縺薙％縺ｮ蠖薙◆繧雁愛螳壹ｒ蟆上＆縺上☆繧・!
 
 }
 
@@ -22,27 +22,27 @@ ReverseFloor::~ReverseFloor()
 
 bool ReverseFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/ReverseFloor.tkm");		//あべこべ床の読み込み。
+	m_modelRender.Init("Assets/modelData/ReverseFloor.tkm");		//縺ゅ∋縺薙∋蠎翫・隱ｭ縺ｿ霎ｼ縺ｿ縲・
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
 	m_collisionObject = NewGO<CollisionObject>(0, "collisionObject");
 	m_collisionObject->CreateBox(
-		m_position + COLLISION_HEIGHT,	//判定の座標。
-		Quaternion::Identity,			//判定の回転。
-		COLLISION_SIZE					//判定の大きさ。
+		m_position + COLLISION_HEIGHT,	//蛻､螳壹・蠎ｧ讓吶・
+		Quaternion::Identity,			//蛻､螳壹・蝗櫁ｻ｢縲・
+		COLLISION_SIZE					//蛻､螳壹・螟ｧ縺阪＆縲・
 	);
 
 	m_player = FindGO<Player>("player");
 
-	m_collisionObject->SetIsEnableAutoDelete(false);	//コリジョンが消えないようにする。
+	m_collisionObject->SetIsEnableAutoDelete(false);	//繧ｳ繝ｪ繧ｸ繝ｧ繝ｳ縺梧ｶ医∴縺ｪ縺・ｈ縺・↓縺吶ｋ縲・
 	return true;
 }
 
 void ReverseFloor::ReverseControlFloor()
 {
-	//プレイヤーが床の上にいたらtrue。
-	//player.hにて効果を発動
+	//繝励Ξ繧､繝､繝ｼ縺悟ｺ翫・荳翫↓縺・◆繧液rue縲・
+	//player.h縺ｫ縺ｦ蜉ｹ譫懊ｒ逋ｺ蜍・
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
 		m_onReverseFloor = true;

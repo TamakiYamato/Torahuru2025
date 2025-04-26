@@ -15,9 +15,9 @@ GameClear::~GameClear() {
 
 bool GameClear:: Start() {
 	
-	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);	//ゲームクリア
+	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);	//繧ｲ繝ｼ繝繧ｯ繝ｪ繧｢
 	m_player = FindGO<Player>("player");
-	m_stairs = FindGO<Stairs>("stairs");	//ここでインスタンスを呼び込む!!
+	m_stairs = FindGO<Stairs>("stairs");	//縺薙％縺ｧ繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ繧貞他縺ｳ霎ｼ繧!!
 
 	return true;
 }
@@ -31,15 +31,15 @@ void GameClear::Update()
 
 		NewGO<Title>(0, "title");
 		DeleteGO(this);
-		//自身を削除する
+		//閾ｪ霄ｫ繧貞炎髯､縺吶ｋ
 	}
-	//画像の更新。
+	//逕ｻ蜒上・譖ｴ譁ｰ縲・
 	m_spriteRender.Update();
 }
 
 
 void GameClear::Render(RenderContext& rc)
 {
-	//画像の描画。
+	//逕ｻ蜒上・謠冗判縲・
 	m_spriteRender.Draw(rc);
 }

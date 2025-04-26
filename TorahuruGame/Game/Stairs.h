@@ -15,7 +15,7 @@ public:
 	Player*		m_player = nullptr;
 
 	Vector3		m_position;
-	int			moveState = 0;		//上に移動か下に移動
+	int			moveState = 0;		//荳翫↓遘ｻ蜍輔°荳九↓遘ｻ蜍・
 
 	
 };

@@ -14,9 +14,9 @@ BackGround::~BackGround() {
 bool BackGround::Start()
 {
 
-	//	//当たり判定を作成する。
+	//	//蠖薙◆繧雁愛螳壹ｒ菴懈・縺吶ｋ縲・
 	m_physicsStaticObject.CreateFromModel(modelRender.GetModel(), modelRender.GetModel().GetWorldMatrix());
-	//当たり判定を可視化する。
+	//蠖薙◆繧雁愛螳壹ｒ蜿ｯ隕門喧縺吶ｋ縲・
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
@@ -24,6 +24,6 @@ void BackGround::Render(RenderContext& rc) {
 	modelRender.Draw(rc);
 }
 void BackGround::Update() {
-	//モデルの更新処理。
+	//繝｢繝・Ν縺ｮ譖ｴ譁ｰ蜃ｦ逅・・
 	modelRender.Update();
 }

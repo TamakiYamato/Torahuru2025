@@ -20,7 +20,7 @@ namespace {
 	Vector3 fireScale = Vector3(35.0f, 10.0f, 10.0f);
 	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
 
-	const float LENGTH = 3000.0f;			//効果音を再生する距離
+	const float LENGTH = 3000.0f;			//蜉ｹ譫憺浹繧貞・逕溘☆繧玖ｷ晞屬
 	const float SE_VOLUME = 0.05f;
 
 }
@@ -55,8 +55,8 @@ bool FireGimmic::Start()
 
 	m_firstPosition = m_position;
 
-	//コリジョンオブジェクトの初期化
-	//4種類つくって
+	//繧ｳ繝ｪ繧ｸ繝ｧ繝ｳ繧ｪ繝悶ず繧ｧ繧ｯ繝医・蛻晄悄蛹・
+	//4遞ｮ鬘槭▽縺上▲縺ｦ
 	m_fireCollision = NewGO<CollisionObject>(0);
 	m_fireCollision->CreateBox(
 		m_firstPosition,
@@ -85,7 +85,7 @@ bool FireGimmic::Start()
 		COLLISION_SIZE
 	);
 
-	//コリジョンオブジェクトが自動で削除されないようにする
+	//繧ｳ繝ｪ繧ｸ繝ｧ繝ｳ繧ｪ繝悶ず繧ｧ繧ｯ繝医′閾ｪ蜍輔〒蜑企勁縺輔ｌ縺ｪ縺・ｈ縺・↓縺吶ｋ
 	m_fireCollision->SetIsEnableAutoDelete(false);
 
 	return true;
@@ -93,7 +93,7 @@ bool FireGimmic::Start()
 
 EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale)
 {
-	//エフェクトの再生
+	//繧ｨ繝輔ぉ繧ｯ繝医・蜀咲函
 	EffectEmitter* effect = NewGO<EffectEmitter>(0);
 	effect->Init(name);
 	effect->SetPosition(pos);
@@ -105,7 +105,7 @@ EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion r
 
 void FireGimmic::Collision()
 {
-	//プレイヤーと火炎放射器の距離を計算
+	//繝励Ξ繧､繝､繝ｼ縺ｨ轣ｫ轤取叛蟆・勣縺ｮ霍晞屬繧定ｨ育ｮ・
 	Vector3 toPlayer = m_player->m_position - COLLISION_POSITION;
 	float disToPlayer = toPlayer.Length();
 
@@ -116,8 +116,8 @@ void FireGimmic::Collision()
 		m_fireRot_East.SetRotationDegY(180.0f);
 		m_fireRot_West.SetRotationDegY(360.0f);
 
-		//enumで4方向分作って、すぐ切り替えられるように関数を作る
-		//引数で回転値(m_fireRot)を渡してみるかな？
+		//enum縺ｧ4譁ｹ蜷大・菴懊▲縺ｦ縲√☆縺仙・繧頑崛縺医ｉ繧後ｋ繧医≧縺ｫ髢｢謨ｰ繧剃ｽ懊ｋ
+		//蠑墓焚縺ｧ蝗櫁ｻ｢蛟､(m_fireRot)繧呈ｸ｡縺励※縺ｿ繧九°縺ｪ・・
 
 		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_West, fireScale);
 		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale2);
@@ -151,15 +151,15 @@ void FireGimmic::Update()
 		Collision();
 	}
 	else {
-		//火が出ている状態
-		// エフェクトの再生が終わる or プレイヤーとの距離が一定以上になったらおしまい
+		//轣ｫ縺悟・縺ｦ縺・ｋ迥ｶ諷・
+		// 繧ｨ繝輔ぉ繧ｯ繝医・蜀咲函縺檎ｵゅｏ繧・or 繝励Ξ繧､繝､繝ｼ縺ｨ縺ｮ霍晞屬縺御ｸ螳壻ｻ･荳翫↓縺ｪ縺｣縺溘ｉ縺翫＠縺ｾ縺・
 		Vector3 toPlayer = m_player->m_position - COLLISION_POSITION;
 		float disToPlayer = toPlayer.Length();
-		//火炎放射の放射する時間を調節する計算
+		//轣ｫ轤取叛蟆・・謾ｾ蟆・☆繧区凾髢薙ｒ隱ｿ遽縺吶ｋ險育ｮ・
 		m_effectIntervalTimer += g_gameTime->GetFrameDeltaTime();
 		if (m_effectIntervalTimer >= m_effectInterval || disToPlayer > LENGTH)
 		{
-			// エフェクトの再生時間が一定時間を経過したら終了する
+			// 繧ｨ繝輔ぉ繧ｯ繝医・蜀咲函譎る俣縺御ｸ螳壽凾髢薙ｒ邨碁℃縺励◆繧臥ｵゆｺ・☆繧・
 			if (m_se->IsPlaying())
 			{
 				m_se->Stop();

@@ -18,29 +18,29 @@ void ReportLiveObjects()
 
 	//DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDxgiDebug);
 
-	//// 出力。
+	//// 蜃ｺ蜉帙・
 	//pDxgiDebug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_DETAIL);
 }
 
 ///////////////////////////////////////////////////////////////////
-// ウィンドウプログラムのメイン関数。
+// 繧ｦ繧｣繝ｳ繝峨え繝励Ο繧ｰ繝ｩ繝縺ｮ繝｡繧､繝ｳ髢｢謨ｰ縲・
 ///////////////////////////////////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-	//ゲームの初期化。
+	//繧ｲ繝ｼ繝縺ｮ蛻晄悄蛹悶・
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
 	//////////////////////////////////////
-	// ここから初期化を行うコードを記述する。
+	// 縺薙％縺九ｉ蛻晄悄蛹悶ｒ陦後≧繧ｳ繝ｼ繝峨ｒ險倩ｿｰ縺吶ｋ縲・
 	//////////////////////////////////////
 
-	//Gameクラスのオブジェクトを作成。
+	//Game繧ｯ繝ｩ繧ｹ縺ｮ繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・縲・
 	NewGO<Title>(0, "title");
 	
 	//////////////////////////////////////
-	// 初期化を行うコードを書くのはここまで！！！
+	// 蛻晄悄蛹悶ｒ陦後≧繧ｳ繝ｼ繝峨ｒ譖ｸ縺上・縺ｯ縺薙％縺ｾ縺ｧ・・ｼ・ｼ・
 	//////////////////////////////////////
 	
-	// ここからゲームループ。
+	// 縺薙％縺九ｉ繧ｲ繝ｼ繝繝ｫ繝ｼ繝励・
 	while (DispatchWindowMessage())
 	{
 		if (g_pad[0]->IsTrigger(enButtonA) ){
