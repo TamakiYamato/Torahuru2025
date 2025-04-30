@@ -8,12 +8,12 @@ public:
     bool Start();
     void Update();
 
-    //謠冗判髢｢謨ｰ
+    //描画関数
     void Render(RenderContext& rc);
     void SetPosition(const Vector3& position)
 
     {
-        m_position = position;//繝昴ず繧ｷ繝ｧ繝ｳ
+        m_position = position;
     }
     void SetRotation(const Quaternion& rotation) {
         m_rotation = rotation;

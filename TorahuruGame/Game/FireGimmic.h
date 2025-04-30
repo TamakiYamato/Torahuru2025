@@ -12,9 +12,9 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	//void PlayEffect();											//繧ｨ繝輔ぉ繧ｯ繝医・蜀咲函
-	void Collision();											//繧ｨ繝輔ぉ繧ｯ繝亥・逕滉ｸｭ縺ｮ縺ｿ繧ｳ繝ｪ繧ｸ繝ｧ繝ｳ繧剃ｽ懈・
-	void PlaySE();												//蜉ｹ譫憺浹繧貞・逕溘☆繧・
+	//void PlayEffect();											//
+	void Collision();											//コリジョン
+	void PlaySE();												//効果音
 
 	void SetPosition(const Vector3& position)
 	{
@@ -28,13 +28,13 @@ public:
 	void SetRotation(const Quaternion& rotation) {
 		m_rotaion = rotation;
 	}
-	// 繧ｨ繝輔ぉ繧ｯ繝医・蜀咲函髢馴囈繧定ｨｭ螳壹☆繧・
+	// effectを出す時間までの時間
 	void SetEffectInterval(const float& time)
 	{
 		m_effectInterval = time;
 	}
 
-	// 繧ｹ繝斐・繝峨→遘ｻ蜍募宛髯舌ｒ險ｭ螳壹☆繧・
+	// 発射スピードと放射時間
 	void SetSppedLimit(const float& speed, const float& limit)
 	{
 		m_speed = speed;
@@ -42,31 +42,31 @@ public:
 	}
 
 
-	// 遘ｻ蜍輔☆繧九ヵ繝ｩ繧ｰ繧定ｨｭ螳壹☆繧・
+	// 火炎放射器が動いているか
 	void SetMoveFlag(const bool& flag)
 	{
 		m_moveFlag = flag;
 	}
 
-	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//繧ｨ繝輔ぉ繧ｯ繝医・蝓ｺ譛ｬ逧・↑諠・ｱ繧堤匳骭ｲ縺吶ｋ!!
+	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//effectの再生
 
 private:
 	enum Status {
-		enStatus_Idle,	// 轣ｫ縺悟・縺ｦ縺・↑縺・憾諷・
-		enStatus_Fire,	// 轣ｫ縺悟・縺ｦ縺・ｋ迥ｶ諷・
+		enStatus_Idle,	// 待機
+		enStatus_Fire,	// 放射中
 	};
 	Status					m_status = enStatus_Idle;
 	ModelRender				m_modelRender;
-	EffectEmitter* m_fire = nullptr;					//轤弱・繧ｮ繝溘ャ繧ｯ繧ｨ繝輔ぉ繧ｯ繝・
-	EffectEmitter* m_fire2 = nullptr;					//轤弱・繧ｮ繝溘ャ繧ｯ繧ｨ繝輔ぉ繧ｯ繝・
-	SoundSource* m_se;								//轤惨E
+	EffectEmitter* m_fire = nullptr;					//
+	EffectEmitter* m_fire2 = nullptr;					//
+	SoundSource* m_se;									//se
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
-	SpriteRender			m_mapSprite;						//繝槭ャ繝励・逕ｻ蜒・
-	Quaternion m_fireRot_North;                                    //轤弱・隗貞ｺｦ縲蛹・
-	Quaternion m_fireRot_South;                                    //轤弱・隗貞ｺｦ縲蜊・
-	Quaternion m_fireRot_East;                                    //轤弱・隗貞ｺｦ縲譚ｱ
-	Quaternion m_fireRot_West;                                    //轤弱・隗貞ｺｦ縲隘ｿ
+	SpriteRender			m_mapSprite;				//画像
+	Quaternion m_fireRot_North;                         //北側
+	Quaternion m_fireRot_South;                         //南側
+	Quaternion m_fireRot_East;                          //東側
+	Quaternion m_fireRot_West;                          //西側
 
 	CollisionObject* m_fireCollision;
 
@@ -74,9 +74,9 @@ private:
 	Vector3                 m_scale = Vector3::Zero;
     Quaternion              m_rotaion;
 	Vector3					m_firstPosition = Vector3::Zero;
-	bool					m_moveFlag = false;					//true縺縺｣縺溘ｉ蜍輔￥
-	float					m_effectIntervalTimer = 0.0f;		//繧ｨ繝輔ぉ繧ｯ繝医・髢馴囈蛻ｶ蠕｡縺ｮ繧ｿ繧､繝槭・
-	float					m_effectInterval = 5.0f;			//繧ｨ繝輔ぉ繧ｯ繝医ｒ蛛懈ｭ｢縺輔○繧矩俣髫・
+	bool					m_moveFlag = false;					//動いているかのフラグ
+	float					m_effectIntervalTimer = 0.0f;		//火炎放射器を動かさない時間の計測
+	float					m_effectInterval = 5.0f;			//火炎放射器を動かさない時間
 	float	m_limit = 100.0f;
 	float	m_speed = 20.0f;
 

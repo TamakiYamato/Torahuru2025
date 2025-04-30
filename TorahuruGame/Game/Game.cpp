@@ -32,27 +32,27 @@ Game::~Game() {
 	DeleteGO(m_floorManager);
 	DeleteGO(m_fireGimmic);
 
-	//郢ｧ・ｹ郢昴・繝ｻ郢ｧ・ｸ陷繝ｻ竊鍋ｸｺ繧・ｽ脚eversefloor郢ｧ蛛ｵ笘・ｸｺ・ｹ邵ｺ・ｦ髫穂ｹ昶命邵ｺ莉｣・狗ｸｲ繝ｻ
+	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
 	for (auto reverseFloor : reverseFloors)
 	{
-		//郢晄亢縺・ｹ晢ｽｳ郢晏現ﾎ帷ｹｧ・､郢晏現・定恆莨∝求邵ｺ蜷ｶ・狗ｸｲ繝ｻ
+		//すべて削除する
 		DeleteGO(reverseFloor);
 	}
 
-	//郢ｧ・ｹ郢昴・繝ｻ郢ｧ・ｸ陷繝ｻ竊鍋ｸｺ繧・ｽ虐lowfloor郢ｧ蛛ｵ笘・ｸｺ・ｹ邵ｺ・ｦ髫穂ｹ昶命邵ｺ莉｣・狗ｸｲ繝ｻ
+	//鈍足床をすべて見つける
 	const auto& slowFloors = FindGOs<SlowFloor>("SlowFloor");
 	for (auto slowFloor : slowFloors)
 	{
-		//郢晄亢縺・ｹ晢ｽｳ郢晏現ﾎ帷ｹｧ・､郢晏現・定恆莨∝求邵ｺ蜷ｶ・狗ｸｲ繝ｻ
+		//すべて削除する
 		DeleteGO(slowFloor);
 	}
 
-	//郢ｧ・ｹ郢昴・繝ｻ郢ｧ・ｸ陷繝ｻ竊鍋ｸｺ繧・ｽ誼lindfloor郢ｧ蛛ｵ笘・ｸｺ・ｹ邵ｺ・ｦ髫穂ｹ昶命邵ｺ莉｣・狗ｸｲ繝ｻ
+	//視界制限床をすべて見つける
 	const auto& blindFloors = FindGOs<BlindFloor>("BlindFloor");
 	for (auto blindFloor : blindFloors)
 	{
-		//郢晄亢縺・ｹ晢ｽｳ郢晏現ﾎ帷ｹｧ・､郢晏現・定恆莨∝求邵ｺ蜷ｶ・狗ｸｲ繝ｻ
+		//すべて削除する
 		DeleteGO(blindFloor);
 	}
 }
@@ -66,10 +66,10 @@ void Game::InitSky() {
 	m_skyCube->SetLuminance(1.0f);
 	m_skyCube->SetScale(10000.0f);
 	
-	// 霑ｺ・ｰ陟・・繝ｻ邵ｺ・ｮ髫ｪ閧ｲ・ｮ蜉ｱ繝ｻ邵ｺ貅假ｽ∫ｸｺ・ｮIBL郢昴・縺醍ｹｧ・ｹ郢昶・ﾎ慕ｹｧ蛛ｵ縺晉ｹ昴・繝ｨ邵ｺ蜷ｶ・狗ｸｲ繝ｻ
+	// IBLテクスチャの設定
 	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
 
-	// 霑ｺ・ｰ陟・・蠕玖怦蟲ｨ繝ｻ陟厄ｽｱ鬮ｻ・ｿ邵ｺ謔溘・邵ｺ荵晢ｽ顔ｹｧ繝ｻ笘・ｸｺ繝ｻ・育ｸｺ繝ｻ竊鍋ｸｲ竏壹Ι郢ｧ・｣郢晢ｽｬ郢ｧ・ｯ郢ｧ・ｷ郢晢ｽｧ郢晢ｽｳ郢晢ｽｩ郢ｧ・､郢晏現繝ｻ郢ｧ・ｪ郢晁ｼ披・邵ｲ繝ｻ
+	// Directionライトの設定
 	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
 }
 
@@ -100,9 +100,9 @@ void Game::SetSutamina()
 bool Game::Start()
 {
 	m_player				= NewGO<Player>(0, "player");
-	m_player->m_position	= { 0.0f,0.0f,0.0f };			//郢晏干ﾎ樒ｹｧ・､郢晢ｽ､郢晢ｽｼ邵ｺ・ｮ郢晄亢縺夂ｹｧ・ｷ郢晢ｽｧ郢晢ｽｳ郢ｧ雋橸ｽ､蟲ｨ竏ｴ郢ｧ繝ｻ
-	m_stairs				= NewGO<Stairs>(0, "stairs");			//鬮ｫ蜿厄ｽｮ・ｵ郢ｧ螳夲ｽｿ・ｽ陷会｣ｰ
-	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };		//鬮ｫ蜿厄ｽｮ・ｵ陟趣ｽｧ隶薙・
+	m_player->m_position	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	m_stairs				= NewGO<Stairs>(0, "stairs");		//階段
+	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
@@ -112,34 +112,34 @@ bool Game::Start()
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
 
-	//郢晢ｽｬ郢晏生ﾎ晉ｹｧ蜻茨ｽｧ迢暦ｽｯ蟲ｨ笘・ｹｧ繝ｻ
-	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//3驕橸ｽｮ鬯俶ｧｭ繝ｻ陟守ｿｫ笘・ｸｺ・ｹ邵ｺ・ｦ鬩溷調・ｽ・ｮ邵ｺ蜉ｱ笳・kl邵ｲ繝ｻ
-		if (objData.ForwardMatchName(L"Box") == true) {								//邵ｺ繧・・邵ｺ阮吮・陟守ｿｫ繝ｻ3dsMax邵ｺ・ｮ陷ｷ讎顔√邵ｲ繝ｻ
+	//レベル実装
+	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//floor1の実装
+		if (objData.ForwardMatchName(L"Box") == true) {								//ステージ
 			m_background = NewGO<BackGround>(0, "Box");
 			m_background->SetPosition(objData.position);
 			m_background->SetScale(objData.scale);
 			return true;
 		}
-		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//邵ｺ繧・・邵ｺ阮吮・陟守ｿｫ繝ｻ3dsMax邵ｺ・ｮ陷ｷ讎顔√邵ｲ繝ｻ
+		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//あべこべ床
 			m_reverseFloor = NewGO<ReverseFloor>(0, "ReverseFloor");
 			m_reverseFloor->SetPosition(objData.position);
 			m_reverseFloor->SetScale(objData.scale);
 			return true;
 		}
-		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//鬩､蟠趣ｽｶ・ｳ陟守ｿｫ繝ｻ3dsMax邵ｺ・ｮ陷ｷ讎顔√邵ｲ繝ｻ
+		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//鈍足床
 			m_slowFloor = NewGO<SlowFloor>(0, "SlowFloor");
 			m_slowFloor->SetPosition(objData.position);
 			m_slowFloor->SetScale(objData.scale);
 			return true;
 		}
-		if (objData.ForwardMatchName(L"BlindFloor") == true) {						////髫穂ｹ滄・陋ｻ・ｶ鬮ｯ莉呻ｽｺ鄙ｫ繝ｻ3dsMax邵ｺ・ｮ陷ｷ讎顔√邵ｲ繝ｻ
+		if (objData.ForwardMatchName(L"BlindFloor") == true) {						//視界制限床
 			m_blindFloor = NewGO<BlindFloor>(0, "BlindFloor");
 			m_blindFloor->SetPosition(objData.position);
 			m_blindFloor->SetScale(objData.scale);
 		    return true;
 		}
 		if (objData.ForwardMatchName(L"FireGimmic") == true) {
-			m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");                      ////郢晁ｼ斐＜郢ｧ・､郢ｧ・｢郢晢ｽｼ郢ｧ・ｮ郢晄ｺ倥Ε郢ｧ・ｯ邵ｺ・ｮ3dsMax邵ｺ・ｮ陷ｷ讎顔√
+			m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");                      //火炎放射器
 			m_fireGimmic->SetPosition(objData.position);
 			m_fireGimmic->SetScale(objData.scale);
 			m_fireGimmic->SetRotation(objData.rotation);
@@ -154,33 +154,33 @@ bool Game::Start()
 
 void Game::Update()
 {
-	//隴弱ｋ菫｣邵ｺ・ｮ髫ｪ閧ｲ・ｮ繝ｻ
+	// 制限時間
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
 	m_timer -= g_gameTime->GetFrameDeltaTime();
 
-	//////郢ｧ・ｿ郢ｧ・､郢晄ｧｭ繝ｻ邵ｺ・ｮ髯ｦ・ｨ驕会ｽｺ///////
+	//////制限時間のテキスト///////
 	wchar_t text[256];
 	swprintf_s(text, 256, L"%02d:%02d", minute, sec);
-	//髯ｦ・ｨ驕会ｽｺ邵ｺ蜷ｶ・狗ｹ昴・縺冗ｹｧ・ｹ郢晏現・帝坎・ｭ陞ｳ螢ｹﾂ繝ｻ
+	// 文字のセット
 	m_fontRender.SetText(text);
-	//郢晁ｼ斐°郢晢ｽｳ郢晏現繝ｻ闖ｴ蜥ｲ・ｽ・ｮ郢ｧ螳夲ｽｨ・ｭ陞ｳ螢ｹﾂ繝ｻ
+	// 文字の座標
 	m_fontRender.SetPosition(Vector3(-100.0f, 500.0f, 0.0f));
-	//郢晁ｼ斐°郢晢ｽｳ郢晏現繝ｻ陞滂ｽｧ邵ｺ髦ｪ・・ｹｧ螳夲ｽｨ・ｭ陞ｳ螢ｹﾂ繝ｻ
+	// 文字の大きさ
 	m_fontRender.SetScale(2.0f);
-	//郢晁ｼ斐°郢晢ｽｳ郢晏現繝ｻ豼ｶ・ｲ郢ｧ螳夲ｽｨ・ｭ陞ｳ螢ｹﾂ繝ｻ
+	// 文字の色
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 
-
+	//ゲームクリア条件
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_stairs->m_position;		//diff邵ｺ・ｧPlayer邵ｺ・ｨStairs邵ｺ・ｨ邵ｺ・ｮ髴肴辨螻ｬ郢ｧ蜻茨ｽｸ・ｬ郢ｧ荵昶螺郢ｧ竏壺・髴托ｽｽ陷会｣ｰ邵ｺ蜉ｱ窶ｻ邵ｺ繝ｻ竏ｪ邵ｺ繝ｻ
+	Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
 	}
 
-	//郢ｧ・ｲ郢晢ｽｼ郢晢｣ｰ郢ｧ・ｪ郢晢ｽｼ郢晁・繝ｻ騾包ｽｨ邵ｺ・ｮ郢ｧ・ｿ郢ｧ・､郢晄ｧｭ繝ｻ
+	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {
 		NewGO<Gameover>(0, "Gameover");
 		DeleteGO(this);
@@ -193,7 +193,8 @@ void SetPosition(const Vector3 position) {
 }
 void Game::Render(RenderContext& rc)
 {
+	//文字の描画
 	m_fontRender.Draw(rc);
-	//郢晢ｽｬ郢晏生ﾎ晉ｸｺ・ｧ髫ｱ・ｭ邵ｺ・ｿ髴趣ｽｼ郢ｧ阮吮味郢晢ｽ｢郢昴・ﾎ晉ｹｧ螳夲ｽ｡・ｨ驕会ｽｺ邵ｺ霈披雷郢ｧ荵敖繝ｻ
+	//レベルの描画
 	m_levelRender.Draw(rc);
 }
