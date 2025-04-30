@@ -18,41 +18,42 @@ public:
 	void SearchPlayer();
 	void ManageState();
 	void PlayAnimation();
+	void CheckPlayerProximityAndDie();
 
-	enum EnemyState {
-		enEnemyState_Idle,			//蠕・ｩ溘・逶｣隕・
-		enEnemyState_Walk,			//謌ｻ繧・
-		enEnemyState_Chase,			//霑ｽ霍｡
-		enEnemyState_Attack,		//謾ｻ謦・
+	enum EnemyState {	//=移動速度に代入。
+		enEnemyState_Idle = 0,			//待機・監視
+		enEnemyState_Walk = 150,			//戻る
+		enEnemyState_Chase = 200,			//追跡
+		enEnemyState_Attack,				//攻撃
 
 	};
-	
 
-	// 蠎ｧ讓吶ｒ蜿門ｾ・
+
+	// 座標を取得
 	const Vector3& GetPosition() const
 	{
 		return m_position;
 	}
 
-	//繧ｭ繝｣繝ｩ繧ｳ繝ｳ縺ｮ蜿門ｾ・
+	//キャラコンの取得
 	CharacterController& GetCharacterController()
 	{
 		return m_charCon;
 	}
 
-	
 
-	CharacterController			m_charCon;										//繧ｭ繝｣繝ｩ繧ｳ繝ｳ縲・
-	ModelRender					m_modelRender;									//繝｢繝・Ν繝ｬ繝ｳ繝繝ｼ縲・
-	Player*						m_player;
-	EnemyAnimation*				m_enemyAnim;
 
-	Vector3						m_position		= Vector3::Zero;				//蠎ｧ讓吶・
-	Vector3						m_scale			= Vector3::One;					//螟ｧ縺阪＆縲・
-	Vector3						m_forward		= Vector3::AxisZ;				//enemy縺ｮ豁｣髱｢繝吶け繝医Ν縲・
-	Vector3						m_firstPosition = Vector3::Zero;				//繧ｹ繧ｿ繝ｼ繝域凾縺ｮ蠎ｧ讓吶・
-	Quaternion					m_rotation		= Quaternion::Identity;			//蝗櫁ｻ｢縲・
+	CharacterController			m_charCon;										//キャラコン。
+	ModelRender					m_modelRender;									//モデルレンダー。
+	Player* m_player;
+	EnemyAnimation* m_enemyAnim;
 
-	int		m_enemyState = enEnemyState_Chase;		//enemy縺ｮ迥ｶ諷九・
+	Vector3						m_position = Vector3::Zero;					//座標。
+	Vector3						m_scale = Vector3::One;						//大きさ。
+	Vector3						m_forward = Vector3::AxisZ;					//enemyの正面ベクトル。
+	Vector3						m_firstPosition = Vector3::Zero;					//スタート時の座標。
+	Vector3						m_moveSpeed = Vector3::Zero;					//移動速度。
+	Quaternion					m_rotation = Quaternion::Identity;				//回転。
+
+	int		m_enemyState = enEnemyState_Chase;		//enemyの状態。
 };
-

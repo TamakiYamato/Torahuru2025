@@ -7,8 +7,8 @@ using namespace std;
 
 namespace {
 
-	const float SEARCH_LENGTH = 500.0f;	//繝励Ξ繧､繝､繝ｼ繧堤匱隕九☆繧玖ｷ晞屬縲・
-
+	const float SEARCH_LENGTH = 500.0f;		//プレイヤーを発見する距離。
+	const float ENEMY_ATTACKRANGE = 150.0f;		//enemyの攻撃範囲、入ると即死。
 }
 
 Enemy::Enemy()
@@ -22,30 +22,31 @@ Enemy::~Enemy()
 
 bool Enemy::Start()
 {
-	// 繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ繧定ｪｭ縺ｿ霎ｼ繧縲・
-	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=菴慕ｨｮ鬘槭≠繧九°
+	// キャラクターを読み込む。
+	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
 	return true;
 
-	//蛻晄悄險ｭ螳・
+	//初期設定
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.SetScale(m_scale);
 
-	//繧ｭ繝｣繝ｩ繧ｳ繝ｳ縺ｮ蛻晄悄蛹・
+	//キャラコンの初期化
 	m_charCon.Init(
 		40.0f,
 		40.0f,
 		m_position
 	);
 
-	//隕九▽縺代ｋ
+	//見つける
 	m_player = FindGO<Player>("player");
 }
 
 void Enemy::Update()
 {
-	SearchPlayer();		//蟶ｸ縺ｫ繝励Ξ繧､繝､繝ｼ繧呈爾縺・
-	PlayAnimation();	//繝励Ξ繧､繝､繝ｼ縺ｮ繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ
+	SearchPlayer();		//常にプレイヤーを探す。
+	ManageState();		//ステートを常に管理、行動。
+	PlayAnimation();	//プレイヤーのアニメーション。
 	m_modelRender.Update();
 }
 
@@ -56,103 +57,121 @@ void Enemy::Render(RenderContext& rc)
 }
 
 /// <summary>
-/// 遘ｻ蜍暮溷ｺｦ繧呈ｶ医＠縲√◎縺ｮ蝣ｴ縺ｧplayer縺梧擂繧九・繧貞ｾ・▽
-/// </summary>
-void Enemy::Stand()
-{
-
-}
-
-/// <summary>
-/// 繝励Ξ繧､繝､繧呈爾縺吶・
+/// プレイヤを探す。
 /// </summary>
 void Enemy::SearchPlayer()
 {
 	Vector3 diff = m_player->GetPosition() - m_position;
 
-	//繝励Ξ繧､繝､繝ｼ縺ｫ縺ゅｋ遞句ｺｦ霑代°縺｣縺溘ｉ
+	//プレイヤーにある程度近かったら
 	if (diff.LengthSq() <= SEARCH_LENGTH * SEARCH_LENGTH)
 	{
-		//繧ｨ繝阪Α繝ｼ縺九ｉ繝励Ξ繧､繝､繝ｼ縺ｫ蜷代°縺・・繧ｯ繝医Ν繧呈ｭ｣隕丞喧縺吶ｋ
+		//エネミーからプレイヤーに向かうベクトルを正規化
 		diff.Normalize();
-		//繧ｨ繝阪Α繝ｼ縺ｮ豁｣髱｢縺ｮ繝吶け繝医Ν縺ｨ縲√お繝阪Α繝ｼ縺九ｉ繝励Ξ繧､繝､繝ｼ縺ｫ蜷代°縺・
-		//繝吶け繝医Ν縺ｮ蜀・ｩ・cosﾎｸ)繧呈ｱゅａ繧・
+
+		//エネミーの正面のベクトルと、エネミーからプレイヤーに向かう
+		//ベクトルの内積(cosθ)を求める
 		float cos = m_forward.Dot(diff);
-		//蜀・ｩ・cosﾎｸ)縺九ｉ隗貞ｺｦ(ﾎｸ)繧呈ｱゅａ繧・
+		//内積(cosθ)から角度(θ)を求める
 		float angle = acosf(cos);
-		//隗貞ｺｦ(ﾎｸ)縺・80ﾂｰ繧医ｊ蟆上＆縺代ｌ縺ｰ
-		if (angle <= Math::DegToRad(120.0f))
+		//角度(θ)が120°より小さければ
+		if (angle <= Math::DegToRad(150.0f))
 		{
-			//繝励Ξ繧､繝､繝ｼ繧定ｦ九▽縺代◆蝣ｴ蜷医∬ｿｽ霍｡髢句ｧ・
+			//プレイヤーを見つけた場合、追跡開始
 			m_enemyState = enEnemyState_Chase;
 		}
-		else if (m_firstPosition.x == m_position.x &&
-				 m_firstPosition.y == m_position.y &&
-				 m_firstPosition.z == m_position.z   ) {	//繧ｨ繝阪Α繝ｼ縺ｮ菴咲ｽｮ縺梧怙蛻晄悄縺ｮ蝣ｴ蜷医・蠕・ｩ・
+
+		else if (m_firstPosition.Length() == m_position.Length()) {		//エネミーの位置が最初期の場合は待機
 			m_enemyState == enEnemyState_Idle;
 		}
+
 		else {
-			//繝励Ξ繧､繝､繝ｼ繧定ｦ九▽縺代ｉ繧後↑縺九▲縺・
+			//プレイヤーを見つけられなかった
 			m_enemyState = enEnemyState_Walk;
 		}
 	}
 }
 
 /// <summary>
-/// 遘ｻ蜍・
+/// 移動速度を消し、その場でplayerが来るのを待つ
+/// </summary>
+void Enemy::Stand()
+{
+	m_moveSpeed = Vector3::Zero;
+}
+
+/// <summary>
+/// 最初の位置に戻る。
 /// </summary>
 void Enemy::Move()
 {
-	
+	//m_moveSpeed = enEnemyState_Walk;
+	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 }
 
 /// <summary>
-/// 繝励Ξ繧､繝､繝ｼ繧定ｿｽ霍｡
+/// プレイヤーを追跡。
 /// </summary>
 void Enemy::Chase()
 {
-	
+	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+	//m_position.y = 35.0f;
+
+	Vector3 modelPosition = m_position;
+	m_modelRender.SetPosition(modelPosition);
 }
 
 /// <summary>
-/// 繧ｹ繝・・繝育ｮ｡逅・・
+/// ステート管理。
 /// </summary>
 void Enemy::ManageState()
 {
 	switch (m_enemyState) {
 	case enEnemyState_Idle:
-		Stand();	//firstPosition縺ｧplayer縺梧擂繧九・繧貞ｾ・▽縲・
+		Stand();	//firstPositionでplayerが来るのを待つ。
 		break;
 
 	case enEnemyState_Walk:
-		Move();		//蜈・・菴咲ｽｮ縺ｫ謌ｻ繧九・
+		Move();		//元の位置に戻る。
 		break;
 
 	case enEnemyState_Chase:
-		Chase();	//霑ｽ霍｡縲・
+		Chase();	//追跡。
 		break;
 	}
 }
 
 /// <summary>
-/// 繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ邂｡逅・
+/// アニメーションの管理
 /// </summary>
 void Enemy::PlayAnimation()
 {
 	switch (m_enemyState) {
-	case enEnemyState_Idle:		//蠕・ｩ・
+	case enEnemyState_Idle:		//待機
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Idle);
 		break;
 
-	case enEnemyState_Walk:		//逶｣隕・
+	case enEnemyState_Walk:		//監視
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Walk);
 		break;
 
-	case enEnemyState_Chase:	//襍ｰ繧・
+	case enEnemyState_Chase:	//走る
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Run);
 		break;
 
 	default:
 		break;
+	}
+}
+
+/// <summary>
+/// プレイヤーがエネミーに一定距離近づいたら即死ステートに変更
+/// </summary>
+void Enemy::CheckPlayerProximityAndDie()
+{
+	Vector3 diff = m_player->GetPosition() - m_position;
+	if (diff.Length() >= 200.0f) {
+		m_enemyState = enEnemyState_Attack;
 	}
 }

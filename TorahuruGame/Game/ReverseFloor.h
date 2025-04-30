@@ -30,7 +30,7 @@ public:
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 
-	bool m_onReverseFloor = false;	//蠎翫↓霈峨▲縺ｦ縺・ｋ縺九・蛻､螳夂畑螟画焚縲・
+	bool m_onReverseFloor = false;	//プレイヤーが床を踏んだかのフラグ
 };
 
 
