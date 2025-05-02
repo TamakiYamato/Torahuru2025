@@ -14,6 +14,7 @@
 #include "Sutamina.h"
 #include "GameClear.h"
 #include "Gameover.h"
+#include "Loading.h"
 #include "FireGimmic.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
@@ -97,6 +98,21 @@ void Game::SetSutamina()
 	m_setSutamina = NewGO<Sutamina>(0, "sutamina");
 }
 
+// ロード用。
+void Game::SetLoading()
+{
+	m_Load = FindGO<Loading>("loading");
+	// 画面の明るさを徐々に上げる。
+	m_Load->StartLoading();
+
+}
+
+void Game::SetGameClear()
+{
+	/*m_isWaitLoadOut = true;
+	m_Load->StartLoadOut();*/
+}
+
 bool Game::Start()
 {
 	m_player				= NewGO<Player>(0, "player");
@@ -111,6 +127,8 @@ bool Game::Start()
 	SetSutamina();
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
+	// ゲームの読み込みが終わった後、画面を明るくする。
+	SetLoading();
 
 	//郢晢ｽｬ郢晏生ﾎ晉ｹｧ蜻茨ｽｧ迢暦ｽｯ蟲ｨ笘・ｹｧ繝ｻ
 	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//3驕橸ｽｮ鬯俶ｧｭ繝ｻ陟守ｿｫ笘・ｸｺ・ｹ邵ｺ・ｦ鬩溷調・ｽ・ｮ邵ｺ蜉ｱ笳・kl邵ｲ繝ｻ
@@ -178,6 +196,7 @@ void Game::Update()
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
+		SetGameClear();
 	}
 
 	//郢ｧ・ｲ郢晢ｽｼ郢晢｣ｰ郢ｧ・ｪ郢晢ｽｼ郢晁・繝ｻ騾包ｽｨ邵ｺ・ｮ郢ｧ・ｿ郢ｧ・､郢晄ｧｭ繝ｻ
@@ -191,6 +210,7 @@ void SetPosition(const Vector3 position) {
 	
 	SetPosition(Vector3(0.0f, -200.0f, 10.0f));
 }
+
 void Game::Render(RenderContext& rc)
 {
 	m_fontRender.Draw(rc);

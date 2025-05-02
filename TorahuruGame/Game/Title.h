@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class Loading;
 class Game;
 class Title :public IGameObject
 
@@ -16,8 +17,10 @@ private:
 	SoundSource* m_bgm = nullptr;
 	SoundSource* se;
 
-	float	m_alpha = 0.0f;
-	bool	m_isWaitFadeOut = false;
+	Loading		* m_Loading;
+	bool		m_isWaitLoadOut = false;
+	float		m_alpha = 0.0f;
+	SpriteRender m_pressButton;
 };
 
 
