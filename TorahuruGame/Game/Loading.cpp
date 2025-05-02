@@ -22,9 +22,9 @@ bool Loading::Start()
 	// 画像を読み込む。
 	m_spriteRender.Init("Assets/modelData/Title/Loading.DDS", 1920, 1080.);
 	// 大きさ。
-	m_spriteRender.SetScale(SCALE);
-	// 位置。
-	m_spriteRender.SetPosition(POSITIOIN);
+	//m_spriteRender.SetScale(SCALE);
+	//// 位置。
+	//m_spriteRender.SetPosition(POSITIOIN);
 	// 更新。
 	m_spriteRender.Update();
 	return true;
