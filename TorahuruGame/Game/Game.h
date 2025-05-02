@@ -16,6 +16,7 @@ class Stairs;
 class Title;
 class GameClear;
 class Gameover;
+class Loading;
 class FireGimmic;
 class Game : public IGameObject
 {
@@ -25,6 +26,8 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+	void SetLoading();
+	void SetGameClear();
 	void SetSutamina();
 	void InitSky();
 	void TutorialText();
@@ -60,6 +63,8 @@ private:
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
 	FireGimmic*					m_fireGimmic = nullptr;				//火炎放射器
 	FontRender					m_fontRender;
+	Loading*					m_Load;
+	bool						m_isWaitLoadOut;
 
 	std::vector<ReverseFloor*>	m_reverseFloorLists;		//すべてのあべこべ床
 	std::vector<SlowFloor*>		m_slowFloorLists;			//すべての鈍足床

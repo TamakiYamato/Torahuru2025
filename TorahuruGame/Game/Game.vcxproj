@@ -236,6 +236,7 @@
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="Gameover.cpp" />
+    <ClCompile Include="Loading.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MakeEffect.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="Gameover.h" />
+    <ClInclude Include="Loading.h" />
     <ClInclude Include="MakeEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />

@@ -14,6 +14,7 @@
 #include "Sutamina.h"
 #include "GameClear.h"
 #include "Gameover.h"
+#include "Loading.h"
 #include "FireGimmic.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
@@ -97,6 +98,21 @@ void Game::SetSutamina()
 	m_setSutamina = NewGO<Sutamina>(0, "sutamina");
 }
 
+// ロード用。
+void Game::SetLoading()
+{
+	m_Load = FindGO<Loading>("loading");
+	// 画面の明るさを徐々に上げる。
+	m_Load->StartLoading();
+
+}
+
+void Game::SetGameClear()
+{
+	/*m_isWaitLoadOut = true;
+	m_Load->StartLoadOut();*/
+}
+
 bool Game::Start()
 {
 	m_player				= NewGO<Player>(0, "player");
@@ -111,6 +127,8 @@ bool Game::Start()
 	SetSutamina();
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
+	// ゲームの読み込みが終わった後、画面を明るくする。
+	SetLoading();
 
 	//レベル実装
 	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//floor1の実装
@@ -178,6 +196,7 @@ void Game::Update()
 	if (diff.Length() <= 100.0f) {
 		NewGO<GameClear>(0, "GameClear");
 		DeleteGO(this);
+		SetGameClear();
 	}
 
 	//ゲームオーバー条件
@@ -191,6 +210,7 @@ void SetPosition(const Vector3 position) {
 	
 	SetPosition(Vector3(0.0f, -200.0f, 10.0f));
 }
+
 void Game::Render(RenderContext& rc)
 {
 	//文字の描画
