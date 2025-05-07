@@ -133,11 +133,11 @@ void Player::Move() {
 	//左スティックの入力量と180.0fを
 	// 乗算。
 	//移動速度を決める。
-	right *= stickL.x * 180.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
+	/*right *= stickL.x * 180.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 180.0f * m_dash * m_moveDir;*/
 
-	/*right *= stickL.x * 500.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 500.0f * m_dash * m_moveDir;*/
+	right *= stickL.x * 500.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 500.0f * m_dash * m_moveDir;
 
 	//移動速度にスティックの入力量を加算する。
 	// m_run→ダッシュ時用の変数。

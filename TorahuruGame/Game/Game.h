@@ -6,6 +6,7 @@ class Player;
 class Sutamina;
 class Enemy;
 class BackGround;
+class FirstFloor;
 class GameCamera;
 class ReverseFloor;
 class SlowFloor;
@@ -26,6 +27,7 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+	void SetFirstFloor();
 	void SetLoading();
 	void SetGameClear();
 	void SetSutamina();
@@ -46,22 +48,20 @@ public:
 	Tutorial* m_tutorial4;                        //
 
 private:
+	FirstFloor*					m_firstFloor;
 	Player*						m_player = nullptr;
 	Sutamina*                   m_setSutamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;
-	BackGround*					m_background = nullptr;
+	
 	ModelRender					m_modelRender;
 	Stairs*						m_stairs = nullptr;					//階段
-	LevelRender					m_levelRender;						//レベル
-	FloorManager*				m_floorManager;						//特殊床の管理
-	ReverseFloor*				m_reverseFloor;						//あべこべ床
-	SlowFloor*					m_slowFloor;						//鈍足床
-	BlindFloor*					m_blindFloor;						//視界制限床
+	
+	
 	
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
-	FireGimmic*					m_fireGimmic = nullptr;				//火炎放射器
+
 	FontRender					m_fontRender;
 	Loading*					m_Load;
 	bool						m_isWaitLoadOut;
