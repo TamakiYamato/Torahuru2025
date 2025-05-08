@@ -1,4 +1,5 @@
 #pragma once
+#include "PlayerState.h"
 
 //class Enemy;
 class GameClear;
@@ -80,5 +81,9 @@ public:
 	PlayerState					m_playerState = State_Idle;
 	Quaternion					rotation;
 	float				    	m_moveDir = 1.0f;
+
+	IPlayerState* m_playerStateList[enPlayerState_Max];	// ステートリスト
+	int m_currentPlayerState;					// 現在の状態
+	int m_requestPlayerState;					// 次に使いたい状態(リクエスト)
 private:
 };

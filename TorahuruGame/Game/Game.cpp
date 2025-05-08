@@ -75,9 +75,7 @@ void Game::InitSky() {
 }
 
 void Game::TutorialText()
-{
-	// todo:tamaki 郢昶・ﾎ礼ｹ晢ｽｼ郢晏現ﾎ懃ｹｧ・｢郢晢ｽｫ鬩溷調・ｽ・ｮ騾包ｽｨ(陟募ｾ娯括邵ｺ・ｩ髴托ｽｽ陷会｣ｰ邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
-	
+{	
 	//m_tutorial = NewGO<Tutorial>(0, "tutorial");
 	//m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // 霓｣・ｫ霓､蜿門鋤陝・・蜍｣
 	//// 2邵ｺ・､郢ｧ竏壹・霓｣・ｫ霓､蜿門鋤陝・・蜍｣邵ｺ・ｮ陟趣ｽｧ隶薙・

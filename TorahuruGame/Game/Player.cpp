@@ -20,7 +20,6 @@ namespace
 	// ヒューマンエラーを防ぐ。　ヒューマンエラー→タイピング等のミスで起こるエラー。
 	const std::string animationFilePath = "Assets/animData/player/";
 	const std::string animationExtention = ".tka";
-
 }
 
 Player::Player()
@@ -29,7 +28,11 @@ Player::Player()
 
 Player::~Player()
 {
-
+	// 状態をdelete。
+	for (int i = 0; i < enPlayerState_Max; ++i) {
+		delete m_playerStateList[i];
+		m_playerStateList[i] = nullptr;
+	}
 }
 
 // constでファイルを読み取る。
@@ -75,10 +78,41 @@ bool Player::Start()
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
+	// 状態の生成。
+	// 注意：newしたインスタンスはdeleteが必要。
+	//       今回はデストラクタでdeleteします。
+	m_playerStateList[enPlayerState_Idle] = new PlayerIdleState(this);
+	m_playerStateList[enPlayerState_Walk] = new PlayerWalkState(this);
+	m_playerStateList[enPlayerState_Run] = new PlayerRunState(this);
+	m_playerStateList[enPlayerState_Crouch] = new PlayerCrouchState(this);
+	m_playerStateList[enPlayerState_CrouchWalk] = new PlayerCrouchWalkState(this);	
+
+	// 初期状態を設定。
+	m_currentPlayerState = enPlayerState_Idle;
+	m_requestPlayerState = enPlayerState_None;
+
 	return true;
 }
 
 void Player::Update() {
+#if 1
+	if (m_requestPlayerState != enPlayerState_None) {
+		if (m_currentPlayerState != m_requestPlayerState) {
+			// 現在の状態を終了する。
+			m_playerStateList[m_currentPlayerState]->Exit();
+			// 現在の状態を次の状態に切り替える。
+			m_currentPlayerState = m_requestPlayerState;
+			// 切り替えた状態を開始。
+			m_playerStateList[m_currentPlayerState]->Enter();
+		}
+	}
+	// ステート処理が上手く実行されてない場合、お知らせしてくれる。
+	K2_ASSERT(m_currentPlayerState != enPlayerState_None, "状態が正しく設定されていません。");
+	m_playerStateList[m_currentPlayerState]->Update();
+#endif
+
+	// Move関数の処理をPlayerState.cppのUpdateに移行する。
+	// Rotation、SutaminaCalk、modelRender以外残らんよ。
 	Move();					//キャラクターの移動
 	Rotation();				//キャラクターの回転
 	ManageState();			//ステート管理。
