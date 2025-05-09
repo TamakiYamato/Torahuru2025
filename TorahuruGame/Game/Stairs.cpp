@@ -14,11 +14,15 @@ bool Stairs::Start() {
 	
 	//繝励Ξ繧､繝､繝ｼ蛛ｴ縺ｮ繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ謖√▲縺ｦ縺上ｋ
 	m_player = FindGO<Player>("player");
+	
+
 	return true;
 }
+
 void Stairs::Update() {
 
 	m_modelRender.SetPosition(m_position);
+	
 	m_modelRender.Update();	
 }
 
