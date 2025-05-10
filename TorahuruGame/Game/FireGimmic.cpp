@@ -12,12 +12,12 @@ namespace {
 	Vector3 COLLISION_SIZE = Vector3(20.0f, 150.0f, 20.0f);
 	Vector3 COLLISION_POSITION = Vector3(100.0f, 0.0f, 100.0f);
 
-	Vector3 firePosition = Vector3(400.0f, 125.0f, -825.0f);
+	Vector3 firePosition = Vector3(-400.0f, 150.0f, -400.0f);
 	Vector3 firePosition2 = Vector3(2100.0f, 150.0f, -1200.0f);
 
 	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
-	Vector3 fireScale = Vector3(35.0f, 10.0f, 10.0f);
+	Vector3 fireScale = Vector3(20.0f, 10.0f, 10.0f);
 	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
 
 	const float LENGTH = 3000.0f;			//長さ
@@ -119,7 +119,7 @@ void FireGimmic::Collision()
 		//
 		//
 
-		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_West, fireScale);
+		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_North, fireScale);
 		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale2);
 
 		/*if (!m_fire->IsPlay())

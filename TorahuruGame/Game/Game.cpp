@@ -66,14 +66,33 @@ void Game::InitSky() {
 	m_skyCube->SetType(enSkyCubeType_NightToon);
 	m_skyCube->SetLuminance(1.0f);
 	m_skyCube->SetScale(10000.0f);
-	
-	// IBLテクスチャの設定
-	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
 
-	// Directionライトの設定
-	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
 }
 
+// Directionライトの設定
+void Game::LightSetting()
+{
+	// IBLテクスチャの設定
+	//g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
+	g_renderingEngine->SetAmbient(Vector3(0.5f, 0.5f, 0.5f));
+	// 上からの光
+	{
+		Vector3 dir(0, -1, 0);
+		dir.Normalize();
+		Vector3 dirColor(0.5f, 0.5f, 0.5f);
+
+		g_renderingEngine->SetDirectionLight(0, dir, dirColor);
+	}
+
+	{
+		// 地面からの反射光
+		Vector3 dir(0, 1, 0);
+		dir.Normalize();
+		Vector3 dirColor(0.76, 0.69, 0.52);
+
+		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
+	}
+};
 void Game::TutorialText()
 {
 	// todo:tamaki 郢昶・ﾎ礼ｹ晢ｽｼ郢晏現ﾎ懃ｹｧ・｢郢晢ｽｫ鬩溷調・ｽ・ｮ騾包ｽｨ(陟募ｾ娯括邵ｺ・ｩ髴托ｽｽ陷会｣ｰ邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
@@ -180,6 +199,22 @@ bool Game::Start()
 
 void Game::Update()
 {
+	// カメラライト
+	if (m_floorManager->LightCount != 1)
+	{
+		Vector3 dir = g_camera3D->GetForward();
+		dir.Normalize();
+		Vector3 dirColor(2.3, 2.3, 2.3);
+
+		LightSetting();
+
+		g_renderingEngine->SetDirectionLight(2, dir, dirColor);
+		m_floorManager->LightCount = 0;
+	}
+	else 
+	{
+		g_renderingEngine->SetDirectionLight(2, g_vec3Zero, g_vec3Zero);
+	}
 	// 制限時間
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;

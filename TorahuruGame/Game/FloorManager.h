@@ -42,9 +42,10 @@ public:
 	Game*						m_game = nullptr;				//ゲーム
 
 	Vector3					pointLightPosition;
-	int						m_floorState	= Normal;			//プレイヤーが受けたデバフ
-	int						m_saveState		= Normal;			//プレイヤーが受けたデバフを保存する
-	float					m_floorTimer	= 7.0f;				//効果時間
+	int						m_floorState = FloorState::Normal;				//プレイヤーが受けたデバフ
+	int						m_saveState  = FloorState :: Normal;			//プレイヤーが受けたデバフを保存する
+	int						LightCount = 0;				
+	float					m_floorTimer	= 7.0f;							//効果時間
 
 private:
 	bool					m_isAddStatus = false;

@@ -160,7 +160,12 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 				//////////////環境光の設定//////////////////////////
 
 				// テクスチャの明るさを変更
-				g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 0.01f);
+				g_renderingEngine->SetAmbient(Vector3(0.01f, 0.01f, 0.01f));
+
+				g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
+				g_renderingEngine->SetDirectionLight(1, g_vec3Zero, g_vec3Zero);
+				LightCount = 1;
+				// Gameクラスでやっているカメラライトをオフにする
 
 				// 明るさの明度率
 				g_renderingEngine->SetSceneMiddleGray(0.01f);
@@ -260,7 +265,7 @@ void FloorManager::RevertState()
 			m_spriteRender = nullptr;
 		}
 		// 環境光
-		g_renderingEngine->SetAmbientByIBLTexture(m_game->m_skyCube->GetTextureFilePath(), 1.0f);
+		g_renderingEngine->SetAmbient(Vector3(0.5f, 0.5f, 0.5f));
 		g_renderingEngine->SetSceneMiddleGray(0.18f);
 		g_renderingEngine->SetBloomThreshold(1.0f);
 		//ポイントライトの削除
