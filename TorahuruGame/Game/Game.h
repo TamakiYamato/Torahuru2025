@@ -30,6 +30,7 @@ public:
 	void SetGameClear();
 	void SetSutamina();
 	void InitSky();
+	void LightSetting();
 	void TutorialText();
 	void UpdateFont();				//
 	void CountTimer();				//
