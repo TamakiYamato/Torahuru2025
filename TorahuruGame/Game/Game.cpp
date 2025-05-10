@@ -117,8 +117,8 @@ bool Game::Start()
 {
 	m_player				= NewGO<Player>(0, "player");
 	m_player->m_position	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
-	m_stairs				= NewGO<Stairs>(0, "stairs");		//階段
-	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
+	//m_stairs				= NewGO<Stairs>(0, "stairs");		//階段
+	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
@@ -131,6 +131,7 @@ bool Game::Start()
 	SetLoading();
 
 	//レベル実装
+	// Todo Haruka: tklファイルの名前をStage1.tklに変更する。→分かりやすくするため名前を統一しておきたい。
 	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//floor1の実装
 		if (objData.ForwardMatchName(L"Box") == true) {								//ステージ
 			m_background = NewGO<BackGround>(0, "Box");
@@ -163,7 +164,14 @@ bool Game::Start()
 			m_fireGimmic->SetRotation(objData.rotation);
 			return true;
 		 }
+		if (objData.ForwardMatchName(L"Stairs") == true) {
+			m_stairs = NewGO<Stairs>(0, "stairs");
+			m_stairs->SetPosition(objData.position);
+			m_stairs->SetScale(objData.scale);
+			m_stairs->SetRotation(objData.rotation);
 
+			return true;
+		}
 	
 	});
 
@@ -189,16 +197,19 @@ void Game::Update()
 	// 文字の色
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
+	
+
 
 	//ゲームクリア条件
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
-	if (diff.Length() <= 100.0f) {
-		NewGO<GameClear>(0, "GameClear");
-		DeleteGO(this);
-		SetGameClear();
-	}
-
+		Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
+		if (diff.Length() <= 100.0f) {
+			NewGO<GameClear>(0, "GameClear");
+			DeleteGO(this);
+			SetGameClear();
+			
+		}
+	
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {
 		NewGO<Gameover>(0, "Gameover");
