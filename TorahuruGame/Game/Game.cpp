@@ -16,22 +16,22 @@
 #include "Gameover.h"
 #include "Loading.h"
 #include "FireGimmic.h"
+#include "FirstFloor.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 
 Game::Game()
 {
-
 }
 
 Game::~Game() {
 
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
-	DeleteGO(m_background);
 	DeleteGO(m_stairs);
-	DeleteGO(m_floorManager);
-	DeleteGO(m_fireGimmic);
+	DeleteGO(m_firstFloor->m_background);
+	DeleteGO(m_firstFloor->m_floorManager);
+	DeleteGO(m_firstFloor->m_fireGimmic);
 
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -94,9 +94,7 @@ void Game::LightSetting()
 	}
 };
 void Game::TutorialText()
-{
-	// todo:tamaki 郢昶・ﾎ礼ｹ晢ｽｼ郢晏現ﾎ懃ｹｧ・｢郢晢ｽｫ鬩溷調・ｽ・ｮ騾包ｽｨ(陟募ｾ娯括邵ｺ・ｩ髴托ｽｽ陷会｣ｰ邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
-	
+{	
 	//m_tutorial = NewGO<Tutorial>(0, "tutorial");
 	//m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // 霓｣・ｫ霓､蜿門鋤陝・・蜍｣
 	//// 2邵ｺ・､郢ｧ竏壹・霓｣・ｫ霓､蜿門鋤陝・・蜍｣邵ｺ・ｮ陟趣ｽｧ隶薙・
@@ -110,6 +108,12 @@ void Game::TutorialText()
 	//
 	//m_tutorial4 = NewGO<Tutorial>(0, "tutorial");
 	//m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // 髫穂ｹ滄・陋ｻ・ｶ鬮ｯ莉呻ｽｺ繝ｻ
+}
+
+// 第一フロア。
+void Game::SetFirstFloor()
+{
+	m_firstFloor = NewGO<FirstFloor>(0, "firstFloor");
 }
 
 void Game::SetSutamina()
@@ -134,65 +138,21 @@ void Game::SetGameClear()
 
 bool Game::Start()
 {
-	m_player				= NewGO<Player>(0, "player");
-	m_player->m_position	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
-	//m_stairs				= NewGO<Stairs>(0, "stairs");		//階段
+	m_player			        	= NewGO<Player>(0, "player");
+	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
-	m_se					= NewGO<SoundSource>(0, "se");
-	m_floorManager			= NewGO<FloorManager>(0, "floorManager");
-
+	m_se			          		= NewGO<SoundSource>(0, "se");
+  
 	InitSky();
+  SetFirstFloor();
 	SetSutamina();
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
-
-	//レベル実装
-	// Todo Haruka: tklファイルの名前をStage1.tklに変更する。→分かりやすくするため名前を統一しておきたい。
-	m_levelRender.Init("Assets/level/BackGround1.tkl",[&](LevelObjectData& objData) {	//floor1の実装
-		if (objData.ForwardMatchName(L"Box") == true) {								//ステージ
-			m_background = NewGO<BackGround>(0, "Box");
-			m_background->SetPosition(objData.position);
-			m_background->SetScale(objData.scale);
-			return true;
-		}
-		if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//あべこべ床
-			m_reverseFloor = NewGO<ReverseFloor>(0, "ReverseFloor");
-			m_reverseFloor->SetPosition(objData.position);
-			m_reverseFloor->SetScale(objData.scale);
-			return true;
-		}
-		if (objData.ForwardMatchName(L"SlowFloor") == true) {						//鈍足床
-			m_slowFloor = NewGO<SlowFloor>(0, "SlowFloor");
-			m_slowFloor->SetPosition(objData.position);
-			m_slowFloor->SetScale(objData.scale);
-			return true;
-		}
-		if (objData.ForwardMatchName(L"BlindFloor") == true) {						//視界制限床
-			m_blindFloor = NewGO<BlindFloor>(0, "BlindFloor");
-			m_blindFloor->SetPosition(objData.position);
-			m_blindFloor->SetScale(objData.scale);
-		    return true;
-		}
-		if (objData.ForwardMatchName(L"FireGimmic") == true) {
-			m_fireGimmic = NewGO<FireGimmic>(0, "firegimmic");                      //火炎放射器
-			m_fireGimmic->SetPosition(objData.position);
-			m_fireGimmic->SetScale(objData.scale);
-			m_fireGimmic->SetRotation(objData.rotation);
-			return true;
-		 }
-		if (objData.ForwardMatchName(L"Stairs") == true) {
-			m_stairs = NewGO<Stairs>(0, "stairs");
-			m_stairs->SetPosition(objData.position);
-			m_stairs->SetScale(objData.scale);
-			m_stairs->SetRotation(objData.rotation);
-
-			return true;
-		}
-	
-	});
+  
 
 	return true;
 }
@@ -232,9 +192,6 @@ void Game::Update()
 	// 文字の色
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
-	
-
-
 	//ゲームクリア条件
 	m_modelRender.Update();
 		Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
@@ -261,6 +218,5 @@ void Game::Render(RenderContext& rc)
 {
 	//文字の描画
 	m_fontRender.Draw(rc);
-	//レベルの描画
-	m_levelRender.Draw(rc);
 }
+
