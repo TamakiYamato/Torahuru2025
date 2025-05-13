@@ -66,14 +66,33 @@ void Game::InitSky() {
 	m_skyCube->SetType(enSkyCubeType_NightToon);
 	m_skyCube->SetLuminance(1.0f);
 	m_skyCube->SetScale(10000.0f);
-	
-	// IBLテクスチャの設定
-	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
 
-	// Directionライトの設定
-	g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
 }
 
+// Directionライトの設定
+void Game::LightSetting()
+{
+	// IBLテクスチャの設定
+	//g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
+	g_renderingEngine->SetAmbient(Vector3(0.5f, 0.5f, 0.5f));
+	// 上からの光
+	{
+		Vector3 dir(0, -1, 0);
+		dir.Normalize();
+		Vector3 dirColor(0.5f, 0.5f, 0.5f);
+
+		g_renderingEngine->SetDirectionLight(0, dir, dirColor);
+	}
+
+	{
+		// 地面からの反射光
+		Vector3 dir(0, 1, 0);
+		dir.Normalize();
+		Vector3 dirColor(0.76, 0.69, 0.52);
+
+		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
+	}
+};
 void Game::TutorialText()
 {	
 	//m_tutorial = NewGO<Tutorial>(0, "tutorial");
@@ -119,28 +138,43 @@ void Game::SetGameClear()
 
 bool Game::Start()
 {
-	m_player				= NewGO<Player>(0, "player");
-	m_player->m_position	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
-	m_stairs				= NewGO<Stairs>(0, "stairs");		//階段
-	m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
+	m_player			        	= NewGO<Player>(0, "player");
+	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
+	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
-	m_se					= NewGO<SoundSource>(0, "se");
-
+	m_se			          		= NewGO<SoundSource>(0, "se");
+  
 	InitSky();
+  SetFirstFloor();
 	SetSutamina();
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
-
-	// 第一フロアを呼び出す。
-	SetFirstFloor();
+  
 
 	return true;
 }
 
 void Game::Update()
 {
+	// カメラライト
+	if (m_floorManager->LightCount != 1)
+	{
+		Vector3 dir = g_camera3D->GetForward();
+		dir.Normalize();
+		Vector3 dirColor(2.3, 2.3, 2.3);
+
+		LightSetting();
+
+		g_renderingEngine->SetDirectionLight(2, dir, dirColor);
+		m_floorManager->LightCount = 0;
+	}
+	else 
+	{
+		g_renderingEngine->SetDirectionLight(2, g_vec3Zero, g_vec3Zero);
+	}
 	// 制限時間
 	int minute = (int)m_timer / 60;
 	int sec = (int)m_timer % 60;
@@ -160,13 +194,14 @@ void Game::Update()
 
 	//ゲームクリア条件
 	m_modelRender.Update();
-	Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
-	if (diff.Length() <= 100.0f) {
-		NewGO<GameClear>(0, "GameClear");
-		DeleteGO(this);
-		SetGameClear();
-	}
-
+		Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
+		if (diff.Length() <= 100.0f) {
+			NewGO<GameClear>(0, "GameClear");
+			DeleteGO(this);
+			SetGameClear();
+			
+		}
+	
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {
 		NewGO<Gameover>(0, "Gameover");
