@@ -14,9 +14,11 @@ enum enPlayerState
 };
 
 class Player;
+// 親クラス。
 class IPlayerState
 {
 public:
+	//コンストラクタ。
 	IPlayerState(Player* player)
 	{
 		// 各ステートで使用できるようにプレイヤーのポインタを入れる。
@@ -30,12 +32,16 @@ public:
 	// メモ書きして	。
 protected:
     Player*  m_player		= nullptr;
+	// 乗算用
+	float m_dash = 1.0f;
 };
 
 // 待機ステート。
 class PlayerIdleState : public IPlayerState
 {
 public:
+	//friend class PlayerMoveState;
+
 	PlayerIdleState(Player* player)
 		// 親クラスのコンストラクタを呼び出す。
 		:IPlayerState(player)
@@ -98,21 +104,6 @@ class PlayerCrouchWalkState : public IPlayerState
 {
 public:
 	PlayerCrouchWalkState(Player* player)
-		:IPlayerState(player)
-	{
-
-	}
-
-	void Enter()	override;
-	void Update()	override;
-	void Exit()		override;
-};
-
-// 移動ステート。
-class PlayerMoveState : public IPlayerState 
-{
-public:
-	PlayerMoveState(Player* player)
 		:IPlayerState(player)
 	{
 

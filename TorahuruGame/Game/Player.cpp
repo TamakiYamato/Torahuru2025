@@ -13,8 +13,6 @@
 namespace
 {
 	// ファイルパスを定数定義
-	//char string;
-
 	// ファイルパスは文字列なので string を使用する。
 	// const を使用し定数を定義。 const→変数が変更不可であることを示す。
 	// ヒューマンエラーを防ぐ。　ヒューマンエラー→タイピング等のミスで起こるエラー。
@@ -81,10 +79,10 @@ bool Player::Start()
 	// 状態の生成。
 	// 注意：newしたインスタンスはdeleteが必要。
 	//       今回はデストラクタでdeleteします。
-	m_playerStateList[enPlayerState_Idle] = new PlayerIdleState(this);
-	m_playerStateList[enPlayerState_Walk] = new PlayerWalkState(this);
-	m_playerStateList[enPlayerState_Run] = new PlayerRunState(this);
-	m_playerStateList[enPlayerState_Crouch] = new PlayerCrouchState(this);
+	m_playerStateList[enPlayerState_Idle]		= new PlayerIdleState(this);
+	m_playerStateList[enPlayerState_Walk]		= new PlayerWalkState(this);
+	m_playerStateList[enPlayerState_Run]		= new PlayerRunState(this);
+	m_playerStateList[enPlayerState_Crouch]		= new PlayerCrouchState(this);
 	m_playerStateList[enPlayerState_CrouchWalk] = new PlayerCrouchWalkState(this);	
 
 	// 初期状態を設定。
@@ -111,19 +109,15 @@ void Player::Update() {
 	m_playerStateList[m_currentPlayerState]->Update();
 #endif
 
-	// Move関数の処理をPlayerState.cppのUpdateに移行する。
-	// Rotation、SutaminaCalk、modelRender以外残らんよ。
-	Move();					//キャラクターの移動
 	Rotation();				//キャラクターの回転
-	ManageState();			//ステート管理。
 	SutaminaCalk();
-	PlayAnimation();		//アニメーションの再生。
+	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();	//モデル更新。
+
 }
 
-void Player::Move() {
-	// 乗算用
-	float m_dash = 1.0f;
+void Player::Move(float m_dash = 1.0f)
+{
 	// もしAボタンが押されたら。
 	if (g_pad[0]->IsPress(enButtonA))
 	{
@@ -140,6 +134,9 @@ void Player::Move() {
 	{
 		m_dash *= 0.5f;
 	}
+
+	//キャラクターコントローラーを使って座標を移動させる。
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 
 	// xzの移動速度を0.0fにする。
 	// 0.0fで初期化することで前回の移動速度の影響を
@@ -167,11 +164,11 @@ void Player::Move() {
 	//左スティックの入力量と180.0fを
 	// 乗算。
 	//移動速度を決める。
-	/*right *= stickL.x * 180.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 180.0f * m_dash * m_moveDir;*/
+	right *= stickL.x * 180.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
 
-	right *= stickL.x * 500.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 500.0f * m_dash * m_moveDir;
+	/*right	*= stickL.x * 500.0f * m_dash * m_moveDir;
+	forward *= stickL.y * 500.0f * m_dash * m_moveDir;*/
 
 	//移動速度にスティックの入力量を加算する。
 	// m_run→ダッシュ時用の変数。
@@ -190,9 +187,6 @@ void Player::Move() {
 		m_moveSpeed.y -= 5.0f;
 	}
 
-
-	//キャラクターコントローラーを使って座標を移動させる。
-	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
 	m_modelRender.SetPosition(m_position);
 }
@@ -208,71 +202,28 @@ void Player::Rotation()
 	}
 }
 
-//ステート管理。
-void Player::ManageState()
+
+void Player::DashSutaminaCalk()
 {
-	//地面に付いていたら。
-	//xかzの移動速度があったら(スティックの入力があったら)。
-	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+	// スタミナを減らす。
+		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
+		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
+		// これを好きな数で乗算→FPSに左右されずに減らせる。
+	m_sutamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
+	// スタミナが0以下になったら。
+	if (m_sutamina <= 0)
 	{
-		//ステートを2(歩き)にする。
-		m_playerState = State_Walk;
-		// 走ってない判定にする。
-		m_dashFlag = false;
-
-		// もしAボタンが押されたら。
-		if (g_pad[0]->IsPress(enButtonA))
-		{
-			// 走る。
-			m_playerState = State_Run;
-			// 走っている判定にする。
-			m_dashFlag = true;
-
-			// スタミナが0で走ってない判定のとき
-			if (m_sutamina <= 0 && m_dashFlag != false)
-			{
-				// ダッシュ状態から歩く判定になる。
-				m_playerState = State_StayRun;
-			}
-		}
-		// もしBボタンが押されたら。
-		else if (g_pad[0]->IsPress(enButtonB))
-		{
-			// しゃがむ。
-			m_playerState = State_CrouchWalk;
-		}
-	}
-	//xとzの移動速度が無かったら(スティックの入力が無かったら)。
-	else
-	{
-		//ステートを0(待機)にする。
-		m_playerState = State_Idle;
-
-		// もしBボタンが押されたら。
-		if (g_pad[0]->IsPress(enButtonB))
-		{
-			// しゃがむ。
-			m_playerState = State_Crouch;
-		}
+		// スタミナを0にする。
+		m_sutamina = 0;
 	}
 }
 
 void Player::SutaminaCalk()
 {
 	// プレイヤーがダッシュしてたら。
-	if (m_playerState == State_Run)
+	if (m_currentPlayerState == State_Run)
 	{
-		// スタミナを減らす。
-		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
-		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
-		// これを好きな数で乗算→FPSに左右されずに減らせる。
-		m_sutamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
-		// スタミナが0以下になったら。
-		if (m_sutamina <= 0)
-		{
-			// スタミナを0にする。
-			m_sutamina = 0;
-		}
+		DashSutaminaCalk();
 	}
 	// 走っていないとき。
 	else if (m_dashFlag != true)
@@ -285,57 +236,15 @@ void Player::SutaminaCalk()
 			//スタミナを100にする。
 			m_sutamina = m_max_sutamina;
 		}
+		// Aボタンが押されたら。→押し続けている間、スタミナを回復しない。
+		else if (g_pad[0]->IsPress(enButtonA))
+		{
+			DashSutaminaCalk();
+		}
 	}
 }
-
-//アニメーションの再生。
-void Player::PlayAnimation()
-{
-	//switch文。
-	switch (m_playerState) {
-		// ステートがIdleだったら。
-	case State_Idle:
-		//待機アニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Idle);
-		break;
-		// ステートがWalkだったら。
-	case State_Walk:
-		//歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Walk);
-		break;
-	case State_StayRun:
-		//歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Walk);
-		break;
-		// ステートがRunだったら。
-	case State_Run:
-		// 走りアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Run);
-		break;
-		// ステートがCrouchだったら。
-	case State_Crouch:
-		// しゃがみアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Crouch);
-		break;
-		// ステートがCrouchWalkだったら。
-	case State_CrouchWalk:
-		// しゃがみ歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_CrouchWalk);
-		break;
-		// ステートがCrouchingだったら。
-	case State_Crouching:
-		// しゃがみこみアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Crouching);
-		break;
-		// ステートがCrouchStandingだったら。
-	case State_CrouchStanding:
-		// 立ち上がりアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_CrouchStanding);
-		break;
-	}
-}
-
 
 void Player::Render(RenderContext& rc) {
 	m_modelRender.Draw(rc);
 }
+
