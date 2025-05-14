@@ -3,7 +3,7 @@
 #include "Level3DRender/LevelRender.h"
 
 class Player;
-class Sutamina;
+class Stamina;
 class Enemy;
 class BackGround;
 class FirstFloor;
@@ -30,7 +30,7 @@ public:
 	void SetFirstFloor();
 	void SetLoading();
 	void SetGameClear();
-	void SetSutamina();
+	void SetStamina();
 	void InitSky();
 	void LightSetting();
 	void TutorialText();
@@ -51,7 +51,7 @@ public:
 private:
 	FirstFloor*					m_firstFloor;
 	Player*						m_player = nullptr;
-	Sutamina*                   m_setSutamina;
+	Stamina*                   m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;
@@ -62,7 +62,7 @@ private:
 	
 	
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
-
+	FloorManager*				m_floorManager;
 	FontRender					m_fontRender;
 	Loading*					m_Load;
 	bool						m_isWaitLoadOut;

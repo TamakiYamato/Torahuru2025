@@ -5,6 +5,7 @@ class SlowFloor;
 class BlindFloor;
 class FloorManager;
 class FireGimmic;
+class Stairs;
 
 class FirstFloor : public IGameObject
 {
@@ -23,5 +24,6 @@ public:
 	SlowFloor*					m_slowFloor;						//鈍足床
 	BlindFloor*					m_blindFloor;						//視界制限床
 	FireGimmic*					m_fireGimmic = nullptr;				//火炎放射器
+	Stairs*						m_stairs;
 };
 

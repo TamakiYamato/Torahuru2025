@@ -27,12 +27,12 @@
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="TutorialUI.cpp" />
-    <ClCompile Include="Sutamina.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
+    <ClCompile Include="Stamina.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -55,11 +55,11 @@
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="TutorialUI.h" />
-    <ClInclude Include="Sutamina.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="FirstFloor.h" />
+    <ClInclude Include="Stamina.h" />
   </ItemGroup>
 </Project>

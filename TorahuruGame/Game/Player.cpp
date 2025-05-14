@@ -34,6 +34,7 @@ Player::~Player()
 }
 
 // constでファイルを読み取る。
+// animationClipの名前を変更。→Stateとか。
 void Player::SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag)
 {
 	// 共通化したファイル名。
@@ -110,7 +111,7 @@ void Player::Update() {
 #endif
 
 	Rotation();				//キャラクターの回転
-	SutaminaCalk();
+	StaminaCalk();
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();	//モデル更新。
 
@@ -124,7 +125,7 @@ void Player::Move(float m_dash = 1.0f)
 		// 移動速度を上げる。
 		m_dash *= 2.0f;
 
-		if (m_sutamina <= 0.0f)
+		if (m_stamina <= 0.0f)
 		{
 			m_dash /= m_dash;
 		}
@@ -164,12 +165,12 @@ void Player::Move(float m_dash = 1.0f)
 	//左スティックの入力量と180.0fを
 	// 乗算。
 	//移動速度を決める。
-#if 0
+#if 1
 	right *= stickL.x * 180.0f * m_dash * m_moveDir;
 	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
 #endif
 
-#if 1
+#if 0
 	right *= stickL.x * 500.0f * m_dash * m_moveDir;
 	forward *= stickL.y * 500.0f * m_dash * m_moveDir;
 #endif
@@ -207,43 +208,44 @@ void Player::Rotation()
 }
 
 
-void Player::DashSutaminaCalk()
+void Player::DashStaminaCalk()
 {
 	// スタミナを減らす。
 		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
 		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
 		// これを好きな数で乗算→FPSに左右されずに減らせる。
-	m_sutamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
+	m_stamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
 	// スタミナが0以下になったら。
-	if (m_sutamina <= 0)
+	if (m_stamina <= 0)
 	{
 		// スタミナを0にする。
-		m_sutamina = 0;
+		m_stamina = 0;
 	}
 }
 
-void Player::SutaminaCalk()
+// TODO: Tamaki スタミナを英語表記に修正する。
+void Player::StaminaCalk()
 {
 	// プレイヤーがダッシュしてたら。
 	if (m_currentPlayerState == State_Run)
 	{
-		DashSutaminaCalk();
+		DashStaminaCalk();
 	}
 	// 走っていないとき。
 	else if (m_dashFlag != true)
 	{
 		// スタミナを回復する。
-		m_sutamina += 20.0f * g_gameTime->GetFrameDeltaTime();
+		m_stamina += 20.0f * g_gameTime->GetFrameDeltaTime();
 		// スタミナが100以上になったら。
-		if (m_sutamina >= 100)
+		if (m_stamina >= 100)
 		{
 			//スタミナを100にする。
-			m_sutamina = m_max_sutamina;
+			m_stamina = m_max_stamina;
 		}
 		// Aボタンが押されたら。→押し続けている間、スタミナを回復しない。
 		else if (g_pad[0]->IsPress(enButtonA))
 		{
-			DashSutaminaCalk();
+			DashStaminaCalk();
 		}
 	}
 }

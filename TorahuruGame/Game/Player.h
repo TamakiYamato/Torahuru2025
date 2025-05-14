@@ -22,10 +22,11 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+	// test
 	void Move(float dash);					// 移動処理。
 	void Rotation();
-	void SutaminaCalk();					// スタミナ計算(増減)。
-	void DashSutaminaCalk();				// スタミナ計算(減算)。
+	void StaminaCalk();						// スタミナ計算(増減)。
+	void DashStaminaCalk();				// スタミナ計算(減算)。
 
 	// 座標を取得
 	const Vector3& GetPosition() const
@@ -33,7 +34,7 @@ public:
 		return m_position;
 	}
 
-	/// プレイヤーが死亡している？
+	// プレイヤーが死亡している？
 	const bool isPlayerDead() const
 	{
 		return m_hp <= 0;
@@ -80,8 +81,8 @@ public:
 	Vector3						m_moveSpeed;						//移動速度
 	Vector3						m_dash;
 	float		     	        m_hp = 0;
-	float                       m_max_sutamina = 100;               // スタミナの最大値。
-	float                       m_sutamina = m_max_sutamina;    	// 現在のスタミナ。
+	float                       m_max_stamina = 100;               // スタミナの最大値。
+	float                       m_stamina = m_max_stamina;    	// 現在のスタミナ。
 	bool                        m_dashFlag = false;                 // 走り判定。
 	
 	Quaternion					rotation;

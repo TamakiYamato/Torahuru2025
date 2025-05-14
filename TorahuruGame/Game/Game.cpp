@@ -11,7 +11,7 @@
 #include "FloorManager.h"
 #include "Tutorial.h"
 #include "Stairs.h"
-#include "Sutamina.h"
+#include "Stamina.h"
 #include "GameClear.h"
 #include "Gameover.h"
 #include "Loading.h"
@@ -116,9 +116,9 @@ void Game::SetFirstFloor()
 	m_firstFloor = NewGO<FirstFloor>(0, "firstFloor");
 }
 
-void Game::SetSutamina()
+void Game::SetStamina()
 {
-	m_setSutamina = NewGO<Sutamina>(0, "sutamina");
+	m_setStamina = NewGO<Stamina>(0, "Stamina");
 }
 
 // ロード用。
@@ -144,16 +144,15 @@ bool Game::Start()
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_se			          		= NewGO<SoundSource>(0, "se");
-  
+	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 	InitSky();
   SetFirstFloor();
-	SetSutamina();
+	SetStamina();
 	TutorialText();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
   
-
 	return true;
 }
 
@@ -193,14 +192,14 @@ void Game::Update()
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 	//ゲームクリア条件
-	m_modelRender.Update();
-		Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
-		if (diff.Length() <= 100.0f) {
-			NewGO<GameClear>(0, "GameClear");
-			DeleteGO(this);
-			SetGameClear();
-			
-		}
+	//m_modelRender.Update();
+	//	Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
+	//	if (diff.Length() <= 100.0f) {
+	//		NewGO<GameClear>(0, "GameClear");
+	//		DeleteGO(this);
+	//		SetGameClear();
+	//		
+	//	}
 	
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {
