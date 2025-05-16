@@ -27,3 +27,4 @@ public:
 	Stairs*						m_stairs;
 };
 
+

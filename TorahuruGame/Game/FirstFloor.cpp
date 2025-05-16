@@ -76,3 +76,4 @@ void FirstFloor::Render(RenderContext& rc)
 	//レベルの描画
 	m_levelRender.Draw(rc);
 }
+
