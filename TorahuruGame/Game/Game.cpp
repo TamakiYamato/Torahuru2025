@@ -9,29 +9,33 @@
 #include "SlowFloor.h"
 #include "BlindFloor.h"
 #include "FloorManager.h"
-#include "Tutorial.h"
 #include "Stairs.h"
-#include "Stamina.h"
+#include "Sutamina.h"
 #include "GameClear.h"
 #include "Gameover.h"
 #include "Loading.h"
 #include "FireGimmic.h"
 #include "FirstFloor.h"
+#include "TutorialUI.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 
 Game::Game()
 {
+
 }
 
 Game::~Game() {
 
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
+	DeleteGO(m_background);
 	DeleteGO(m_stairs);
 	DeleteGO(m_firstFloor->m_background);
 	DeleteGO(m_firstFloor->m_floorManager);
 	DeleteGO(m_firstFloor->m_fireGimmic);
+	DeleteGO(m_tutorialUI);
+	DeleteGO(m_setSutamina);
 
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -93,32 +97,11 @@ void Game::LightSetting()
 		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
 	}
 };
-void Game::TutorialText()
-{	
-	//m_tutorial = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial->m_position = { 50.0f,40.0f,-350.0f };   // 霓｣・ｫ霓､蜿門鋤陝・・蜍｣
-	//// 2邵ｺ・､郢ｧ竏壹・霓｣・ｫ霓､蜿門鋤陝・・蜍｣邵ｺ・ｮ陟趣ｽｧ隶薙・
-	////m_tutorial4->m_position = { 2000.0f,40.0f,-1300.0f };   // 霓｣・ｫ霓､蜿門鋤陝・・蜍｣
 
-	//m_tutorial2 = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial2->m_position = { -950.0f,40.0f,-1050.0f };  // 邵ｺ繧・・邵ｺ阮吮・陟弱・
 
-	//m_tutorial3 = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial3->m_position = { -500.0f, 40.0f, -1850.0f }; // 鬩､蟠趣ｽｶ・ｳ陟弱・
-	//
-	//m_tutorial4 = NewGO<Tutorial>(0, "tutorial");
-	//m_tutorial4->m_position = { 800.0f,40.0f,-1200.0f }; // 髫穂ｹ滄・陋ｻ・ｶ鬮ｯ莉呻ｽｺ繝ｻ
-}
-
-// 第一フロア。
-void Game::SetFirstFloor()
+void Game::SetSutamina()
 {
-	m_firstFloor = NewGO<FirstFloor>(0, "firstFloor");
-}
-
-void Game::SetStamina()
-{
-	m_setStamina = NewGO<Stamina>(0, "Stamina");
+	m_setSutamina = NewGO<Sutamina>(0, "sutamina");
 }
 
 // ロード用。
@@ -143,21 +126,26 @@ bool Game::Start()
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
-	m_se			          		= NewGO<SoundSource>(0, "se");
-	m_floorManager = NewGO<FloorManager>(0, "floorManager");
+	m_se					= NewGO<SoundSource>(0, "se");
+	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	InitSky();
-  SetFirstFloor();
-	SetStamina();
-	TutorialText();
+	SetSutamina();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
   
+
 	return true;
 }
 
 void Game::Update()
 {
+	if (m_floorManager == nullptr) {
+		m_floorManager = FindGO<FloorManager>("floorManager");
+	}
+	if (m_stairs == nullptr) {
+		m_stairs = FindGO<Stairs>("stairs");
+	}
 	// カメラライト
 	if (m_floorManager->LightCount != 1)
 	{
@@ -192,20 +180,25 @@ void Game::Update()
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 	//ゲームクリア条件
-	//m_modelRender.Update();
-	//	Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
-	//	if (diff.Length() <= 100.0f) {
-	//		NewGO<GameClear>(0, "GameClear");
-	//		DeleteGO(this);
-	//		SetGameClear();
-	//		
-	//	}
+	m_modelRender.Update();
+		Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
+		if (diff.Length() <= 100.0f) {
+			NewGO<GameClear>(0, "GameClear");
+			DeleteGO(this);
+			SetGameClear();
+			
+		}
 	
 	//ゲームオーバー条件
-	if (m_timer <= 0.0f) {
+	if (m_timer <= 0.0f) {	//タイマーが0になった場合
 		NewGO<Gameover>(0, "Gameover");
 		DeleteGO(this);
 	}
+
+	//if (m_enemy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
+	//	NewGO<Gameover>(0, "Gameover");
+	//	DeleteGO(this);
+	//}
 }
 
 void SetPosition(const Vector3 position) {

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BlindFloor.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "collision/CollisionObject.h"
 
 namespace
@@ -32,6 +33,7 @@ bool BlindFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
+	m_enemy = FindGO<Enemy>("enemy");
 
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で削除されないようにする
 	return true;
@@ -43,12 +45,23 @@ void BlindFloor::BlindControlFloor()
 	//floorManagerで効果を与える
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
-		m_onBlindFloor = true;
+		m_onPlayerBlindFloor = true;
 	}
 	else
 	{
-		m_onBlindFloor = false;
+		m_onPlayerBlindFloor = false;
 	}
+
+	//コリジョンとenemyが当たった場合
+	//floorManagerで効果を与える
+	/*if (m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
+	{
+		m_onEnemyBlindFloor = true;
+	}
+	else
+	{
+		m_onEnemyBlindFloor = false;
+	}*/
 }
 
 void BlindFloor::Update()

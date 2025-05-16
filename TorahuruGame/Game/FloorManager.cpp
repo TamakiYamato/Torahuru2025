@@ -4,26 +4,21 @@
 #include "SlowFloor.h"
 #include "BlindFloor.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "TutorialUI.h"
 #include "Game.h"
 
 namespace {
 	const float PLAYER_MOVE_SLOW = 0.5;		//プレイヤーの移動スピードが半減
-}
-
-FloorManager::FloorManager()
-{
-
-}
-
-FloorManager::~FloorManager()
-{
-	
+	const float ENEMY_MOVE_SLOW = 0.7;		//エネミーの移動スピードを3割減
 }
 
 bool FloorManager::Start()
 {
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");	
+	m_enemy = FindGO<Enemy>("enemy");
+	m_tutorialUI = FindGO<TutorialUI>("tutorialUI");
 	
 
 	return true;
@@ -31,22 +26,21 @@ bool FloorManager::Start()
 
 void FloorManager::Update()
 {
-	
 	//床の効果を発動していないとき、床を見つける
-	if (m_floorTimer >= 7.0f) {
+	if (m_playerFloorTimer >= 7.0f or m_enemyFloorTimer >= 5.0f) {
 		FindFloor();		
 	}
 
 	AddStatus();			//デバフをかける
 
 	////デバフがかかっている場合///
-	if (m_saveState != Normal) {
-		AddStatusTimer();       //効果時間を減らす
-		CalcStatusTime();		//状態を戻す
+	if (m_playerSaveState != Normal) {
+		AddStatusTimer();       //画像と効果時間の表示
+		CalcStatusTime();		//効果時間を減らす
 	}
 
 	////視界制限時、ポイントライトの位置をプレイヤーの上に設定///
-	if (m_saveState == BlindState) {
+	if (m_playerSaveState == BlindState) {
 		pointLightPosition = m_player->m_position +Vector3(0.0f,200.0f,0.0f);
 		m_pointL->SetPosition(pointLightPosition);
 	}
@@ -72,8 +66,19 @@ void FloorManager::FindFloor()
 
 	for (auto reverseFloor : reverseFloors) {
 		//ステージ内のあべこべ床を踏んだ場合、状態変更
-		if (reverseFloor->m_onReverseFloor == true) {
-			m_floorState = ReverseState;
+		if (reverseFloor->m_onPlayerReverseFloor == true && m_playerSaveState == Normal)
+		{
+			//プレイヤーの状態異常ステートの変更
+			m_playerFloorState = ReverseState;
+
+			//UIがこの床の説明の時、ステートを切り替える
+			if (m_tutorialUI->m_textState == m_tutorialUI->reverse) {
+				m_tutorialUI->onGimmicPassed = true;
+			}
+		}
+
+		if (reverseFloor->m_onEnemyReverseFloor == true && m_enemySaveState == Normal) {
+			m_enemyFloorState = ReverseState;
 		}
 	}
 
@@ -83,8 +88,18 @@ void FloorManager::FindFloor()
 
 	for (auto slowFloor : slowFloors) {
 		//ステージ内の鈍足床を踏んだ場合、状態変更
-		if (slowFloor->m_onSlowFloor == true) {
-			m_floorState = SlowState;
+		if (slowFloor->m_onPlayerSlowFloor == true && m_playerSaveState == Normal)
+		{
+			//プレイヤーの状態異常ステートの変更
+			m_playerFloorState = SlowState;
+
+			//UIがこの床の説明の時、ステートを切り替える
+			if (m_tutorialUI->m_textState = m_tutorialUI->slow) {
+				m_tutorialUI->onGimmicPassed = true;
+			}
+		}
+		if (slowFloor->m_onEnemySlowFloor == true && m_enemySaveState == Normal) {
+			m_enemyFloorState = SlowState;
 		}
 	}
 
@@ -94,8 +109,18 @@ void FloorManager::FindFloor()
 
 	for (auto blindFloor : blindFloors) {
 		//フロア内の視界制限床を踏んだ場合、状態を変更
-		if (blindFloor->m_onBlindFloor == true) {
-			m_floorState = BlindState;
+		if (blindFloor->m_onPlayerBlindFloor == true && m_playerSaveState == Normal) 
+		{			
+			//プレイヤーの状態異常ステートの変更
+			m_playerFloorState = BlindState;
+
+			//UIがこの床の説明の時、ステートを切り替える
+			if (m_tutorialUI->m_textState = m_tutorialUI->blind) {
+				m_tutorialUI->onGimmicPassed = true;
+			}
+		}
+		if (blindFloor->m_onEnemyBlindFloor == true && m_enemySaveState == Normal) {
+			m_enemyFloorState = BlindState;
 		}
 	}
 }
@@ -103,10 +128,12 @@ void FloorManager::FindFloor()
 
 void FloorManager::AddStatus()	/////デバフをかける/////
 {
-	if (m_floorTimer == 7.0f) {		//もしデバフを受けていない場合
-		if (!m_isAddStatus && m_floorState != Normal) {
-			switch (m_floorState) {
+	///////////////プレイヤー///////////////
+	if (m_playerFloorTimer == 7.0f) {		//もしデバフを受けていない場合
+		if (!m_isPlayerAddStatus && m_playerFloorState != Normal) {
+			switch (m_playerFloorState) {
 			case ReverseState:
+				//前の画像の消去
 				if (m_spriteRender) {
 					DeleteGO(m_spriteRender);
 				}
@@ -124,11 +151,10 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 				break;
 
 			case SlowState:
+				//前の画像の消去
 				if (m_spriteRender) {
 					DeleteGO(m_spriteRender);
 				}
-
-				m_floorTimer -= g_gameTime->GetFrameDeltaTime();
 
 				//画像の表示
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
@@ -143,14 +169,12 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 				break;
 
 			case BlindState:
+				//前の画像の消去
 				if (m_spriteRender) {
 					DeleteGO(m_spriteRender);
 				}
 
-				m_floorTimer -= g_gameTime->GetFrameDeltaTime();
-
 				//画像の表示
-
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 				m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
 				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
@@ -175,22 +199,49 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 
 				//////////////スポットライト/////////////////////////////
 				SetPointLight();
-
 				break;
 			default:
 				break;
 			}
-			m_saveState = m_floorState;
-			m_floorState = Normal;
+			m_playerSaveState = m_playerFloorState;
+			m_playerFloorState = Normal;
+		}
+	}
+
+	//////////////エネミー////////////////////////
+	if (m_enemyFloorTimer == 5.0f) {
+		if (!m_isEnemyAddStatus && m_enemyFloorState != Normal) {
+			switch (m_enemyFloorState) {
+			case ReverseState:
+				//効果
+				m_enemy->m_moveDir *= -1.0f;	//進行方向をplayerの反対側に
+				break;
+			case SlowState:
+				//効果
+				m_enemy->m_moveDir *= ENEMY_MOVE_SLOW;	//移動速度3割減
+				break;
+			case BlindState:
+				//効果
+				m_enemy->Stand();	//移動速度を0に
+				m_enemy->m_enemyState = m_enemy->enEnemyState_Idle;
+				break;
+			default:
+				break;
+			}
+			m_enemySaveState = m_enemyFloorState;
+			m_enemyFloorState = Normal;
 		}
 	}
 }
 
+/// <summary>
+/// 効果時間と画像の表示
+/// </summary>
 void FloorManager::AddStatusTimer()
 {
 	//効果時間の設定
 	int effectTimer_minute = 0.0f;
-	int effectTimer_sec = m_floorTimer;
+	int effectTimer_sec = m_playerFloorTimer;
 
 	m_fontRender = NewGO<FontRender>(0, "fontrender");
 
@@ -204,7 +255,9 @@ void FloorManager::AddStatusTimer()
 	
 }
 
-
+/// <summary>
+/// ポイントライトのセット
+/// </summary>
 void FloorManager::SetPointLight()
 {
 	m_pointL = NewGO<PointLight>(0,"pointLight");
@@ -217,22 +270,36 @@ void FloorManager::SetPointLight()
 	m_pointL->Update();	
 }
 
+/// <summary>
+/// ポイントライトの削除
+/// </summary>
 void FloorManager::DeletePointLight()
 {
 	DeleteGO(m_pointL);
 }
 
-
+/// <summary>
+/// 効果時間の減少
+/// </summary>
 void FloorManager::CalcStatusTime()
 {
-	m_floorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間を減らす
-	if (m_floorTimer <= 0) {							//０になった場合
-		RevertState();									//効果をリセット
-		m_floorTimer = 7.0f;							//時間をリセット
-		DeleteGO(m_spriteRender);                       //画像を消去
-		DeleteGO(m_fontRender);							//文字を消去
-		m_spriteRender = nullptr;
-		m_fontRender = nullptr;
+	if (m_playerSaveState != Normal) {
+		m_playerFloorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間を減らす
+		if (m_playerFloorTimer <= 0) {							//０になった場合
+			RevertState();										//効果をリセット
+			m_playerFloorTimer = 7.0f;							//時間をリセット
+			DeleteGO(m_spriteRender);							//画像を消去
+			DeleteGO(m_fontRender);								//文字を消去
+			m_spriteRender = nullptr;
+			m_fontRender = nullptr;
+		}
+	}
+	if (m_enemySaveState != Normal) {
+		m_enemyFloorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間の減少
+		if (m_enemyFloorTimer <= 0) {							//０になった場合
+			RevertState();										//効果をリセット
+			m_enemyFloorTimer = 7.0f;							//時間をリセット
+		}
 	}
 }
 
@@ -241,36 +308,53 @@ void FloorManager::CalcStatusTime()
 /// </summary>
 void FloorManager::RevertState()
 {
-	switch (m_saveState) {
-	case Normal:
-		m_player->m_moveDir = 1.0f;
-		break;
-	case ReverseState:
-		if (m_spriteRender) {
-			DeleteGO(m_spriteRender);
-			m_spriteRender = nullptr;
+	if (m_playerSaveState != Normal) {	//プレイヤーの効果を戻す
+		switch (m_playerSaveState) {
+		case Normal:
+			m_player->m_moveDir = 1.0f;
+			break;
+		case ReverseState:
+			if (m_spriteRender) {
+				DeleteGO(m_spriteRender);
+				m_spriteRender = nullptr;
+			}
+			m_player->m_moveDir *= -1.0f;
+			break;
+		case SlowState:
+			if (m_spriteRender) {
+				DeleteGO(m_spriteRender);
+				m_spriteRender = nullptr;
+			}
+			m_player->m_moveDir /= PLAYER_MOVE_SLOW;
+			break;
+
+		case BlindState:
+			if (m_spriteRender) {
+				DeleteGO(m_spriteRender);
+				m_spriteRender = nullptr;
+			}
+			// 環境光
+			g_renderingEngine->SetAmbient(Vector3(0.5f, 0.5f, 0.5f));
+			g_renderingEngine->SetSceneMiddleGray(0.18f);
+			g_renderingEngine->SetBloomThreshold(1.0f);
+			//ポイントライトの削除
+			DeletePointLight();
+			break;
 		}
-		m_player->m_moveDir *= -1.0f;
-		break;
-	case SlowState:
-		if (m_spriteRender) {
-			DeleteGO(m_spriteRender);
-			m_spriteRender = nullptr;
-		}
-		m_player->m_moveDir /= PLAYER_MOVE_SLOW;
-		break;
-	case BlindState:
-		if (m_spriteRender) {
-			DeleteGO(m_spriteRender);
-			m_spriteRender = nullptr;
-		}
-		// 環境光
-		g_renderingEngine->SetAmbient(Vector3(0.5f, 0.5f, 0.5f));
-		g_renderingEngine->SetSceneMiddleGray(0.18f);
-		g_renderingEngine->SetBloomThreshold(1.0f);
-		//ポイントライトの削除
-		DeletePointLight();
-		break;
+		m_playerSaveState = Normal;	// 状態をリセット
 	}
-	m_saveState = Normal;	// 状態をリセット
+	if (m_enemySaveState != Normal) {
+		switch (m_enemySaveState) {
+		case ReverseState:
+			m_enemy->m_moveDir *= -1.0f;
+			break;
+		case SlowState:
+			m_enemy->m_moveDir /= ENEMY_MOVE_SLOW;
+			break;
+		case BlindState:
+			//enemy.hにて床の効果を受けていない場合、状態が自動で変更するため変更点なし
+			break;
+		}
+		m_enemySaveState = Normal;
+	}
 }

@@ -2,15 +2,15 @@
 class Player;
 class Game;
 
-class Stamina : public IGameObject
+class Sutamina : public IGameObject
 {
 public:
-	Stamina();
-	~Stamina();
+	Sutamina();
+	~Sutamina();
 
 	bool Start();
 	void Update();
-	void StaminaCalk();
+	void SutaminaCalk();
 	void Render(RenderContext& rc);
 
 private:
