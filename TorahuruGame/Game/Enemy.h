@@ -3,6 +3,7 @@ class Enemy;
 class EnemyAnimation;
 class Game;
 class Player;
+class FloorManager;
 class Enemy : public IGameObject
 {
 public:
@@ -19,12 +20,13 @@ public:
 	void ManageState();
 	void PlayAnimation();
 	void CheckPlayerProximityAndDie();
+	float GetAngleBetweenQuaternions(const Quaternion& q1, const Quaternion& q2);
 
-	enum EnemyState {	//=移動速度に代入。
-		enEnemyState_Idle = 0,			//待機・監視
-		enEnemyState_Walk = 150,			//戻る
-		enEnemyState_Chase = 200,			//追跡
-		enEnemyState_Attack,				//攻撃
+	enum EnemyState {				//移動速度に代入。
+		enEnemyState_Idle,			//待機・監視
+		enEnemyState_Walk,			//戻る
+		enEnemyState_Chase,			//追跡
+		enEnemyState_Attack,		//攻撃
 
 	};
 
@@ -35,6 +37,15 @@ public:
 		return m_position;
 	}
 
+	//値を指定した最小値と最大値の範囲に制限するための関数
+	template<typename T>
+	T Clamp(T value, T minVal, T maxVal)
+	{
+		if (value < minVal) return minVal ;
+		if (value > maxVal) return maxVal;
+		return value;
+	}
+
 	//キャラコンの取得
 	CharacterController& GetCharacterController()
 	{
@@ -42,18 +53,21 @@ public:
 	}
 
 
-
-	CharacterController			m_charCon;										//キャラコン。
-	ModelRender					m_modelRender;									//モデルレンダー。
-	Player* m_player;
-	EnemyAnimation* m_enemyAnim;
+	CharacterController			m_charCon;									//キャラコン。
+	ModelRender					m_modelRender;								//モデルレンダー。
+	Player*						m_player;
+	EnemyAnimation*				m_enemyAnim;
+	FloorManager*				m_floorManager;								//フロアマネージャー。
 
 	Vector3						m_position = Vector3::Zero;					//座標。
 	Vector3						m_scale = Vector3::One;						//大きさ。
 	Vector3						m_forward = Vector3::AxisZ;					//enemyの正面ベクトル。
-	Vector3						m_firstPosition = Vector3::Zero;					//スタート時の座標。
-	Vector3						m_moveSpeed = Vector3::Zero;					//移動速度。
-	Quaternion					m_rotation = Quaternion::Identity;				//回転。
+	Vector3						m_initialPosition = Vector3::Zero;			//スタート時の座標。
+	Vector3						m_moveSpeed = Vector3::Zero;				//移動速度。
+	Quaternion					m_rotation = Quaternion::Identity;			//回転。
+	Quaternion					m_currentRotation = Quaternion::Identity;	//今の角度の保存。
+	Quaternion					m_initialRotation = Quaternion::Identity;	//スタート時の角度。
 
-	int		m_enemyState = enEnemyState_Chase;		//enemyの状態。
+	int							m_enemyState = enEnemyState_Idle;			//enemyの状態。
+	float						m_moveDir = 1.0f;							//床の効果を受けときの変更
 };

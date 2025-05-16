@@ -2,10 +2,10 @@
 
 class Game;
 class Player;
-class Tutorial;
-class ReverseFloor;      // 縺ゅ∋縺薙∋蠎翫・
-class SlowFloor;         // 驤崎ｶｳ蠎翫・
-class BlindFloor;        // 驤崎ｶｳ蠎翫・
+class FloorManager;
+class ReverseFloor;       
+class SlowFloor;         
+class BlindFloor;         
 
 class TutorialUI:public IGameObject
 {
@@ -16,10 +16,41 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+	/// <summary>
+	/// テキストの表示
+	/// </summary>
+	void Show();
+	/// <summary>
+	/// 次のUIを表示にするかのフラグ
+	/// </summary>
+	void Cheak();
+	/// <summary>
+	/// UIパネル
+	/// </summary>
+	void PanelUI();
 
-	// 繝｡繝ｳ繝仙､画焚縲・
-	Player* m_player = nullptr;           // 繝励Ξ繧､繝､繝ｼ縲・
-	Game* m_game;
+	enum uiText {	//説明
+		reverse,		//あべこべ床
+		slow,			//鈍足床
+		blind,			//視界制限床
+		Stairs,			//階段
+		CollectItems,	//奉納ギミック
+		SolvePuzzle,	//絵合わせ
+	};
+
+	SpriteRender		m_spriteRender;
+	FontRender			m_fontRender;
+	Player*				m_player = nullptr;           
+	Game*				m_game = nullptr;
+	FloorManager*		m_floorManager = nullptr;
+	ReverseFloor*		m_reverseFloor = nullptr;
+	SlowFloor*			m_slowFloor = nullptr;
+	BlindFloor*			m_blindFloor = nullptr;
+	uiText				m_textState = reverse;
+	
+	wchar_t textUI[256];
+	bool onGimmicPassed = true;		//次のUIを表示してよいかのフラグ。
+
 
 public:
 

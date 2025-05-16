@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class Enemy;
 class ReverseFloor;
 class ReverseFloor : public IGameObject
 {
@@ -26,11 +27,13 @@ public:
 	ModelRender					m_modelRender;
 	CollisionObject*			m_collisionObject = nullptr;
 	Player*						m_player;
+	Enemy*						m_enemy;
 
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 
-	bool m_onReverseFloor = false;	//プレイヤーが床を踏んだかのフラグ
+	bool m_onPlayerReverseFloor = false;	//プレイヤーが床を踏んだかのフラグ。
+	bool m_onEnemyReverseFloor = false;		//エネミーが床を踏んだかのフラグ。
 };
 
 

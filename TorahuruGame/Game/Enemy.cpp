@@ -1,14 +1,20 @@
+#ifndef M_PI
+#define M_PI 3.14159265358979323846f
+#endif
+
 #include "stdafx.h"
 #include "Enemy.h"
 #include "EnemyAnimation.h"
 #include "Game.h"
 #include "Player.h"
+#include "FloorManager.h"
 using namespace std;
 
 namespace {
 
-	const float SEARCH_LENGTH = 500.0f;		//プレイヤーを発見する距離。
+	const float SEARCH_LENGTH = 500.0f;			//プレイヤーを発見する距離。
 	const float ENEMY_ATTACKRANGE = 150.0f;		//enemyの攻撃範囲、入ると即死。
+	const float COMPLATION_RATIO = 1.0f;		//補完率。
 }
 
 Enemy::Enemy()
@@ -30,6 +36,8 @@ bool Enemy::Start()
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.SetScale(m_scale);
+	m_initialPosition = m_position;		//座標の保存。
+	m_initialRotation = m_rotation;		//角度の保存。
 
 	//キャラコンの初期化
 	m_charCon.Init(
@@ -44,8 +52,14 @@ bool Enemy::Start()
 
 void Enemy::Update()
 {
-	SearchPlayer();		//常にプレイヤーを探す。
-	ManageState();		//ステートを常に管理、行動。
+	if (m_enemyState != enEnemyState_Walk) {
+		m_charCon.SetPosition(m_position);	//元の場所に帰っている場合、キャラコンをenemyと同じ場所へ
+	}
+
+	if (m_floorManager->m_enemyFloorTimer == 5.0f) {	//床の効果を受けていない場合
+		SearchPlayer();		//常にプレイヤーを探す。
+		ManageState();		//ステートを常に管理、行動。
+	}
 	PlayAnimation();	//プレイヤーのアニメーション。
 	m_modelRender.Update();
 }
@@ -81,8 +95,10 @@ void Enemy::SearchPlayer()
 			m_enemyState = enEnemyState_Chase;
 		}
 
-		else if (m_firstPosition.Length() == m_position.Length()) {		//エネミーの位置が最初期の場合は待機
-			m_enemyState == enEnemyState_Idle;
+		else if ((m_position.Length() - m_initialPosition.Length()) <= 0.1f &&					//エネミーの現在の座標とスポーン地点の座標との差が0.1かつ
+				(GetAngleBetweenQuaternions(m_initialRotation,m_currentRotation)) <= 1.0f) {	//エネミーの現在の角度とスポーン地点の角度の差が0.5の場合
+							
+			m_enemyState == enEnemyState_Idle;	//待機
 		}
 
 		else {
@@ -98,6 +114,7 @@ void Enemy::SearchPlayer()
 void Enemy::Stand()
 {
 	m_moveSpeed = Vector3::Zero;
+
 }
 
 /// <summary>
@@ -105,8 +122,11 @@ void Enemy::Stand()
 /// </summary>
 void Enemy::Move()
 {
-	//m_moveSpeed = enEnemyState_Walk;
-	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
+	m_moveSpeed = Vector3(100.0f, 0.0f, 100.0f);
+	m_moveSpeed *= m_moveDir;	//床の効果を与える
+	m_charCon.SetPosition(m_initialPosition);		//enemyの戻る場所の設定
+	m_position	= m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());	//元の場所に戻る
+	m_rotation.Slerp(COMPLATION_RATIO, m_currentRotation, m_initialRotation);		//元の角度に向く
 }
 
 /// <summary>
@@ -114,9 +134,9 @@ void Enemy::Move()
 /// </summary>
 void Enemy::Chase()
 {
+	m_moveSpeed = Vector3(200.0f, 0.0f, 200.0f);
+	m_moveSpeed *= m_moveDir;	//床の効果を与える
 	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
-
-	//m_position.y = 35.0f;
 
 	Vector3 modelPosition = m_position;
 	m_modelRender.SetPosition(modelPosition);
@@ -174,4 +194,22 @@ void Enemy::CheckPlayerProximityAndDie()
 	if (diff.Length() >= 200.0f) {
 		m_enemyState = enEnemyState_Attack;
 	}
+}
+
+/// <summary>
+/// 2つのクォータニオン間の角度差（度）を求める
+/// </summary>
+float Enemy::GetAngleBetweenQuaternions(const Quaternion& q1, const Quaternion& q2)
+{
+	// クォータニオンの内積を計算
+	float dot = q1.Dot(q2);
+
+	// acosの安全な範囲にクランプ
+	dot = Clamp(dot, -1.0f, 1.0f);
+
+	// クォータニオンの角度差は acos(dot) * 2
+	float angleRad = std::acos(dot) * 2.0f;
+
+	// ラジアン　→ 度に変換
+	return Math::RadToDeg(angleRad);
 }

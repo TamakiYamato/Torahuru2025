@@ -231,7 +231,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
-    <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -253,7 +252,6 @@
     <ClCompile Include="Sutamina.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Title.cpp" />
-    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="TutorialUI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +260,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="FireGimmic.h" />
-    <ClInclude Include="FirstFloor.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
@@ -279,7 +276,6 @@
     <ClInclude Include="Sutamina.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Title.h" />
-    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="TutorialUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
