@@ -10,8 +10,14 @@ public:
 
 	bool Start();
 	void Update();
-	void StaminaCalk();
+	void StaminaCalc();
+	void InitFilePath();
+	void SetFilePath(std::string FilePath);
 	void Render(RenderContext& rc);
+
+	enum EnUI {
+
+	};
 
 private:
 	// 繝｡繝ｳ繝仙､画焚/繧ｯ繝ｩ繧ｹ縺ｧ螳夂ｾｩ縺輔ｌ縺溷､画焚(螻樊ｧ縺ｿ縺溘＞縺ｪ諢溘§)縲・

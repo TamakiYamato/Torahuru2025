@@ -34,7 +34,6 @@ Player::~Player()
 }
 
 // constでファイルを読み取る。
-// animationClipの名前を変更。→Stateとか。
 void Player::SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag)
 {
 	// 共通化したファイル名。
@@ -80,11 +79,11 @@ bool Player::Start()
 	// 状態の生成。
 	// 注意：newしたインスタンスはdeleteが必要。
 	//       今回はデストラクタでdeleteします。
-	m_playerStateList[enPlayerState_Idle]		= new PlayerIdleState(this);
-	m_playerStateList[enPlayerState_Walk]		= new PlayerWalkState(this);
-	m_playerStateList[enPlayerState_Run]		= new PlayerRunState(this);
-	m_playerStateList[enPlayerState_Crouch]		= new PlayerCrouchState(this);
-	m_playerStateList[enPlayerState_CrouchWalk] = new PlayerCrouchWalkState(this);	
+	m_playerStateList[enPlayerState_Idle] = new PlayerIdleState(this);
+	m_playerStateList[enPlayerState_Walk] = new PlayerWalkState(this);
+	m_playerStateList[enPlayerState_Run] = new PlayerRunState(this);
+	m_playerStateList[enPlayerState_Crouch] = new PlayerCrouchState(this);
+	m_playerStateList[enPlayerState_CrouchWalk] = new PlayerCrouchWalkState(this);
 
 	// 初期状態を設定。
 	m_currentPlayerState = enPlayerState_Idle;
@@ -111,7 +110,7 @@ void Player::Update() {
 #endif
 
 	Rotation();				//キャラクターの回転
-	StaminaCalk();
+	StaminaCalc();
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();	//モデル更新。
 
@@ -119,22 +118,23 @@ void Player::Update() {
 
 void Player::Move(float m_dash = 1.0f)
 {
+	// NOTE: tamaki 移動速度の処理の問題の解決のために一時コメントアウトしてます。
 	// もしAボタンが押されたら。
-	if (g_pad[0]->IsPress(enButtonA))
-	{
-		// 移動速度を上げる。
-		m_dash *= 2.0f;
+	//if (g_pad[0]->IsPress(enButtonA))
+	//{
+	//	// 移動速度を上げる。
+	//	m_dash *= 2.0f;
 
-		if (m_stamina <= 0.0f)
-		{
-			m_dash /= m_dash;
-		}
-	}
-	// もしBボタンが押されたら。
-	else if (g_pad[0]->IsPress(enButtonB))
-	{
-		m_dash *= 0.5f;
-	}
+	//	if (m_stamina <= 0.0f)
+	//	{
+	//		m_dash /= m_dash;
+	//	}
+	//}
+	//// もしBボタンが押されたら。
+	//else if (g_pad[0]->IsPress(enButtonB))
+	//{
+	//	m_dash *= 0.5f;
+	//}
 
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
@@ -197,14 +197,17 @@ void Player::Move(float m_dash = 1.0f)
 }
 
 void Player::Rotation()
-{//xかzの移動速度があったら(スティックの入力があったら)。
-	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+{   
+	// NOTE: 早期リターンとは？→条件が満たされない場合に、早期に関数から抜け出す手法。
+	//xかzの移動速度があったら(スティックの入力があったら)。
+	if (fabsf(m_moveSpeed.x) < 0.001f && fabsf(m_moveSpeed.z) < 0.001f)
 	{
-		//キャラクターの方向を変える。
-		rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
-		//絵描きさんに回転を教える。
-		m_modelRender.SetRotation(rotation);
+		return;
 	}
+	//キャラクターの方向を変える。
+	rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
+	//絵描きさんに回転を教える。
+	m_modelRender.SetRotation(rotation);
 }
 
 
@@ -223,8 +226,7 @@ void Player::DashStaminaCalk()
 	}
 }
 
-// TODO: Tamaki スタミナを英語表記に修正する。
-void Player::StaminaCalk()
+void Player::StaminaCalc()
 {
 	// プレイヤーがダッシュしてたら。
 	if (m_currentPlayerState == State_Run)

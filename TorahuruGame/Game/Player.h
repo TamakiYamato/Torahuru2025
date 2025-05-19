@@ -25,7 +25,7 @@ public:
 	// test
 	void Move(float dash);					// 移動処理。
 	void Rotation();
-	void StaminaCalk();						// スタミナ計算(増減)。
+	void StaminaCalc();						// スタミナ計算(増減)。
 	void DashStaminaCalk();				// スタミナ計算(減算)。
 
 	// 座標を取得
@@ -69,28 +69,35 @@ public:
 		enAnimationClip_Num
 	};
 
-
 	//アニメーションを共通化する。
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 
-	AnimationClip				m_animationClips[enAnimationClip_Num];
-	CharacterController			m_charCon;							//キャラコン
+	AnimationClip m_animationClips[enAnimationClip_Num];
+	//キャラコン
+	CharacterController	m_charCon;
+	//プレイヤーの進行方向を決定する。
+	Vector3	stickL;
+	Vector3	m_position;
+	//移動速度
+	Vector3	m_moveSpeed;
+	Vector3 m_dash;
+	float m_hp = 0;
+	// スタミナの最大値。
+	float m_max_stamina = 100;
+	// 現在のスタミナ。
+	float m_stamina = m_max_stamina;
+	// 走り判定。
+	bool m_dashFlag = false;
 	
-	Vector3						stickL;								//プレイヤーの進行方向を決定する。
-	Vector3						m_position;
-	Vector3						m_moveSpeed;						//移動速度
-	Vector3						m_dash;
-	float		     	        m_hp = 0;
-	float                       m_max_stamina = 100;               // スタミナの最大値。
-	float                       m_stamina = m_max_stamina;    	// 現在のスタミナ。
-	bool                        m_dashFlag = false;                 // 走り判定。
-	
-	Quaternion					rotation;
-	float				    	m_moveDir = 1.0f;
+	Quaternion rotation;
+	float m_moveDir = 1.0f;
 
-	IPlayerState* m_playerStateList[enPlayerState_Max];	// ステートリスト
-	int m_currentPlayerState;					// 現在の状態
-	int m_requestPlayerState;					// 次に使いたい状態(リクエスト)	 
+	// ステートリスト
+	IPlayerState* m_playerStateList[enPlayerState_Max];
+	// 現在の状態
+	int m_currentPlayerState;
+	// 次に使いたい状態(リクエスト)
+	int m_requestPlayerState;
 private:
-	ModelRender					m_modelRender;
+	ModelRender m_modelRender;
 };

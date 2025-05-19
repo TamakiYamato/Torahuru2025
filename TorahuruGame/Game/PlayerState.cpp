@@ -5,7 +5,7 @@
 // 待機ステート。
 void PlayerIdleState::Enter()
 {
-	// Idle状態のアニメーションを再生。
+	// TODO: tamaki Idle状態のアニメーションを再生。
 }
 
 void PlayerIdleState::Update()
@@ -103,14 +103,18 @@ void PlayerRunState::Update()
 	LStickPower.x = g_pad[0]->GetLStickXF();
 	LStickPower.y = g_pad[0]->GetLStickYF();
 
-	
+
 	// パッドの入力が無かったら。
 	if (LStickPower.Length() <= 0.01f) {
 		// ステートを待機状態に切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Idle;
 	}
-	// パッドの入力があったら。
+	// スタミナが無くなったら。
 	else if (m_player->m_stamina <= 0.0f) {
+		// 状態を歩きに切り替える。
+		m_player->m_requestPlayerState = enPlayerState_Walk;
+	}
+	else if (!g_pad[0]->IsPress(enButtonA)) {
 		// 状態を歩きに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Walk;
 	}
@@ -138,7 +142,7 @@ void PlayerCrouchState::Update()
 	Vector3 LStickPower(0.0f, 0.0f, 0.0f);
 	LStickPower.x = g_pad[0]->GetLStickXF();
 	LStickPower.y = g_pad[0]->GetLStickYF();
-	
+
 	// Bボタンを離したら。
 	if (!g_pad[0]->IsPress(enButtonB)) {
 		// ステートを待機状態に切り替える。
@@ -169,7 +173,7 @@ void PlayerCrouchWalkState::Update()
 	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_CrouchWalk);
 
 	// 状態解除。
-	// 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
+	// NOTE:tamaki 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
 	Vector3 LStickPower(0.0f, 0.0f, 0.0f);
 	LStickPower.x = g_pad[0]->GetLStickXF();
 	LStickPower.y = g_pad[0]->GetLStickYF();
@@ -178,16 +182,24 @@ void PlayerCrouchWalkState::Update()
 	if (LStickPower.Length() <= 0.01f) {
 		// ステートを待機状態に切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Idle;
-		}
-	// パッドの入力は無い、かつBボタンが押されたら。
-	else if (LStickPower.Length() <= 0.01f && g_pad[0]->IsPress(enButtonB)) {
-			// 状態をしゃがみに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Crouch;
-		}
+	}
+	// TODO: tamaki JキーとKキーを同時押しした状態で移動すると、ダッシュ時の移動速度でしゃがみ歩きするので修正する。
 	// パッドの入力がある、かつAボタンが押されたら。
-	else if (LStickPower.Length() <= 0.01f && g_pad[0]->IsPress(enButtonA)) {
-		// 状態を走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	//else if (g_pad[0]->IsPress(enButtonA) && g_pad[0]->IsPress(enButtonB)){
+	//	// 状態を走りに切り替える。
+	//	m_player->m_requestPlayerState = enPlayerState_CrouchWalk;
+	//}
+	// パッドの入力がある、かつBボタンが押されていなかったら。
+	else if (LStickPower.Length() >= 0.01f && !g_pad[0]->IsPress(enButtonB)) {
+
+
+		// 状態を歩きに切り替える
+		m_player->m_requestPlayerState = enPlayerState_Walk;
+	}
+	// Bボタンを離したら。
+	else if (LStickPower.Length() <= 0.01f && g_pad[0]->IsPress(enButtonB)) {
+		// 状態をしゃがみに切り替える。
+		m_player->m_requestPlayerState = enPlayerState_Crouch;
 	}
 }
 

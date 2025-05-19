@@ -32,6 +32,7 @@ Game::~Game() {
 	DeleteGO(m_firstFloor->m_background);
 	DeleteGO(m_firstFloor->m_floorManager);
 	DeleteGO(m_firstFloor->m_fireGimmic);
+	DeleteGO(m_setStamina);
 
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
