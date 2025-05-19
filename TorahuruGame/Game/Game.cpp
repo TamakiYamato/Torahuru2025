@@ -29,7 +29,6 @@ Game::~Game() {
 
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
-	DeleteGO(m_background);
 	DeleteGO(m_stairs);
 	DeleteGO(m_firstFloor->m_background);
 	DeleteGO(m_firstFloor->m_floorManager);
@@ -128,6 +127,7 @@ bool Game::Start()
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
+	m_firstFloor			= NewGO<FirstFloor>(0, "firstfloor");
 	InitSky();
 	SetSutamina();
 	m_modelRender.SetPosition(m_position);
