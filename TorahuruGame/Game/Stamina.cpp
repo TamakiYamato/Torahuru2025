@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Sutamina.h"
+#include "Stamina.h"
 #include "Player.h"
 
 namespace
@@ -19,17 +19,17 @@ namespace
 	Vector3 SCALE = Vector3{ 0.8f,0.5f,0.5f };
 }
 
-Sutamina::Sutamina()
+Stamina::Stamina()
 {
 
 }
 
-Sutamina::~Sutamina()
+Stamina::~Stamina()
 {
 
 }
 
-bool Sutamina::Start()
+bool Stamina::Start()
 {
 	// 画像を読み込む。
 	// スタミナバー(枠組み)の画像。
@@ -56,12 +56,12 @@ bool Sutamina::Start()
 	return true;
 }
 
-void Sutamina::SutaminaCalk()
+void Stamina::StaminaCalc()
 {
 		// プレイヤーの最大スタミナの値。
-		float MaxVitality = m_player->m_max_sutamina;
+		float MaxVitality = m_player->m_max_stamina;
 		// プレイヤーの現在のスタミナの値。
-		float newVitality = m_player->m_sutamina;
+		float newVitality = m_player->m_stamina;
 		// 割合を計算→scaleのX値に掛け算→バーが縮小する。
 		float wari = (float)newVitality / (float)MaxVitality;
 		Vector3 scal = { SUTAMINA_SCALE2 };
@@ -71,16 +71,16 @@ void Sutamina::SutaminaCalk()
 		m_spriteRender2.SetScale(scal);
 }
 
-void Sutamina::Update()
+void Stamina::Update()
 {
 	// スタミナ計算と更新。
-	SutaminaCalk();
+	StaminaCalc();
 	// スプライトを更新。
 	m_spriteRender.Update();
 	m_spriteRender2.Update();
 }
 
-void Sutamina::Render(RenderContext& rc)
+void Stamina::Render(RenderContext& rc)
 {
 	// 画像を描画。
 	m_spriteRender.Draw(rc);

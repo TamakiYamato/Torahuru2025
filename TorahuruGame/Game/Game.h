@@ -3,7 +3,7 @@
 #include "Level3DRender/LevelRender.h"
 
 class Player;
-class Sutamina;
+class Stamina;
 class Enemy;
 class BackGround;
 class FirstFloor;
@@ -44,7 +44,7 @@ private:
 	FirstFloor*					m_firstFloor=nullptr;
 	FloorManager*				m_floorManager=nullptr;
 	Player*						m_player = nullptr;
-	Sutamina*                   m_setSutamina;
+	Stamina*                   m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;

@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "Player.h"
 #include"Game.h"
-#include"FloorManager.h" 
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
 #include"BlindFloor.h"
@@ -14,14 +13,11 @@
 namespace
 {
 	// ファイルパスを定数定義
-	//char string;
-
 	// ファイルパスは文字列なので string を使用する。
 	// const を使用し定数を定義。 const→変数が変更不可であることを示す。
 	// ヒューマンエラーを防ぐ。　ヒューマンエラー→タイピング等のミスで起こるエラー。
 	const std::string animationFilePath = "Assets/animData/player/";
 	const std::string animationExtention = ".tka";
-
 }
 
 Player::Player()
@@ -30,7 +26,11 @@ Player::Player()
 
 Player::~Player()
 {
-
+	// 状態をdelete。
+	for (int i = 0; i < enPlayerState_Max; ++i) {
+		delete m_playerStateList[i];
+		m_playerStateList[i] = nullptr;
+	}
 }
 
 // constでファイルを読み取る。
@@ -60,10 +60,6 @@ bool Player::Start()
 
 	// キャラクターを読み込む。
 	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
-	
-	m_reverseModel.Init("Assets/modelData/playerDamage/Reverse/playerReverse.tkm", m_animationClips, enAnimationClip_Num);
-	m_slowModel.Init("Assets/modelData/playerDamage/Slow/playerSlow.tkm", m_animationClips, enAnimationClip_Num);
-
 	/*ModelInitData modelInitData;
 	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
@@ -80,41 +76,68 @@ bool Player::Start()
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
+	// 状態の生成。
+	// 注意：newしたインスタンスはdeleteが必要。
+	//       今回はデストラクタでdeleteします。
+	m_playerStateList[enPlayerState_Idle] = new PlayerIdleState(this);
+	m_playerStateList[enPlayerState_Walk] = new PlayerWalkState(this);
+	m_playerStateList[enPlayerState_Run] = new PlayerRunState(this);
+	m_playerStateList[enPlayerState_Crouch] = new PlayerCrouchState(this);
+	m_playerStateList[enPlayerState_CrouchWalk] = new PlayerCrouchWalkState(this);
+
+	// 初期状態を設定。
+	m_currentPlayerState = enPlayerState_Idle;
+	m_requestPlayerState = enPlayerState_None;
+
 	return true;
 }
 
 void Player::Update() {
-	Move();					//キャラクターの移動
-	Rotation();				//キャラクターの回転
-	ManageState();			//ステート管理。
-	SutaminaCalk();
-	PlayAnimation();		//アニメーションの再生。
-	m_modelRender.Update();	//モデル更新。
-	if (m_floorManager == nullptr)
-	{
-		m_floorManager = FindGO<FloorManager>("floorManager");
-	}
-}
-
-void Player::Move() {
-	// 乗算用
-	float m_dash = 1.0f;
-	// もしAボタンが押されたら。
-	if (g_pad[0]->IsPress(enButtonA))
-	{
-		// 移動速度を上げる。
-		m_dash *= 2.0f;
-
-		if (m_sutamina <= 0.0f)
-		{
-			m_dash /= m_dash;
+#if 1
+	if (m_requestPlayerState != enPlayerState_None) {
+		if (m_currentPlayerState != m_requestPlayerState) {
+			// 現在の状態を終了する。
+			m_playerStateList[m_currentPlayerState]->Exit();
+			// 現在の状態を次の状態に切り替える。
+			m_currentPlayerState = m_requestPlayerState;
+			// 切り替えた状態を開始。
+			m_playerStateList[m_currentPlayerState]->Enter();
 		}
 	}
-	// もしBボタンが押されたら。
-	else if (g_pad[0]->IsPress(enButtonB))
-	{
-		m_dash *= 0.5f;
-	}
+	// ステート処理が上手く実行されてない場合、お知らせしてくれる。
+	K2_ASSERT(m_currentPlayerState != enPlayerState_None, "状態が正しく設定されていません。");
+	m_playerStateList[m_currentPlayerState]->Update();
+#endif
+
+	Rotation();				//キャラクターの回転
+	StaminaCalc();
+	m_modelRender.SetPosition(m_position);
+	m_modelRender.Update();	//モデル更新。
+
+}
+
+void Player::Move(float m_dash = 1.0f)
+{
+	// NOTE: tamaki 移動速度の処理の問題の解決のために一時コメントアウトしてます。
+	// もしAボタンが押されたら。
+	//if (g_pad[0]->IsPress(enButtonA))
+	//{
+	//	// 移動速度を上げる。
+	//	m_dash *= 2.0f;
+
+	//	if (m_stamina <= 0.0f)
+	//	{
+	//		m_dash /= m_dash;
+	//	}
+	//}
+	//// もしBボタンが押されたら。
+	//else if (g_pad[0]->IsPress(enButtonB))
+	//{
+	//	m_dash *= 0.5f;
+	//}
+
+	//キャラクターコントローラーを使って座標を移動させる。
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 
 	// xzの移動速度を0.0fにする。
 	// 0.0fで初期化することで前回の移動速度の影響を
@@ -142,12 +165,12 @@ void Player::Move() {
 	//左スティックの入力量と180.0fを
 	// 乗算。
 	//移動速度を決める。
-#if 0
+#if 1
 	right *= stickL.x * 180.0f * m_dash * m_moveDir;
 	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
 #endif
 
-#if 1
+#if 0
 	right *= stickL.x * 500.0f * m_dash * m_moveDir;
 	forward *= stickL.y * 500.0f * m_dash * m_moveDir;
 #endif
@@ -169,198 +192,67 @@ void Player::Move() {
 		m_moveSpeed.y -= 5.0f;
 	}
 
-
-	//キャラクターコントローラーを使って座標を移動させる。
-	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
 	m_modelRender.SetPosition(m_position);
 }
 
 void Player::Rotation()
-{//xかzの移動速度があったら(スティックの入力があったら)。
-	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
-	{
-		//キャラクターの方向を変える。
-		rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
-		//絵描きさんに回転を教える。
-		m_modelRender.SetRotation(rotation);
-	}
-}
-
-//ステート管理。
-void Player::ManageState()
 {
-	//地面に付いていたら。
+	// NOTE: 早期リターンとは？→条件が満たされない場合に、早期に関数から抜け出す手法。
 	//xかzの移動速度があったら(スティックの入力があったら)。
-	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+	if (fabsf(m_moveSpeed.x) < 0.001f && fabsf(m_moveSpeed.z) < 0.001f)
 	{
-		//ステートを2(歩き)にする。
-		m_playerState = State_Walk;
-		// 走ってない判定にする。
-		m_dashFlag = false;
-
-		// もしAボタンが押されたら。
-		if (g_pad[0]->IsPress(enButtonA))
-		{
-			// 走る。
-			m_playerState = State_Run;
-			// 走っている判定にする。
-			m_dashFlag = true;
-
-			// スタミナが0で走ってない判定のとき
-			if (m_sutamina <= 0 && m_dashFlag != false)
-			{
-				// ダッシュ状態から歩く判定になる。
-				m_playerState = State_StayRun;
-			}
-		}
-		// もしBボタンが押されたら。
-		else if (g_pad[0]->IsPress(enButtonB))
-		{
-			// しゃがむ。
-			m_playerState = State_CrouchWalk;
-		}
+		return;
 	}
-	//xとzの移動速度が無かったら(スティックの入力が無かったら)。
-	else
-	{
-		//ステートを0(待機)にする。
-		m_playerState = State_Idle;
-
-		// もしBボタンが押されたら。
-		if (g_pad[0]->IsPress(enButtonB))
-		{
-			// しゃがむ。
-			m_playerState = State_Crouch;
-		}
-	}
+	//キャラクターの方向を変える。
+	rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
+	//絵描きさんに回転を教える。
+	m_modelRender.SetRotation(rotation);
 }
 
-void Player::SutaminaCalk()
+
+void Player::DashStaminaCalk()
 {
-	// プレイヤーがダッシュしてたら。
-	if (m_playerState == State_Run)
-	{
-		// スタミナを減らす。
+	// スタミナを減らす。
 		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
 		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
 		// これを好きな数で乗算→FPSに左右されずに減らせる。
-		m_sutamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
-		// スタミナが0以下になったら。
-		if (m_sutamina <= 0)
-		{
-			// スタミナを0にする。
-			m_sutamina = 0;
-		}
+	m_stamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
+	// スタミナが0以下になったら。
+	if (m_stamina <= 0)
+	{
+		// スタミナを0にする。
+		m_stamina = 0;
+	}
+}
+
+void Player::StaminaCalc()
+{
+	// プレイヤーがダッシュしてたら。
+	if (m_currentPlayerState == State_Run)
+	{
+		DashStaminaCalk();
 	}
 	// 走っていないとき。
 	else if (m_dashFlag != true)
 	{
 		// スタミナを回復する。
-		m_sutamina += 20.0f * g_gameTime->GetFrameDeltaTime();
+		m_stamina += 20.0f * g_gameTime->GetFrameDeltaTime();
 		// スタミナが100以上になったら。
-		if (m_sutamina >= 100)
+		if (m_stamina >= 100)
 		{
 			//スタミナを100にする。
-			m_sutamina = m_max_sutamina;
+			m_stamina = m_max_stamina;
+		}
+		// Aボタンが押されたら。→押し続けている間、スタミナを回復しない。
+		else if (g_pad[0]->IsPress(enButtonA))
+		{
+			DashStaminaCalk();
 		}
 	}
 }
 
-//アニメーションの再生。
-void Player::PlayAnimation()
-{
-	//switch文。
-	switch (m_playerState) {
-		// ステートがIdleだったら。
-	case State_Idle:
-		//待機アニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Idle);
-		break;
-		// ステートがWalkだったら。
-	case State_Walk:
-		//歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Walk);
-		break;
-	case State_StayRun:
-		//歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Walk);
-		break;
-		// ステートがRunだったら。
-	case State_Run:
-		// 走りアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Run);
-		break;
-		// ステートがCrouchだったら。
-	case State_Crouch:
-		// しゃがみアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Crouch);
-		break;
-		// ステートがCrouchWalkだったら。
-	case State_CrouchWalk:
-		// しゃがみ歩きアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_CrouchWalk);
-		break;
-		// ステートがCrouchingだったら。
-	case State_Crouching:
-		// しゃがみこみアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_Crouching);
-		break;
-		// ステートがCrouchStandingだったら。
-	case State_CrouchStanding:
-		// 立ち上がりアニメーションを再生する。
-		m_modelRender.PlayAnimation(enAnimClip_CrouchStanding);
-		break;
-	}
-}
-
-
 void Player::Render(RenderContext& rc) {
 	m_modelRender.Draw(rc);
-
-	switch (m_floorManager->m_floorState) {
-	case m_floorManager->Normal:	//通常時
-		m_modelRender.Draw(rc);
-		break;
-
-	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
-		m_reverseModel.Draw(rc);
-		break;
-
-	case m_floorManager->SlowState:		//減速床を踏んだ時
-		m_slowModel.Draw(rc);
-		break;
-
-	case m_floorManager->BlindState:	//暗転床を踏んだ時
-		//m_blindModel.Draw(rc);
-		break;
-	default:
-		m_modelRender.Draw(rc);
-		break;
-	}
-
 }
 
-void Player::UpdateModelByState()
-{
-	switch (m_floorManager->m_floorState) {
-	case m_floorManager->Normal:	//通常時
-		m_modelRender.Update();
-		break;
-
-	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
-		m_reverseModel.Update();
-		break;
-
-	case m_floorManager->SlowState:		//減速床を踏んだ時
-		m_slowModel.Update();
-		break;
-
-	case m_floorManager->BlindState:	//暗転床を踏んだ時
-		//m_blindModel.Update();
-		break;
-	default:
-		m_modelRender.Update();
-		break;
-	}
-}
