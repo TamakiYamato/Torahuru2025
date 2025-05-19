@@ -3,6 +3,7 @@
 //class Enemy;
 class GameClear;
 class Staier;
+class FloorManager;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
@@ -65,10 +66,15 @@ public:
 
 	//アニメーションを共通化する。
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
+	void UpdateModelByState();	//ステートによってモデルのアップデートを変更
+
+	ModelRender m_reverseModel;					//暗転床踏んだ時のモデル
+	ModelRender m_slowModel;					//減速床を踏んだ時のモデル
 
 	AnimationClip				m_animationClips[enAnimationClip_Num];
 	CharacterController			m_charCon;							//キャラコン
 	ModelRender					m_modelRender;
+	FloorManager*				m_floorManager;	
 	Vector3						stickL;								//プレイヤーの進行方向を決定する。
 	Vector3						m_position;
 	Vector3						m_moveSpeed;						//移動速度

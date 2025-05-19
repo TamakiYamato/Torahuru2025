@@ -41,8 +41,8 @@ public:
 	SkyCube* m_skyCube = nullptr;				  //
 
 private:
-	FirstFloor*					m_firstFloor;
-	FloorManager*				m_floorManager;
+	FirstFloor*					m_firstFloor=nullptr;
+	FloorManager*				m_floorManager=nullptr;
 	Player*						m_player = nullptr;
 	Sutamina*                   m_setSutamina;
 	Enemy*						m_enemy	= nullptr;

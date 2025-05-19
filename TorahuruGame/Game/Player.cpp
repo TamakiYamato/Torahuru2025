@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include"Game.h"
+#include"FloorManager.h" 
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
 #include"BlindFloor.h"
@@ -59,6 +60,10 @@ bool Player::Start()
 
 	// キャラクターを読み込む。
 	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
+	
+	m_reverseModel.Init("Assets/modelData/playerDamage/Reverse/playerReverse.tkm", m_animationClips, enAnimationClip_Num);
+	m_slowModel.Init("Assets/modelData/playerDamage/Slow/playerSlow.tkm", m_animationClips, enAnimationClip_Num);
+
 	/*ModelInitData modelInitData;
 	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
@@ -85,6 +90,10 @@ void Player::Update() {
 	SutaminaCalk();
 	PlayAnimation();		//アニメーションの再生。
 	m_modelRender.Update();	//モデル更新。
+	if (m_floorManager == nullptr)
+	{
+		m_floorManager = FindGO<FloorManager>("floorManager");
+	}
 }
 
 void Player::Move() {
@@ -308,4 +317,50 @@ void Player::PlayAnimation()
 
 void Player::Render(RenderContext& rc) {
 	m_modelRender.Draw(rc);
+
+	switch (m_floorManager->m_floorState) {
+	case m_floorManager->Normal:	//通常時
+		m_modelRender.Draw(rc);
+		break;
+
+	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
+		m_reverseModel.Draw(rc);
+		break;
+
+	case m_floorManager->SlowState:		//減速床を踏んだ時
+		m_slowModel.Draw(rc);
+		break;
+
+	case m_floorManager->BlindState:	//暗転床を踏んだ時
+		//m_blindModel.Draw(rc);
+		break;
+	default:
+		m_modelRender.Draw(rc);
+		break;
+	}
+
+}
+
+void Player::UpdateModelByState()
+{
+	switch (m_floorManager->m_floorState) {
+	case m_floorManager->Normal:	//通常時
+		m_modelRender.Update();
+		break;
+
+	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
+		m_reverseModel.Update();
+		break;
+
+	case m_floorManager->SlowState:		//減速床を踏んだ時
+		m_slowModel.Update();
+		break;
+
+	case m_floorManager->BlindState:	//暗転床を踏んだ時
+		//m_blindModel.Update();
+		break;
+	default:
+		m_modelRender.Update();
+		break;
+	}
 }

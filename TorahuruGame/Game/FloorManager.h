@@ -27,6 +27,7 @@ public:
 	/// <summary>
 	/// 床の効果
 	/// </summary>
+public:	
 	enum FloorState {
 		Normal,			//通常状態
 		ReverseState,	//あべこべ状態
@@ -44,6 +45,7 @@ public:
 	Player* m_player;	//プレイヤー
 	Enemy* m_enemy;	//エネミー
 	Game* m_game = nullptr;	//ゲーム
+	FloorState m_floorState;
 
 	Vector3 pointLightPosition;
 	int	m_playerFloorState = FloorState::Normal; //プレイヤーが受けたデバフ
