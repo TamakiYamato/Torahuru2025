@@ -7,6 +7,9 @@
 #include"BlindFloor.h"
 #include <string>
 
+// 移動速度を上昇させ、デバッグしやすくする。
+#define DEBUG
+
 // constを使用して定数を作成する。
 // namespace→無名名前空間
 // 外部からアクセスされないようにしたい定数や関数を格納する。
@@ -78,7 +81,7 @@ bool Player::Start()
 
 	// 状態の生成。
 	// 注意：newしたインスタンスはdeleteが必要。
-	//       今回はデストラクタでdeleteします。
+	// 今回はデストラクタでdeleteします。
 	m_playerStateList[enPlayerState_Idle] = new PlayerIdleState(this);
 	m_playerStateList[enPlayerState_Walk] = new PlayerWalkState(this);
 	m_playerStateList[enPlayerState_Run] = new PlayerRunState(this);
@@ -116,26 +119,8 @@ void Player::Update() {
 
 }
 
-void Player::Move(float m_dash = 1.0f)
+void Player::Move(float m_move = 1.0f)
 {
-	// NOTE: tamaki 移動速度の処理の問題の解決のために一時コメントアウトしてます。
-	// もしAボタンが押されたら。
-	//if (g_pad[0]->IsPress(enButtonA))
-	//{
-	//	// 移動速度を上げる。
-	//	m_dash *= 2.0f;
-
-	//	if (m_stamina <= 0.0f)
-	//	{
-	//		m_dash /= m_dash;
-	//	}
-	//}
-	//// もしBボタンが押されたら。
-	//else if (g_pad[0]->IsPress(enButtonB))
-	//{
-	//	m_dash *= 0.5f;
-	//}
-
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 
@@ -166,13 +151,13 @@ void Player::Move(float m_dash = 1.0f)
 	// 乗算。
 	//移動速度を決める。
 #if 1
-	right *= stickL.x * 180.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 180.0f * m_dash * m_moveDir;
+	right *= stickL.x * 180.0f * m_move * m_moveDir;
+	forward *= stickL.y * 180.0f * m_move * m_moveDir;
 #endif
 
-#if 0
-	right *= stickL.x * 500.0f * m_dash * m_moveDir;
-	forward *= stickL.y * 500.0f * m_dash * m_moveDir;
+#if debug
+	right *= stickL.x * 500.0f * m_move * m_moveDir;
+	forward *= stickL.y * 500.0f * m_move * m_moveDir;
 #endif
 
 	//移動速度にスティックの入力量を加算する。
