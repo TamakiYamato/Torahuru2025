@@ -32,8 +32,17 @@ public:
 	// メモ書きして	。
 protected:
 	Player* m_player = nullptr;
-	// 乗算用
-	float m_dash = 1.0f;
+	// 乗算用。
+	// デフォルトの移動速度。
+	float m_move = 1.0f;
+	// 歩き時に乗算する数値。
+	float m_walk = 1.0f;
+	// ダッシュ時に乗算する数値。
+	float m_run = 2.0f;
+	// しゃがみ時に乗算する数値。
+	float m_crouch = 0.0f;
+	// しゃがみ歩き時に乗算する数値。
+	float m_crouchWalk = 0.5f;
 };
 
 // 待機ステート。

@@ -53,7 +53,7 @@ void PlayerWalkState::Enter()
 void PlayerWalkState::Update()
 {
 	// 関数化した移動処理を呼び出す。
-	m_player->Move(m_dash = 1.0f);
+	m_player->Move(m_move = m_walk);
 
 	//歩きアニメーションを再生する。
 	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Walk);
@@ -92,7 +92,7 @@ void PlayerRunState::Enter()
 void PlayerRunState::Update()
 {
 	// 関数化した移動処理を呼び出す。
-	m_player->Move(m_dash = 2.0f);
+	m_player->Move(m_move = m_run);
 
 	//走りアニメーションを再生する。
 	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Run);
@@ -132,7 +132,7 @@ void PlayerCrouchState::Enter()
 void PlayerCrouchState::Update()
 {
 	// 関数化した移動処理を呼び出す。
-	m_player->Move(m_dash *= 1.0f);
+	m_player->Move(m_move = m_crouch);
 
 	// しゃがみアニメーションを再生する。
 	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Crouch);
@@ -167,7 +167,7 @@ void PlayerCrouchWalkState::Enter()
 void PlayerCrouchWalkState::Update()
 {
 	// 関数化した移動処理を呼び出す。
-	m_player->Move(m_dash *= 1.0f);
+	m_player->Move(m_move = m_crouchWalk);
 
 	// しゃがみ歩きアニメーションを再生する。
 	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_CrouchWalk);
@@ -184,15 +184,8 @@ void PlayerCrouchWalkState::Update()
 		m_player->m_requestPlayerState = enPlayerState_Idle;
 	}
 	// TODO: tamaki JキーとKキーを同時押しした状態で移動すると、ダッシュ時の移動速度でしゃがみ歩きするので修正する。
-	// パッドの入力がある、かつAボタンが押されたら。
-	//else if (g_pad[0]->IsPress(enButtonA) && g_pad[0]->IsPress(enButtonB)){
-	//	// 状態を走りに切り替える。
-	//	m_player->m_requestPlayerState = enPlayerState_CrouchWalk;
-	//}
 	// パッドの入力がある、かつBボタンが押されていなかったら。
 	else if (LStickPower.Length() >= 0.01f && !g_pad[0]->IsPress(enButtonB)) {
-
-
 		// 状態を歩きに切り替える
 		m_player->m_requestPlayerState = enPlayerState_Walk;
 	}
