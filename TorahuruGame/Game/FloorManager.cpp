@@ -36,7 +36,7 @@ void FloorManager::Update()
 	////デバフがかかっている場合///
 	if (m_playerSaveState != Normal) {
 		AddStatusTimer();       //画像と効果時間の表示
-		CalcStatusTime();		//効果時間を減らす
+		PlayerCalcStatusTime();		//効果時間を減らす
 	}
 
 	////視界制限時、ポイントライトの位置をプレイヤーの上に設定///
@@ -281,12 +281,12 @@ void FloorManager::DeletePointLight()
 /// <summary>
 /// 効果時間の減少
 /// </summary>
-void FloorManager::CalcStatusTime()
+void FloorManager::PlayerCalcStatusTime()
 {
 	if (m_playerSaveState != Normal) {
 		m_playerFloorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間を減らす
 		if (m_playerFloorTimer <= 0) {							//０になった場合
-			RevertState();										//効果をリセット
+			PlayerRevertState();										//効果をリセット
 			m_playerFloorTimer = 7.0f;							//時間をリセット
 			DeleteGO(m_spriteRender);							//画像を消去
 			DeleteGO(m_fontRender);								//文字を消去
@@ -294,11 +294,16 @@ void FloorManager::CalcStatusTime()
 			m_fontRender = nullptr;
 		}
 	}
+	
+}
+
+void FloorManager::EnemyCalcStatusTime()
+{
 	if (m_enemySaveState != Normal) {
 		m_enemyFloorTimer -= g_gameTime->GetFrameDeltaTime();	//効果時間の減少
 		if (m_enemyFloorTimer <= 0) {							//０になった場合
-			RevertState();										//効果をリセット
-			m_enemyFloorTimer = 7.0f;							//時間をリセット
+			PlayerRevertState();										//効果をリセット
+			m_enemyFloorTimer = 5.0f;							//時間をリセット
 		}
 	}
 }
@@ -306,7 +311,7 @@ void FloorManager::CalcStatusTime()
 /// <summary>
 /// 効果をリセット
 /// </summary>
-void FloorManager::RevertState()
+void FloorManager::PlayerRevertState()
 {
 	if (m_playerSaveState != Normal) {	//プレイヤーの効果を戻す
 		switch (m_playerSaveState) {
@@ -343,6 +348,10 @@ void FloorManager::RevertState()
 		}
 		m_playerSaveState = Normal;	// 状態をリセット
 	}
+}
+
+void FloorManager::EnemyRevertState()
+{
 	if (m_enemySaveState != Normal) {
 		switch (m_enemySaveState) {
 		case ReverseState:

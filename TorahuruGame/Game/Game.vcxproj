@@ -252,6 +252,7 @@
     </ClCompile>
     <ClCompile Include="Sutamina.cpp" />
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="ThirdFloor.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TutorialUI.cpp" />
   </ItemGroup>
@@ -277,6 +278,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Sutamina.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="ThirdFloor.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TutorialUI.h" />
   </ItemGroup>

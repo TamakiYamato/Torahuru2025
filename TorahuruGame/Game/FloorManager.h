@@ -15,13 +15,15 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
-	void FindFloor();				//ステージ内の床を見つける
-	void SetPointLight();			//ポイントライトの設定
-	void DeletePointLight();		//ポイントライトを削除する
-	void AddStatus();				//デバフを与える
-	void AddStatusTimer();			//効果時間の表示
-	void CalcStatusTime();			//効果時間の減少
-	void RevertState();				//デバフを消す]
+	void FindFloor();//ステージ内の床を見つける
+	void SetPointLight();//ポイントライトの設定
+	void DeletePointLight();//ポイントライトを削除する
+	void AddStatus();//デバフを与える
+	void AddStatusTimer();//効果時間の表示
+	void PlayerCalcStatusTime();//プレイヤーの効果時間が減少
+	void EnemyCalcStatusTime();//エネミーの効果時間が減少
+	void PlayerRevertState();//デバフを消す
+	void EnemyRevertState();//エネミーのデバフを消す
 
 
 	/// <summary>

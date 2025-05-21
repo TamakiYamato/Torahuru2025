@@ -3,8 +3,8 @@ class Enemy;
 class EnemyAnimation : public IGameObject
 {
 public:
-	EnemyAnimation();
-	~EnemyAnimation();
+	EnemyAnimation() {};
+	~EnemyAnimation(){};
 
 	bool Start();
 	void Update();
