@@ -33,9 +33,9 @@ bool Stamina::Start()
 {
 	// 画像を読み込む。
 	// スタミナバー(枠組み)の画像。
-	m_spriteRender.Init("Assets/PlayerUI/sutaminaBar.DDS", 500.0f, 100.0f);
+	m_spriteRender.Init("Assets/PlayerUI/staminaBar.DDS", 500.0f, 100.0f);
 	// スタミナバー(減らす部分)の画像。
-	m_spriteRender2.Init("Assets/PlayerUI/sutamina.DDS", 500.0f, 100.0f);
+	m_spriteRender2.Init("Assets/PlayerUI/stamina.DDS", 500.0f, 100.0f);
 
 	// playerを探す。→探さないとnullptr判定になる。
 	m_player = FindGO<Player>("player");
