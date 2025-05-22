@@ -48,6 +48,8 @@ bool Enemy::Start()
 
 	//見つける
 	m_player = FindGO<Player>("player");
+	m_floorManager = FindGO<FloorManager>("floorManager");
+	m_enemyAnim = FindGO<EnemyAnimation>("enemyAnimation");
 }
 
 void Enemy::Update()
