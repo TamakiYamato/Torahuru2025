@@ -36,7 +36,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//Game繧ｯ繝ｩ繧ｹ縺ｮ繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・縲・
 	NewGO<Title>(0, "title");
-	NewGO<Loading>(0, "loading");
+	NewGO<Loading>(1, "loading");
 	
 	//////////////////////////////////////
 	// 蛻晄悄蛹悶ｒ陦後≧繧ｳ繝ｼ繝峨ｒ譖ｸ縺上・縺ｯ縺薙％縺ｾ縺ｧ・・ｼ・ｼ・
