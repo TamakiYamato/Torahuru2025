@@ -11,7 +11,7 @@ namespace nsK2Engine {
 	/// <summary>
 	/// スキンモデルレンダー。
 	/// </summary>
-	class ModelRender : public IRenderer
+	class ModelRender : public IRenderer 
 	{
 	public:
 		ModelRender();

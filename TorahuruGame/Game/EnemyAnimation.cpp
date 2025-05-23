@@ -9,14 +9,6 @@ namespace {
 
 }
 
-EnemyAnimation::EnemyAnimation()
-{
-}
-
-EnemyAnimation::~EnemyAnimation()
-{
-}
-
 bool EnemyAnimation::Start()
 {
 	// 待機
