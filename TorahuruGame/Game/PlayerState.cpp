@@ -11,7 +11,7 @@ void PlayerIdleState::Enter()
 void PlayerIdleState::Update()
 {
 	//待機アニメーションを再生する。
-	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Idle);
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
 
 	// 何するの？→Idleから別の状態に切り替わるコードが欲しい。
 	Vector3 LStickPower(0.0f, 0.0f, 0.0f);
@@ -56,7 +56,7 @@ void PlayerWalkState::Update()
 	m_player->Move(m_move = m_walk);
 
 	//歩きアニメーションを再生する。
-	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Walk);
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Walk);
 
 	// 状態解除。
 	// 何するの？→Walkから別の状態に切り替わるコードが欲しい。
@@ -95,7 +95,7 @@ void PlayerRunState::Update()
 	m_player->Move(m_move = m_run);
 
 	//走りアニメーションを再生する。
-	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Run);
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Run);
 
 	// 状態解除。
 	// 何するの？→Runから別の状態に切り替わるコードが欲しい。
@@ -135,7 +135,7 @@ void PlayerCrouchState::Update()
 	m_player->Move(m_move = m_crouch);
 
 	// しゃがみアニメーションを再生する。
-	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_Crouch);
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Crouch);
 
 	// 状態解除。
 	// 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
@@ -170,7 +170,7 @@ void PlayerCrouchWalkState::Update()
 	m_player->Move(m_move = m_crouchWalk);
 
 	// しゃがみ歩きアニメーションを再生する。
-	m_player->m_modelRender.PlayAnimation(m_player->enAnimClip_CrouchWalk);
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_CrouchWalk);
 
 	// 状態解除。
 	// NOTE:tamaki 何するの？→Crouchから別の状態に切り替わるコードが欲しい。

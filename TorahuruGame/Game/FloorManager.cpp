@@ -138,6 +138,8 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 					DeleteGO(m_spriteRender);
 				}
 
+				m_player->m_requestChangeModel = true;	//プレイヤーが床を踏んでいる状態にする
+
 				//画像の表示
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 				m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
@@ -148,6 +150,8 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 
 				AddStatusTimer();
 
+				m_floorState = ReverseState;	//床の状態を変更
+
 				break;
 
 			case SlowState:
@@ -155,6 +159,8 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 				if (m_spriteRender) {
 					DeleteGO(m_spriteRender);
 				}
+
+				m_player->m_requestChangeModel = true;	//プレイヤーが床を踏んでいる状態にする
 
 				//画像の表示
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
@@ -166,6 +172,8 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 
 				AddStatusTimer();
 
+				m_floorState = SlowState;	//床の状態を変更
+
 				break;
 
 			case BlindState:
@@ -174,12 +182,16 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 					DeleteGO(m_spriteRender);
 				}
 
+				m_player->m_requestChangeModel = true;	//プレイヤーが床を踏んでいる状態にする
+
 				//画像の表示
 				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 				m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
 				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
 
 				AddStatusTimer();
+
+				m_floorState = BlindState;	//床の状態を変更
 
 				//////////////環境光の設定//////////////////////////
 
@@ -205,6 +217,7 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 			}
 			m_playerSaveState = m_playerFloorState;
 			m_playerFloorState = Normal;
+
 		}
 	}
 
@@ -292,6 +305,8 @@ void FloorManager::PlayerCalcStatusTime()
 			DeleteGO(m_fontRender);								//文字を消去
 			m_spriteRender = nullptr;
 			m_fontRender = nullptr;
+			m_player->m_requestChangeModel = true;				//プレイヤーが床を踏んでいないけどモデルを戻すため
+			m_floorState = Normal;								//床の状態を戻す
 		}
 	}
 	

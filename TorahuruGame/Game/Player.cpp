@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include"Game.h"
+#include"FloorManager.h"
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
 #include"BlindFloor.h"
@@ -62,7 +63,11 @@ bool Player::Start()
 	SetAnimation(enAnimClip_CrouchWalk, "playerCrouched walking", true);
 
 	// キャラクターを読み込む。
-	m_modelRender.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
+	m_modelRender = new ModelRender();	//モデル切り替える際にモデルを元に戻すためにnewする。
+	m_modelRender->Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
+	m_reverseModel.Init("Assets/modelData/playerDamage/Reverse/playerReverse.tkm", m_animationClips, enAnimationClip_Num);
+	m_slowModel.Init("Assets/modelData/playerDamage/Slow/playerSlow.tkm", m_animationClips, enAnimationClip_Num);
+
 	/*ModelInitData modelInitData;
 	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
@@ -70,12 +75,12 @@ bool Player::Start()
 	modelInitData.m_psEntryPointFunc = "PSMainHardShadow";
 	modelInitData.animationClips = m_animationClips;
 	modelInitData.numAnimationClips = enAnimationClip_Num;
-	m_modelRender.InitForwardRendering(modelInitData);*/
+	m_modelRender->InitForwardRendering(modelInitData);*/
 	// キャラクターの更新。
-	m_modelRender.Update();
+	m_modelRender->Update();
 	// キャラクターの向きを変える。
 	rotation.SetRotationDegY(180.0f);
-	m_modelRender.SetRotation(rotation);
+	m_modelRender->SetRotation(rotation);
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
@@ -96,6 +101,12 @@ bool Player::Start()
 }
 
 void Player::Update() {
+
+	if (m_floorManager == nullptr)
+	{
+		m_floorManager = FindGO<FloorManager>("floorManager");
+	}
+
 #if 1
 	if (m_requestPlayerState != enPlayerState_None) {
 		if (m_currentPlayerState != m_requestPlayerState) {
@@ -111,12 +122,13 @@ void Player::Update() {
 	K2_ASSERT(m_currentPlayerState != enPlayerState_None, "状態が正しく設定されていません。");
 	m_playerStateList[m_currentPlayerState]->Update();
 #endif
-
+	UpdateModelByState();	//ステートによってモデルのアップデートを変更
 	Rotation();				//キャラクターの回転
 	StaminaCalc();
-	m_modelRender.SetPosition(m_position);
-	m_modelRender.Update();	//モデル更新。
-
+	m_modelRender->SetPosition(m_position);
+	m_modelRender->Update();	//モデル更新。
+	m_reverseModel.Update();//暗転床踏んだ時のモデル更新。
+	m_slowModel.Update();	//減速床を踏んだ時のモデル更新。
 }
 
 void Player::Move(float m_move = 1.0f)
@@ -178,7 +190,7 @@ void Player::Move(float m_move = 1.0f)
 	}
 
 	//絵描きさんに座標を教える。
-	m_modelRender.SetPosition(m_position);
+	m_modelRender->SetPosition(m_position);
 }
 
 void Player::Rotation()
@@ -192,7 +204,7 @@ void Player::Rotation()
 	//キャラクターの方向を変える。
 	rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
 	//絵描きさんに回転を教える。
-	m_modelRender.SetRotation(rotation);
+	m_modelRender->SetRotation(rotation);
 }
 
 
@@ -238,6 +250,65 @@ void Player::StaminaCalc()
 }
 
 void Player::Render(RenderContext& rc) {
-	m_modelRender.Draw(rc);
+	if (m_modelRender) {
+		m_modelRender->Draw(rc);
+	}
+	//ギミックの床を踏んだ時
+	if (m_floorManager != nullptr)
+	{
+		// 踏んだ床によってモデルを変える
+		switch (m_floorManager->m_floorState) {
+		case m_floorManager->ReverseState:	//操作反転床を踏んだ時
+			m_reverseModel.Draw(rc);
+			break;
+		case m_floorManager->SlowState:		//減速床を踏んだ時
+			m_slowModel.Draw(rc);
+			break;
+		}
+	}
+}
+
+void Player::UpdateModelByState()
+{
+	//ギミックの床を踏んだ時フラグがtrueになる。
+	if (m_requestChangeModel == true)
+	{
+		//ギミックの床を踏んだ時
+		if (m_floorManager != nullptr)
+		{
+			// 踏んだ床によってモデルを変える
+			switch (m_floorManager->m_floorState) {
+			case m_floorManager->Normal:		//通常時
+				if (m_modelRender) {
+					delete m_modelRender;
+					m_modelRender = nullptr;
+				}
+				m_modelRender = new ModelRender();
+				m_modelRender->Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);
+				break;
+
+			case m_floorManager->ReverseState:	//操作反転床を踏んだ時
+				if (m_modelRender) {
+					delete m_modelRender;
+					m_modelRender = nullptr;
+				}
+				m_modelRender = new ModelRender();
+				m_modelRender->Init("Assets/modelData/playerDamage/Reverse/playerReverse.tkm", m_animationClips, enAnimationClip_Num);
+
+				break;
+
+			case m_floorManager->SlowState:		//減速床を踏んだ時
+				if (m_modelRender) {
+					delete m_modelRender;
+					m_modelRender = nullptr;
+				}
+				m_modelRender = new ModelRender();
+				m_modelRender->Init("Assets/modelData/playerDamage/Slow/playerSlow.tkm", m_animationClips, enAnimationClip_Num);
+
+				break;
+			}
+		}
+	}
+	m_requestChangeModel = false;	//プレイヤーが床を踏んでいない状態にする
 }
 
