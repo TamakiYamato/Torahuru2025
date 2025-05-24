@@ -64,10 +64,12 @@ bool Player::Start()
 
 	// キャラクターを読み込む。
 	m_modelRender = new ModelRender();	//モデル切り替える際にモデルを元に戻すためにnewする。
-	m_modelRender->Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
+	m_normalModel.Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);//m_animationClips=何種類あるか
 	m_reverseModel.Init("Assets/modelData/playerDamage/Reverse/playerReverse.tkm", m_animationClips, enAnimationClip_Num);
 	m_slowModel.Init("Assets/modelData/playerDamage/Slow/playerSlow.tkm", m_animationClips, enAnimationClip_Num);
 
+	// 現在のモデルを設定
+	m_modelRender = &m_normalModel;	//m_modelRenderはポインタ型なので、&をつける。
 	/*ModelInitData modelInitData;
 	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
@@ -279,32 +281,16 @@ void Player::UpdateModelByState()
 			// 踏んだ床によってモデルを変える
 			switch (m_floorManager->m_floorState) {
 			case m_floorManager->Normal:		//通常時
-				if (m_modelRender) {
-					delete m_modelRender;
-					m_modelRender = nullptr;
-				}
-				m_modelRender = new ModelRender();
-				m_modelRender->Init("Assets/modelData/player/player.tkm", m_animationClips, enAnimationClip_Num);
+				m_modelRender = &m_normalModel;	//通常モデルに戻す
 				break;
 
 			case m_floorManager->ReverseState:	//操作反転床を踏んだ時
-				if (m_modelRender) {
-					delete m_modelRender;
-					m_modelRender = nullptr;
-				}
-				m_modelRender = new ModelRender();
-				m_modelRender->Init("Assets/modelData/playerDamage/Reverse/playerReverse.tkm", m_animationClips, enAnimationClip_Num);
+				m_modelRender = &m_reverseModel;	//反転モデルに切り替える
 
 				break;
 
 			case m_floorManager->SlowState:		//減速床を踏んだ時
-				if (m_modelRender) {
-					delete m_modelRender;
-					m_modelRender = nullptr;
-				}
-				m_modelRender = new ModelRender();
-				m_modelRender->Init("Assets/modelData/playerDamage/Slow/playerSlow.tkm", m_animationClips, enAnimationClip_Num);
-
+				m_modelRender = &m_slowModel;	//減速モデルに切り替える
 				break;
 			}
 		}

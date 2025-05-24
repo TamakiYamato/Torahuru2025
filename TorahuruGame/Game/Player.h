@@ -74,6 +74,7 @@ public:
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 	void UpdateModelByState();	//ステートによってモデルのアップデートを変更
 
+	ModelRender m_normalModel;					//通常のモデル		
 	ModelRender m_reverseModel;					//暗転床踏んだ時のモデル
 	ModelRender m_slowModel;					//減速床を踏んだ時のモデル
 
