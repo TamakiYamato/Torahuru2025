@@ -10,7 +10,7 @@
 #include "BlindFloor.h"
 #include "FloorManager.h"
 #include "Stairs.h"
-#include "Sutamina.h"
+#include "Stamina.h"
 #include "GameClear.h"
 #include "Gameover.h"
 #include "Loading.h"
@@ -34,7 +34,7 @@ Game::~Game() {
 	DeleteGO(m_firstFloor->m_floorManager);
 	DeleteGO(m_firstFloor->m_fireGimmic);
 	DeleteGO(m_tutorialUI);
-	DeleteGO(m_setSutamina);
+	DeleteGO(m_setStamina);
 
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -100,7 +100,7 @@ void Game::LightSetting()
 
 void Game::SetSutamina()
 {
-	m_setSutamina = NewGO<Sutamina>(0, "sutamina");
+	m_setStamina = NewGO<Stamina>(0, "sutamina");
 }
 
 // ロード用。

@@ -26,7 +26,7 @@
     <ClCompile Include="MakeEffect.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="TutorialUI.cpp" />
-    <ClCompile Include="Sutamina.cpp" />
+    <ClCompile Include="Stamina.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -54,7 +54,7 @@
     <ClInclude Include="MakeEffect.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="TutorialUI.h" />
-    <ClInclude Include="Sutamina.h" />
+    <ClInclude Include="Stamina.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="PlayerState.h" />

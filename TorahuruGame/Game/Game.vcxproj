@@ -250,7 +250,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Sutamina.cpp" />
+    <ClCompile Include="Stamina.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="ThirdFloor.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -276,7 +276,7 @@
     <ClInclude Include="SlowFloor.h" />
     <ClInclude Include="Stairs.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Sutamina.h" />
+    <ClInclude Include="Stamina.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="ThirdFloor.h" />
     <ClInclude Include="Title.h" />

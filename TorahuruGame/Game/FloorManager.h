@@ -47,7 +47,7 @@ public:
 	Player* m_player;	//プレイヤー
 	Enemy* m_enemy;	//エネミー
 	Game* m_game = nullptr;	//ゲーム
-	FloorState m_floorState;
+	FloorState m_floorState = Normal;	//床の状態
 
 	Vector3 pointLightPosition;
 	int	m_playerFloorState = FloorState::Normal; //プレイヤーが受けたデバフ
