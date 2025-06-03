@@ -10,7 +10,7 @@ GameCamera::GameCamera()
 
 GameCamera::~GameCamera()
 {
-
+	
 }
 
 bool GameCamera::Start()
@@ -84,10 +84,18 @@ void GameCamera::Update()
 	// 繧ｫ繝｡繝ｩ縺ｮ譖ｴ譁ｰ縲・
 	m_springCamera.Update();
 
+
 	//繝｡繧､繝ｳ繧ｫ繝｡繝ｩ縺ｫ豕ｨ隕也せ縺ｨ隕也せ繧定ｨｭ螳壹☆繧九・
 	/*g_camera3D->SetTarget(target);
 	g_camera3D->SetPosition(pos);*/
 
 	//繧ｫ繝｡繝ｩ縺ｮ譖ｴ譁ｰ縲・
 	/*g_camera3D->Update();*/
+}
+
+void GameCamera::Refresh()
+{
+	m_springCamera.Refresh();
+
+	m_springCamera.Update();
 }

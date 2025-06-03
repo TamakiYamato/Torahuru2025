@@ -32,7 +32,12 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
-    <ClCompile Include="ThirdFloor.cpp" />
+    <ClCompile Include="SecondFloor.cpp" />
+    <ClCompile Include="RotationFloor.cpp" />
+    <ClCompile Include="BackGroundTwo.cpp" />
+    <ClCompile Include="Scene\StageManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+     <ClCompile Include="ThirdFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -60,6 +65,11 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="FirstFloor.h" />
+    <ClInclude Include="SecondFloor.h" />
+    <ClInclude Include="RotationFloor.h" />
+    <ClInclude Include="BackGroundTwo.h" />
+    <ClInclude Include="Scene\StageManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="ThirdFloor.h" />
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@ namespace {
 	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
 
 	const float LENGTH = 3000.0f;			//長さ
-	const float SE_VOLUME = 0.05f;
+	const float SE_VOLUME = 0.01f;
 
 }
 
