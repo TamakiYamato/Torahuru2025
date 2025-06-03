@@ -165,6 +165,7 @@ namespace nsK2Engine {
 				m_camera->GetTarget()
 			);
 			m_camera->SetPosition(result);
+		
 		}
 		UpdateCamera();
 	}

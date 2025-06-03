@@ -6,11 +6,12 @@
 #include"ReverseFloor.h"
 #include"SlowFloor.h"
 #include"BlindFloor.h"
+#include"SecondFloor.h"
+
 #include <string>
 
 // 移動速度を上昇させ、デバッグしやすくする。
 #define DEBUG
-
 // constを使用して定数を作成する。
 // namespace→無名名前空間
 // 外部からアクセスされないようにしたい定数や関数を格納する。
@@ -251,6 +252,12 @@ void Player::StaminaCalc()
 	}
 }
 
+void Player::SetPosition(const Vector3& position) {
+	m_position = position;
+	m_charCon.SetPosition(m_position);
+	m_modelRender->SetPosition(m_position);
+	m_modelRender->Update();	//モデル更新。
+ }
 void Player::Render(RenderContext& rc) {
 	if (m_modelRender) {
 		m_modelRender->Draw(rc);

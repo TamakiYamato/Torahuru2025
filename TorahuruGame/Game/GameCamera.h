@@ -13,9 +13,11 @@ public:
 	bool Start();
 	void Update();
 
-	Player* m_player;
-	SpringCamera m_springCamera;   // 繝舌ロ繧ｫ繝｡繝ｩ縲・
+	void Refresh();//refresh:当たり判定を直す
 
+	Player* m_player;
+	SpringCamera m_springCamera;   
+	GameCamera *m_gamecamera;
 	Vector3 m_toCameraPos;
 };
 

@@ -6,8 +6,9 @@
 #include"BackGround.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
+//#include"GameManager.h"
 Title::Title() {
-
+   // NewGO<GameManager>(0, "gamemanager");
 }
 Title::~Title() {
 
