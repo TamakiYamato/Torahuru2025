@@ -33,6 +33,8 @@
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="ThirdFloor.cpp" />
+    <ClCompile Include="PuzzleCube.cpp" />
+    <ClCompile Include="PuzzleCubeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -61,5 +63,7 @@
     <ClInclude Include="Loading.h" />
     <ClInclude Include="FirstFloor.h" />
     <ClInclude Include="ThirdFloor.h" />
+    <ClInclude Include="PuzzleCube.h" />
+    <ClInclude Include="PuzzleCubeManager.h" />
   </ItemGroup>
 </Project>
