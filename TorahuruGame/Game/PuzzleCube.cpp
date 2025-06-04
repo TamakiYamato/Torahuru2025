@@ -12,7 +12,6 @@ PuzzleCube::~PuzzleCube()
 bool PuzzleCube::Start()
 {
 	// 絵合わせギミックの読み込み。
-	// Todo: tamaki
 	m_modelRender.Init("Assets/modelData/Stage1.tkm");
 	// TODO: tamaki レベルできるようになるまでポジションをここで定義する。
 	// フォントをセット。

@@ -12,12 +12,11 @@ PuzzleCubeManager::~PuzzleCubeManager()
 
 bool PuzzleCubeManager::Start()
 {
-
+	return true;
 }
 
 void PuzzleCubeManager::Update()
 {
-
 }
 
 void PuzzleCubeManager::Rotation()
@@ -65,5 +64,4 @@ void PuzzleCubeManager::Rotation()
 
 void PuzzleCubeManager::Render(RenderContext& rc)
 {
-
 }

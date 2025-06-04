@@ -5,13 +5,13 @@
 // 待機ステート。
 void PlayerIdleState::Enter()
 {
-	// TODO: tamaki Idle状態のアニメーションを再生。
+	//待機アニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
 }
 
 void PlayerIdleState::Update()
 {
-	//待機アニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
+	Enter();
 
 	// 何するの？→Idleから別の状態に切り替わるコードが欲しい。
 	Vector3 LStickPower(0.0f, 0.0f, 0.0f);
@@ -48,6 +48,8 @@ void PlayerIdleState::Exit()
 // 歩きステート。
 void PlayerWalkState::Enter()
 {
+	//歩きアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Walk);
 }
 
 void PlayerWalkState::Update()
@@ -55,8 +57,7 @@ void PlayerWalkState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_walk);
 
-	//歩きアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Walk);
+	Enter();
 
 	// 状態解除。
 	// 何するの？→Walkから別の状態に切り替わるコードが欲しい。
@@ -87,6 +88,8 @@ void PlayerWalkState::Exit()
 // 走りステート。
 void PlayerRunState::Enter()
 {
+	//走りアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Run);
 }
 
 void PlayerRunState::Update()
@@ -94,8 +97,7 @@ void PlayerRunState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_run);
 
-	//走りアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Run);
+	Enter();
 
 	// 状態解除。
 	// 何するの？→Runから別の状態に切り替わるコードが欲しい。
@@ -127,6 +129,8 @@ void PlayerRunState::Exit()
 // しゃがみステート。
 void PlayerCrouchState::Enter()
 {
+	// しゃがみアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Crouch);
 }
 
 void PlayerCrouchState::Update()
@@ -134,8 +138,7 @@ void PlayerCrouchState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_crouch);
 
-	// しゃがみアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Crouch);
+	Enter();
 
 	// 状態解除。
 	// 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
@@ -162,6 +165,8 @@ void PlayerCrouchState::Exit()
 // しゃがみ歩きステート。
 void PlayerCrouchWalkState::Enter()
 {
+	// しゃがみ歩きアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_CrouchWalk);
 }
 
 void PlayerCrouchWalkState::Update()
@@ -169,8 +174,7 @@ void PlayerCrouchWalkState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_crouchWalk);
 
-	// しゃがみ歩きアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_CrouchWalk);
+	Enter();
 
 	// 状態解除。
 	// NOTE:tamaki 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
@@ -183,7 +187,7 @@ void PlayerCrouchWalkState::Update()
 		// ステートを待機状態に切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Idle;
 	}
-	// TODO: tamaki JキーとKキーを同時押しした状態で移動すると、ダッシュ時の移動速度でしゃがみ歩きするので修正する。
+	
 	// パッドの入力がある、かつBボタンが押されていなかったら。
 	else if (LStickPower.Length() >= 0.01f && !g_pad[0]->IsPress(enButtonB)) {
 		// 状態を歩きに切り替える
