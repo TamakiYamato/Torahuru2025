@@ -8,6 +8,7 @@ class FloorManager;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
+class SecondFloor;
 class Player : public IGameObject
 {
 public:
@@ -28,7 +29,8 @@ public:
 	void Rotation();
 	void StaminaCalc();						// スタミナ計算(増減)。
 	void DashStaminaCalk();				// スタミナ計算(減算)。
-
+	void SetPosition();
+	void SetPosition(const Vector3& position);
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
@@ -89,6 +91,7 @@ public:
 	//プレイヤーの進行方向を決定する。
 	Vector3	stickL;
 	Vector3	m_position;
+	Vector3 m_positiontwo;//追加したよ:SecondFloorのpositionを生成します
 	//移動速度
 	Vector3	m_moveSpeed;
 	Vector3 m_dash;

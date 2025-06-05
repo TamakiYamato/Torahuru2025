@@ -32,7 +32,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
-    <ClCompile Include="ThirdFloor.cpp" />
+     <ClCompile Include="ThirdFloor.cpp" />
     <ClCompile Include="PuzzleCube.cpp" />
     <ClCompile Include="PuzzleCubeManager.cpp" />
   </ItemGroup>
@@ -62,6 +62,11 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="FirstFloor.h" />
+    <ClInclude Include="SecondFloor.h" />
+    <ClInclude Include="RotationFloor.h" />
+    <ClInclude Include="BackGroundTwo.h" />
+    <ClInclude Include="Scene\StageManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="ThirdFloor.h" />
     <ClInclude Include="PuzzleCube.h" />
     <ClInclude Include="PuzzleCubeManager.h" />

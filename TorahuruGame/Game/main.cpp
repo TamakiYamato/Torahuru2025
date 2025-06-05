@@ -6,7 +6,7 @@
 #include"Title.h"
 #include"Loading.h"
 #include "Game.h"
-
+#include "Scene.h"
 
 
 void ReportLiveObjects()
@@ -48,6 +48,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		if (g_pad[0]->IsTrigger(enButtonA) ){
 			g_pad[0]->SetVibration(/*durationSec=*/0.5f, /*normalizedPower=*/1.0f);
 		}
+		//Scene_Manager::GetInstance()->Update();
 		K2Engine::GetInstance()->Execute();
 	}
 

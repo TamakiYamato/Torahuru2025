@@ -1,6 +1,6 @@
 #pragma once
 #include "MakeEffect.h"
-
+class Loading;
 class Game;
 class Player;
 class FireGimmic :public IGameObject
@@ -67,7 +67,7 @@ private:
 	Quaternion m_fireRot_South;                         //南側
 	Quaternion m_fireRot_East;                          //東側
 	Quaternion m_fireRot_West;                          //西側
-
+	
 	CollisionObject* m_fireCollision;
 
 	Vector3					m_position = Vector3::Zero;
