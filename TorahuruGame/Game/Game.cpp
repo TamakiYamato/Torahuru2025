@@ -118,7 +118,7 @@ void Game::SetGameClear()
 bool Game::Start()
 {
 	m_player			     = NewGO<Player>(0, "player");
-	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");

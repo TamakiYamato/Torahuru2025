@@ -136,9 +136,6 @@ void Player::Update() {
 
 void Player::Move(float m_move = 1.0f)
 {
-	//キャラクターコントローラーを使って座標を移動させる。
-	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
-
 	// xzの移動速度を0.0fにする。
 	// 0.0fで初期化することで前回の移動速度の影響を
 	// 受けずに新しい入力に基づいた移動が可能。
@@ -184,6 +181,11 @@ void Player::Move(float m_move = 1.0f)
 	{
 		//重力を無くす。
 		m_moveSpeed.y = 0.0f;
+		if (g_pad[0]->IsTrigger(enButtonA))
+		{
+			//ジャンプさせる。
+			return;
+		}
 	}
 	//地面に付いていなかったら。
 	else
@@ -192,6 +194,8 @@ void Player::Move(float m_move = 1.0f)
 		m_moveSpeed.y -= 5.0f;
 	}
 
+	//キャラクターコントローラーを使って座標を移動させる。
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
 	m_modelRender->SetPosition(m_position);
 }
