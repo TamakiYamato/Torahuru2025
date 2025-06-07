@@ -31,6 +31,7 @@ FirstFloor::~FirstFloor()
 	DeleteGO(m_fireGimmic);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_stamina);
+	DeleteGO(m_collisitonObject);
 	for(ReverseFloor* reverseFloor : m_reverseFloorList) {
 		DeleteGO(reverseFloor);
 	}
@@ -60,7 +61,8 @@ bool FirstFloor::Start()
 	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 	m_gamecamera = FindGO<GameCamera>("gamecamera");
 	//レベル実装
-	
+	//当たり判定の可視化
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	m_levelRender.Init("Assets/level/BackGround1.tkl", [&](LevelObjectData& objData)
 		{	//floor1の実装
 			if (objData.ForwardMatchName(L"Box") == true) {								//ステージ
@@ -150,13 +152,9 @@ void FirstFloor::GoToNextStage() {
 	DeleteGO(this);  // 現在のステージを削除
 }
 
-void FirstFloor::SetLoading() {
-
-	
-
-}
 void FirstFloor::SetPosition() {
 	m_player->SetPosition(Vector3(0.0f, 0.0f, 0.0f)); // プレイヤーの位置をリセット
+
 }
 void FirstFloor::Render(RenderContext& rc)
 {

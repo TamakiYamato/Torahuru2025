@@ -37,6 +37,7 @@ Game::~Game() {
 	DeleteGO(m_setStamina);
 //	DeleteGO(m_stageManager);
 	DeleteGO(m_Load);
+	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
 	for (auto reverseFloor : reverseFloors)
@@ -96,6 +97,7 @@ void Game::LightSetting()
 
 		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
 	}
+
 };
 
 
@@ -107,7 +109,9 @@ void Game::SetSutamina()
 // ロード用。
 void Game::SetLoading()
 {
+
 }
+
 
 void Game::SetGameClear()
 {
@@ -118,7 +122,7 @@ void Game::SetGameClear()
 bool Game::Start()
 {
 	m_player			     = NewGO<Player>(0, "player");
-	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");

@@ -1,9 +1,9 @@
 #pragma once
-class Enemy;
 class EnemyAnimation;
 class Game;
 class Player;
 class FloorManager;
+class SecondFloor;
 class Enemy : public IGameObject
 {
 public:
@@ -37,6 +37,23 @@ public:
 		return m_position;
 	}
 
+
+	void SetPosition(const Vector3& position)
+
+	{
+		m_position = position;
+	}
+	void SetRotation(const Quaternion& rotation) {
+		m_rotation = rotation;
+
+	}
+	void SetScale(const Vector3& scale) {
+		m_scale = scale;
+	}
+	
+	void SetAnimation(EnemyAnimation* enemyAnim) {
+		m_enemyAnim = enemyAnim;
+	}
 	//値を指定した最小値と最大値の範囲に制限するための関数
 	template<typename T>
 	T Clamp(T value, T minVal, T maxVal)
@@ -58,7 +75,7 @@ public:
 	Player*						m_player;
 	EnemyAnimation*				m_enemyAnim;
 	FloorManager*				m_floorManager;								//フロアマネージャー。
-
+	SecondFloor* m_secondfloor = nullptr;
 	Vector3						m_position = Vector3::Zero;					//座標。
 	Vector3						m_scale = Vector3::One;						//大きさ。
 	Vector3						m_forward = Vector3::AxisZ;					//enemyの正面ベクトル。

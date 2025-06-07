@@ -6,8 +6,8 @@
 
 namespace
 {
-	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
-	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);
+	const Vector3 COLLISION_HEIGHT (0.0f, 10.0f, 0.0f);
+	const Vector3 COLLISION_SIZE (320.0f, 150.0f, 320.0f);
 }
 
 SlowFloor::SlowFloor()
