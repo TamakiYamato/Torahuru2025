@@ -35,9 +35,9 @@ void Title::Update() {
         // Aボタンを押したら。
         if (g_pad[0]->IsTrigger(enButtonA)) {
             //se->Play(false);
+            //NewGO<Tips>(0, "tips");
             // シーン切り替え開始。
             m_isWaitLoadOut = true;
-            NewGO<Tips>(0, "tips");
             m_Loading->StartLoadOut();
         }
     }

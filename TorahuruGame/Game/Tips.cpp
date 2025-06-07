@@ -23,11 +23,11 @@ bool Tips::Start()
 		// ポインタのbegin→Tipsの T
 		// ポインタのend→ 一番最後の文字(この場合は1)。
 
-		L"Tips : テスト1", // 0番目の配列
-		L"Tips : テスト2", // 1番目の配列
-		L"Tips : テスト3", // 2番目の配列
-		L"Tips : テスト4", // 3番目の配列
-		L"Tips : テスト5", // 4番目の配列
+		L"Tips : test1", // 0番目の配列
+		L"Tips : test2", // 1番目の配列
+		L"Tips : test3", // 2番目の配列
+		L"Tips : test4", // 3番目の配列
+		L"Tips : test5", // 4番目の配列
 	};
 	
 	//ここにtipsListの配列のポインタが帰ってくる。
@@ -48,7 +48,7 @@ void Tips::SetTime()
 	//Tipsの表示時間をリセット。
 	m_tipTimer = 0.0f;
 	//Tipsのインデックスを更新。
-	// = (m_currentTipsIndex + 1) % tipsList.size();
+	m_currentTipsIndex = (m_currentTipsIndex + 1) % tipsList.size();
 	m_currentTipsIndex++;
 	//表示するTipsを更新。
 	std::wstring wstr(tipsList[m_currentTipsIndex].begin(), tipsList[m_currentTipsIndex].end());
@@ -57,5 +57,5 @@ void Tips::SetTime()
 
 void Tips::Render(RenderContext&rc)
 {
-
+	m_fontRender.Draw(rc);
 }
