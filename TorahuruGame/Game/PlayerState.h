@@ -9,6 +9,8 @@ enum enPlayerState
 	enPlayerState_Run,
 	enPlayerState_Crouch,
 	enPlayerState_CrouchWalk,
+	enPlayerState_Down,
+	enPlayerState_GetUp,
 	enPlayerState_Max,
 	enPlayerState_None = enPlayerState_Max,
 };
@@ -25,6 +27,7 @@ public:
 		m_player = player;
 	}
 
+
 	// 純粋仮想関数:実装先で絶対使わなければならない関数。
 	virtual void Enter() = 0;       // 状態が切り替わった際に1度だけ呼ばれる。→アニメーション
 	virtual void Update() = 0;      // 更新。→パッドの入力等。
@@ -32,6 +35,10 @@ public:
 	// メモ書きして	。
 protected:
 	Player* m_player = nullptr;
+	float m_fireTime = 3.0f;		// 火炎放射器に当たった時のモデル更新用の時間。
+
+	//キャラコン
+	CharacterController	m_charCon;
 	// 乗算用。
 	// デフォルトの移動速度。
 	float m_move = 1.0f;
@@ -43,6 +50,7 @@ protected:
 	float m_crouch = 0.0f;
 	// しゃがみ歩き時に乗算する数値。
 	float m_crouchWalk = 0.5f;
+
 };
 
 // 待機ステート。
@@ -113,6 +121,34 @@ class PlayerCrouchWalkState : public IPlayerState
 {
 public:
 	PlayerCrouchWalkState(Player* player)
+		:IPlayerState(player)
+	{
+
+	}
+
+	void Enter() override;
+	void Update() override;
+	void Exit() override;
+};
+
+class PlayerDownState : public IPlayerState
+{
+	public:
+	PlayerDownState(Player* player)
+		:IPlayerState(player)
+	{
+
+	}
+
+	void Enter() override;
+	void Update() override;
+	void Exit() override;
+};
+
+class PlayerGetUpState : public IPlayerState
+{
+	public:
+	PlayerGetUpState(Player* player)
 		:IPlayerState(player)
 	{
 

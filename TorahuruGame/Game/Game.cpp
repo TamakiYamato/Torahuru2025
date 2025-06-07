@@ -197,6 +197,12 @@ void Game::Update()
 		DeleteGO(this);
 	}
 
+	if(m_player->m_position.y<=-800.0f)
+	{
+		NewGO<Gameover>(0, "Gameover");
+		DeleteGO(this);
+	}
+
 	//if (m_enemqy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
 	//	NewGO<Gameover>(0, "Gameover");
 	//	DeleteGO(this);

@@ -46,7 +46,7 @@ public:
 
 private:
 	FloorManager*				m_floorManager=nullptr;
-	Player*						m_player = nullptr;
+	Player*						m_player;
 	Stamina*                   m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;

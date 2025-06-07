@@ -131,93 +131,91 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 	///////////////プレイヤー///////////////
 	if (m_playerFloorTimer == 7.0f) {		//もしデバフを受けていない場合
 		if (!m_isPlayerAddStatus && m_playerFloorState != Normal) {
-			switch (m_playerFloorState) {
-			case ReverseState:
-				//前の画像の消去
-				if (m_spriteRender) {
-					DeleteGO(m_spriteRender);
+			if (m_player->m_isHitFireCollision != true) {
+				switch (m_playerFloorState) {
+
+				case ReverseState:
+					//前の画像の消去
+					if (m_spriteRender) {
+						DeleteGO(m_spriteRender);
+					}
+
+
+					//画像の表示
+					m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
+					m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
+					m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+
+					//進行方向を反転
+					m_player->m_moveDir *= -1.0f;
+
+					AddStatusTimer();
+
+					m_floorState = ReverseState;	//床の状態を変更
+
+					break;
+
+				case SlowState:
+					//前の画像の消去
+					if (m_spriteRender) {
+						DeleteGO(m_spriteRender);
+					}
+					//画像の表示
+					m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
+					m_spriteRender->Init("Assets/sprite/slow.DDS", 100.0f, 100.0f);
+					m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+
+					//プレイヤーの速度を半減
+					m_player->m_moveDir *= PLAYER_MOVE_SLOW;
+
+					AddStatusTimer();
+
+					m_floorState = SlowState;	//床の状態を変更
+
+					break;
+
+				case BlindState:
+					//前の画像の消去
+					if (m_spriteRender) {
+						DeleteGO(m_spriteRender);
+					}
+
+					//画像の表示
+					m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
+					m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
+					m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+
+					AddStatusTimer();
+
+					m_floorState = BlindState;	//床の状態を変更
+
+					//////////////環境光の設定//////////////////////////
+
+					// テクスチャの明るさを変更
+					g_renderingEngine->SetAmbient(Vector3(0.01f, 0.01f, 0.01f));
+
+					g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
+					g_renderingEngine->SetDirectionLight(1, g_vec3Zero, g_vec3Zero);
+					LightCount = 1;
+					// Gameクラスでやっているカメラライトをオフにする
+
+					// 明るさの明度率
+					g_renderingEngine->SetSceneMiddleGray(0.01f);
+
+					// ブルームの設定
+					g_renderingEngine->SetBloomThreshold(10.0f);
+
+					//////////////スポットライト/////////////////////////////
+					SetPointLight();
+					break;
+				default:
+					break;
 				}
-
 				m_player->m_requestChangeModel = true;	//プレイヤーが床を踏んでいる状態にする
-
-				//画像の表示
-				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
-				m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
-				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
-
-				//進行方向を反転
-				m_player->m_moveDir *= -1.0f;
-
-				AddStatusTimer();
-
-				m_floorState = ReverseState;	//床の状態を変更
-
-				break;
-
-			case SlowState:
-				//前の画像の消去
-				if (m_spriteRender) {
-					DeleteGO(m_spriteRender);
-				}
-
-				m_player->m_requestChangeModel = true;	//プレイヤーが床を踏んでいる状態にする
-
-				//画像の表示
-				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
-				m_spriteRender->Init("Assets/sprite/slow.DDS", 100.0f, 100.0f);
-				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
-
-				//プレイヤーの速度を半減
-				m_player->m_moveDir *= PLAYER_MOVE_SLOW;
-
-				AddStatusTimer();
-
-				m_floorState = SlowState;	//床の状態を変更
-
-				break;
-
-			case BlindState:
-				//前の画像の消去
-				if (m_spriteRender) {
-					DeleteGO(m_spriteRender);
-				}
-
-				m_player->m_requestChangeModel = true;	//プレイヤーが床を踏んでいる状態にする
-
-				//画像の表示
-				m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
-				m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
-				m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
-
-				AddStatusTimer();
-
-				m_floorState = BlindState;	//床の状態を変更
-
-				//////////////環境光の設定//////////////////////////
-
-				// テクスチャの明るさを変更
-				g_renderingEngine->SetAmbient(Vector3(0.01f, 0.01f, 0.01f));
-
-				g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
-				g_renderingEngine->SetDirectionLight(1, g_vec3Zero, g_vec3Zero);
-				LightCount = 1;
-				// Gameクラスでやっているカメラライトをオフにする
-
-				// 明るさの明度率
-				g_renderingEngine->SetSceneMiddleGray(0.01f);
-
-				// ブルームの設定
-				g_renderingEngine->SetBloomThreshold(10.0f);
-
-				//////////////スポットライト/////////////////////////////
-				SetPointLight();
-				break;
-			default:
-				break;
+				m_player->UpdateModelByState();
+				m_playerSaveState = m_playerFloorState;
+				m_playerFloorState = Normal;
 			}
-			m_playerSaveState = m_playerFloorState;
-			m_playerFloorState = Normal;
-
 		}
 	}
 

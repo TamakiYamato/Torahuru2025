@@ -22,7 +22,7 @@ bool FireTriggerFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
-	m_enemy = FindGO<Enemy>("enemy");
+	//m_enemy = FindGO<Enemy>("enemy");
 
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で削除されないようにする
 	return true;
