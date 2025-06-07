@@ -33,6 +33,11 @@ public:
 	void Rotation();
 	void StaminaCalc();						// スタミナ計算(増減)。
 	void DashStaminaCalk();				// スタミナ計算(減算)。
+	void SetPosition();
+	void SetPosition(const Vector3& position);
+	void SetGravity();
+	void FireState();
+	void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
 	void FireState();
 	void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
 	// 座標を取得
@@ -119,8 +124,20 @@ public:
 	int m_currentPlayerState;
 	// 次に使いたい状態(リクエスト)
 	int m_requestPlayerState;
+	/// <summary>
+	/// 力を加算する
+	/// </summary>
+	/// <param name="force">プレイヤーに加える力(cm/秒)</param>
+	void AddForce(const Vector3& force)
+	{
+		m_addForce += force;
+	}
 	//火炎放射に当たったかの確認
 	bool m_isHitFireCollision = false;
 private:
 	ModelRender* m_modelRender = nullptr;
+	Vector3 m_addForce;
+		
+
+
 };

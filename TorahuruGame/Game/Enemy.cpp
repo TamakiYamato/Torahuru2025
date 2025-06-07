@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "FloorManager.h"
+#include"SecondFloor.h"
 using namespace std;
 
 namespace {
@@ -28,8 +29,15 @@ Enemy::~Enemy()
 
 bool Enemy::Start()
 {
+	m_enemyAnim = NewGO<EnemyAnimation>(0,"enemyAnimation");
+
+	//見つける
+	m_player = FindGO<Player>("player");
+	m_secondfloor = FindGO<SecondFloor>("secondfloor");
+	m_floorManager = FindGO<FloorManager>("floorManager");
+
 	// キャラクターを読み込む。
-	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
+    m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
 	return true;
 
 	//初期設定
@@ -46,10 +54,7 @@ bool Enemy::Start()
 		m_position
 	);
 
-	//見つける
-	m_player = FindGO<Player>("player");
-	m_floorManager = FindGO<FloorManager>("floorManager");
-	m_enemyAnim = FindGO<EnemyAnimation>("enemyAnimation");
+	
 }
 
 void Enemy::Update()
