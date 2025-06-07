@@ -232,6 +232,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
+    <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="FireGimmic.h" />
+    <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="FirstFloor.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Game.h" />
