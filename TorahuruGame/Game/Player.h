@@ -26,20 +26,20 @@ public:
 	~Player();
 	bool Start();
 	void Update();
-	void SetPosition(const Vector3& position);
+	//void SetPosition(const Vector3& position);
 	void Render(RenderContext& rc);
 	// test
 	void Move(float dash);					// 移動処理。
 	void Rotation();
 	void StaminaCalc();						// スタミナ計算(増減)。
 	void DashStaminaCalk();				// スタミナ計算(減算)。
-	void SetPosition();
+	//void SetPosition();
 	void SetPosition(const Vector3& position);
 	void SetGravity();
 	void FireState();
 	void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
-	void FireState();
-	void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
+	//void FireState();
+	//void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{

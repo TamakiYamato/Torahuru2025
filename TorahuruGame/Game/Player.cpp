@@ -224,12 +224,12 @@ void Player::SetGravity()
 	m_modelRender->SetPosition(m_position);
 }
 
-void Player::SetPosition(const Vector3& position) {
-	m_position = position;
-	m_charCon.SetPosition(m_position);
-	m_modelRender->SetPosition(m_position);
-	m_modelRender->Update();	//モデル更新。
-}
+//void Player::SetPosition(const Vector3& position) {
+//	m_position = position;
+//	m_charCon.SetPosition(m_position);
+//	m_modelRender->SetPosition(m_position);
+//	m_modelRender->Update();	//モデル更新。
+//}
 
 void Player::Rotation()
 {
@@ -358,20 +358,20 @@ void Player::SetPosition(const Vector3& position) {
 	m_modelRender->Update();	//モデル更新。
  }
 
-void Player::Render(RenderContext& rc) {
-		m_modelRender->Draw(rc);
-	////ギミックの床を踏んだ時
-	//if (m_floorManager != nullptr)
-	//{
-	//	// 踏んだ床によってモデルを変える
-	//	switch (m_floorManager->m_floorState) {
-	//	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
-	//		m_reverseModel.Draw(rc);
-	//		break;
-	//	case m_floorManager->SlowState:		//減速床を踏んだ時
-	//		m_slowModel.Draw(rc);
-	//		break;
-	//	}
-	//}
-}
+//void Player::Render(RenderContext& rc) {
+//		m_modelRender->Draw(rc);
+//	////ギミックの床を踏んだ時
+//	//if (m_floorManager != nullptr)
+//	//{
+//	//	// 踏んだ床によってモデルを変える
+//	//	switch (m_floorManager->m_floorState) {
+//	//	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
+//	//		m_reverseModel.Draw(rc);
+//	//		break;
+//	//	case m_floorManager->SlowState:		//減速床を踏んだ時
+//	//		m_slowModel.Draw(rc);
+//	//		break;
+//	//	}
+//	//}
+//}
 
