@@ -49,6 +49,7 @@ public:
 	
 	//CollisionObject* m_collisitonObject = nullptr;
 	PhysicsStaticObject			m_physicsStaticObject;
+
 	ModelRender m_modelRender;
 	Player* m_player = nullptr;
 	
@@ -63,6 +64,7 @@ private:
 	float m_rotationAngle = 1.0f;//回転軸
 	float m_rotationSpeed = 0.1f;//回転速度
 	float GetYDegree() const;
+ 
 private:
 	void Move();
 	void MapMove();

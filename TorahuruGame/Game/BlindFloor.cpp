@@ -21,7 +21,7 @@ BlindFloor::~BlindFloor()
 
 bool BlindFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/BlindFloor.tkm");		//モデルを実装
+	m_modelRender.Init("Assets/modelData/Stage1/BlindFloor/BlindFloor.tkm");		//モデルを実装
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
