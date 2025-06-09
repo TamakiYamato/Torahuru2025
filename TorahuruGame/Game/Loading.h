@@ -1,4 +1,7 @@
 #pragma once
+class FirstFloor;
+class SecondFloor;
+class Game;
 
 class Loading : public IGameObject
 {
@@ -12,6 +15,11 @@ public:
 	// フェードイン。
 	void StartLoading()
 	{
+		if (m_matizikan > 0.0f)
+		{
+			return;
+		}
+
 		m_state = enState_LoadIn;
 	}
 
@@ -31,6 +39,15 @@ public:
 		return m_currentAlpha;
 	}
 
+	bool IsFadeOutEnd()
+	{
+		return m_isstate;
+	}
+
+	bool IsFadeInEnd()
+	{
+		return m_state == enState_Idle && m_currentAlpha >= 1.0f;
+	}
 private:
 	enum EnState {
 		enState_LoadIn,			//フェードイン中。
@@ -40,4 +57,7 @@ private:
 	SpriteRender		m_spriteRender;
 	EnState				m_state = enState_Idle;
 	float				m_currentAlpha = 0.0f;
+	bool 			m_isstate = false;
+	float 			m_matizikan = 0.0f; // フェード時間。
+	
 };

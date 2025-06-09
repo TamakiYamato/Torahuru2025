@@ -2,12 +2,14 @@
 #include "PlayerState.h"
 
 //class Enemy;
+class PlayerState;
 class GameClear;
 class Staier;
 class FloorManager;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
+class SecondFloor;
 class Player : public IGameObject
 {
 public:
@@ -17,18 +19,27 @@ public:
 	friend class PlayerRunState;
 	friend class PlayerCrouchState;
 	friend class PlayerCrouchWalkState;
+	friend class PlayerDownState;
+	friend class PlayerGetUpState;
 
 	Player();
 	~Player();
 	bool Start();
 	void Update();
+	//void SetPosition(const Vector3& position);
 	void Render(RenderContext& rc);
 	// test
 	void Move(float dash);					// 移動処理。
 	void Rotation();
 	void StaminaCalc();						// スタミナ計算(増減)。
 	void DashStaminaCalk();				// スタミナ計算(減算)。
-
+	//void SetPosition();
+	void SetPosition(const Vector3& position);
+	void SetGravity();
+	void FireState();
+	void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
+	//void FireState();
+	//void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
@@ -67,6 +78,8 @@ public:
 		enAnimClip_CrouchStanding,	// 立ち上がる。
 		enAnimClip_CrouchWalk,		// しゃがみ歩き。
 		enAnimClip_Jump,			// ジャンプ
+		enAnimClip_Down,			// ダウン
+		enAnimClip_GetUp,			// 起き上がる
 		enAnimationClip_Num
 	};
 
@@ -77,6 +90,7 @@ public:
 	ModelRender m_normalModel;					//通常のモデル		
 	ModelRender m_reverseModel;					//暗転床踏んだ時のモデル
 	ModelRender m_slowModel;					//減速床を踏んだ時のモデル
+	ModelRender m_fireModel;					//火炎放射が当たった時のモデル
 
 	FloorManager* m_floorManager = nullptr;
 
@@ -89,6 +103,7 @@ public:
 	//プレイヤーの進行方向を決定する。
 	Vector3	stickL;
 	Vector3	m_position;
+	Vector3 m_positiontwo;//追加したよ:SecondFloorのpositionを生成します
 	//移動速度
 	Vector3	m_moveSpeed;
 	Vector3 m_dash;
@@ -109,6 +124,20 @@ public:
 	int m_currentPlayerState;
 	// 次に使いたい状態(リクエスト)
 	int m_requestPlayerState;
+	/// <summary>
+	/// 力を加算する
+	/// </summary>
+	/// <param name="force">プレイヤーに加える力(cm/秒)</param>
+	void AddForce(const Vector3& force)
+	{
+		m_addForce += force;
+	}
+	//火炎放射に当たったかの確認
+	bool m_isHitFireCollision = false;
 private:
 	ModelRender* m_modelRender = nullptr;
+	Vector3 m_addForce;
+		
+
+
 };

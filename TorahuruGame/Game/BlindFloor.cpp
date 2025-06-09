@@ -6,8 +6,8 @@
 
 namespace
 {
-	const Vector3 COLLISION_HEIGHT	= Vector3(0.0f, 10.0f, 0.0f);
-	const Vector3 COLLISION_SIZE	= Vector3(360.0f, 150.0f, 370.0f);
+	const Vector3 COLLISION_HEIGHT	(0.0f, 10.0f, 0.0f);
+	const Vector3 COLLISION_SIZE	(360.0f, 150.0f, 370.0f);
 }
 
 BlindFloor::BlindFloor()
@@ -21,7 +21,7 @@ BlindFloor::~BlindFloor()
 
 bool BlindFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/BlindFloor.tkm");		//モデルを実装
+	m_modelRender.Init("Assets/modelData/Stage1/BlindFloor/BlindFloor.tkm");		//モデルを実装
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 

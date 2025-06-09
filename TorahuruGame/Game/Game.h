@@ -19,6 +19,10 @@ class GameClear;
 class Gameover;
 class Loading;
 class FireGimmic;
+class SecondFloor;
+class RotationFloor;
+//class StageManager;
+//
 class Game : public IGameObject
 {
 public:
@@ -41,9 +45,8 @@ public:
 	SkyCube* m_skyCube = nullptr;				  //
 
 private:
-	FirstFloor*					m_firstFloor=nullptr;
 	FloorManager*				m_floorManager=nullptr;
-	Player*						m_player = nullptr;
+	Player*						m_player;
 	Stamina*                   m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
@@ -54,7 +57,7 @@ private:
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
 	Loading*					m_Load;
-
+	//StageManager* m_stageManager = nullptr;				//ステージマネージャー		
 	std::vector<ReverseFloor*>	m_reverseFloorLists;		//すべてのあべこべ床
 	std::vector<SlowFloor*>		m_slowFloorLists;			//すべての鈍足床
 	std::vector<BlindFloor*>	m_blindFloorLists;			//すべての視界制限床
@@ -64,7 +67,7 @@ private:
 
 	bool						m_isWaitLoadOut;
 	int		m_skycubeType	= enSkyCubeType_NightToon;
-	float	m_timer			= 120.0f;
+	float	m_timer			= 600.0f;
 	
 };
 

@@ -227,10 +227,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BackGroundTwo.cpp" />
     <ClCompile Include="BlindFloor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
+    <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -243,7 +245,11 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="ReverseFloor.cpp" />
+    <ClCompile Include="RotationFloor.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="SlowFloor.cpp" />
+    <ClCompile Include="Scene\StageManager.cpp" />
     <ClCompile Include="Stairs.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -258,10 +264,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BackGroundTwo.h" />
     <ClInclude Include="BlindFloor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="FireGimmic.h" />
+    <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="FirstFloor.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Game.h" />
@@ -273,7 +281,11 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="ReverseFloor.h" />
+    <ClInclude Include="RotationFloor.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SecondFloor.h" />
     <ClInclude Include="SlowFloor.h" />
+    <ClInclude Include="Scene\StageManager.h" />
     <ClInclude Include="Stairs.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stamina.h" />

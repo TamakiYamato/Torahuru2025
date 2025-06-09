@@ -4,15 +4,16 @@
 #include"Player.h"
 
 BackGround::BackGround() {
-	modelRender.Init("Assets/modelData/Stage1.tkm");
 
-	modelRender.Update();
 }
 BackGround::~BackGround() {
 
 }
 bool BackGround::Start()
 {
+	modelRender.Init("Assets/modelData/Stage1/Stage1.tkm");
+
+	modelRender.Update();
 
 	//PhysicsStaticObjectの初期化
 	m_physicsStaticObject.CreateFromModel(modelRender.GetModel(), modelRender.GetModel().GetWorldMatrix());

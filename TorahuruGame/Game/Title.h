@@ -2,6 +2,7 @@
 class Player;
 class Loading;
 class Game;
+//class GameManager;
 class Title :public IGameObject
 
 {

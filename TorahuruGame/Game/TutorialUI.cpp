@@ -19,7 +19,7 @@ TutorialUI::TutorialUI()
 
 TutorialUI::~TutorialUI()
 {
-
+	
 }
 
 bool TutorialUI::Start()
@@ -58,11 +58,10 @@ void TutorialUI::Show()
 	switch (m_textState) {
 	case reverse:
 		swprintf_s(textUI, 256, L"< チュートリアル >\n火炎放射器に当たるとノックバックが発生！\nあべこべ床を踏むと操作が反転する。");
-		break; 
+		break;
 	case slow:
 		swprintf_s(textUI, 256, L"< チュートリアル >\n鈍足床を踏むと移動速度が半減する。\n一つの床の効果を受けるとその他の床の効果は受けない。");
-																						
-		break; 
+		break;
 	case blind:
 		swprintf_s(textUI, 256, L"< チュートリアル >\n視界制限床を踏むと一定範囲内が暗くなる。");
 		break;
@@ -74,7 +73,7 @@ void TutorialUI::Show()
 		break;
 	case SolvePuzzle:
 		swprintf_s(textUI, 256, L"< 特殊 > ステージのどこにいても敵が追いかけてくる。\n< 条件 > ステージ内のどこかにある絵が描かれた石を\n同じ方向に向けて扉から出よう！");
-		break; 
+		break;
 	default:
 		break;
 	}

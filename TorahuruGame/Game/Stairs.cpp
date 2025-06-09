@@ -3,6 +3,7 @@
 #include"Game.h"
 #include"Player.h"
 #include"GameClear.h"
+#include"FirstFloor.h"
 Stairs::Stairs() {
 
 }
@@ -10,11 +11,10 @@ Stairs::~Stairs() {
 	
 }
 bool Stairs::Start() {
-	m_modelRender.Init("Assets/modelData/Stairs.tkm");	//髫取ｮｵ繧ｪ繝悶ず繧ｧ繧ｯ繝・
+	m_modelRender.Init("Assets/modelData/Stage1/Stairs/Stairs.tkm");	//髫取ｮｵ繧ｪ繝悶ず繧ｧ繧ｯ繝・
 	
 	//繝励Ξ繧､繝､繝ｼ蛛ｴ縺ｮ繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ謖√▲縺ｦ縺上ｋ
 	m_player = FindGO<Player>("player");
-	
 
 	return true;
 }
