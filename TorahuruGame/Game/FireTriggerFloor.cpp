@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FireTriggerFloor.h"
 #include "Player.h"
+#include "Enemy.h"
 
 namespace
 {
@@ -33,18 +34,25 @@ void FireTriggerFloor::FireTriggerControlFloor()
 	//floorManagerで効果を与える
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
-		m_onPlayerFireTriggerFloor = true;
+		m_onFireTriggerFloor = true;
 	}
 	else
 	{
-		m_onPlayerFireTriggerFloor = false;
+		m_onFireTriggerFloor = false;
+	}
+	//コリジョンとenemyが当たった場合
+	if(m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
+	{
+		m_onFireTriggerFloor = true;
+	}
+	else
+	{
+		m_onFireTriggerFloor = false;
 	}
 }
 void FireTriggerFloor::Update() 
 {
 	FireTriggerControlFloor();
-	m_modelRender.SetPosition(m_position);
-	m_modelRender.Update();
 }
 
 void FireTriggerFloor::Render(RenderContext& rc)

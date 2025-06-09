@@ -20,6 +20,7 @@ public:
 	void ManageState();
 	void PlayAnimation();
 	void CheckPlayerProximityAndDie();
+	void Attack();
 	float GetAngleBetweenQuaternions(const Quaternion& q1, const Quaternion& q2);
 
 	enum EnemyState {				//移動速度に代入。
@@ -43,8 +44,9 @@ public:
 	{
 		m_position = position;
 	}
+
 	void SetRotation(const Quaternion& rotation) {
-		m_rotation = rotation;
+		m_currentRotation = rotation;
 
 	}
 	void SetScale(const Vector3& scale) {
@@ -81,7 +83,6 @@ public:
 	Vector3						m_forward = Vector3::AxisZ;					//enemyの正面ベクトル。
 	Vector3						m_initialPosition = Vector3::Zero;			//スタート時の座標。
 	Vector3						m_moveSpeed = Vector3::Zero;				//移動速度。
-	Quaternion					m_rotation = Quaternion::Identity;			//回転。
 	Quaternion					m_currentRotation = Quaternion::Identity;	//今の角度の保存。
 	Quaternion					m_initialRotation = Quaternion::Identity;	//スタート時の角度。
 
