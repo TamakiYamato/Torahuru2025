@@ -26,9 +26,9 @@ bool SecondFloor::Start()
 	}
 	//プレイヤーの取得
 	////レベル実装
-	m_levelRender.Init("Assets/level/BackGround2.tkl", [&](LevelObjectData& objData) {	//floor1の実装
-		if (objData.ForwardMatchName(L"Stage2two") == true) {								//ステージ
-			BackGroundTwo* backgroundTwo = NewGO<BackGroundTwo>(0, "Stage2two");
+	m_levelRender.Init("Assets/level/BackGround2second.tkl", [&](LevelObjectData& objData) {	//floor1の実装
+		if (objData.ForwardMatchName(L"Stage2second") == true) {								//ステージ
+			BackGroundTwo* backgroundTwo = NewGO<BackGroundTwo>(0, "backgroundtwo");
 			backgroundTwo->SetPosition(objData.position);
 			backgroundTwo->SetScale(objData.scale);
 			return true;
@@ -39,7 +39,7 @@ bool SecondFloor::Start()
 			m_player->SetPosition(objData.position);
 			return true; 
 		}
-		else if (objData.ForwardMatchName(L"kaitenyuka") == true) {
+		else if (objData.ForwardMatchName(L"kaitenyukasecond") == true) {
 			RotationFloor* rotationfloor = NewGO<RotationFloor>(0, "rotationfloor");
 			rotationfloor->SetPosition(objData.position);
 			rotationfloor->SetScale(objData.scale);
