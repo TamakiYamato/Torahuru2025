@@ -32,9 +32,7 @@ public:
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 
-	bool m_onPlayerFireTriggerFloor = false;	//プレイヤーが床の上にいるかどうか
-	bool m_onEnemyFireTriggerFloor = false;	//エネミーが床の上にいるかどうか
-
+	bool m_onFireTriggerFloor = false;	//プレイヤーが床の上にいるかどうか
 };
 
 

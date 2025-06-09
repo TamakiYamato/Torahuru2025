@@ -3,6 +3,7 @@
 #include "ReverseFloor.h"
 #include "SlowFloor.h"
 #include "BlindFloor.h"
+#include "FireTriggerFloor.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "TutorialUI.h"
@@ -72,8 +73,8 @@ void FloorManager::FindFloor()
 			m_playerFloorState = ReverseState;
 
 			//UIがこの床の説明の時、ステートを切り替える
-			if (m_tutorialUI->m_textState == m_tutorialUI->reverse) {
-				m_tutorialUI->onGimmicPassed = true;
+			if (m_tutorialUI->m_textState == m_tutorialUI->enReverse) {
+				m_tutorialUI->m_onGimmicPassed = true;
 			}
 		}
 
@@ -94,8 +95,8 @@ void FloorManager::FindFloor()
 			m_playerFloorState = SlowState;
 
 			//UIがこの床の説明の時、ステートを切り替える
-			if (m_tutorialUI->m_textState = m_tutorialUI->slow) {
-				m_tutorialUI->onGimmicPassed = true;
+			if (m_tutorialUI->m_textState = m_tutorialUI->enSlow) {
+				m_tutorialUI->m_onGimmicPassed = true;
 			}
 		}
 		if (slowFloor->m_onEnemySlowFloor == true && m_enemySaveState == Normal) {
@@ -115,12 +116,33 @@ void FloorManager::FindFloor()
 			m_playerFloorState = BlindState;
 
 			//UIがこの床の説明の時、ステートを切り替える
-			if (m_tutorialUI->m_textState = m_tutorialUI->blind) {
-				m_tutorialUI->onGimmicPassed = true;
+			if (m_tutorialUI->m_textState = m_tutorialUI->enBlind) {
+				m_tutorialUI->m_onGimmicPassed = true;
 			}
 		}
 		if (blindFloor->m_onEnemyBlindFloor == true && m_enemySaveState == Normal) {
 			m_enemyFloorState = BlindState;
+		}
+	}
+
+	//////////////////////////////////////////////////
+	//ステージ内の視界制限床をすべて見つける
+	const auto& fireTriggerFloors = FindGOs<FireTriggerFloor>("FireTriggerFloor");
+
+	for (auto fireTriggerFloor : fireTriggerFloors) {
+		//フロア内の視界制限床を踏んだ場合、状態を変更
+		if (fireTriggerFloor->m_onFireTriggerFloor == true && m_playerSaveState == Normal)
+		{
+			//プレイヤーの状態異常ステートの変更
+			m_playerFloorState = FireTriggerState;
+
+			//UIがこの床の説明の時、ステートを切り替える
+			if (m_tutorialUI->m_textState = m_tutorialUI->enFireTrigger) {
+				m_tutorialUI->m_onGimmicPassed = true;
+			}
+		}
+		if (fireTriggerFloor->m_onFireTriggerFloor == true && m_enemySaveState == Normal) {
+			m_enemyFloorState = FireTriggerState;
 		}
 	}
 }
