@@ -37,6 +37,7 @@ public:
 	void SetSutamina();
 	void InitSky();
 	void LightSetting();
+	void TimerUI();
 	void PlayBGM();
 	
 	void SetPosition(const Vector3 position)
@@ -58,6 +59,7 @@ private:
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
+	SpriteRender				m_spriteRender;
 	Loading*					m_Load;
 	//StageManager* m_stageManager = nullptr;				//ステージマネージャー		
 	std::vector<ReverseFloor*>	m_reverseFloorLists;		//すべてのあべこべ床

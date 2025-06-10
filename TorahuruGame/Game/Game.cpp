@@ -127,6 +127,15 @@ void Game::SetGameClear()
 	m_Load->StartLoadOut();
 }
 
+void Game::TimerUI()
+{
+	// タイマーの背景。
+	m_spriteRender.Init("Assets/modelData/item/UIPanel1.dds", 600.0f, 100.0f);
+	m_spriteRender.SetPosition(Vector3(-10.0f, 460.0f, 0.0f));
+	m_spriteRender.SetScale(Vector3(0.4f, 0.8f, 0.7f));
+	m_spriteRender.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, 0.7f));
+}
+
 bool Game::Start()
 {
 	m_player			     = NewGO<Player>(0, "player");
@@ -139,6 +148,7 @@ bool Game::Start()
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
 	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
+	TimerUI();
 	InitSky();
 	SetSutamina();
 	PlayBGM();
@@ -221,6 +231,7 @@ void Game::Update()
 	//	NewGO<Gameover>(0, "Gameover");
 	//	DeleteGO(this);
 	//}
+	m_spriteRender.Update();
 }
 
 void SetPosition(const Vector3 position) {
@@ -230,6 +241,7 @@ void SetPosition(const Vector3 position) {
 
 void Game::Render(RenderContext& rc)
 {
+	m_spriteRender.Draw(rc);
 	//文字の描画
 	m_fontRender.Draw(rc);
 }

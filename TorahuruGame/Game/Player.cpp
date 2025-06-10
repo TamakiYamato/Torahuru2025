@@ -188,6 +188,11 @@ void Player::Move(float m_move = 1.0f)
 	{
 		//重力を無くす。
 		m_moveSpeed.y = 0.0f;
+		if (g_pad[0]->IsTrigger(enButtonA))
+		{
+			//ジャンプさせる。
+			return;
+		}
 	}
 	//地面に付いていなかったら。
 	else

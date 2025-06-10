@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Loading.h"
 #include "Title.h"
+#include "Tips.h"
 #include "Game.h"
 #include"Player.h"
 #include"BackGround.h"
@@ -17,6 +18,7 @@ bool Title::Start() {
     m_spriteRender.Init("Assets/modelData/Title/title.DDS", 1920, 1080);
 
     m_Loading = FindGO<Loading>("loading");
+    m_tips = FindGO<Tips>("tips");
     return true;
 }
 void Title::Update() {
@@ -33,6 +35,7 @@ void Title::Update() {
         // Aボタンを押したら。
         if (g_pad[0]->IsTrigger(enButtonA)) {
             //se->Play(false);
+            //NewGO<Tips>(0, "tips");
             // シーン切り替え開始。
             m_isWaitLoadOut = true;
             m_Loading->StartLoadOut();
