@@ -39,10 +39,10 @@ public:
 
 
 	void SetPosition(const Vector3& position)
-
 	{
 		m_position = position;
 	}
+
 	void SetRotation(const Quaternion& rotation) {
 		m_rotation = rotation;
 

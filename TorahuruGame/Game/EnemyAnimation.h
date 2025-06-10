@@ -1,9 +1,10 @@
 #pragma once
 class Enemy;
+class SecondFloor;
 class EnemyAnimation : public IGameObject
 {
 public:
-	EnemyAnimation() {};
+	EnemyAnimation();
 	~EnemyAnimation(){};
 
 	bool Start();
@@ -22,7 +23,7 @@ public:
 
 	CharacterController			m_charCon;										//キャラクターコントロール
 	ModelRender					m_modelRender;									//モデルレンダー
-	AnimationClip				m_enemyAnim[enAnimationClip_Num];
+	AnimationClip				m_enemyAnimationClips[enAnimationClip_Num];
 
 	Vector3						m_position = Vector3::Zero;						//ポジション
 	Vector3						m_scale = Vector3::One;							//大きさ

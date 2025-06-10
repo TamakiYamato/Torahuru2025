@@ -20,6 +20,7 @@ namespace {
 
 Enemy::Enemy()
 {
+
 }
 
 Enemy::~Enemy()
@@ -37,7 +38,7 @@ bool Enemy::Start()
 	m_floorManager = FindGO<FloorManager>("floorManager");
 
 	// キャラクターを読み込む。
-    m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
+    m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnimationClips, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
 	return true;
 
 	//初期設定
@@ -63,7 +64,7 @@ void Enemy::Update()
 		m_charCon.SetPosition(m_position);	//元の場所に帰っている場合、キャラコンをenemyと同じ場所へ
 	}
 
-	if (m_floorManager->m_enemyFloorTimer == 5.0f) {	//床の効果を受けていない場合
+	if (m_floorManager&&m_floorManager->m_enemyFloorTimer == 5.0f) {	//床の効果を受けていない場合
 		SearchPlayer();		//常にプレイヤーを探す。
 		ManageState();		//ステートを常に管理、行動。
 	}

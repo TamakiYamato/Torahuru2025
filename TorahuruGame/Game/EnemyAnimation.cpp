@@ -1,22 +1,28 @@
 #include "stdafx.h"
 #include "EnemyAnimation.h"
+#include"SecondFloor.h"
 using namespace std;
 
 namespace {
 	// 
-	const string ANIMATION_FAILPATH = "Assets/animData//";
+	const string ANIMATION_FAILPATH = "Assets/animData/enemy/";
 	const string ANIMATION_EXTENTION = ".tka";
 
 }
 
-bool EnemyAnimation::Start()
+EnemyAnimation::EnemyAnimation()
 {
 	// 待機
-	SetAnimation(enAnimationClip_Idle, "playerIdle", true);
+	SetAnimation(enAnimationClip_Idle, "enemyIdle", true);
 	// 歩き
-	SetAnimation(enAnimationClip_Walk, "playerWalking", true);
+	SetAnimation(enAnimationClip_Walk, "enemyWalking", true);
 	// 走る
-	SetAnimation(enAnimationClip_Run, "playerRun", true);
+	SetAnimation(enAnimationClip_Run, "enemyRun", true);
+}
+
+bool EnemyAnimation::Start()
+{
+	
 
 	return true;
 }
@@ -24,12 +30,12 @@ bool EnemyAnimation::Start()
 void EnemyAnimation::Update()
 {
 	m_modelRender.Update();
-
+	
 }
 
 void EnemyAnimation::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
+    //m_modelRender.Draw(rc);
 
 }
 
@@ -40,6 +46,6 @@ void EnemyAnimation::SetAnimation(const EnAnimationClip animationClip, const str
 	string FileName = ANIMATION_FAILPATH + animationFileName + ANIMATION_EXTENTION;
 	//
 	// 
-	m_enemyAnim[animationClip].Load(FileName.c_str());
-	m_enemyAnim[animationClip].SetLoopFlag(loopFlag);
+	m_enemyAnimationClips[animationClip].Load(FileName.c_str());
+	m_enemyAnimationClips[animationClip].SetLoopFlag(loopFlag);
 }
