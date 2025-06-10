@@ -29,7 +29,7 @@ Game::Game()
 }
 
 Game::~Game() {
-
+	DeleteGO(m_bgm);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_stairs);
@@ -97,7 +97,15 @@ void Game::LightSetting()
 
 		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
 	}
-
+}
+void Game::PlayBGM()
+{
+	//BGM読み込み
+	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/TorahuruBGM.wav");
+	//BGM再生
+	m_bgm = NewGO<SoundSource>(0);
+	m_bgm->Init(0);
+	m_bgm->Play(true);
 };
 
 
@@ -126,12 +134,14 @@ bool Game::Start()
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
+	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
 	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
 	InitSky();
 	SetSutamina();
+	PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
@@ -162,7 +172,7 @@ void Game::Update()
 		LightSetting();
 
 		g_renderingEngine->SetDirectionLight(2, dir, dirColor);
-		m_floorManager->LightCount = 0;
+		m_floorManager->LightCount = 0;			
 	}
 	else 
 	{

@@ -5,7 +5,9 @@ using namespace std;
 
 namespace {
 	// 
+
 	const string ANIMATION_FAILPATH = "Assets/animData/enemy/";
+
 	const string ANIMATION_EXTENTION = ".tka";
 
 }
@@ -22,8 +24,6 @@ EnemyAnimation::EnemyAnimation()
 
 bool EnemyAnimation::Start()
 {
-	
-
 	return true;
 }
 
@@ -43,7 +43,7 @@ void EnemyAnimation::Render(RenderContext& rc)
 void EnemyAnimation::SetAnimation(const EnAnimationClip animationClip, const string animationFileName, const bool loopFlag)
 {
 	// 
-	string FileName = ANIMATION_FAILPATH + animationFileName + ANIMATION_EXTENTION;
+	string FileName = ANIMATION_FILEPATH + animationFileName + ANIMATION_EXTENTION;
 	//
 	// 
 	m_enemyAnimationClips[animationClip].Load(FileName.c_str());
