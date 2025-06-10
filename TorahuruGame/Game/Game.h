@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Level3DRender/LevelRender.h"
+#include "sound/SoundSource.h"
 
 class Player;
 class Stamina;
@@ -37,6 +38,7 @@ public:
 	void InitSky();
 	void LightSetting();
 	void TimerUI();
+	void PlayBGM();
 	
 	void SetPosition(const Vector3 position)
 	{
@@ -47,7 +49,7 @@ public:
 
 private:
 	FloorManager*				m_floorManager=nullptr;
-	Player*						m_player = nullptr;
+	Player*						m_player;
 	Stamina*                   m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;

@@ -10,8 +10,8 @@ class BlindFloor;
 class TutorialUI:public IGameObject
 {
 public:
-	TutorialUI();
-	~TutorialUI();
+	TutorialUI() {};
+	~TutorialUI() {};
 
 	bool Start();
 	void Update();
@@ -19,23 +19,24 @@ public:
 	/// <summary>
 	/// テキストの表示
 	/// </summary>
-	void Show();
+	void DisplayText();
 	/// <summary>
 	/// 次のUIを表示にするかのフラグ
 	/// </summary>
-	void Cheak();
+	void CheckNextUIFlag();
 	/// <summary>
-	/// UIパネル
+	/// テキストを見やすくするために背景カラーの設定
 	/// </summary>
-	void PanelUI();
+	void InitBackTextBoxColor();
 
-	enum uiText {	//説明
-		reverse,		//あべこべ床
-		slow,			//鈍足床
-		blind,			//視界制限床
-		Stairs,			//階段
-		CollectItems,	//奉納ギミック
-		SolvePuzzle,	//絵合わせ
+	enum enUIText {	//説明
+		enReverse,		//あべこべ床
+		enSlow,			//鈍足床
+		enBlind,		//視界制限床
+		enFireTrigger,	//火炎放射器オンオフ床
+		enStairs,		//階段
+		enCollectItem,	//奉納ギミック
+		enSolvePuzzle,	//絵合わせ
 	};
 
 	SpriteRender		m_spriteRender;
@@ -46,10 +47,10 @@ public:
 	ReverseFloor*		m_reverseFloor = nullptr;
 	SlowFloor*			m_slowFloor = nullptr;
 	BlindFloor*			m_blindFloor = nullptr;
-	uiText				m_textState = reverse;
+	enUIText			m_textState = enReverse;
 	
-	wchar_t textUI[256];
-	bool onGimmicPassed = true;		//次のUIを表示してよいかのフラグ。
+	wchar_t m_textUI[256];
+	bool m_onGimmicPassed = true;		//次のUIを表示してよいかのフラグ。
 
 
 public:

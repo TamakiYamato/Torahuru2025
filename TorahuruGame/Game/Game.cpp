@@ -29,7 +29,7 @@ Game::Game()
 }
 
 Game::~Game() {
-
+	DeleteGO(m_bgm);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_stairs);
@@ -37,6 +37,7 @@ Game::~Game() {
 	DeleteGO(m_setStamina);
 //	DeleteGO(m_stageManager);
 	DeleteGO(m_Load);
+	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
 	for (auto reverseFloor : reverseFloors)
@@ -96,6 +97,15 @@ void Game::LightSetting()
 
 		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
 	}
+}
+void Game::PlayBGM()
+{
+	//BGM読み込み
+	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/TorahuruBGM.wav");
+	//BGM再生
+	m_bgm = NewGO<SoundSource>(0);
+	m_bgm->Init(0);
+	m_bgm->Play(true);
 };
 
 
@@ -107,7 +117,9 @@ void Game::SetSutamina()
 // ロード用。
 void Game::SetLoading()
 {
+
 }
+
 
 void Game::SetGameClear()
 {
@@ -131,6 +143,7 @@ bool Game::Start()
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
+	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
@@ -138,6 +151,7 @@ bool Game::Start()
 	TimerUI();
 	InitSky();
 	SetSutamina();
+	PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
@@ -168,7 +182,7 @@ void Game::Update()
 		LightSetting();
 
 		g_renderingEngine->SetDirectionLight(2, dir, dirColor);
-		m_floorManager->LightCount = 0;
+		m_floorManager->LightCount = 0;			
 	}
 	else 
 	{
@@ -203,6 +217,12 @@ void Game::Update()
 	
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {	//タイマーが0になった場合
+		NewGO<Gameover>(0, "Gameover");
+		DeleteGO(this);
+	}
+
+	if(m_player->m_position.y<=-800.0f)
+	{
 		NewGO<Gameover>(0, "Gameover");
 		DeleteGO(this);
 	}

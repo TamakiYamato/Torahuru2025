@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerState.h"
 #include "Player.h"
+#include "FireGimmic.h"
 
 // 待機ステート。
 void PlayerIdleState::Enter()
@@ -10,6 +11,11 @@ void PlayerIdleState::Enter()
 
 void PlayerIdleState::Update()
 {
+	// 待機中も移動床で移動するので移動処理を呼び出す。
+	m_player->Move(m_move=1.0f);
+
+	m_player->SetGravity();
+
 	//待機アニメーションを再生する。
 	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
 
@@ -83,10 +89,12 @@ void PlayerWalkState::Update()
 
 void PlayerWalkState::Exit()
 {
+
 }
 // 走りステート。
 void PlayerRunState::Enter()
 {
+
 }
 
 void PlayerRunState::Update()
@@ -197,5 +205,45 @@ void PlayerCrouchWalkState::Update()
 }
 
 void PlayerCrouchWalkState::Exit()
+{
+}
+
+void PlayerDownState::Enter()
+{
+	
+}
+
+void PlayerDownState::Update()
+{
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+
+	for (CollisionObject* collision : collisions) {
+		if (collision->IsHit(m_charCon) == true) {
+			m_fireTime -= g_gameTime->GetFrameDeltaTime();
+			// ダウンアニメーションを再生する。
+			m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Down);
+			// ステートを立ち上がりに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_GetUp;
+		}
+	}
+};
+
+void PlayerDownState::Exit()
+{
+}
+
+void PlayerGetUpState::Enter()
+{
+}
+
+void PlayerGetUpState::Update()
+{
+	if (m_player->m_requestPlayerState == enPlayerState_GetUp)
+	{
+		m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_GetUp);
+	}
+}
+
+void PlayerGetUpState::Exit()
 {
 }

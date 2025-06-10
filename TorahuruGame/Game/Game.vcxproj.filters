@@ -39,6 +39,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ThirdFloor.cpp" />
     <ClCompile Include="Tips.cpp" />
+    <ClCompile Include="FireTriggerFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -73,5 +74,6 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ThirdFloor.h" />
     <ClInclude Include="Tips.h" />
+    <ClInclude Include="FireTriggerFloor.h" />
   </ItemGroup>
 </Project>
