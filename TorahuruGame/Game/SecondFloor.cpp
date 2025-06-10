@@ -24,6 +24,8 @@ bool SecondFloor::Start()
 	if (m_player == nullptr) {
 		m_player = NewGO<Player>(0, "player");
 	}
+	m_enemy = FindGO<Enemy>("enemy");
+	m_enemyAnimation = FindGO<EnemyAnimation>("enemyAnimation");
 	//プレイヤーの取得
 	////レベル実装
 	m_levelRender.Init("Assets/level/BackGround2second.tkl", [&](LevelObjectData& objData) {	//floor1の実装
@@ -45,13 +47,14 @@ bool SecondFloor::Start()
 			rotationfloor->SetScale(objData.scale);
 			return true;
 		}
-		/*else if (objData.ForwardMatchName(L"Ch24_nonPBR") == true) {
+		else if (objData.ForwardMatchName(L"Ch24_nonPBR") == true) {
 			Enemy* m_enemy = NewGO<Enemy>(0, "enemy");
 			m_enemy->SetPosition(objData.position);
+			m_enemy->SetRotation(objData.rotation);
 			m_enemy->SetScale(objData.scale);
 			m_enemy->SetAnimation(m_enemyAnimation);
 			return true;
-		}*/
+		}
 		});
 
 	return true;

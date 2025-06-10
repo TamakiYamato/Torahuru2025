@@ -40,7 +40,6 @@ public:
 
 
 	void SetPosition(const Vector3& position)
-
 	{
 		m_position = position;
 	}

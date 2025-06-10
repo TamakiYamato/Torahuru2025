@@ -20,6 +20,7 @@ namespace {
 
 Enemy::Enemy()
 {
+
 }
 
 Enemy::~Enemy()
@@ -32,8 +33,8 @@ bool Enemy::Start()
 	m_enemyAnim = NewGO<EnemyAnimation>(0, "enemyAnimation");
 
 	// キャラクターを読み込む。
-	m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnim, m_enemyAnim->enAnimationClip_Num);
-
+    m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnimationClips, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
+	return true;
 	//初期設定
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetRotation(m_currentRotation);
@@ -65,9 +66,11 @@ void Enemy::Update()
 		m_charCon.SetPosition(m_position);
 	}
 
-	if (m_floorManager->m_enemyFloorTimer == 5.0f) {    //床の効果を受けていない場合
-		SearchPlayer();        //常にプレイヤーを探す。
-		ManageState();        //ステートを常に管理、行動。
+
+	if (m_floorManager&&m_floorManager->m_enemyFloorTimer == 5.0f) {	//床の効果を受けていない場合
+		SearchPlayer();		//常にプレイヤーを探す。
+		ManageState();		//ステートを常に管理、行動。
+
 	}
 	
 	PlayAnimation();    //アニメーションの更新
