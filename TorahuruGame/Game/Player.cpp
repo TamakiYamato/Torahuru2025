@@ -63,9 +63,9 @@ bool Player::Start()
 	// しゃがみ歩きアニメーション。
 	SetAnimation(enAnimClip_CrouchWalk, "player/playerCrouched walking", true);
 	//倒れ込むアニメーション
-	SetAnimation(enAnimClip_Down, "playerDamage/Fire/playerFireDown", true);
+	SetAnimation(enAnimClip_Down, "playerDamage/Fire/playerFireDown", false);
 	// 起き上がるアニメーション。
-	SetAnimation(enAnimClip_GetUp, "playerDamage/Fire/playerFireGetup", true);
+	SetAnimation(enAnimClip_GetUp, "playerDamage/Fire/playerFireGetup", false);
 
 	// キャラクターを読み込む。
 	m_modelRender = new ModelRender();	//モデル切り替える際にモデルを元に戻すためにnewする。
@@ -100,6 +100,8 @@ bool Player::Start()
 	m_playerStateList[enPlayerState_Run] = new PlayerRunState(this);
 	m_playerStateList[enPlayerState_Crouch] = new PlayerCrouchState(this);
 	m_playerStateList[enPlayerState_CrouchWalk] = new PlayerCrouchWalkState(this);
+	m_playerStateList[enPlayerState_Down] = new PlayerDownState(this);
+	m_playerStateList[enPlayerState_GetUp] = new PlayerGetUpState(this);
 
 	// 初期状態を設定。
 	m_currentPlayerState = enPlayerState_Idle;
@@ -131,14 +133,14 @@ void Player::Update() {
 	m_playerStateList[m_currentPlayerState]->Update();
 #endif
 	FireState();			//火炎放射器に当たった時のモデル更新。
-	AddFireEffect();	//火炎放射器に当たった時のモデル更新。
+	AddFireEffect();		//火炎放射器に当たった時のモデル更新。
 	UpdateModelByState();	//ステートによってモデルのアップデートを変更
 	Rotation();				//キャラクターの回転
 	StaminaCalc();
 	m_modelRender->SetPosition(m_position);
-	m_modelRender->Update();	//モデル更新。
-	//m_reverseModel.Update();//暗転床踏んだ時のモデル更新。
-	//m_slowModel.Update();	//減速床を踏んだ時のモデル更新。
+	m_modelRender->Update();		//モデル更新。
+	//m_reverseModel.Update();		//暗転床踏んだ時のモデル更新。
+	//m_slowModel.Update();			//減速床を踏んだ時のモデル更新。
 }
 
 void Player::Move(float m_move = 1.0f)
@@ -211,6 +213,7 @@ void Player::Rotation()
 	{
 		return;
 	}
+
 	//キャラクターの方向を変える。
 	rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
 	//絵描きさんに回転を教える。
@@ -237,16 +240,34 @@ void Player::FireState()
 {
 	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
 
+	const int INVINCIBLE_TIME = 300.0f;	//無敵時間の定数。
 
-	for (CollisionObject* collision : collisions) {
-		if (collision->IsHit(m_charCon) == true) {
-			// プレイヤーが火炎放射器に当たったら。
-			m_isHitFireCollision = true;
-			return;
+	if (m_isInvincible == true)
+	{
+		m_InvincibleTime -= g_gameTime->GetFrameDeltaTime();	//無敵時間の更新。
+		// 無敵時間が0以下になったら。
+		if (m_InvincibleTime <= 0.0f)
+		{
+			m_isInvincible = false;	//無敵状態をfalseにする。
+			m_InvincibleTime = 0.0f;	//無敵時間を0にする。
+			m_modelRender = &m_normalModel;	//無敵状態が終わったら、通常モデルに戻す。
+			m_floorManager->m_playerFloorTimer = 7.0f;	//プレイヤーが床の効果を得られるようにする
 		}
-		// プレイヤーが火炎放射器に当たっていない時。
-		else{
-			m_isHitFireCollision = false;	//火炎放射器に当たっていない時、フラグをfalseにする。
+	}
+
+	if (m_isInvincible == false) {
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_charCon) == true) {
+				// プレイヤーが火炎放射器に当たったら。
+				m_isHitFireCollision = true;
+				m_InvincibleTime = INVINCIBLE_TIME;	//無敵時間を設定する。
+				m_floorManager->m_playerFloorTimer = 0.0f; //プレイヤーの床の状態を通常に戻す。
+				return;
+			}
+			// プレイヤーが火炎放射器に当たっていない時。
+			else {
+				m_isHitFireCollision = false;	//火炎放射器に当たっていない時、フラグをfalseにする。
+			}
 		}
 	}
 }
@@ -260,8 +281,8 @@ void Player::AddFireEffect()
 	}
 	else
 	{
-		m_modelRender = &m_normalModel;				//火炎放射器に当たっていない時、通常モデルに戻す。
-		m_floorManager->m_playerFloorState = m_floorManager->Normal;	//プレイヤーの床の状態を通常に戻す。
+		//m_modelRender = &m_normalModel;				//火炎放射器に当たっていない時、通常モデルに戻す。
+		//m_floorManager->m_playerFloorState = m_floorManager->Normal;	//プレイヤーの床の状態を通常に戻す。
 		//m_moveDir = 1.0f;							//移動方向を元に戻す。
 	}
 }
@@ -301,6 +322,8 @@ void Player::UpdateModelByState()
 		switch (m_floorManager->m_floorState)
 		{
 			case m_floorManager->Normal:	//通常床を踏んだ時
+			//絵描きさんに回転を教える。
+			//m_normalModel.SetRotation(m_reverseModel.rotation);		//normalModelに戻る際、床に向かっていった方向でrotation
 			m_modelRender = &m_normalModel;	//通常モデルに切り替える
 			break;
 		case m_floorManager->ReverseState:	//操作反転床を踏んだ時
@@ -325,19 +348,24 @@ void Player::SetPosition(const Vector3& position) {
  }
 
 void Player::Render(RenderContext& rc) {
+
+	if (m_isInvincible == false)
+	{
+		//無敵状態ではない時の描画処理
 		m_modelRender->Draw(rc);
-	////ギミックの床を踏んだ時
-	//if (m_floorManager != nullptr)
-	//{
-	//	// 踏んだ床によってモデルを変える
-	//	switch (m_floorManager->m_floorState) {
-	//	case m_floorManager->ReverseState:	//操作反転床を踏んだ時
-	//		m_reverseModel.Draw(rc);
-	//		break;
-	//	case m_floorManager->SlowState:		//減速床を踏んだ時
-	//		m_slowModel.Draw(rc);
-	//		break;
-	//	}
-	//}
+	}
+	else
+	{
+		//無敵状態（点滅状態）の描画処理
+		if (m_isTest == true)
+		{
+			m_modelRender->Draw(rc);
+			m_isTest = false;
+		}
+		else
+		{
+			m_isTest = true;
+		}
+	}
 }
 
