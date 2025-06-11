@@ -33,19 +33,10 @@ void PlayerIdleState::Update()
 	// パッドの入力がある、かつAボタンが押されたら。
 	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
 		// スタミナが無かったら。
-		if (m_player->m_staminaFlag == true) {
-			// スタミナが完全回復するまで走れない。
-			if (m_player->m_stamina <= 100) {
-				m_player->m_staminaFlag = false;
-				// 状態を走りに切り替える。
-				m_player->m_requestPlayerState = enPlayerState_Run;
-			}
-		}
-		else if (m_player->m_stamina > 0.0f) {
+		if (m_player->m_staminaFlag == false) {
 			// 状態を走りに切り替える。
 			m_player->m_requestPlayerState = enPlayerState_Run;
 		}
-
 	}
 	// スティックの入力がある、かつBボタンが押したら。
 	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonB)) {

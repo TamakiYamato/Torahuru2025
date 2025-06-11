@@ -13,9 +13,11 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+	void Buttontext();
 
 private:
 	SpriteRender m_spriteRender;
+	SpriteRender m_startButtonRender;
 	SoundSource* m_bgm = nullptr;
 	SoundSource* se;
 
