@@ -16,7 +16,8 @@ Title::~Title() {
 }
 bool Title::Start() {
     m_spriteRender.Init("Assets/modelData/Title/title.DDS", 1920, 1080);
-
+    // 効果音を読み込む。
+    g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");
     m_Loading = FindGO<Loading>("loading");
     m_tips = FindGO<Tips>("tips");
     return true;
@@ -34,8 +35,13 @@ void Title::Update() {
     else {
         // Aボタンを押したら。
         if (g_pad[0]->IsTrigger(enButtonA)) {
-            //se->Play(false);
-            //NewGO<Tips>(0, "tips");
+			// 効果音を再生。
+            SoundSource* se = NewGO<SoundSource>(0);
+            se->Init(1);
+            // 効果音はループさせない。
+            se->Play(false);
+            // 音量。
+            se->SetVolume(2.0f);
             // シーン切り替え開始。
             m_isWaitLoadOut = true;
             m_Loading->StartLoadOut();

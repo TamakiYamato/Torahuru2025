@@ -9,7 +9,6 @@ namespace
 	Vector3 STAMINA_POSITION2 = Vector3(-160.0f, -400.0f, 0.0f);
 	// ダッシュボタンのマークの位置。
 	Vector3 STAMINABUTTON_POSITION = Vector3(-240.0f, -405.0f, 0.0f);
-	Vector3 STAMINABUTTON_POSITION8 = Vector3(0.0f,0.0f,0.0f);
 
 	// スタミナバーの大きさ。
 	Vector3 STAMINA_SCALE = Vector3(1.0f, 1.0f, 1.0f);
@@ -41,10 +40,12 @@ bool Stamina::Start()
 	m_spriteRender.Init("Assets/PlayerUI/staminaBar.DDS", 500.0f, 100.0f);
 	// スタミナバー(減らす部分)の画像。
 	m_spriteRender2.Init("Assets/PlayerUI/stamina.DDS", 500.0f, 100.0f);
+	// スタミナバーのグレーアウト(減らす部分)の画像。
+	m_spriteRender3.Init("Assets/PlayerUI/staminaGrayOut.DDS", 500.0f, 100.0f);
 	// ダッシュボタンのマーク。
-	m_spriteRender3.Init("Assets/PlayerUI/staminaButton.DDS", 500.0f, 100.0f);
+	m_spriteRender4.Init("Assets/PlayerUI/staminaButton.DDS", 500.0f, 100.0f);
 	// ダッシュボタンのグレーアウト。
-	m_spriteRender4.Init("Assets/PlayerUI/staminaButtonGrayOut.DDS", 500.0f, 100.0f);
+	m_spriteRender5.Init("Assets/PlayerUI/staminaButtonGrayOut.DDS", 500.0f, 100.0f);
 
 	// playerを探す。→探さないとnullptr判定になる。
 	m_player = FindGO<Player>("player");
@@ -53,22 +54,27 @@ bool Stamina::Start()
 	m_spriteRender.SetPosition(Vector3(STAMINA_POSITION));
 	// スタミナバー(減らす部分)の位置。
 	m_spriteRender2.SetPosition(Vector3(STAMINA_POSITION2));
+	// スタミナバーのグレーアウト(減らす部分)の位置。
+	m_spriteRender3.SetPosition(Vector3(STAMINA_POSITION2));
 	// ダッシュボタンのマークの位置。
-	m_spriteRender3.SetPosition(Vector3(STAMINABUTTON_POSITION));
-	// ダッシュボタンのグレーアウトの位置。
 	m_spriteRender4.SetPosition(Vector3(STAMINABUTTON_POSITION));
+	// ダッシュボタンのグレーアウトの位置。
+	m_spriteRender5.SetPosition(Vector3(STAMINABUTTON_POSITION));
 
 	// スタミナバー(枠組み)の大きさ。
 	m_spriteRender.SetScale(Vector3(STAMINA_SCALE));
 	// スタミナバー(減らす部分)の大きさ。
 	m_spriteRender2.SetScale(Vector3(STAMINA_SCALE2));
+	// スタミナバーのグレーアウト(減らす部分)の大きさ。
+	m_spriteRender3.SetScale(Vector3(STAMINA_SCALE2));
 	// ダッシュボタンのマークの大きさ。
-	m_spriteRender3.SetScale(Vector3(STAMINABUTTON_SCALE));
-	// ダッシュボタンのグレーアウトの大きさ。
 	m_spriteRender4.SetScale(Vector3(STAMINABUTTON_SCALE));
+	// ダッシュボタンのグレーアウトの大きさ。
+	m_spriteRender5.SetScale(Vector3(STAMINABUTTON_SCALE));
 
 	// ピボットの位置。
 	m_spriteRender2.SetPivot(Vector2(SET_PIVOT));
+	m_spriteRender3.SetPivot(Vector2(SET_PIVOT));
 
 	return true;
 }
@@ -86,6 +92,7 @@ void Stamina::StaminaCalc()
 		// 割合の応じて横幅だけ縮める。
 		scal.x *= wari;
 		m_spriteRender2.SetScale(scal);
+		m_spriteRender3.SetScale(scal);
 }
 
 void Stamina::Update()
@@ -97,21 +104,23 @@ void Stamina::Update()
 	m_spriteRender2.Update();
 	m_spriteRender3.Update();
 	m_spriteRender4.Update();
+	m_spriteRender5.Update();
 }
 
 void Stamina::Render(RenderContext& rc)
 {
-	// 画像を描画。
+	// スタミナバーの枠画像を描画。
 	m_spriteRender.Draw(rc);
-	m_spriteRender2.Draw(rc);
-	// スタミナの値が0より大きいならボタン画像を表示。
+	// スタミナの値が0より大きいなら、スタミナバー(減らす部分)とボタン画像を表示。
 	if (m_player->m_staminaFlag == false)
 	{
-		m_spriteRender3.Draw(rc);
+		m_spriteRender2.Draw(rc);
+		m_spriteRender4.Draw(rc);
 	}
-	// スタミナの値が0以下ならグレーアウト画像を表示。
+	// スタミナの値が0以下なら、スタミナバーのグレーアウト(減らす部分)とボタンのグレーアウト画像を表示。
 	else if (m_player->m_staminaFlag == true)
 	{
-		m_spriteRender4.Draw(rc);
+		m_spriteRender3.Draw(rc);
+		m_spriteRender5.Draw(rc);
 	}
 }

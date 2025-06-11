@@ -19,6 +19,7 @@ private:
 	SpriteRender m_spriteRender2;
 	SpriteRender m_spriteRender3;
 	SpriteRender m_spriteRender4;
+	SpriteRender m_spriteRender5;
 	Player* m_player;
 };
 
