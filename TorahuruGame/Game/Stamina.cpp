@@ -9,6 +9,7 @@ namespace
 	Vector3 STAMINA_POSITION2 = Vector3(-160.0f, -400.0f, 0.0f);
 	// ダッシュボタンのマークの位置。
 	Vector3 STAMINABUTTON_POSITION = Vector3(-240.0f, -405.0f, 0.0f);
+	Vector3 STAMINABUTTON_POSITION8 = Vector3(0.0f,0.0f,0.0f);
 
 	// スタミナバーの大きさ。
 	Vector3 STAMINA_SCALE = Vector3(1.0f, 1.0f, 1.0f);
@@ -42,6 +43,8 @@ bool Stamina::Start()
 	m_spriteRender2.Init("Assets/PlayerUI/stamina.DDS", 500.0f, 100.0f);
 	// ダッシュボタンのマーク。
 	m_spriteRender3.Init("Assets/PlayerUI/staminaButton.DDS", 500.0f, 100.0f);
+	// ダッシュボタンのグレーアウト。
+	m_spriteRender4.Init("Assets/PlayerUI/staminaButtonGrayOut.DDS", 500.0f, 100.0f);
 
 	// playerを探す。→探さないとnullptr判定になる。
 	m_player = FindGO<Player>("player");
@@ -52,6 +55,8 @@ bool Stamina::Start()
 	m_spriteRender2.SetPosition(Vector3(STAMINA_POSITION2));
 	// ダッシュボタンのマークの位置。
 	m_spriteRender3.SetPosition(Vector3(STAMINABUTTON_POSITION));
+	// ダッシュボタンのグレーアウトの位置。
+	m_spriteRender4.SetPosition(Vector3(STAMINABUTTON_POSITION));
 
 	// スタミナバー(枠組み)の大きさ。
 	m_spriteRender.SetScale(Vector3(STAMINA_SCALE));
@@ -59,6 +64,8 @@ bool Stamina::Start()
 	m_spriteRender2.SetScale(Vector3(STAMINA_SCALE2));
 	// ダッシュボタンのマークの大きさ。
 	m_spriteRender3.SetScale(Vector3(STAMINABUTTON_SCALE));
+	// ダッシュボタンのグレーアウトの大きさ。
+	m_spriteRender4.SetScale(Vector3(STAMINABUTTON_SCALE));
 
 	// ピボットの位置。
 	m_spriteRender2.SetPivot(Vector2(SET_PIVOT));
@@ -89,6 +96,7 @@ void Stamina::Update()
 	m_spriteRender.Update();
 	m_spriteRender2.Update();
 	m_spriteRender3.Update();
+	m_spriteRender4.Update();
 }
 
 void Stamina::Render(RenderContext& rc)
@@ -96,5 +104,14 @@ void Stamina::Render(RenderContext& rc)
 	// 画像を描画。
 	m_spriteRender.Draw(rc);
 	m_spriteRender2.Draw(rc);
-	m_spriteRender3.Draw(rc);
+	// スタミナの値が0より大きいならボタン画像を表示。
+	if (m_player->m_stamina > 0.0f)
+	{
+		m_spriteRender3.Draw(rc);
+	}
+	// スタミナの値が0以下ならグレーアウト画像を表示。
+	else if (m_player->m_stamina <= 0.0f)
+	{
+		m_spriteRender4.Draw(rc);
+	}
 }
