@@ -12,7 +12,7 @@ void PlayerIdleState::Enter()
 void PlayerIdleState::Update()
 {
 	// 待機中も移動床で移動するので移動処理を呼び出す。
-	m_player->Move(m_move=1.0f);
+	m_player->Move(m_move = 1.0f);
 
 	m_player->SetGravity();
 
