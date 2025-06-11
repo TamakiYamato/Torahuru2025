@@ -107,6 +107,10 @@ public:
 	//移動速度
 	Vector3	m_moveSpeed;
 	Vector3 m_dash;
+	// スタミナの有無フラグ。
+	// 初期状態はスタミナがあるのでfalse。
+	// TODO: tamaki		ここのフラグの名前を変更する。
+	bool m_staminaFlag = false;
 	float m_hp = 0;
 	// スタミナの最大値。
 	float m_max_stamina = 100;

@@ -105,12 +105,12 @@ void Stamina::Render(RenderContext& rc)
 	m_spriteRender.Draw(rc);
 	m_spriteRender2.Draw(rc);
 	// スタミナの値が0より大きいならボタン画像を表示。
-	if (m_player->m_stamina > 0.0f)
+	if (m_player->m_staminaFlag == false)
 	{
 		m_spriteRender3.Draw(rc);
 	}
 	// スタミナの値が0以下ならグレーアウト画像を表示。
-	else if (m_player->m_stamina <= 0.0f)
+	else if (m_player->m_staminaFlag == true)
 	{
 		m_spriteRender4.Draw(rc);
 	}

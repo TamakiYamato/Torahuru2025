@@ -309,18 +309,21 @@ void Player::StaminaCalc()
 	// 走っていないとき。
 	else if (m_dashFlag != true)
 	{
+		// スタミナが0以下の時。
+		if (m_stamina <= 0.0f)
+		{
+			// スタミナが無くなったフラグを立てる。
+			m_staminaFlag = true;
+		}
 		// スタミナを回復する。
 		m_stamina += 20.0f * g_gameTime->GetFrameDeltaTime();
 		// スタミナが100以上になったら。
 		if (m_stamina >= 100)
 		{
+			// スタミナが無くなったフラグを取り消す。
+			m_staminaFlag = false;
 			//スタミナを100にする。
 			m_stamina = m_max_stamina;
-		}
-		// Aボタンが押されたら。→押し続けている間、スタミナを回復しない。
-		else if (g_pad[0]->IsPress(enButtonA))
-		{
-			DashStaminaCalk();
 		}
 	}
 }
