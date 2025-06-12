@@ -349,11 +349,6 @@ void Player::StaminaCalc()
 	}
 }
 
-void Player::Render(RenderContext& rc) {
-	if (m_modelRender) {
-		m_modelRender->Draw(rc);
-	}
-}
 
 void Player::UpdateModelByState()
 {
