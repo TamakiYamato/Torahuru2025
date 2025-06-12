@@ -44,7 +44,7 @@ void TutorialUI::Render(RenderContext& rc)
 /// </summary>
 void TutorialUI::DisplayText()
 {
-	wchar_t textUI[256];
+	wchar_t textUI[256] = L"\0";
 	switch (m_textState) {
 	case enReverse:
 		swprintf_s(textUI, 256, L"< チュートリアル >\n火炎放射器に当たるとノックバックが発生！\nあべこべ床を踏むと操作が反転する。");
@@ -71,7 +71,12 @@ void TutorialUI::DisplayText()
 		swprintf_s(textUI, 256, L"< 特殊 > ステージのどこにいても敵が追いかけてくる。\n< 条件 > ステージ内のどこかにある絵が描かれた石を\n同じ方向に向けて扉から出よう！");
 		break; 
 
+	case enFireTrigger:
+		// 何か表示したいならここに書いてください。
+		break;
+
 	default:
+		K2_ASSERT(false, "ここに case を追加してください。文字列が設定されていません。");
 		break;
 	}
 	// 文字のセット

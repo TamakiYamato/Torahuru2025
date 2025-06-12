@@ -227,6 +227,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BackGroundThree.cpp" />
     <ClCompile Include="BackGroundTwo.cpp" />
     <ClCompile Include="BlindFloor.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -264,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BackGroundThree.h" />
     <ClInclude Include="BackGroundTwo.h" />
     <ClInclude Include="BlindFloor.h" />
     <ClInclude Include="Enemy.h" />
