@@ -87,8 +87,8 @@ bool Player::Start()
 	// キャラクターの更新。
 	m_modelRender->Update();
 	// キャラクターの向きを変える。
-	rotation.SetRotationDegY(180.0f);
-	m_modelRender->SetRotation(rotation);
+	m_rotation.SetRotationDegY(180.0f);
+	m_modelRender->SetRotation(m_rotation);
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
@@ -248,9 +248,9 @@ void Player::Rotation()
 	}
 
 	//キャラクターの方向を変える。
-	rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
+	m_rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
 	//絵描きさんに回転を教える。
-	m_modelRender->SetRotation(rotation);
+	m_modelRender->SetRotation(m_rotation);
 }
 
 
@@ -330,18 +330,21 @@ void Player::StaminaCalc()
 	// 走っていないとき。
 	else if (m_dashFlag != true)
 	{
+		// スタミナが0以下の時。
+		if (m_stamina <= 0.0f)
+		{
+			// スタミナが無くなったフラグを立てる。
+			m_staminaFlag = true;
+		}
 		// スタミナを回復する。
 		m_stamina += 20.0f * g_gameTime->GetFrameDeltaTime();
 		// スタミナが100以上になったら。
 		if (m_stamina >= 100)
 		{
+			// スタミナが無くなったフラグを取り消す。
+			m_staminaFlag = false;
 			//スタミナを100にする。
 			m_stamina = m_max_stamina;
-		}
-		// Aボタンが押されたら。→押し続けている間、スタミナを回復しない。
-		else if (g_pad[0]->IsPress(enButtonA))
-		{
-			DashStaminaCalk();
 		}
 	}
 }

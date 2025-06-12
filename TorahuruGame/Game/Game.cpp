@@ -100,6 +100,7 @@ void Game::LightSetting()
 }
 void Game::PlayBGM()
 {
+	// TODO: 音量が大きすぎるので調整する。
 	//BGM読み込み
 	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/TorahuruBGM.wav");
 	//BGM再生
@@ -151,7 +152,7 @@ bool Game::Start()
 	TimerUI();
 	InitSky();
 	SetSutamina();
-	PlayBGM();
+	//PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();

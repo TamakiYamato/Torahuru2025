@@ -31,9 +31,12 @@ void PlayerIdleState::Update()
 		m_player->m_requestPlayerState = enPlayerState_Walk;
 	}
 	// パッドの入力がある、かつAボタンが押されたら。
-	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA) && m_player->m_stamina > 0.0f) {
-		// 状態を走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
+		// スタミナが無かったら。
+		if (m_player->m_staminaFlag == false) {
+			// 状態を走りに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_Run;
+		}
 	}
 	// スティックの入力がある、かつBボタンが押したら。
 	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonB)) {
@@ -90,10 +93,13 @@ void PlayerWalkState::Update()
 		// ステートをしゃがみ歩きに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_CrouchWalk;
 	}
-	// スティックの入力がある、かつAボタンが押したら。
-	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA) && m_player->m_stamina > 0.0f) {
-		// ステートを走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	// パッドの入力がある、かつAボタンが押されたら。
+	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
+		// スタミナが無かったら。
+		if (m_player->m_staminaFlag == false) {
+			// 状態を走りに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_Run;
+		}
 	}
 
 	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");

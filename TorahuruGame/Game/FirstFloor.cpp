@@ -16,6 +16,8 @@
 #include"Scene.h"
 #include"TutorialUI.h"
 #include"Loading.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 FirstFloor::FirstFloor()
 {
 
@@ -63,6 +65,8 @@ bool FirstFloor::Start()
 	//レベル実装
 	//当たり判定の可視化
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	// 効果音の音源を読み込む。
+	g_soundEngine->ResistWaveFileBank(2, "Assets/sound/kaidan.wav");
 	m_levelRender.Init("Assets/level/BackGround1.tkl", [&](LevelObjectData& objData)
 		{	//floor1の実装
 			if (objData.ForwardMatchName(L"Box") == true) {								//ステージ
@@ -144,6 +148,14 @@ void FirstFloor::Update()
 
 void FirstFloor::GoToNextStage() {
 	m_gamecamera->Refresh();//refreshでコリジョンのバグを解消する
+	// 階段の効果音を再生。
+	SoundSource* se = NewGO<SoundSource>(0);
+	se->Init(2);
+	//効果音ループさせない。
+	se->Play(false);
+	//音量。
+	// TODO: 後で音量を調節する。ゲーム側も。
+	se->SetVolume(5.0f);
 	//SetLoading(); // ローディング画面を生成
 	m_secondFloor =  NewGO<SecondFloor>(0, "secondfloor");  // 次のステージを生成
 	SetPosition();
