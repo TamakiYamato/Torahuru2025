@@ -6,7 +6,7 @@ class Player;
 class FireGimmic :public IGameObject
 {
 public:
-	FireGimmic();
+	FireGimmic() {};
 	~FireGimmic();
 	bool Start();
 	void Update();

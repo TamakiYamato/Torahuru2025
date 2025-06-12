@@ -38,6 +38,7 @@ public:
 	void SetSutamina();
 	void InitSky();
 	void LightSetting();
+	void TimerUI();
 	void PlayBGM();
 	
 	void SetPosition(const Vector3 position)
@@ -60,7 +61,9 @@ private:
 	FireTriggerFloor*           m_fireTriggerFloor;
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
+	SpriteRender				m_spriteRender;
 	Loading*					m_Load;
+	Title*						m_title;
 	//StageManager* m_stageManager = nullptr;				//ステージマネージャー		
 	std::vector<ReverseFloor*>	m_reverseFloorLists;		//すべてのあべこべ床
 	std::vector<SlowFloor*>		m_slowFloorLists;			//すべての鈍足床

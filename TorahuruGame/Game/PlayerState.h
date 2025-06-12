@@ -35,21 +35,21 @@ public:
 	// メモ書きして	。
 protected:
 	Player* m_player = nullptr;
-	float m_fireTime = 3.0f;		// 火炎放射器に当たった時のモデル更新用の時間。
+	int m_fireTime = 150.0f;		// 火炎放射器に当たった時のモデル更新用の時間。
 
 	//キャラコン
 	CharacterController	m_charCon;
 	// 乗算用。
 	// デフォルトの移動速度。
-	float m_move = 1.0f;
+	float m_move = 1.5f;
 	// 歩き時に乗算する数値。
-	float m_walk = 1.0f;
+	float m_walk = m_move;
 	// ダッシュ時に乗算する数値。
-	float m_run = 2.0f;
+	float m_run = m_move * 1.5;
 	// しゃがみ時に乗算する数値。
 	float m_crouch = 0.0f;
 	// しゃがみ歩き時に乗算する数値。
-	float m_crouchWalk = 0.5f;
+	float m_crouchWalk = 1.0f;
 
 };
 

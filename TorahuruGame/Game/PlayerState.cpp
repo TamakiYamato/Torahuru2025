@@ -12,7 +12,7 @@ void PlayerIdleState::Enter()
 void PlayerIdleState::Update()
 {
 	// 待機中も移動床で移動するので移動処理を呼び出す。
-	m_player->Move(m_move=1.0f);
+	m_player->Move(m_move = 1.0f);
 
 	m_player->SetGravity();
 
@@ -31,9 +31,12 @@ void PlayerIdleState::Update()
 		m_player->m_requestPlayerState = enPlayerState_Walk;
 	}
 	// パッドの入力がある、かつAボタンが押されたら。
-	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA) && m_player->m_stamina > 0.0f) {
-		// 状態を走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
+		// スタミナが無かったら。
+		if (m_player->m_staminaFlag == false) {
+			// 状態を走りに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_Run;
+		}
 	}
 	// スティックの入力がある、かつBボタンが押したら。
 	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonB)) {
@@ -44,6 +47,16 @@ void PlayerIdleState::Update()
 	else if (LStickPower.Length() <= 0.01f && g_pad[0]->IsPress(enButtonB)) {
 		// 状態をしゃがみに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Crouch;
+	}
+
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+	if (m_player->m_isInvincible == false)
+	{
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_player->m_charCon) == true) {
+				m_player->m_requestPlayerState = enPlayerState_Down; // 火炎放射器に当たったらダウン状態にする。
+			}
+		}
 	}
 }
 
@@ -80,11 +93,26 @@ void PlayerWalkState::Update()
 		// ステートをしゃがみ歩きに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_CrouchWalk;
 	}
-	// スティックの入力がある、かつAボタンが押したら。
-	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA) && m_player->m_stamina > 0.0f) {
-		// ステートを走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	// パッドの入力がある、かつAボタンが押されたら。
+	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
+		// スタミナが無かったら。
+		if (m_player->m_staminaFlag == false) {
+			// 状態を走りに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_Run;
+		}
 	}
+
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+
+	if (m_player->m_isInvincible == false)
+	{
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_player->m_charCon) == true) {
+				m_player->m_requestPlayerState = enPlayerState_Down; // 火炎放射器に当たったらダウン状態にする。
+			}
+		}
+	}
+
 }
 
 void PlayerWalkState::Exit()
@@ -125,6 +153,15 @@ void PlayerRunState::Update()
 	else if (!g_pad[0]->IsPress(enButtonA)) {
 		// 状態を歩きに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Walk;
+	}
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+	if (m_player->m_isInvincible == false)
+	{
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_player->m_charCon) == true) {
+				m_player->m_requestPlayerState = enPlayerState_Down; // 火炎放射器に当たったらダウン状態にする。
+			}
+		}
 	}
 }
 
@@ -210,20 +247,22 @@ void PlayerCrouchWalkState::Exit()
 
 void PlayerDownState::Enter()
 {
-	
+
 }
 
 void PlayerDownState::Update()
 {
-	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+	m_fireTime -= g_gameTime->GetFrameDeltaTime();
 
-	for (CollisionObject* collision : collisions) {
-		if (collision->IsHit(m_charCon) == true) {
-			m_fireTime -= g_gameTime->GetFrameDeltaTime();
-			// ダウンアニメーションを再生する。
-			m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Down);
-			// ステートを立ち上がりに切り替える。
-			m_player->m_requestPlayerState = enPlayerState_GetUp;
+	if (m_player->m_isInvincible == false)
+	{
+		// ダウンアニメーションを再生する。
+		m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Down);
+
+		if (m_fireTime <= 0.0f)
+		{
+			m_player->m_requestPlayerState = enPlayerState_GetUp; // ダウン状態から立ち上がる。
+			m_fireTime = 150.0f; // ダウン状態の時間をリセット。
 		}
 	}
 };
@@ -238,10 +277,18 @@ void PlayerGetUpState::Enter()
 
 void PlayerGetUpState::Update()
 {
-	if (m_player->m_requestPlayerState == enPlayerState_GetUp)
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_GetUp);
+	m_fireTime -= g_gameTime->GetFrameDeltaTime();
+
+	if (m_fireTime <= 0.0f)
 	{
-		m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_GetUp);
+		// 立ち上がりアニメーションが終わったら、待機状態に戻る。
+		m_player->m_requestPlayerState = enPlayerState_Idle; // 立ち上がったら待機状態に戻る。
+		m_fireTime = 150.0f;
 	}
+
+	m_player->m_isInvincible = true;	//無敵状態にする。
+
 }
 
 void PlayerGetUpState::Exit()

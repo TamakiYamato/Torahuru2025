@@ -25,10 +25,6 @@ namespace {
 
 }
 
-FireGimmic::FireGimmic()
-{
-}
-
 FireGimmic::~FireGimmic()
 {
 	if (m_se != nullptr) {
@@ -57,7 +53,7 @@ bool FireGimmic::Start()
 
 	//火炎放射器のコリジョンの生成
 	//それぞれ向きが異なる
-	m_fireCollision = NewGO<CollisionObject>(0);
+	/*m_fireCollision = NewGO<CollisionObject>(0);
 	m_fireCollision->SetName("fireCollision");
 	m_fireCollision->CreateBox(
 		m_firstPosition,
@@ -79,7 +75,7 @@ bool FireGimmic::Start()
 		m_firstPosition,
 		m_fireRot_North,
 		COLLISION_SIZE
-	);
+	);*/
 
 	m_fireCollision = NewGO<CollisionObject>(0);
 	m_fireCollision->SetName("fireCollision");

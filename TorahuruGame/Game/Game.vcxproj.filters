@@ -38,6 +38,7 @@
     <ClCompile Include="Scene\StageManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ThirdFloor.cpp" />
+    <ClCompile Include="Tips.cpp" />
     <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="BackGroundThree.cpp" />
   </ItemGroup>
@@ -73,6 +74,7 @@
     <ClInclude Include="Scene\StageManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ThirdFloor.h" />
+    <ClInclude Include="Tips.h" />
     <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="BackGroundThree.h" />
   </ItemGroup>
