@@ -6,6 +6,7 @@ class PlayerState;
 class GameClear;
 class Staier;
 class FloorManager;
+class FireGimmic;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
@@ -32,14 +33,13 @@ public:
 	void Move(float dash);					// 移動処理。
 	void Rotation();
 	void StaminaCalc();						// スタミナ計算(増減)。
-	void DashStaminaCalk();				// スタミナ計算(減算)。
-	//void SetPosition();
-	void SetPosition(const Vector3& position);
-	void SetGravity();
+
+	void DashStaminaCalk();					// スタミナ計算(減算)。
+  void SetPosition(const Vector3& position);
+  void SetGravity();
 	void FireState();
-	void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
-	//void FireState();
-	//void AddFireEffect();				// 火炎放射に当たった時のモデル更新。
+	void AddFireEffect();					// 火炎放射に当たった時のモデル更新
+	void InvincibleState();					// 無敵状態の更新。
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
@@ -124,6 +124,10 @@ public:
 	int m_currentPlayerState;
 	// 次に使いたい状態(リクエスト)
 	int m_requestPlayerState;
+	// 無敵時間の更新用の時間。
+	int m_InvincibleTime = 0.0f;
+	// 無敵状態のフラグ。
+	bool m_isInvincible = false;
 	/// <summary>
 	/// 力を加算する
 	/// </summary>
@@ -132,12 +136,14 @@ public:
 	{
 		m_addForce += force;
 	}
+
 	//火炎放射に当たったかの確認
 	bool m_isHitFireCollision = false;
+	//無敵
+	bool m_isTest = false;
+
 private:
 	ModelRender* m_modelRender = nullptr;
+	FireGimmic* m_fireGimmic = nullptr;	//火炎放射器
 	Vector3 m_addForce;
-		
-
-
 };

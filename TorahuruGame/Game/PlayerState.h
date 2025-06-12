@@ -35,7 +35,7 @@ public:
 	// メモ書きして	。
 protected:
 	Player* m_player = nullptr;
-	float m_fireTime = 3.0f;		// 火炎放射器に当たった時のモデル更新用の時間。
+	int m_fireTime = 150.0f;		// 火炎放射器に当たった時のモデル更新用の時間。
 
 	//キャラコン
 	CharacterController	m_charCon;

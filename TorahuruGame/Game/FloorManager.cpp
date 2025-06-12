@@ -167,6 +167,7 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 					m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 					m_spriteRender->Init("Assets/sprite/reverse.DDS", 100.0f, 100.0f);
 					m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
+					m_spriteRender->Update();
 
 					//進行方向を反転
 					m_player->m_moveDir *= -1.0f;
@@ -205,6 +206,7 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 					//画像の表示
 					m_spriteRender = NewGO<SpriteRender>(0, "spriterender");
 					m_spriteRender->Init("Assets/sprite/blind.DDS", 100.0f, 100.0f);
+					m_spriteRender->Update();
 					m_spriteRender->SetPosition(Vector3(640.0f, 360.0f, 0.0f));
 
 					AddStatusTimer();
