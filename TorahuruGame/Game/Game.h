@@ -61,6 +61,7 @@ private:
 	FontRender					m_fontRender;
 	SpriteRender				m_spriteRender;
 	Loading*					m_Load;
+	Title*						m_title;
 	//StageManager* m_stageManager = nullptr;				//ステージマネージャー		
 	std::vector<ReverseFloor*>	m_reverseFloorLists;		//すべてのあべこべ床
 	std::vector<SlowFloor*>		m_slowFloorLists;			//すべての鈍足床

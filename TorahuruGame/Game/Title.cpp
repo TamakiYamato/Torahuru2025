@@ -23,6 +23,15 @@ bool Title::Start() {
     m_spriteRender.Init("Assets/modelData/Title/title.DDS", 1920, 1080);
     m_startButtonRender.Init("Assets/modelData/Title/startButtonText.DDS",1920, 1080);
     m_startButtonRender.SetPosition(Vector3(BUTTON_POSITION));
+    
+    // BGMを読み込む。
+    g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
+    // soundSourceを作成する
+    m_bgm = NewGO<SoundSource>(3);
+    m_bgm->Init(3);
+    // BGMをループさせる。
+    m_bgm->Play(true);
+
     // 効果音を読み込む。
     g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");
     m_Loading = FindGO<Loading>("loading");
@@ -53,6 +62,8 @@ void Title::Update() {
             // シーン切り替え開始。
             m_isWaitLoadOut = true;
             m_Loading->StartLoadOut();
+            // BGMを停止。
+            DeleteGO(m_bgm);
         }
     }
 

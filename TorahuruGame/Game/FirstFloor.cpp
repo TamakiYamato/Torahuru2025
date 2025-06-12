@@ -154,7 +154,8 @@ void FirstFloor::GoToNextStage() {
 	//効果音ループさせない。
 	se->Play(false);
 	//音量。
-	se->SetVolume(2.0f);
+	// TODO: 後で音量を調節する。ゲーム側も。
+	se->SetVolume(5.0f);
 	//SetLoading(); // ローディング画面を生成
 	m_secondFloor =  NewGO<SecondFloor>(0, "secondfloor");  // 次のステージを生成
 	SetPosition();

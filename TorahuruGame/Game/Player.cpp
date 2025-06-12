@@ -87,8 +87,8 @@ bool Player::Start()
 	// キャラクターの更新。
 	m_modelRender->Update();
 	// キャラクターの向きを変える。
-	rotation.SetRotationDegY(180.0f);
-	m_modelRender->SetRotation(rotation);
+	m_rotation.SetRotationDegY(180.0f);
+	m_modelRender->SetRotation(m_rotation);
 	//キャラクターコントローラーを初期化する
 	m_charCon.Init(25.0f, 75.0f, m_position);
 
@@ -245,9 +245,9 @@ void Player::Rotation()
 		return;
 	}
 	//キャラクターの方向を変える。
-	rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
+	m_rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
 	//絵描きさんに回転を教える。
-	m_modelRender->SetRotation(rotation);
+	m_modelRender->SetRotation(m_rotation);
 }
 
 

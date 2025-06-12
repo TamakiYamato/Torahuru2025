@@ -119,7 +119,7 @@ public:
 	// 走り判定。
 	bool m_dashFlag = false;
 
-	Quaternion rotation;
+	Quaternion m_rotation;
 	float m_moveDir = 1.0f;
 
 	// ステートリスト

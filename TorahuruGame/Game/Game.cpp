@@ -100,6 +100,7 @@ void Game::LightSetting()
 }
 void Game::PlayBGM()
 {
+	// TODO: 音量が大きすぎるので調整する。
 	//BGM読み込み
 	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/TorahuruBGM.wav");
 	//BGM再生
