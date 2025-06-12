@@ -227,11 +227,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BackGroundThree.cpp" />
     <ClCompile Include="BackGroundTwo.cpp" />
     <ClCompile Include="BlindFloor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
+    <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -260,16 +262,19 @@
     <ClCompile Include="Stamina.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="ThirdFloor.cpp" />
+    <ClCompile Include="Tips.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TutorialUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BackGroundThree.h" />
     <ClInclude Include="BackGroundTwo.h" />
     <ClInclude Include="BlindFloor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="FireGimmic.h" />
+    <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="FirstFloor.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Game.h" />
@@ -293,6 +298,7 @@
     <ClInclude Include="Stamina.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="ThirdFloor.h" />
+    <ClInclude Include="Tips.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TutorialUI.h" />
   </ItemGroup>

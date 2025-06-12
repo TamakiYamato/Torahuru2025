@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Level3DRender/LevelRender.h"
+#include "sound/SoundSource.h"
 
 class Player;
 class Stamina;
@@ -21,6 +22,7 @@ class Loading;
 class FireGimmic;
 class SecondFloor;
 class RotationFloor;
+class FireTriggerFloor;
 //class StageManager;
 //
 class Game : public IGameObject
@@ -36,27 +38,32 @@ public:
 	void SetSutamina();
 	void InitSky();
 	void LightSetting();
+	void TimerUI();
+	void PlayBGM();
 	
 	void SetPosition(const Vector3 position)
 	{
 		m_position = position;
 	}
 
-	SkyCube* m_skyCube = nullptr;				  //
+	SkyCube* m_skyCube = nullptr;				  
 
 private:
 	FloorManager*				m_floorManager=nullptr;
-	Player*						m_player = nullptr;
-	Stamina*                   m_setStamina;
+	Player*						m_player;
+	Stamina*                    m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;
 	ModelRender					m_modelRender;
 	Stairs*						m_stairs = nullptr;					//階段
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
+	FireTriggerFloor*           m_fireTriggerFloor;
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
+	SpriteRender				m_spriteRender;
 	Loading*					m_Load;
+	Title*						m_title;
 	//StageManager* m_stageManager = nullptr;				//ステージマネージャー		
 	std::vector<ReverseFloor*>	m_reverseFloorLists;		//すべてのあべこべ床
 	std::vector<SlowFloor*>		m_slowFloorLists;			//すべての鈍足床

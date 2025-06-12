@@ -6,6 +6,8 @@ class TutorialUI;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
+class FireTriggerFloor;
+
 class FloorManager : public IGameObject
 {
 public:
@@ -31,16 +33,18 @@ public:
 	/// </summary>
 public:	
 	enum FloorState {
-		Normal,			//通常状態
-		ReverseState,	//あべこべ状態
-		SlowState,		//鈍足状態
-		BlindState,		//視界制限状態
+		Normal,				//通常状態
+		ReverseState,		//あべこべ状態
+		SlowState,			//鈍足状態
+		BlindState,			//視界制限状態
+		FireTriggerState,	//火炎放射器オンオフ切り替え
 	};
 
 	TutorialUI* m_tutorialUI;	//チュートリアルUI
 	ReverseFloor* m_reverseFloor;	//あべこべ床
 	SlowFloor* m_slowFloor;	//鈍足床
 	BlindFloor* m_blindFloor;	//視界制限床
+	FireTriggerFloor* m_fireTriggerFloor;	//火炎放射器
 	SpriteRender* m_spriteRender;	//画像
 	FontRender* m_fontRender;	//文字
 	PointLight* m_pointL;	//ポイントライト

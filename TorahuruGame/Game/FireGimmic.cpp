@@ -9,8 +9,8 @@
 #include "sound/SoundEngine.h"
 
 namespace {
-	Vector3 COLLISION_SIZE = Vector3(20.0f, 150.0f, 20.0f);
-	Vector3 COLLISION_POSITION = Vector3(100.0f, 0.0f, 100.0f);
+	Vector3 COLLISION_SIZE = Vector3(200.0f, 250.0f, 2200.0f);
+	Vector3 COLLISION_POSITION = Vector3(10.0f, 0.0f, 10.0f);
 
 	Vector3 firePosition = Vector3(-400.0f, 150.0f, -400.0f);
 	Vector3 firePosition2 = Vector3(2100.0f, 150.0f, -1200.0f);
@@ -23,10 +23,6 @@ namespace {
 	const float LENGTH = 3000.0f;			//長さ
 	const float SE_VOLUME = 0.01f;
 
-}
-
-FireGimmic::FireGimmic()
-{
 }
 
 FireGimmic::~FireGimmic()
@@ -57,7 +53,8 @@ bool FireGimmic::Start()
 
 	//火炎放射器のコリジョンの生成
 	//それぞれ向きが異なる
-	m_fireCollision = NewGO<CollisionObject>(0);
+	/*m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->SetName("fireCollision");
 	m_fireCollision->CreateBox(
 		m_firstPosition,
 		m_fireRot_East,
@@ -65,6 +62,7 @@ bool FireGimmic::Start()
 	);
 
 	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->SetName("fireCollision");
 	m_fireCollision->CreateBox(
 		m_firstPosition,
 		m_fireRot_West,
@@ -72,13 +70,15 @@ bool FireGimmic::Start()
 	);
 
 	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->SetName("fireCollision");
 	m_fireCollision->CreateBox(
 		m_firstPosition,
 		m_fireRot_North,
 		COLLISION_SIZE
-	);
+	);*/
 
 	m_fireCollision = NewGO<CollisionObject>(0);
+	m_fireCollision->SetName("fireCollision");
 	m_fireCollision->CreateBox(
 		m_firstPosition,
 		m_fireRot_South,

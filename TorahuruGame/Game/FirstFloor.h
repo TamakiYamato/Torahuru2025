@@ -18,6 +18,7 @@ class TutorialUI;
 class Loading;
 class Title;
 class Game;
+class FireTriggerFloor;
 class FirstFloor : public IGameObject
 {
 public:
@@ -30,13 +31,14 @@ public:
 	void GoToNextStage();
 	void Render(RenderContext& rc);
 	void SetPosition();
-
+	void Refresh();//refresh:当たり判定を直す
 
 	ModelRender m_modelRender;
 	LevelRender	m_levelRender;						//レベル
 	FirstFloor* m_firstFloor = nullptr;
 	SecondFloor* m_secondFloor ;
 	BackGround* m_background = nullptr;
+	FireTriggerFloor* m_fireTriggerFloor = nullptr;			//火炎放射器のトリガー
 	GameCamera* m_gamecamera;
 	FloorManager* m_floorManager;					//特殊床の管理
 	TutorialUI* m_tutorialUI;
@@ -48,13 +50,14 @@ public:
 	std::vector<FireGimmic*>m_fireGimmicList;
 	std::vector<Stairs*>m_stairsGimmicList;
 	std::vector<TutorialUI*>m_tutorialUIList;
+	std::vector<FireTriggerFloor*> m_fireTriggerFloorList;//火炎放射器のトリガーのリスト
 	SlowFloor* m_slowFloor;						    //鈍足床
 	BlindFloor* m_blindFloor;						//視界制限床
 	FireGimmic* m_fireGimmic = nullptr;				//火炎放射器
 	Stairs* m_stairs=nullptr;
 	Player* m_player=nullptr;
 	Loading* m_loading = nullptr; // ローディング画面のポインタ
-
+	CollisionObject* m_collisitonObject = nullptr;
 	SpriteRender m_pressButton;
 	SpriteRender m_spriteRender;
 

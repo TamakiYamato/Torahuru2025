@@ -196,7 +196,13 @@ namespace nsK2Engine {
 		{
 			return m_isEnable;
 		}
+
+		void SetPostion(const Vector3& position)
+		{
+			m_physicsStaticObject.SetPosition(position);
+		}
 	private:
+		PhysicsStaticObject m_physicsStaticObject;			//フィジックススタティックオブジェクト。
 		PhysicsGhostObject			m_physicsGhostObject;				//ゴーストオブジェクト。
 		const char* m_name = nullptr;					//名前。
 		float						m_timer = 0.0f;						//タイマー。

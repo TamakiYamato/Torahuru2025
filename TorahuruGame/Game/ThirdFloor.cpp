@@ -10,6 +10,7 @@
 
 bool ThirdFloor::Start()
 {
+
     return true;
 }
 

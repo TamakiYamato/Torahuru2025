@@ -23,7 +23,7 @@ ReverseFloor::~ReverseFloor()
 
 bool ReverseFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/ReverseFloor.tkm");		//あべこべ床の初期化
+	m_modelRender.Init("Assets/modelData/Stage1/ReverseFloor/ReverseFloor.tkm");		//あべこべ床の初期化
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 

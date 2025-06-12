@@ -16,6 +16,9 @@
 #include"Scene.h"
 #include"TutorialUI.h"
 #include"Loading.h"
+#include"FireTriggerFloor.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 FirstFloor::FirstFloor()
 {
 
@@ -31,6 +34,8 @@ FirstFloor::~FirstFloor()
 	DeleteGO(m_fireGimmic);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_stamina);
+	DeleteGO(m_collisitonObject);
+	DeleteGO(m_fireTriggerFloor);
 	for(ReverseFloor* reverseFloor : m_reverseFloorList) {
 		DeleteGO(reverseFloor);
 	}
@@ -46,6 +51,9 @@ FirstFloor::~FirstFloor()
 	for (Stairs* stairs : m_stairsGimmicList) {
 		DeleteGO(stairs);
 	}
+	for(FireTriggerFloor* fireTriggerFloor : m_fireTriggerFloorList) {
+		DeleteGO(fireTriggerFloor);
+	}
 	
 }
 
@@ -60,7 +68,10 @@ bool FirstFloor::Start()
 	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 	m_gamecamera = FindGO<GameCamera>("gamecamera");
 	//レベル実装
-	
+	//当たり判定の可視化
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	// 効果音の音源を読み込む。
+	g_soundEngine->ResistWaveFileBank(2, "Assets/sound/kaidan.wav");
 	m_levelRender.Init("Assets/level/BackGround1.tkl", [&](LevelObjectData& objData)
 		{	//floor1の実装
 			if (objData.ForwardMatchName(L"Box") == true) {								//ステージ
@@ -104,8 +115,15 @@ bool FirstFloor::Start()
 				m_stairs->SetPosition(objData.position);
 				m_stairs->SetScale(objData.scale);
 				m_stairs->SetRotation(objData.rotation);
+				return true;
 			}
-			
+			else if (objData.ForwardMatchName(L"FireTrigger") == true) {
+				m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "FireTriggerFloor");
+				m_fireTriggerFloorList.push_back(m_fireTriggerFloor);
+				m_fireTriggerFloor->SetPosition(objData.position);
+				m_fireTriggerFloor->SetScale(objData.scale);
+				return true;
+			}
 		});
 
 	return true;
@@ -142,6 +160,14 @@ void FirstFloor::Update()
 
 void FirstFloor::GoToNextStage() {
 	m_gamecamera->Refresh();//refreshでコリジョンのバグを解消する
+	// 階段の効果音を再生。
+	SoundSource* se = NewGO<SoundSource>(0);
+	se->Init(2);
+	//効果音ループさせない。
+	se->Play(false);
+	//音量。
+	// TODO: 後で音量を調節する。ゲーム側も。
+	se->SetVolume(5.0f);
 	//SetLoading(); // ローディング画面を生成
 	m_secondFloor =  NewGO<SecondFloor>(0, "secondfloor");  // 次のステージを生成
 	SetPosition();
@@ -150,13 +176,9 @@ void FirstFloor::GoToNextStage() {
 	DeleteGO(this);  // 現在のステージを削除
 }
 
-void FirstFloor::SetLoading() {
-
-	
-
-}
 void FirstFloor::SetPosition() {
 	m_player->SetPosition(Vector3(0.0f, 0.0f, 0.0f)); // プレイヤーの位置をリセット
+
 }
 void FirstFloor::Render(RenderContext& rc)
 {

@@ -2,7 +2,9 @@
 class Player;
 class Enemy;
 class FloorManager;
-class FireTriggerFloor : public IGameObject
+class FirstFloor;
+class SecondFloor;
+class FireTriggerFloor : public IGameObject 
 {
 public:
 	FireTriggerFloor() {};
@@ -23,18 +25,18 @@ public:
 		m_scale = scale;
 	}
 
+
 	PhysicsStaticObject	m_physicsStaticObject;
 	ModelRender	m_modelRender;
 	CollisionObject* m_collisionObject;
 	Player* m_player;
 	Enemy* m_enemy;
-
+	FirstFloor* m_firstFloor = nullptr;
+	SecondFloor* m_secondFloor = nullptr;
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
-
-	bool m_onPlayerFireTriggerFloor = false;	//プレイヤーが床の上にいるかどうか
-	bool m_onEnemyFireTriggerFloor = false;	//エネミーが床の上にいるかどうか
-
+	FireTriggerFloor* m_fireTriggerFloor = nullptr;
+	bool m_onFireTriggerFloor = false;	//プレイヤーが床の上にいるかどうか
 };
 
 
