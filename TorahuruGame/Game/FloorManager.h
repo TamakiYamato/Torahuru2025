@@ -7,7 +7,7 @@ class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
 class FireTriggerFloor;
-//class FireTrriger;
+
 class FloorManager : public IGameObject
 {
 public:

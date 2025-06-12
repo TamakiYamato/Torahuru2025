@@ -22,6 +22,7 @@ class Loading;
 class FireGimmic;
 class SecondFloor;
 class RotationFloor;
+class FireTriggerFloor;
 //class StageManager;
 //
 class Game : public IGameObject
@@ -45,18 +46,19 @@ public:
 		m_position = position;
 	}
 
-	SkyCube* m_skyCube = nullptr;				  //
+	SkyCube* m_skyCube = nullptr;				  
 
 private:
 	FloorManager*				m_floorManager=nullptr;
 	Player*						m_player;
-	Stamina*                   m_setStamina;
+	Stamina*                    m_setStamina;
 	Enemy*						m_enemy	= nullptr;
 	SoundSource*				m_bgm = nullptr;
 	SoundSource*				m_se = nullptr;
 	ModelRender					m_modelRender;
 	Stairs*						m_stairs = nullptr;					//階段
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
+	FireTriggerFloor*           m_fireTriggerFloor;
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
 	SpriteRender				m_spriteRender;

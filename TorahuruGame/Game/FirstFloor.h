@@ -18,6 +18,7 @@ class TutorialUI;
 class Loading;
 class Title;
 class Game;
+class FireTriggerFloor;
 class FirstFloor : public IGameObject
 {
 public:
@@ -37,6 +38,7 @@ public:
 	FirstFloor* m_firstFloor = nullptr;
 	SecondFloor* m_secondFloor ;
 	BackGround* m_background = nullptr;
+	FireTriggerFloor* m_fireTriggerFloor = nullptr;			//火炎放射器のトリガー
 	GameCamera* m_gamecamera;
 	FloorManager* m_floorManager;					//特殊床の管理
 	TutorialUI* m_tutorialUI;
@@ -48,6 +50,7 @@ public:
 	std::vector<FireGimmic*>m_fireGimmicList;
 	std::vector<Stairs*>m_stairsGimmicList;
 	std::vector<TutorialUI*>m_tutorialUIList;
+	std::vector<FireTriggerFloor*> m_fireTriggerFloorList;//火炎放射器のトリガーのリスト
 	SlowFloor* m_slowFloor;						    //鈍足床
 	BlindFloor* m_blindFloor;						//視界制限床
 	FireGimmic* m_fireGimmic = nullptr;				//火炎放射器

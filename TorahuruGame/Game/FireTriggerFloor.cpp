@@ -2,7 +2,9 @@
 #include "FireTriggerFloor.h"
 #include "Player.h"
 #include "Enemy.h"
-
+#include"FirstFloor.h"
+#include"SecondFloor.h"
+#include"Game.h"
 namespace
 {
 	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
@@ -11,10 +13,10 @@ namespace
 
 bool FireTriggerFloor::Start() 
 {
-	m_modelRender.Init("Assets/modelData/FireTriggerFloor.tkm"); //モデルを実装
+	m_modelRender.Init("Assets/modelData/FireTriggerFloor/FireTrigger.tkm"); //モデルを実装
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-
+	//m_fireTriggerFloor->m_position = { 20.0f,100.0f,0.0f };//モデルの座標を取得
 	m_collisionObject = NewGO<CollisionObject>(0, "collisionObject");
 	m_collisionObject->CreateBox(
 		m_position + COLLISION_HEIGHT,	//座標
@@ -23,8 +25,8 @@ bool FireTriggerFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
-	//m_enemy = FindGO<Enemy>("enemy");
-
+	m_enemy = FindGO<Enemy>("enemy");
+	m_firstFloor = FindGO<FirstFloor>("firstfloor");
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で削除されないようにする
 	return true;
 }
@@ -34,6 +36,7 @@ void FireTriggerFloor::FireTriggerControlFloor()
 	//floorManagerで効果を与える
 	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
 	{
+
 		m_onFireTriggerFloor = true;
 	}
 	else
@@ -41,18 +44,19 @@ void FireTriggerFloor::FireTriggerControlFloor()
 		m_onFireTriggerFloor = false;
 	}
 	//コリジョンとenemyが当たった場合
-	if(m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
+	/*if(m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
 	{
 		m_onFireTriggerFloor = true;
 	}
 	else
 	{
 		m_onFireTriggerFloor = false;
-	}
+	}*/
+	
 }
 void FireTriggerFloor::Update() 
 {
-	FireTriggerControlFloor();
+	FireTriggerControlFloor();//エラーが起こる
 }
 
 void FireTriggerFloor::Render(RenderContext& rc)

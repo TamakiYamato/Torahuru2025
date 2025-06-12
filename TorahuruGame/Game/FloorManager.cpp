@@ -125,8 +125,8 @@ void FloorManager::FindFloor()
 		}
 	}
 
-	//////////////////////////////////////////////////
-	//ステージ内の視界制限床をすべて見つける
+	////////////////////////////////////////////////
+	//ステージ内の火炎放射をすべて見つける
 	const auto& fireTriggerFloors = FindGOs<FireTriggerFloor>("FireTriggerFloor");
 
 	for (auto fireTriggerFloor : fireTriggerFloors) {

@@ -67,7 +67,7 @@ void RotationFloor::Update() {
 	diff.y = 0.0f; // Y軸の差分は無視する
 	float halfWidth = m_scale.x * 0.5f; // 床の半分の幅
 	float halfDepth = m_scale.z * 0.5f; //
-	if (abs(diff.x)<halfWidth&&abs(diff.z)<halfDepth)//diff.Length() < m_scale.x
+	if (diff.Length() < m_scale.x)//abs(diff.x)<halfWidth&&abs(diff.z)<halfDepth
 	{
 
 	   // プレイヤーの位置を回転床で回転させた結果の座標を求める
