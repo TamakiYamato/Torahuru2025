@@ -30,7 +30,7 @@ public:
 	void GoToNextStage();
 	void Render(RenderContext& rc);
 	void SetPosition();
-
+	void Refresh();//refresh:当たり判定を直す
 
 	ModelRender m_modelRender;
 	LevelRender	m_levelRender;						//レベル
@@ -54,7 +54,7 @@ public:
 	Stairs* m_stairs=nullptr;
 	Player* m_player=nullptr;
 	Loading* m_loading = nullptr; // ローディング画面のポインタ
-
+	CollisionObject* m_collisitonObject = nullptr;
 	SpriteRender m_pressButton;
 	SpriteRender m_spriteRender;
 

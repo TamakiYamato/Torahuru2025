@@ -11,6 +11,11 @@ void PlayerIdleState::Enter()
 
 void PlayerIdleState::Update()
 {
+	// 待機中も移動床で移動するので移動処理を呼び出す。
+	m_player->Move(m_move = 1.0f);
+
+	m_player->SetGravity();
+
 	//待機アニメーションを再生する。
 	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
 
@@ -106,10 +111,12 @@ void PlayerWalkState::Update()
 
 void PlayerWalkState::Exit()
 {
+
 }
 // 走りステート。
 void PlayerRunState::Enter()
 {
+
 }
 
 void PlayerRunState::Update()

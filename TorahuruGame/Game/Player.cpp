@@ -145,9 +145,6 @@ void Player::Update() {
 
 void Player::Move(float m_move = 1.0f)
 {
-	//キャラクターコントローラーを使って座標を移動させる。
-	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
-
 	// xzの移動速度を0.0fにする。
 	// 0.0fで初期化することで前回の移動速度の影響を
 	// 受けずに新しい入力に基づいた移動が可能。
@@ -193,17 +190,53 @@ void Player::Move(float m_move = 1.0f)
 	{
 		//重力を無くす。
 		m_moveSpeed.y = 0.0f;
+		if (g_pad[0]->IsTrigger(enButtonA))
+		{
+			//ジャンプさせる。
+			return;
+		}
 	}
 	//地面に付いていなかったら。
 	else
 	{
 		//重力を発生させる。
-		m_moveSpeed.y -= 5.0f;
+		m_moveSpeed.y -= 10.0f;
 	}
 
+	//キャラクターコントローラーを使って座標を移動させる。
+	m_moveSpeed += m_addForce;
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
+	//絵描きさんに座標を教える。
+	m_modelRender->SetPosition(m_position);
+	m_addForce = Vector3::Zero;	//移動後に加えた力をリセットする。
+}
+
+void Player::SetGravity()
+{
+	//地面に付いていたら。
+	if (m_charCon.IsOnGround())
+	{
+		//重力を無くす。
+		m_moveSpeed.y = 0.0f;
+	}
+	//地面に付いていなかったら。
+	else
+	{
+		//重力を発生させる。
+		m_moveSpeed.y -= 10.0f;
+	}
+	//キャラクターコントローラーを使って座標を移動させる。
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
 	//絵描きさんに座標を教える。
 	m_modelRender->SetPosition(m_position);
 }
+
+//void Player::SetPosition(const Vector3& position) {
+//	m_position = position;
+//	m_charCon.SetPosition(m_position);
+//	m_modelRender->SetPosition(m_position);
+//	m_modelRender->Update();	//モデル更新。
+//}
 
 void Player::Rotation()
 {
@@ -313,6 +346,12 @@ void Player::StaminaCalc()
 	}
 }
 
+void Player::Render(RenderContext& rc) {
+	if (m_modelRender) {
+		m_modelRender->Draw(rc);
+	}
+}
+
 void Player::UpdateModelByState()
 {
 	//ギミックの床を踏んだ時フラグがtrueになる。
@@ -368,4 +407,5 @@ void Player::Render(RenderContext& rc) {
 		}
 	}
 }
+
 

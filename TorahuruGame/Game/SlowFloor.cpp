@@ -6,8 +6,8 @@
 
 namespace
 {
-	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
-	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);
+	const Vector3 COLLISION_HEIGHT (0.0f, 10.0f, 0.0f);
+	const Vector3 COLLISION_SIZE (320.0f, 150.0f, 320.0f);
 }
 
 SlowFloor::SlowFloor()
@@ -22,7 +22,7 @@ SlowFloor::~SlowFloor()
 
 bool SlowFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/SlowFloor.tkm");		//鈍足床の初期化
+	m_modelRender.Init("Assets/modelData/Stage1/SlowFloor/SlowFloor.tkm");		//鈍足床の初期化
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 

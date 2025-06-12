@@ -16,7 +16,7 @@ BackGroundTwo::~BackGroundTwo() {
 
 bool BackGroundTwo::Start()
 {
-	modelRender.Init("Assets/modelData/Stage2/Stage2.tkm");
+	modelRender.Init("Assets/modelData/Stage2/Stage2second.tkm");
 	modelRender.SetPosition(m_position);
 	modelRender.SetScale(m_scale);
 	modelRender.Update();

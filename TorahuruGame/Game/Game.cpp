@@ -29,7 +29,7 @@ Game::Game()
 }
 
 Game::~Game() {
-
+	DeleteGO(m_bgm);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_stairs);
@@ -37,6 +37,7 @@ Game::~Game() {
 	DeleteGO(m_setStamina);
 //	DeleteGO(m_stageManager);
 	DeleteGO(m_Load);
+	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
 	for (auto reverseFloor : reverseFloors)
@@ -96,6 +97,15 @@ void Game::LightSetting()
 
 		g_renderingEngine->SetDirectionLight(1, dir, dirColor);
 	}
+}
+void Game::PlayBGM()
+{
+	//BGM読み込み
+	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/TorahuruBGM.wav");
+	//BGM再生
+	m_bgm = NewGO<SoundSource>(0);
+	m_bgm->Init(0);
+	m_bgm->Play(true);
 };
 
 
@@ -107,7 +117,9 @@ void Game::SetSutamina()
 // ロード用。
 void Game::SetLoading()
 {
+
 }
+
 
 void Game::SetGameClear()
 {
@@ -115,19 +127,31 @@ void Game::SetGameClear()
 	m_Load->StartLoadOut();
 }
 
+void Game::TimerUI()
+{
+	// タイマーの背景。
+	m_spriteRender.Init("Assets/modelData/item/UIPanel1.dds", 600.0f, 100.0f);
+	m_spriteRender.SetPosition(Vector3(-10.0f, 460.0f, 0.0f));
+	m_spriteRender.SetScale(Vector3(0.4f, 0.8f, 0.7f));
+	m_spriteRender.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, 0.7f));
+}
+
 bool Game::Start()
 {
 	m_player			     = NewGO<Player>(0, "player");
-	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
 	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
+	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
 	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
+	TimerUI();
 	InitSky();
 	SetSutamina();
+	PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
@@ -158,7 +182,7 @@ void Game::Update()
 		LightSetting();
 
 		g_renderingEngine->SetDirectionLight(2, dir, dirColor);
-		m_floorManager->LightCount = 0;
+		m_floorManager->LightCount = 0;			
 	}
 	else 
 	{
@@ -207,6 +231,7 @@ void Game::Update()
 	//	NewGO<Gameover>(0, "Gameover");
 	//	DeleteGO(this);
 	//}
+	m_spriteRender.Update();
 }
 
 void SetPosition(const Vector3 position) {
@@ -216,6 +241,7 @@ void SetPosition(const Vector3 position) {
 
 void Game::Render(RenderContext& rc)
 {
+	m_spriteRender.Draw(rc);
 	//文字の描画
 	m_fontRender.Draw(rc);
 }
