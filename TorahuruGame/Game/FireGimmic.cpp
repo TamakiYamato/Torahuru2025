@@ -116,8 +116,6 @@ void FireGimmic::Collision()
 		m_fireRot_East.SetRotationDegY(180.0f);
 		m_fireRot_West.SetRotationDegY(360.0f);
 
-		//
-		//
 
 		m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_North, fireScale);
 		m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale2);
@@ -130,6 +128,7 @@ void FireGimmic::Collision()
 			}
 			return;
 		}*/
+
 		m_effectIntervalTimer = 0.0f;
 		PlaySE();
 		m_status = enStatus_Fire;

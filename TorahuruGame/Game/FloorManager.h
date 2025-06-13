@@ -1,7 +1,6 @@
 #pragma once
 class Game;
 class Player;
-class Enemy;
 class TutorialUI;
 class ReverseFloor;
 class SlowFloor;
@@ -23,15 +22,12 @@ public:
 	void AddStatus();//デバフを与える
 	void AddStatusTimer();//効果時間の表示
 	void PlayerCalcStatusTime();//プレイヤーの効果時間が減少
-	void EnemyCalcStatusTime();//エネミーの効果時間が減少
 	void PlayerRevertState();//デバフを消す
-	void EnemyRevertState();//エネミーのデバフを消す
 
-
-	/// <summary>
-	/// 床の効果
-	/// </summary>
 public:	
+	/// <summary>
+	/// 床の状態
+	/// </summary>
 	enum FloorState {
 		Normal,				//通常状態
 		ReverseState,		//あべこべ状態
@@ -49,21 +45,16 @@ public:
 	FontRender* m_fontRender;	//文字
 	PointLight* m_pointL;	//ポイントライト
 	Player* m_player;	//プレイヤー
-	Enemy* m_enemy;	//エネミー
 	Game* m_game = nullptr;	//ゲーム
 	FloorState m_floorState = Normal;	//床の状態
 
 	Vector3 pointLightPosition;
 	int	m_playerFloorState = FloorState::Normal; //プレイヤーが受けたデバフ
-	int	m_enemyFloorState = FloorState::Normal;	//エネミーが受けたデバフ
 	int	m_playerSaveState  = FloorState :: Normal; //プレイヤーが受けたデバフを保存する
-	int	m_enemySaveState  = FloorState :: Normal; //エネミーが受けたデバフを保存する
 	int	LightCount = 0;				
 	float m_playerFloorTimer= 7.0f;	//プレイヤー効果時間
-	float m_enemyFloorTimer = 5.0f;	//エネミー効果時間
 		  
 private:  
 	bool m_isPlayerAddStatus = false;
-	bool m_isEnemyAddStatus = false;
 };
 

@@ -164,6 +164,7 @@ bool Game::Start()
 void Game::Update()
 {
 	m_Load = FindGO<Loading>("loading");//数字が数字の設定準
+	m_enemy = FindGO<Enemy>("enemy");
 	// 画面の明るさを徐々に上げる。
 	m_Load->StartLoading();
 
@@ -228,12 +229,12 @@ void Game::Update()
 		NewGO<Gameover>(0, "Gameover");
 		DeleteGO(this);
 	}
-
-	//if (m_enemqy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
-	//	NewGO<Gameover>(0, "Gameover");
-	//	DeleteGO(this);
-	//}
-	m_spriteRender.Update();
+	if (m_player->m_playerTouchFlag == true) {	//プレイヤーが床に触れた場合
+		if (m_enemy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
+			NewGO<Gameover>(0, "Gameover");
+			DeleteGO(this);
+		}
+	}
 }
 
 void SetPosition(const Vector3 position) {

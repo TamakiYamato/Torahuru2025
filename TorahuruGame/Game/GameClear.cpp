@@ -2,6 +2,7 @@
 #include "GameClear.h"
 #include"Stairs.h"
 #include"Player.h"
+#include"Enemy.h"
 #include"Title.h"
 
 GameClear::GameClear()
@@ -15,9 +16,9 @@ GameClear::~GameClear() {
 
 bool GameClear:: Start() {
 	
-	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);	//繧ｲ繝ｼ繝繧ｯ繝ｪ繧｢
+	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);
 	m_player = FindGO<Player>("player");
-	m_stairs = FindGO<Stairs>("stairs");	//縺薙％縺ｧ繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ繧貞他縺ｳ霎ｼ繧!!
+	m_stairs = FindGO<Stairs>("stairs");
 
 	return true;
 }

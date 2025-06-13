@@ -12,7 +12,6 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	//void PlayEffect();											//
 	void Collision();											//コリジョン
 	void PlaySE();												//効果音
 
@@ -67,17 +66,17 @@ private:
 	Quaternion m_fireRot_South;                         //南側
 	Quaternion m_fireRot_East;                          //東側
 	Quaternion m_fireRot_West;                          //西側
-	
 	CollisionObject* m_fireCollision;
 
 	Vector3					m_position = Vector3::Zero;
 	Vector3                 m_scale = Vector3::Zero;
     Quaternion              m_rotaion;
 	Vector3					m_firstPosition = Vector3::Zero;
+
 	bool					m_moveFlag = false;					//動いているかのフラグ
 	float					m_effectIntervalTimer = 0.0f;		//火炎放射器を動かさない時間の計測
 	float					m_effectInterval = 5.0f;			//火炎放射器を動かさない時間
-	float	m_limit = 100.0f;
-	float	m_speed = 20.0f;
+	float					m_limit = 100.0f;
+	float					m_speed = 20.0f;
 
 };

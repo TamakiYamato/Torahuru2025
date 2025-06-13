@@ -34,8 +34,8 @@ bool GameCamera::Start()
 	yRot180.Apply(m_toCameraPos);
 
 	//カメラの近平面・遠平面の設定
-	/*g_camera3D->SetNear(1.0f);
-	g_camera3D->SetFar(1000000.0f);*/
+	g_camera3D->SetNear(1.0f);
+	g_camera3D->SetFar(1000000.0f);
 
 	return true;
 }

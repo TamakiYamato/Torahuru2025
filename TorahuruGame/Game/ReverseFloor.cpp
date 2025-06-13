@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ReverseFloor.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "collision/CollisionObject.h"
 
 namespace 
@@ -35,7 +34,6 @@ bool ReverseFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
-	m_enemy = FindGO<Enemy>("enemy");
 
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で消えないようにする
 	return true;
@@ -53,16 +51,6 @@ void ReverseFloor::ReverseControlFloor()
 	{
 		m_onPlayerReverseFloor = false;
 	}
-
-	//エネミーが床を踏んだかどうかの判定
-	//floorManagerにて効果を入れる
-	/*if (m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true) 
-	{
-		m_onEnemyReverseFloor = true;
-	}
-	else {
-		m_onEnemyReverseFloor = false;
-	}*/
 }
 
 void ReverseFloor::Update()
