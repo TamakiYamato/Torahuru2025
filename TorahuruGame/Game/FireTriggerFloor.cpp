@@ -11,7 +11,17 @@ namespace
 	const Vector3 COLLISION_SIZE = Vector3(360.0f, 150.0f, 370.0f);
 }
 
-bool FireTriggerFloor::Start() 
+FireTriggerFloor::FireTriggerFloor()
+{
+}
+
+FireTriggerFloor::~FireTriggerFloor()
+{
+	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
+
+}
+
+bool FireTriggerFloor::Start()
 {
 	m_modelRender.Init("Assets/modelData/FireTriggerFloor/FireTrigger.tkm"); //モデルを実装
 	m_modelRender.Update();

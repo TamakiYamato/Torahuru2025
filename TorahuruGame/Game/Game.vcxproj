@@ -247,6 +247,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PuzzleCube.cpp" />
     <ClCompile Include="PuzzleCubeManager.cpp" />
+    <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="ReverseFloor.cpp" />
     <ClCompile Include="RotationFloor.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PuzzleCube.h" />
     <ClInclude Include="PuzzleCubeManager.h" />
+    <ClInclude Include="Pyramid.h" />
     <ClInclude Include="ReverseFloor.h" />
     <ClInclude Include="RotationFloor.h" />
     <ClInclude Include="Scene.h" />

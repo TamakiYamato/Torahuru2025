@@ -27,10 +27,10 @@ bool Title::Start() {
     // BGMを読み込む。
     g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
     // soundSourceを作成する
-    m_bgm = NewGO<SoundSource>(3);
-    m_bgm->Init(3);
-    // BGMをループさせる。
-    m_bgm->Play(true);
+    //m_bgm = NewGO<SoundSource>(3);
+    //m_bgm->Init(3);
+    //// BGMをループさせる。
+    //m_bgm->Play(true);
 
     // 効果音を読み込む。
     g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");

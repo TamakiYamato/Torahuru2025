@@ -10,6 +10,15 @@ namespace
 	const Vector3 COLLISION_SIZE	(360.0f, 150.0f, 370.0f);
 }
 
+BlindFloor::BlindFloor()
+{
+}
+
+BlindFloor::~BlindFloor()
+{
+	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
+}
+
 bool BlindFloor::Start()
 {
 	m_modelRender.Init("Assets/modelData/Stage1/BlindFloor/BlindFloor.tkm");		//モデルを実装
