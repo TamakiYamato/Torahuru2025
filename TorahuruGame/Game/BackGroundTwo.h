@@ -30,8 +30,7 @@ public:
 
 
 
-public://菴懊ｋ縺ｨ縺阪・縺薙▲縺｡縺悟・縺ｫ菴懊ｋ蠢・ｦ√′縺ゅｋ縲・
-    //繝｢繝・Ν繝ｬ繝ｳ繝
+public:
     ModelRender             modelRender;
     Quaternion              m_rotation;
     PhysicsStaticObject     m_physicsStaticObject;

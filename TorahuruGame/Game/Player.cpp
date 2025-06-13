@@ -172,8 +172,8 @@ void Player::Move(float m_move = 1.0f)
 	// 乗算。
 	//移動速度を決める。
 #if 1
-	right *= stickL.x * 180.0f * m_move * m_moveDir;
-	forward *= stickL.y * 180.0f * m_move * m_moveDir;
+	right *= stickL.x * 300.0f * m_move * m_moveDir;
+	forward *= stickL.y * 300.0f * m_move * m_moveDir;
 #endif
 
 #if debug

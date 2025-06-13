@@ -10,6 +10,15 @@ namespace
 	const Vector3 COLLISION_SIZE	(360.0f, 150.0f, 370.0f);
 }
 
+BlindFloor::BlindFloor()
+{
+}
+
+BlindFloor::~BlindFloor()
+{
+
+}
+
 bool BlindFloor::Start()
 {
 	m_modelRender.Init("Assets/modelData/Stage1/BlindFloor/BlindFloor.tkm");		//モデルを実装
@@ -24,7 +33,6 @@ bool BlindFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
-	m_enemy = FindGO<Enemy>("enemy");
 
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で削除されないようにする
 	return true;
@@ -43,16 +51,6 @@ void BlindFloor::BlindControlFloor()
 		m_onPlayerBlindFloor = false;
 	}
 
-	//コリジョンとenemyが当たった場合
-	//floorManagerで効果を与える
-	/*if (m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
-	{
-		m_onEnemyBlindFloor = true;
-	}
-	else
-	{
-		m_onEnemyBlindFloor = false;
-	}*/
 }
 
 void BlindFloor::Update()

@@ -4,7 +4,7 @@
 using namespace std;
 
 namespace {
-	// 
+
 
 	const string ANIMATION_FAILPATH = "Assets/animData/enemy/";
 
@@ -22,6 +22,11 @@ EnemyAnimation::EnemyAnimation()
 	SetAnimation(enAnimationClip_Run, "enemyRun", true);
 }
 
+EnemyAnimation::~EnemyAnimation()
+{
+
+}
+
 bool EnemyAnimation::Start()
 {
 	return true;
@@ -30,22 +35,12 @@ bool EnemyAnimation::Start()
 void EnemyAnimation::Update()
 {
 	m_modelRender.Update();
-	
 }
 
-void EnemyAnimation::Render(RenderContext& rc)
-{
-    //m_modelRender.Draw(rc);
-
-}
-
-// 
 void EnemyAnimation::SetAnimation(const EnAnimationClip animationClip, const string animationFileName, const bool loopFlag)
 {
-	// 
 	string FileName = ANIMATION_FAILPATH + animationFileName + ANIMATION_EXTENTION;
-	//
-	// 
+	
 	m_enemyAnimationClips[animationClip].Load(FileName.c_str());
 	m_enemyAnimationClips[animationClip].SetLoopFlag(loopFlag);
 }

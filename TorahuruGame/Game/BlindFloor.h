@@ -1,12 +1,10 @@
 #pragma once
 class Player;
-class Enemy;
-class BlindFloor;
 class BlindFloor : public IGameObject
 {
 public:
-	BlindFloor() {};
-	~BlindFloor() {};
+	BlindFloor() ;
+	~BlindFloor() ;
 
 	bool Start();
 	void BlindControlFloor();
@@ -27,13 +25,10 @@ public:
 	ModelRender					m_modelRender;
 	CollisionObject*			m_collisionObject;
 	Player*						m_player;
-	Enemy*						m_enemy;
 
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 
 	bool m_onPlayerBlindFloor = false;	//プレイヤーが床の上にいるかどうか
-	bool m_onEnemyBlindFloor = false;	//エネミーが床の上にいるかどうか
-
 };
 

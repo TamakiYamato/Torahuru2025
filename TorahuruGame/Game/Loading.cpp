@@ -48,7 +48,7 @@ void Loading::Update()
 			// ステートを変更。
 			m_state = enState_Idle;
 
-			m_matizikan = 3.0f;
+			m_waitingTime = 3.0f;
 		}
 		break;
 		// シーン切り替え時。 暗転後にシーン変更。
@@ -63,7 +63,7 @@ void Loading::Update()
 
 			m_isstate = true;
 			// シーンを切り替える。
-			m_matizikan = 3.0f;
+			m_waitingTime = 3.0f;
 		}
 		break;
 		// ステートを変更し処理を終了させる。
@@ -71,7 +71,7 @@ void Loading::Update()
 
 		m_isstate = false;
 
-		m_matizikan -= g_gameTime->GetFrameDeltaTime();
+		m_waitingTime -= g_gameTime->GetFrameDeltaTime();
 
 		break;
 	}

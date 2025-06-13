@@ -26,13 +26,14 @@ public:
 	void Render(RenderContext& rc) override;
 private:
 	LevelRender	m_levelRender;						//レベル
+	Game* m_game = nullptr;
 	Player* m_player = nullptr;
 	Enemy* m_enemy = nullptr;
 	FirstFloor * m_firstFloor = nullptr;	//1階
-private:
-	float m_loadingTimer = 0.0f;
-	bool m_isLoadingDeleted = false;
 	Loading* m_loading = nullptr;				//ローディング画面
 	EnemyAnimation* m_enemyAnimation = nullptr;	//敵のアニメーション
+
+	float m_loadingTimer = 0.0f;
+	bool m_isLoadingDeleted = false;
 
 };

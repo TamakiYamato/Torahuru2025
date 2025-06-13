@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "SlowFloor.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "collision/CollisionObject.h"
 
 namespace
@@ -34,7 +33,6 @@ bool SlowFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
-	m_enemy = FindGO<Enemy>("enemy");
 
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で消えないようにする
 	return true;
@@ -52,17 +50,6 @@ void SlowFloor::SlowControlFloor()
 	{
 		m_onPlayerSlowFloor = false;
 	}
-
-	//エネミーが床の上にいるかどうか
-	//FloorManagerで効果を設定
-	/*if (m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
-	{
-		m_onEnemySlowFloor = true;
-	}
-	else
-	{
-		m_onEnemySlowFloor = false;
-	}*/
 }
 
 void SlowFloor::Update()

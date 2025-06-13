@@ -1,7 +1,3 @@
-#ifndef M_PI
-#define M_PI 3.14159265358979323846f
-#endif
-
 #include "stdafx.h"
 #include "Enemy.h"
 #include "EnemyAnimation.h"
@@ -13,8 +9,8 @@ using namespace std;
 
 namespace {
 
-	const float SEARCH_LENGTH = 500.0f;			//プレイヤーを発見する距離。
-	const float ENEMY_ATTACKRANGE = 150.0f;		//enemyの攻撃範囲、入ると即死。
+	const float SEARCH_LENGTH = 700.0f;			//プレイヤーを発見する距離。
+	const float ENEMY_ATTACKRANGE = 100.0f;		//enemyの攻撃範囲、入ると即死。
 	const float COMPLATION_RATIO = 1.0f;		//補完率。
 }
 
@@ -25,6 +21,7 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	DeleteGO(m_enemyAnim); //エネミーアニメーションの削除
 }
 
 
@@ -34,14 +31,12 @@ bool Enemy::Start()
 
 	// キャラクターを読み込む。
     m_modelRender.Init("Assets/modelData/enemy/enemy.tkm", m_enemyAnim->m_enemyAnimationClips, m_enemyAnim->enAnimationClip_Num);//m_enemyAnim=何種類あるか
-	return true;
+	
 	//初期設定
 	m_modelRender.SetPosition(m_position);
-	m_modelRender.SetRotation(m_currentRotation);
 	m_modelRender.SetScale(m_scale);
-	m_initialPosition = m_position;		//座標の保存。
-	m_initialRotation = m_currentRotation;		//角度の保存。
-	m_currentRotation = m_currentRotation;		//現在の回転を保存
+	m_initialPosition = m_position;	//座標の保存。
+	m_initialRotation = m_currentRotation; //角度の保存。
 
 	//キャラコンの初期化
 	m_charCon.Init(
@@ -62,18 +57,14 @@ bool Enemy::Start()
 void Enemy::Update()
 {
 	// キャラクターコントローラーの位置を更新
-	if (m_enemyState != enEnemyState_Walk) {
+	if (m_enemyState != enEnemyState_Idle) {
 		m_charCon.SetPosition(m_position);
 	}
-
-
-	if (m_floorManager&&m_floorManager->m_enemyFloorTimer == 5.0f) {	//床の効果を受けていない場合
-		SearchPlayer();		//常にプレイヤーを探す。
-		ManageState();		//ステートを常に管理、行動。
-
-	}
-	
-	PlayAnimation();    //アニメーションの更新
+	SetGravity(); //重力を設定、キャラクターコントローラーを使って座標を移動させる。
+	CommonStateTransitionProcess(); //ステートの遷移を管理。
+	ManageState(); //ステートを常に管理、行動。
+	Rotation(); //移動方向に基づいて回転を計算。
+	PlayAnimation(m_enemyState); //アニメーションの更新
 	m_modelRender.Update();
 }
 
@@ -83,10 +74,69 @@ void Enemy::Render(RenderContext& rc)
 
 }
 
+
+void Enemy::SetGravity()
+{
+	//地面に付いていたら。
+	if (m_charCon.IsOnGround())
+	{
+		//重力を無くす。
+		m_moveSpeed.y = 0.0f;
+	}
+	//地面に付いていなかったら。
+	else
+	{
+		//重力を発生させる。
+		m_moveSpeed.y -= 10.0f;
+	}
+	//キャラクターコントローラーを使って座標を移動させる。
+	m_position = m_charCon.Execute(m_moveSpeed, 1.0f / 60.0f);
+	//絵描きさんに座標を教える。
+	m_modelRender.SetPosition(m_position);
+}
+
+void Enemy::CommonStateTransitionProcess()
+{
+	if (m_enemyState == enEnemyState_Attack) return;
+
+	Vector3 toInitialPos = m_initialPosition - m_position;
+	Vector3 diff = m_player->GetPosition() - m_position;
+
+	if (SearchPlayer()) {
+		diff.Normalize();
+		m_moveSpeed = diff * 150.0f;
+		m_enemyState = enEnemyState_Chase;
+		return;
+	}
+
+	// Idle状態で3秒経過したらWalkに遷移
+	if (m_enemyState == enEnemyState_Idle && m_idleTimer >= 3.0f && toInitialPos.Length() > 150.0f) {
+		toInitialPos.Normalize();
+		m_moveSpeed = toInitialPos * 100.0f;
+		m_savedMoveSpeed = m_moveSpeed;
+		m_enemyState = enEnemyState_Walk;
+		m_idleTimer = 0.0f;
+		m_isReadyIdle = false;
+		return;
+	}
+
+	// Walkが終わったらIdleに戻す
+	if (m_enemyState == enEnemyState_Walk && toInitialPos.Length() < 100.0f) {
+		m_enemyState = enEnemyState_Idle;
+		m_isReadyIdle = true;
+		return;
+	}
+
+	// プレイヤーが見つからず、IdleやWalkでない場合はIdleに遷移
+	if (m_enemyState != enEnemyState_Idle && m_enemyState != enEnemyState_Walk) {
+		m_enemyState = enEnemyState_Idle;
+		m_isReadyIdle = true;
+	}
+}
 /// <summary>
 /// プレイヤを探す。
 /// </summary>
-void Enemy::SearchPlayer()
+bool Enemy::SearchPlayer()
 {
 	Vector3 diff = m_player->GetPosition() - m_position;
 
@@ -101,27 +151,16 @@ void Enemy::SearchPlayer()
 		float cos = m_forward.Dot(diff);
 		//内積(cosθ)から角度(θ)を求める
 		float angle = acosf(cos);
-		//角度(θ)が150°より小さければ
-		if (angle <= Math::DegToRad(150.0f))
-		{
-			//プレイヤーを見つけた場合、追跡開始
-			m_enemyState = enEnemyState_Chase;
-			
-			// プレイヤーが近くにいる場合は攻撃状態に移行
-			CheckPlayerProximityAndDie();
+		//角度(θ)が180°より小さければ
+		if (angle <= (Math::PI / 180.0f) * 120.0f){
+			return true; //プレイヤーを見つけた
 		}
 		else {
-			// 初期位置との距離を計算
-			Vector3 toInitialPos = m_initialPosition - m_position;
-			if (toInitialPos.Length() <= 0.1f) {
-				m_enemyState = enEnemyState_Idle;    //待機
-			}
-			else {
-				//プレイヤーを見つけられなかった
-				m_enemyState = enEnemyState_Walk;
-			}
+			return false(); //プレイヤーを見つけられなかった
 		}
 	}
+	return false;
+
 }
 
 /// <summary>
@@ -130,47 +169,41 @@ void Enemy::SearchPlayer()
 void Enemy::Stand()
 {
 	m_moveSpeed = Vector3::Zero;
-
+	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
+	m_idleTimer += g_gameTime->GetFrameDeltaTime();
+	//if(m_idleTimer >= 3.0f) {
+	//	// 3秒経過したら元の位置に戻る
+	//	m_isReadyIdle = false; //Idle状態にならないようにする
+	//	m_idleTimer = 0.0f; //タイマーをリセット
+	//}
 }
 
 /// <summary>
 /// 最初の位置に戻る。
 /// </summary>
-void Enemy::Move()
-{
-	// 初期位置への方向ベクトルを計算
+void Enemy::ReturnToSpawn()
+{	
 	Vector3 toInitialPos = m_initialPosition - m_position;
-	
-	if (toInitialPos.Length() > 0.1f) {
-		// 初期位置への方向を正規化
-		toInitialPos.Normalize();
-		
-		// 移動速度を設定
-		m_moveSpeed = toInitialPos * 100.0f;
-		m_moveSpeed *= m_moveDir;    //床の効果を与える
-		
-		// 移動を実行
-		m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
-		
-		// Check if there's significant movement
-		if (fabsf(m_moveSpeed.x) < 0.001f && fabsf(m_moveSpeed.z) < 0.001f) {
-			return;
-		}
 
-		// Calculate rotation based on movement direction
-		float angle = atan2(-m_moveSpeed.x, m_moveSpeed.z);
-		m_currentRotation.SetRotationY(-angle);
-		
-		m_modelRender.SetRotation(m_currentRotation);
-		
-		// Update forward vector
-		m_forward = Vector3::AxisZ;
-		m_currentRotation.Apply(m_forward);
-	}
-	else {
+	// 初期位置への方向を正規化
+	toInitialPos.Normalize();
+
+	// 移動を実行
+	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
+
+	// 移動方向に基づいて回転を計算
+	float angle = atan2(-m_moveSpeed.x, m_moveSpeed.z);
+	m_currentRotation.SetRotationY(-angle);
+	
+	m_modelRender.SetRotation(m_currentRotation);
+	
+	// 前方ベクトルの更新
+	m_forward = Vector3::AxisZ;
+	m_currentRotation.Apply(m_forward);
+
+	if(toInitialPos.Length() < 100.0f) {
 		// 初期位置に到着したら移動を停止
-		m_moveSpeed = Vector3::Zero;
-		m_enemyState = enEnemyState_Idle;
+		m_isReadyIdle = true;
 	}
 }
 
@@ -179,24 +212,34 @@ void Enemy::Move()
 /// </summary>
 void Enemy::Chase()
 {
-	m_moveSpeed = Vector3(200.0f, 0.0f, 200.0f);
-	m_moveSpeed *= m_moveDir;	//床の効果を与える
 	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 
-	// Check if there's significant movement
+	// 大きな動きがあるかチェックする。
 	if (fabsf(m_moveSpeed.x) < 0.001f && fabsf(m_moveSpeed.z) < 0.001f) {
-		return;
+		return;// 動きが小さい場合は何もしない
 	}
 
-	// Calculate rotation based on movement direction
+	m_chaseTimer += g_gameTime->GetFrameDeltaTime();
+	//追跡時間がある程度経過したら
+	if (m_chaseTimer >= 0.8f)
+	{
+		// プレイヤーが近くにいる場合は攻撃状態に移行
+		CheckPlayerProximityAndDie();
+		m_chaseTimer = 0.0f; //初期化
+	}
+}
+
+void Enemy::Rotation()
+{
+	// 移動方向に基づいて回転を計算
 	float angle = atan2(-m_moveSpeed.x, m_moveSpeed.z);
 	m_currentRotation.SetRotationY(-angle);
 
 	Vector3 modelPosition = m_position;
 	m_modelRender.SetPosition(modelPosition);
 	m_modelRender.SetRotation(m_currentRotation);
-	
-	// Update forward vector
+
+	// 前方ベクトルの更新
 	m_forward = Vector3::AxisZ;
 	m_currentRotation.Apply(m_forward);
 }
@@ -212,15 +255,11 @@ void Enemy::ManageState()
 		break;
 
 	case enEnemyState_Walk:
-		Move();		//元の位置に戻る。
+		ReturnToSpawn();		//元の位置に戻る。
 		break;
 
 	case enEnemyState_Chase:
 		Chase();	//追跡。
-		break;
-
-	case enEnemyState_Attack:
-		Attack();	//攻撃
 		break;
 	}
 }
@@ -228,14 +267,14 @@ void Enemy::ManageState()
 /// <summary>
 /// アニメーションの管理
 /// </summary>
-void Enemy::PlayAnimation()
+void Enemy::PlayAnimation(int m_enemyState)
 {
 	switch (m_enemyState) {
 	case enEnemyState_Idle:		//待機
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Idle);
 		break;
 
-	case enEnemyState_Walk:		//監視
+	case enEnemyState_Walk:		//歩く
 		m_modelRender.PlayAnimation(m_enemyAnim->enAnimationClip_Walk);
 		break;
 
@@ -254,40 +293,9 @@ void Enemy::PlayAnimation()
 void Enemy::CheckPlayerProximityAndDie()
 {
 	Vector3 diff = m_player->GetPosition() - m_position;
-	if (diff.Length() <= 200.0f) {
+	float distance = diff.Length();  // 正規化する前に実際の距離を計算
+	if (distance <= ENEMY_ATTACKRANGE) {  // 定義済みの攻撃範囲を使用
+
 		m_enemyState = enEnemyState_Attack;
-	}
-}
-
-/// <summary>
-/// 2つのクォータニオン間の角度差（度）を求める
-/// </summary>
-float Enemy::GetAngleBetweenQuaternions(const Quaternion& q1, const Quaternion& q2)
-{
-	// クォータニオンの内積を計算
-	float dot = q1.Dot(q2);
-
-	// acosの安全な範囲にクランプ
-	dot = Clamp(dot, -1.0f, 1.0f);
-
-	// クォータニオンの角度差は acos(dot) * 2
-	float angleRad = std::acos(dot) * 2.0f;
-
-	// ラジアン　→ 度に変換
-	return Math::RadToDeg(angleRad);
-}
-
-void Enemy::Attack()
-{
-	//プレイヤーとの距離を計算
-	Vector3 diff = m_player->GetPosition() - m_position;
-	
-	if (diff.Length() <= ENEMY_ATTACKRANGE) {
-		//攻撃範囲内にプレイヤーがいる場合、プレイヤーにダメージを与える処理を実行
-
-	}
-	else {
-		//攻撃範囲外ならチェイス状態に戻る
-		m_enemyState = enEnemyState_Chase;
 	}
 }
