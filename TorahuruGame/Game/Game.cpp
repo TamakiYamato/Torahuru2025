@@ -208,15 +208,14 @@ void Game::Update()
 	// 文字の色
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
-	//ゲームクリア条件
 	m_modelRender.Update();
-		//Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
-		//if (diff.Length() <= 100.0f) {
-		//	NewGO<GameClear>(0, "GameClear");
-		//	DeleteGO(this);
-		//	SetGameClear();
-		//	
-		//}
+	
+	//floor2のクリア条件
+	if (m_player->m_playerTouchFlag == true) {	//プレイヤーがfloor2にいるとき
+		if(m_dedicationItemCount == 3) {	//床にある献納アイテムをすべて集めた場合
+			
+		}
+	}
 	
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {	//タイマーが0になった場合

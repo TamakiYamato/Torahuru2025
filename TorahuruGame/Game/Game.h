@@ -48,6 +48,7 @@ public:
 
 	SkyCube* m_skyCube = nullptr;				  
 
+	int m_dedicationItemCount = 0;
 private:
 	FloorManager*				m_floorManager=nullptr;
 	Player*						m_player;
@@ -73,7 +74,7 @@ private:
 	Vector3						m_pos;
 
 	bool						m_isWaitLoadOut;
-	int		m_skycubeType	= enSkyCubeType_NightToon;
+	int	m_skycubeType	= enSkyCubeType_NightToon;
 	float	m_timer			= 600.0f;
 	
 };
