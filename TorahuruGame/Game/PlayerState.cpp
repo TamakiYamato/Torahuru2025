@@ -1,17 +1,23 @@
 #include "stdafx.h"
 #include "PlayerState.h"
 #include "Player.h"
+#include "FireGimmic.h"
 
 // 待機ステート。
 void PlayerIdleState::Enter()
 {
-	//待機アニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
+	// TODO: tamaki Idle状態のアニメーションを再生。
 }
 
 void PlayerIdleState::Update()
 {
-	Enter();
+	// 待機中も移動床で移動するので移動処理を呼び出す。
+	m_player->Move(m_move = 1.0f);
+
+	m_player->SetGravity();
+
+	//待機アニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Idle);
 
 	// 何するの？→Idleから別の状態に切り替わるコードが欲しい。
 	Vector3 LStickPower(0.0f, 0.0f, 0.0f);
@@ -25,9 +31,12 @@ void PlayerIdleState::Update()
 		m_player->m_requestPlayerState = enPlayerState_Walk;
 	}
 	// パッドの入力がある、かつAボタンが押されたら。
-	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA) && m_player->m_stamina > 0.0f) {
-		// 状態を走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
+		// スタミナが無かったら。
+		if (m_player->m_staminaFlag == false) {
+			// 状態を走りに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_Run;
+		}
 	}
 	// スティックの入力がある、かつBボタンが押したら。
 	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonB)) {
@@ -39,6 +48,16 @@ void PlayerIdleState::Update()
 		// 状態をしゃがみに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Crouch;
 	}
+
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+	if (m_player->m_isInvincible == false)
+	{
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_player->m_charCon) == true) {
+				m_player->m_requestPlayerState = enPlayerState_Down; // 火炎放射器に当たったらダウン状態にする。
+			}
+		}
+	}
 }
 
 void PlayerIdleState::Exit()
@@ -48,8 +67,6 @@ void PlayerIdleState::Exit()
 // 歩きステート。
 void PlayerWalkState::Enter()
 {
-	//歩きアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Walk);
 }
 
 void PlayerWalkState::Update()
@@ -57,7 +74,8 @@ void PlayerWalkState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_walk);
 
-	Enter();
+	//歩きアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Walk);
 
 	// 状態解除。
 	// 何するの？→Walkから別の状態に切り替わるコードが欲しい。
@@ -75,21 +93,36 @@ void PlayerWalkState::Update()
 		// ステートをしゃがみ歩きに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_CrouchWalk;
 	}
-	// スティックの入力がある、かつAボタンが押したら。
-	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA) && m_player->m_stamina > 0.0f) {
-		// ステートを走りに切り替える。
-		m_player->m_requestPlayerState = enPlayerState_Run;
+	// パッドの入力がある、かつAボタンが押されたら。
+	else if (LStickPower.Length() >= 0.01f && g_pad[0]->IsPress(enButtonA)) {
+		// スタミナが無かったら。
+		if (m_player->m_staminaFlag == false) {
+			// 状態を走りに切り替える。
+			m_player->m_requestPlayerState = enPlayerState_Run;
+		}
 	}
+
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+
+	if (m_player->m_isInvincible == false)
+	{
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_player->m_charCon) == true) {
+				m_player->m_requestPlayerState = enPlayerState_Down; // 火炎放射器に当たったらダウン状態にする。
+			}
+		}
+	}
+
 }
 
 void PlayerWalkState::Exit()
 {
+
 }
 // 走りステート。
 void PlayerRunState::Enter()
 {
-	//走りアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Run);
+
 }
 
 void PlayerRunState::Update()
@@ -97,7 +130,8 @@ void PlayerRunState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_run);
 
-	Enter();
+	//走りアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Run);
 
 	// 状態解除。
 	// 何するの？→Runから別の状態に切り替わるコードが欲しい。
@@ -120,6 +154,15 @@ void PlayerRunState::Update()
 		// 状態を歩きに切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Walk;
 	}
+	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
+	if (m_player->m_isInvincible == false)
+	{
+		for (CollisionObject* collision : collisions) {
+			if (collision->IsHit(m_player->m_charCon) == true) {
+				m_player->m_requestPlayerState = enPlayerState_Down; // 火炎放射器に当たったらダウン状態にする。
+			}
+		}
+	}
 }
 
 void PlayerRunState::Exit()
@@ -129,8 +172,6 @@ void PlayerRunState::Exit()
 // しゃがみステート。
 void PlayerCrouchState::Enter()
 {
-	// しゃがみアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Crouch);
 }
 
 void PlayerCrouchState::Update()
@@ -138,7 +179,8 @@ void PlayerCrouchState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_crouch);
 
-	Enter();
+	// しゃがみアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Crouch);
 
 	// 状態解除。
 	// 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
@@ -165,8 +207,6 @@ void PlayerCrouchState::Exit()
 // しゃがみ歩きステート。
 void PlayerCrouchWalkState::Enter()
 {
-	// しゃがみ歩きアニメーションを再生する。
-	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_CrouchWalk);
 }
 
 void PlayerCrouchWalkState::Update()
@@ -174,7 +214,8 @@ void PlayerCrouchWalkState::Update()
 	// 関数化した移動処理を呼び出す。
 	m_player->Move(m_move = m_crouchWalk);
 
-	Enter();
+	// しゃがみ歩きアニメーションを再生する。
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_CrouchWalk);
 
 	// 状態解除。
 	// NOTE:tamaki 何するの？→Crouchから別の状態に切り替わるコードが欲しい。
@@ -187,7 +228,7 @@ void PlayerCrouchWalkState::Update()
 		// ステートを待機状態に切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Idle;
 	}
-	
+	// TODO: tamaki JキーとKキーを同時押しした状態で移動すると、ダッシュ時の移動速度でしゃがみ歩きするので修正する。
 	// パッドの入力がある、かつBボタンが押されていなかったら。
 	else if (LStickPower.Length() >= 0.01f && !g_pad[0]->IsPress(enButtonB)) {
 		// 状態を歩きに切り替える
@@ -201,5 +242,55 @@ void PlayerCrouchWalkState::Update()
 }
 
 void PlayerCrouchWalkState::Exit()
+{
+}
+
+void PlayerDownState::Enter()
+{
+
+}
+
+void PlayerDownState::Update()
+{
+	m_fireTime -= g_gameTime->GetFrameDeltaTime();
+
+	if (m_player->m_isInvincible == false)
+	{
+		// ダウンアニメーションを再生する。
+		m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_Down);
+
+		if (m_fireTime <= 0.0f)
+		{
+			m_player->m_requestPlayerState = enPlayerState_GetUp; // ダウン状態から立ち上がる。
+			m_fireTime = 80.0f; // ダウン状態の時間をリセット。
+		}
+	}
+};
+
+void PlayerDownState::Exit()
+{
+}
+
+void PlayerGetUpState::Enter()
+{
+}
+
+void PlayerGetUpState::Update()
+{
+	m_player->m_modelRender->PlayAnimation(m_player->enAnimClip_GetUp);
+	m_fireTime -= g_gameTime->GetFrameDeltaTime();
+
+	if (m_fireTime <= 0.0f)
+	{
+		// 立ち上がりアニメーションが終わったら、待機状態に戻る。
+		m_player->m_requestPlayerState = enPlayerState_Idle; // 立ち上がったら待機状態に戻る。
+		m_fireTime = 80.0f;
+	}
+
+	m_player->m_isInvincible = true;	//無敵状態にする。
+
+}
+
+void PlayerGetUpState::Exit()
 {
 }
