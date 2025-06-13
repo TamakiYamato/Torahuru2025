@@ -3,6 +3,7 @@
 class Loading;
 class Game;
 class Player;
+class FireTriggerFloor;
 class FireGimmic :public IGameObject
 {
 public:
@@ -62,6 +63,8 @@ private:
 	SoundSource* m_se;									//se
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
+	FireTriggerFloor* m_fireTriggerFloor = nullptr;	//火炎放射器の床
+
 	SpriteRender			m_mapSprite;				//画像
 	Quaternion m_fireRot_North;                         //北側
 	Quaternion m_fireRot_South;                         //南側

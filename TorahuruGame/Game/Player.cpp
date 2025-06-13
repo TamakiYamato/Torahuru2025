@@ -273,7 +273,7 @@ void Player::FireState()
 {
 	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
 
-	const int INVINCIBLE_TIME = 300.0f;	//無敵時間の定数。
+	const int INVINCIBLE_TIME = 200.0f;	//無敵時間の定数。
 
 	if (m_isInvincible == true)
 	{
@@ -285,6 +285,7 @@ void Player::FireState()
 			m_InvincibleTime = 0.0f;	//無敵時間を0にする。
 			m_modelRender = &m_normalModel;	//無敵状態が終わったら、通常モデルに戻す。
 			m_floorManager->m_playerFloorTimer = 7.0f;	//プレイヤーが床の効果を得られるようにする
+			m_floorManager->m_playerFloorState = m_floorManager->Normal;	//プレイヤーの床の状態を通常に戻す。
 		}
 	}
 
