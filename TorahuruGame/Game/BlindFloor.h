@@ -3,8 +3,10 @@ class Player;
 class BlindFloor : public IGameObject
 {
 public:
-	BlindFloor() ;
-	~BlindFloor() ;
+
+	BlindFloor();
+	~BlindFloor();
+
 
 	bool Start();
 	void BlindControlFloor();

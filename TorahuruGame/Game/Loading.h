@@ -1,6 +1,7 @@
 #pragma once
 class FirstFloor;
 class SecondFloor;
+class ThirdFloor;
 class Game;
 
 class Loading : public IGameObject

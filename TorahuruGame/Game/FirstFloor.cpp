@@ -10,7 +10,6 @@
 #include"GameClear.h"
 #include"Player.h"
 #include"SecondFloor.h"
-#include"BackGround.h"
 #include"GameCamera.h"
 #include"Stamina.h"
 #include"Scene.h"
@@ -63,6 +62,7 @@ bool FirstFloor::Start()
 	m_player = FindGO<Player>("player");
 	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 	m_gamecamera = FindGO<GameCamera>("gamecamera");
+
 	//レベル実装
 	//当たり判定の可視化
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
@@ -113,13 +113,13 @@ bool FirstFloor::Start()
 				m_stairs->SetRotation(objData.rotation);
 				return true;
 			}
-			else if (objData.ForwardMatchName(L"FireTrigger") == true) {
-				m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "FireTriggerFloor");
-				m_fireTriggerFloorList.push_back(m_fireTriggerFloor);
-				m_fireTriggerFloor->SetPosition(objData.position);
-				m_fireTriggerFloor->SetScale(objData.scale);
-				return true;
-			}
+			//else if (objData.ForwardMatchName(L"FireTrigger") == true) {
+			//	m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "FireTriggerFloor");
+			//	m_fireTriggerFloorList.push_back(m_fireTriggerFloor);
+			//	m_fireTriggerFloor->SetPosition(objData.position);
+			//	m_fireTriggerFloor->SetScale(objData.scale);
+			//	return true;
+			//}
 		});
 
 	return true;
@@ -151,7 +151,6 @@ void FirstFloor::Update()
 			
 		}
 	}
-	
 }
 
 void FirstFloor::GoToNextStage() {
@@ -165,7 +164,7 @@ void FirstFloor::GoToNextStage() {
 	// TODO: 後で音量を調節する。ゲーム側も。
 	se->SetVolume(5.0f);
 	//SetLoading(); // ローディング画面を生成
-	m_secondFloor =  NewGO<SecondFloor>(0, "secondfloor");  // 次のステージを生成
+	m_secondFloor = NewGO<SecondFloor>(0, "secondFloor");  // 次のステージを生成
 	SetPosition();
 
 	//LoadingとSecondFloorの切り替えを行うコードを書いておく!!
@@ -174,7 +173,6 @@ void FirstFloor::GoToNextStage() {
 
 void FirstFloor::SetPosition() {
 	m_player->SetPosition(Vector3(0.0f, 0.0f, 0.0f)); // プレイヤーの位置をリセット
-
 }
 void FirstFloor::Render(RenderContext& rc)
 {

@@ -16,6 +16,7 @@ SlowFloor::SlowFloor()
 
 SlowFloor::~SlowFloor()
 {
+	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
 
 }
 

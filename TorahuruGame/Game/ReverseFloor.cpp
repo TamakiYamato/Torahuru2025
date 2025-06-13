@@ -17,6 +17,7 @@ ReverseFloor::ReverseFloor()
 
 ReverseFloor::~ReverseFloor()
 {
+	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
 
 }
 

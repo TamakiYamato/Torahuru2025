@@ -1,5 +1,6 @@
 #pragma once
 class BackGround;
+class BackGroundThree;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
@@ -9,6 +10,7 @@ class Stairs;
 class GameClear;
 class Player;
 class SecondFloor;
+class ThirdFloor;
 class TutorialUI;
 class GameCamera;
 class Stamina;
@@ -36,6 +38,7 @@ public:
 	ModelRender m_modelRender;
 	LevelRender	m_levelRender;						//レベル
 	FirstFloor* m_firstFloor = nullptr;
+	ThirdFloor* m_thirdFloor = nullptr;
 	SecondFloor* m_secondFloor ;
 	BackGround* m_background = nullptr;
 	FireTriggerFloor* m_fireTriggerFloor = nullptr;			//火炎放射器のトリガー

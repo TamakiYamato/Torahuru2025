@@ -7,8 +7,8 @@ class SecondFloor;
 class FireTriggerFloor : public IGameObject 
 {
 public:
-	FireTriggerFloor() {};
-	~FireTriggerFloor() {};
+	FireTriggerFloor();
+	~FireTriggerFloor();
 
 	bool Start();
 	void FireTriggerControlFloor();

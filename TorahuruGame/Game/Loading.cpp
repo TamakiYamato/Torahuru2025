@@ -2,7 +2,7 @@
 #include "Loading.h"
 #include"FirstFloor.h"
 #include"SecondFloor.h"
-
+#include"ThirdFloor.h"
 namespace
 {
 	// 大きさ。
