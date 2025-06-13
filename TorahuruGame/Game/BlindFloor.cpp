@@ -16,7 +16,9 @@ BlindFloor::BlindFloor()
 
 BlindFloor::~BlindFloor()
 {
+
 	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
+
 }
 
 bool BlindFloor::Start()
@@ -33,7 +35,6 @@ bool BlindFloor::Start()
 	);
 
 	m_player = FindGO<Player>("player");
-	m_enemy = FindGO<Enemy>("enemy");
 
 	m_collisionObject->SetIsEnableAutoDelete(false);	//自動で削除されないようにする
 	return true;
@@ -52,16 +53,6 @@ void BlindFloor::BlindControlFloor()
 		m_onPlayerBlindFloor = false;
 	}
 
-	//コリジョンとenemyが当たった場合
-	//floorManagerで効果を与える
-	/*if (m_collisionObject->IsHit(m_enemy->GetCharacterController()) == true)
-	{
-		m_onEnemyBlindFloor = true;
-	}
-	else
-	{
-		m_onEnemyBlindFloor = false;
-	}*/
 }
 
 void BlindFloor::Update()

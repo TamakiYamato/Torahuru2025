@@ -21,6 +21,8 @@ Title::~Title() {
 
 bool Title::Start() {
     m_spriteRender.Init("Assets/modelData/Title/title.DDS", 1920, 1080);
+    m_Loading = NewGO<Loading>(1, "loading");
+
     m_startButtonRender.Init("Assets/modelData/Title/startButtonText.DDS",1920, 1080);
     m_startButtonRender.SetPosition(Vector3(BUTTON_POSITION));
     
@@ -34,7 +36,6 @@ bool Title::Start() {
 
     // 効果音を読み込む。
     g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");
-    m_Loading = FindGO<Loading>("loading");
     m_tips = FindGO<Tips>("tips");
     return true;
 }

@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "RotationFloor.h"
 #include "Loading.h"
+
 #include"Enemy.h"
 #include"FirstFloor.h"
 #include"EnemyAnimation.h"
@@ -30,15 +31,18 @@ SecondFloor::~SecondFloor()
 
 bool SecondFloor::Start()
 {
-	
 	m_player = FindGO<Player>("player");
 	if (m_player == nullptr) {
 		m_player = NewGO<Player>(0, "player");
 	}
 	m_enemy = FindGO<Enemy>("enemy");
 	m_enemyAnimation = FindGO<EnemyAnimation>("enemyAnimation");
+	
+	m_player->m_playerTouchFlag = true;	//プレイヤーがfloor2についたかどうかのフラグをtrueにする
 	//プレイヤーの取得
 	////レベル実装
+	//当たり判定の可視化
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	m_levelRender.Init("Assets/level/BackGround2second.tkl", [&](LevelObjectData& objData) {	//floor1の実装
 		if (objData.ForwardMatchName(L"Stage2second") == true) {								//ステージ
 			BackGroundTwo* backgroundTwo = NewGO<BackGroundTwo>(0, "backgroundtwo");
@@ -82,6 +86,7 @@ void SecondFloor::Update()
 {
 
 
+
 	if (m_pyramid && m_player) {
 		Vector3 playerPos = m_player->GetPosition();
 		Vector3 pyramidPos = m_pyramid->GetPosition();
@@ -104,6 +109,7 @@ void SecondFloor::Update()
 			GoToNeoStage();
 
 		}
+
 
 }
 

@@ -13,15 +13,16 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+	void CommonStateTransitionProcess();
+	void SetGravity();
 	void Stand();
-	void Move();
+	void ReturnToSpawn();
 	void Chase();
-	void SearchPlayer();
+	void Rotation();
+	bool SearchPlayer();
 	void ManageState();
-	void PlayAnimation();
+	void PlayAnimation(int enemyState);
 	void CheckPlayerProximityAndDie();
-	void Attack();
-	float GetAngleBetweenQuaternions(const Quaternion& q1, const Quaternion& q2);
 
 	enum EnemyState {				//移動速度に代入。
 		enEnemyState_Idle,			//待機・監視
@@ -31,13 +32,11 @@ public:
 
 	};
 
-
 	// 座標を取得
 	const Vector3& GetPosition() const
 	{
 		return m_position;
 	}
-
 
 	void SetPosition(const Vector3& position)
 	{
@@ -51,17 +50,9 @@ public:
 	void SetScale(const Vector3& scale) {
 		m_scale = scale;
 	}
-	
+
 	void SetAnimation(EnemyAnimation* enemyAnim) {
 		m_enemyAnim = enemyAnim;
-	}
-	//値を指定した最小値と最大値の範囲に制限するための関数
-	template<typename T>
-	T Clamp(T value, T minVal, T maxVal)
-	{
-		if (value < minVal) return minVal ;
-		if (value > maxVal) return maxVal;
-		return value;
 	}
 
 	//キャラコンの取得
@@ -73,18 +64,23 @@ public:
 
 	CharacterController			m_charCon;									//キャラコン。
 	ModelRender					m_modelRender;								//モデルレンダー。
-	Player*						m_player;
-	EnemyAnimation*				m_enemyAnim;
-	FloorManager*				m_floorManager;								//フロアマネージャー。
+	Player* m_player;
+	EnemyAnimation* m_enemyAnim;
+	FloorManager* m_floorManager;								//フロアマネージャー。
 	SecondFloor* m_secondfloor = nullptr;
 	Vector3						m_position = Vector3::Zero;					//座標。
 	Vector3						m_scale = Vector3::One;						//大きさ。
 	Vector3						m_forward = Vector3::AxisZ;					//enemyの正面ベクトル。
 	Vector3						m_initialPosition = Vector3::Zero;			//スタート時の座標。
 	Vector3						m_moveSpeed = Vector3::Zero;				//移動速度。
+	Vector3						m_savedMoveSpeed = Vector3::Zero;			//移動速度を一時的に保存
 	Quaternion					m_currentRotation = Quaternion::Identity;	//今の角度の保存。
 	Quaternion					m_initialRotation = Quaternion::Identity;	//スタート時の角度。
 
 	int							m_enemyState = enEnemyState_Idle;			//enemyの状態。
-	float						m_moveDir = 1.0f;							//床の効果を受けときの変更
+	float						m_moveRate = 1.0f;							//床の効果を受けときの変更
+	float						m_chaseTimer = 0.0f;						//追跡時間。
+	float						m_idleTimer = 0.0f;							//待機時間。
+	bool						m_hasWaitedBeforeReturn = true;				//初期値へ戻る前に待機状態に移行したかどうか。
+	bool						m_isReadyIdle = false;						//待機状態にしてよいかのフラグ
 };

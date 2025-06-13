@@ -164,6 +164,7 @@ bool Game::Start()
 void Game::Update()
 {
 	m_Load = FindGO<Loading>("loading");//数字が数字の設定準
+	m_enemy = FindGO<Enemy>("enemy");
 	// 画面の明るさを徐々に上げる。
 	m_Load->StartLoading();
 
@@ -207,15 +208,14 @@ void Game::Update()
 	// 文字の色
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
-	//ゲームクリア条件
 	m_modelRender.Update();
-		//Vector3 diff = m_player->m_position - m_stairs->m_position;		//プレイヤーと階段との距離
-		//if (diff.Length() <= 100.0f) {
-		//	NewGO<GameClear>(0, "GameClear");
-		//	DeleteGO(this);
-		//	SetGameClear();
-		//	
-		//}
+	
+	//floor2のクリア条件
+	if (m_player->m_playerTouchFlag == true) {	//プレイヤーがfloor2にいるとき
+		if(m_dedicationItemCount == 3) {	//床にある献納アイテムをすべて集めた場合
+			
+		}
+	}
 	
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {	//タイマーが0になった場合
@@ -228,12 +228,12 @@ void Game::Update()
 		NewGO<Gameover>(0, "Gameover");
 		DeleteGO(this);
 	}
-
-	//if (m_enemqy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
-	//	NewGO<Gameover>(0, "Gameover");
-	//	DeleteGO(this);
-	//}
-	m_spriteRender.Update();
+	if (m_player->m_playerTouchFlag == true) {	//プレイヤーが床に触れた場合
+		if (m_enemy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
+			NewGO<Gameover>(0, "Gameover");
+			DeleteGO(this);
+		}
+	}
 }
 
 void SetPosition(const Vector3 position) {

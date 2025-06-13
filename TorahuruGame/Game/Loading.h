@@ -16,7 +16,7 @@ public:
 	// フェードイン。
 	void StartLoading()
 	{
-		if (m_matizikan > 0.0f)
+		if (m_waitingTime > 0.0f)
 		{
 			return;
 		}
@@ -59,6 +59,6 @@ private:
 	EnState				m_state = enState_Idle;
 	float				m_currentAlpha = 0.0f;
 	bool 			m_isstate = false;
-	float 			m_matizikan = 0.0f; // フェード時間。
+	float 			m_waitingTime = 0.0f; // フェード時間。
 	
 };

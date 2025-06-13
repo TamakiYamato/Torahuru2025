@@ -48,15 +48,15 @@ bool RotationFloor::Start() {
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-	
-	
+
+
 
 	return true;
 }
 	
 void RotationFloor::Update() {
 	// 回転床の角速度
-	float angularVelocityPerSec = 5.0f; // 度/秒
+	float angularVelocityPerSec = 10.0f; // 度/秒
 	// 1フレームあたりの角度変化量
 	float angularVelocityPerFrame = angularVelocityPerSec * g_gameTime->GetFrameDeltaTime();
 	m_rotation.AddRotationDegY(angularVelocityPerFrame);

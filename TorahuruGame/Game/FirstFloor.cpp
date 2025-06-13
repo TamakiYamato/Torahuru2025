@@ -56,10 +56,6 @@ FirstFloor::~FirstFloor()
 	
 }
 
-
-
-
-
 bool FirstFloor::Start()
 {
 

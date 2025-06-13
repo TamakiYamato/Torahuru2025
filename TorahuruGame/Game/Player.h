@@ -83,6 +83,15 @@ public:
 		enAnimationClip_Num
 	};
 
+	/// <summary>
+	/// 力を加算する
+	/// </summary>
+	/// <param name="force">プレイヤーに加える力(cm/秒)</param>
+	void AddForce(const Vector3& force)
+	{
+		m_addForce += force;
+	}
+
 	//アニメーションを共通化する。
 	void SetAnimation(EnAnimationClip animationClip, std::string animationFileName, bool loopFlag);
 	void UpdateModelByState();	//ステートによってモデルのアップデートを変更
@@ -93,59 +102,37 @@ public:
 	ModelRender m_fireModel;					//火炎放射が当たった時のモデル
 
 	FloorManager* m_floorManager = nullptr;
-
-	//プレイヤーの見た目を変更するリクエストフラグ
-	bool m_requestChangeModel = false;
-
+	IPlayerState* m_playerStateList[enPlayerState_Max]; // ステートリスト
 	AnimationClip m_animationClips[enAnimationClip_Num];
-	//キャラコン
-	CharacterController	m_charCon;
-	//プレイヤーの進行方向を決定する。
-	Vector3	stickL;
+	CharacterController	m_charCon; //キャラコン
+	
+
+	Vector3	stickL; //プレイヤーの進行方向を決定する。
 	Vector3	m_position;
 	Vector3 m_positiontwo;//追加したよ:SecondFloorのpositionを生成します
-	//移動速度
-	Vector3	m_moveSpeed;
+	Vector3	m_moveSpeed; //移動速度
 	Vector3 m_dash;
+	Quaternion m_rotation;
+
+	float m_moveDir = 1.0f;
+	float m_hp = 0;
+	float m_max_stamina = 100; // スタミナの最大値。
+	float m_stamina = m_max_stamina; // 現在のスタミナ。
 	// スタミナの有無フラグ。
 	// 初期状態はスタミナがあるのでfalse。
 	// TODO: tamaki		ここのフラグの名前を変更する。
 	bool m_staminaFlag = false;
-	float m_hp = 0;
-	// スタミナの最大値。
-	float m_max_stamina = 100;
-	// 現在のスタミナ。
-	float m_stamina = m_max_stamina;
-	// 走り判定。
-	bool m_dashFlag = false;
+	bool m_dashFlag = false; // 走り判定。
+	bool m_playerTouchFlag = false; //プレイヤーがfloor2についたかどうかのフラグ
+	bool m_requestChangeModel = false; 
+	bool m_isHitFireCollision = false; //火炎放射に当たったかの確認
+	bool m_isInvincible = false; // 無敵状態のフラグ。
+	bool m_isTest = false; //無敵
 
-	Quaternion m_rotation;
-	float m_moveDir = 1.0f;
-
-	// ステートリスト
-	IPlayerState* m_playerStateList[enPlayerState_Max];
-	// 現在の状態
-	int m_currentPlayerState;
-	// 次に使いたい状態(リクエスト)
-	int m_requestPlayerState;
-	// 無敵時間の更新用の時間。
-	int m_InvincibleTime = 0.0f;
-	// 無敵状態のフラグ。
-	bool m_isInvincible = false;
-	/// <summary>
-	/// 力を加算する
-	/// </summary>
-	/// <param name="force">プレイヤーに加える力(cm/秒)</param>
-	void AddForce(const Vector3& force)
-	{
-		m_addForce += force;
-	}
-
-	//火炎放射に当たったかの確認
-	bool m_isHitFireCollision = false;
-	//無敵
-	bool m_isTest = false;
-
+	int m_currentPlayerState; // 現在の状態
+	int m_requestPlayerState; // 次に使いたい状態(リクエスト)
+	int m_InvincibleTime = 0.0f; // 無敵時間の更新用の時間。
+	
 private:
 	ModelRender* m_modelRender = nullptr;
 	FireGimmic* m_fireGimmic = nullptr;	//火炎放射器

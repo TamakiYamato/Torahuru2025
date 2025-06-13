@@ -33,9 +33,10 @@ public:
 	Enemy* m_enemy;
 	FirstFloor* m_firstFloor = nullptr;
 	SecondFloor* m_secondFloor = nullptr;
+	FireTriggerFloor* m_fireTriggerFloor = nullptr;
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
-	FireTriggerFloor* m_fireTriggerFloor = nullptr;
+
 	bool m_onFireTriggerFloor = false;	//プレイヤーが床の上にいるかどうか
 };
 

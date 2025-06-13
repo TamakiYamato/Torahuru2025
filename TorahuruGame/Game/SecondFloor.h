@@ -37,9 +37,11 @@ public:
 	ThirdFloor* m_thirdFloor = nullptr;	//3階
 private:
 	LevelRender	m_levelRender;						//レベル
+	Game* m_game = nullptr;
 	Player* m_player = nullptr;
 	Enemy* m_enemy = nullptr;
 	FirstFloor * m_firstFloor = nullptr;	//1階
+
 	Pyramid* m_pyramid = nullptr;
 	
 private:
@@ -47,6 +49,7 @@ private:
 	bool m_isLoadingDeleted = false;
 	Loading* m_loading = nullptr;				//ローディング画面
 	EnemyAnimation* m_enemyAnimation = nullptr;	//敵のアニメーション
+
 
 
 
