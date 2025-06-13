@@ -262,7 +262,7 @@ void PlayerDownState::Update()
 		if (m_fireTime <= 0.0f)
 		{
 			m_player->m_requestPlayerState = enPlayerState_GetUp; // ダウン状態から立ち上がる。
-			m_fireTime = 150.0f; // ダウン状態の時間をリセット。
+			m_fireTime = 80.0f; // ダウン状態の時間をリセット。
 		}
 	}
 };
@@ -284,7 +284,7 @@ void PlayerGetUpState::Update()
 	{
 		// 立ち上がりアニメーションが終わったら、待機状態に戻る。
 		m_player->m_requestPlayerState = enPlayerState_Idle; // 立ち上がったら待機状態に戻る。
-		m_fireTime = 150.0f;
+		m_fireTime = 80.0f;
 	}
 
 	m_player->m_isInvincible = true;	//無敵状態にする。

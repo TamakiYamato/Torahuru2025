@@ -18,7 +18,7 @@ bool BackGround::Start()
 	//PhysicsStaticObjectの初期化
 	m_physicsStaticObject.CreateFromModel(modelRender.GetModel(), modelRender.GetModel().GetWorldMatrix());
 	//蠖薙◆繧雁愛螳壹ｒ蜿ｯ隕門喧縺吶ｋ縲・
-	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
 void BackGround::Render(RenderContext& rc) {
