@@ -4,14 +4,17 @@
 #include "Player.h"
 #include "RotationFloor.h"
 #include "Loading.h"
-
+#include "Game.h"
 #include"Enemy.h"
 #include"FirstFloor.h"
 #include"EnemyAnimation.h"
 #include"Pyramid.h"
 #include"ThirdFloor.h"
-
-
+#include"BlindFloor.h"
+#include"ReverseFloor.h"
+#include"SlowFloor.h"
+#include"GameCamera.h"
+#include"TutorialUI.h"
 SecondFloor::SecondFloor()
 {
 
@@ -24,8 +27,18 @@ SecondFloor::~SecondFloor()
 	DeleteGO(m_enemy);
 	DeleteGO(m_enemyAnimation);
 	DeleteGO(m_loading);
-	
-	
+	DeleteGO(m_tutorialUI);
+	DeleteGO(m_collisitonObject);
+	for (ReverseFloor* reverseFloor : m_reverseFloorList) {
+		DeleteGO(reverseFloor);
+	}
+	for (SlowFloor* slowFloor : m_slowFloorList) {
+		DeleteGO(slowFloor);
+	}
+	for (BlindFloor* blindFloor : m_blindFloorList) {
+		DeleteGO(blindFloor);
+	}
+
 	
 }
 
@@ -77,6 +90,31 @@ bool SecondFloor::Start()
 			return true;
 		}
 		
+
+		else if (objData.ForwardMatchName(L"BlindFloor") == true) {						//視界制限床
+			BlindFloor* blindfloor = NewGO<BlindFloor>(0, "BlindFloor");
+			m_blindFloorList.push_back(blindfloor);
+			blindfloor->SetPosition(objData.position);
+			blindfloor->SetScale(objData.scale);
+			return true;
+		}
+		else if (objData.ForwardMatchName(L"SlowFloor") == true) {						//鈍足床
+			SlowFloor* slowfloor = NewGO<SlowFloor>(0, "SlowFloor");
+			m_slowFloorList.push_back(slowfloor);
+			slowfloor->SetPosition(objData.position);
+			slowfloor->SetScale(objData.scale);
+			return true;
+		}
+		else if (objData.ForwardMatchName(L"ReverseFloor") == true) {					//あべこべ床
+			ReverseFloor* reverseFloor = NewGO<ReverseFloor>(0, "ReverseFloor");
+			m_reverseFloorList.push_back(reverseFloor);
+			reverseFloor->SetPosition(objData.position);
+			reverseFloor->SetScale(objData.scale);
+			return true;
+		}
+
+
+
 		});
 
 	return true;
