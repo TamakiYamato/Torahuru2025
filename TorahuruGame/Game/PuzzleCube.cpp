@@ -5,9 +5,9 @@
 #include "GameClear.h"
 
 namespace {
-	Vector3 CUBE1_POSITION = Vector3(1260.0f, 30.0f, 0.0f);
-	Vector3 CUBE2_POSITION = Vector3(960.0f, 30.0f, 0.0f);
-	Vector3 CUBE3_POSITION = Vector3(660.0f, 30.0f, 0.0f);
+	Vector3 CUBE1_POSITION = Vector3(1790.0f, 40.0f, -2270.0f);
+	Vector3 CUBE2_POSITION = Vector3(-500.0f, 30.0f, -3100.0f);
+	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f, -2470.0f);
 }
 
 PuzzleCube::PuzzleCube()
@@ -44,9 +44,9 @@ bool PuzzleCube::Start()
 	m_modelRender3.SetScale({ 3.0f,3.0f,3.0f });
 
 	// 土台の位置。
-	m_modelRender4.SetPosition(Vector3(1260.0f, 0.0f, 0.0f));
-	m_modelRender5.SetPosition(Vector3(960.0f, 0.0f, 0.0f));
-	m_modelRender6.SetPosition(Vector3(660.0f, 0.0f, 0.0f));
+	m_modelRender4.SetPosition(Vector3(1790.0f, 10.0f, -2270.0f));
+	m_modelRender5.SetPosition(Vector3(-500.0f, 0.0f, -3100.0f));
+	m_modelRender6.SetPosition(Vector3(-1200.0f, 0.0f, -2470.0f));
 	// 大きさ。
 	m_modelRender4.SetScale({ 3.0f,3.0f,3.0f });
 	m_modelRender5.SetScale({ 3.0f,3.0f,3.0f });
@@ -89,27 +89,30 @@ void PuzzleCube::Update()
 		if (m_rotationY > 360) {
 			m_rotationY = 0;
 		}
-		SetRotation();
-		m_modelRender.SetRotation(m_rotation);
 	}
 	if (distToCube2 <= 100.0f && g_pad[0]->IsTrigger(enButtonUp)) {
 		m_rotation2Y += 90.0f;
 		if (m_rotation2Y > 360){
 			m_rotation2Y = 0;
 		}
-		SetRotation();
-		m_modelRender2.SetRotation(m_rotation2);
 	}
 	if (distToCube3 <= 100.0f && g_pad[0]->IsTrigger(enButtonRight)) {
 		m_rotation3Y += 90.0f;
 		if (m_rotation3Y > 360) {
 			m_rotation3Y = 0;
 		}
-		m_modelRender3.SetRotation(m_rotation3);
 	}
+
+	// モデルに回転を反映
+	SetRotation();
+	m_modelRender.SetRotation(m_rotation);
+	m_modelRender2.SetRotation(m_rotation2);
+	m_modelRender3.SetRotation(m_rotation3);
+
 	if (SetClear()) {
 		m_clear = true;
 	}
+
 	SetRotation();
 	// 絵合わせギミックの更新。
 	m_modelRender.Update();
@@ -120,16 +123,10 @@ void PuzzleCube::Update()
 bool PuzzleCube::SetClear() const
 {
 	// クリア判定。
-	  // 角度の誤差を許容する場合
-	/*const float epsilon = 180.0f;
-	return (fabsf(m_rotationY) < epsilon) &&
-		(fabsf(m_rotation2Y) < epsilon) &&
-		(fabsf(m_rotation3Y) < epsilon);*/
-	
-		if (m_rotationY == 90 && m_rotation2Y == 90 && m_rotation3Y == 90) {
-			// クリア判定にする。
-			return true;
-		}
+	if (m_rotationY == 90 && m_rotation2Y == 90 && m_rotation3Y == 90) {
+		// クリア判定にする。
+		return true;
+	}
 
 	return false;
 }
@@ -143,6 +140,4 @@ void PuzzleCube::Render(RenderContext& rc)
 	m_modelRender4.Draw(rc);
 	m_modelRender5.Draw(rc);
 	m_modelRender6.Draw(rc);
-	// フォントの描画。
-	//m_fontRender.Draw(rc);
 }

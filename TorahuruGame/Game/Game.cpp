@@ -37,7 +37,6 @@ Game::~Game() {
 	DeleteGO(m_stairs);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_setStamina);
-	DeleteGO(m_puzzleCube);
 //	DeleteGO(m_stageManager);
 	//DeleteGO(m_Load);
 	
@@ -118,11 +117,6 @@ void Game::SetSutamina()
 	m_setStamina = NewGO<Stamina>(0, "sutamina");
 }
 
-void Game::SetPuzzleCube()
-{
-	m_puzzleCube = NewGO<PuzzleCube>(0, "puzzleCube");
-}
-
 // ロード用。
 void Game::SetLoading()
 {
@@ -148,6 +142,7 @@ void Game::TimerUI()
 bool Game::Start()
 {
 
+
 	ModelRender brindFloor;
 	ModelRender reverseFloor;
 	ModelRender slowFloor;
@@ -155,6 +150,9 @@ bool Game::Start()
 	brindFloor.Init("Assets/modelData/BlindFloor/blindFloor.tkm");
 	reverseFloor.Init("Assets/modelData/ReverseFloor/reverseFloor.tkm");
 	slowFloor.Init("Assets/modelData/SlowFloor/SlowFloorSecond.tkm");
+
+
+	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
 
 	m_player			     = NewGO<Player>(0, "player");
 	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
@@ -165,11 +163,10 @@ bool Game::Start()
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
-	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
+	
 	TimerUI();
 	InitSky();
 	SetSutamina();
-	SetPuzzleCube();
 	//PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
@@ -182,9 +179,11 @@ void Game::Update()
 {
 	m_Load = FindGO<Loading>("loading");//数字が数字の設定準
 	m_enemy = FindGO<Enemy>("enemy");
+	if (m_puzzleCube == nullptr) {
+		m_puzzleCube = FindGO<PuzzleCube>("puzzleCube");
+	}
 	// 画面の明るさを徐々に上げる。
 	m_Load->StartLoading();
-
 
 	if (m_floorManager == nullptr) {
 		m_floorManager = FindGO<FloorManager>("floorManager");
@@ -234,11 +233,10 @@ void Game::Update()
 		}
 	}
 	
-	// floor3のクリア条件。
-	// 全ての絵合わせギミックが指定した角度になった場合。
-	if (m_puzzleCube->m_clear == true) {
+	// 絵合わせのクリア判定。
+	PuzzleCube* puzzleCube = FindGO<PuzzleCube>("puzzleCube");
+	if (puzzleCube && puzzleCube->m_clear) {
 		NewGO<GameClear>(0, "gameClear");
-		DeleteGO(this);
 	}
 
 	//ゲームオーバー条件

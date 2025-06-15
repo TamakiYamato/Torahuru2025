@@ -3,17 +3,18 @@
 
 #include "Game.h"
 #include "Player.h"
+#include "FireTriggerFloor.h"
 #include "collision/CollisionObject.h"
 #include "graphics/effect/EffectEmitter.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 
 namespace {
-	Vector3 COLLISION_SIZE = Vector3(200.0f, 250.0f, 2200.0f);
+	Vector3 COLLISION_SIZE = Vector3(200.0f, 250.0f, 1000.0f);
 	Vector3 COLLISION_POSITION = Vector3(10.0f, 0.0f, 10.0f);
 
-	Vector3 firePosition = Vector3(-400.0f, 150.0f, -400.0f);
-	Vector3 firePosition2 = Vector3(2100.0f, 150.0f, -1200.0f);
+	Vector3 firePosition = Vector3(-470.0f, 70.0f, -400.0f);
+	Vector3 firePosition2 = Vector3(1750.0f, 70.0f, -1200.0f);
 
 	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -21,7 +22,7 @@ namespace {
 	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
 
 	const float LENGTH = 3000.0f;			//長さ
-	const float SE_VOLUME = 0.01f;
+	const float SE_VOLUME = 0.05f;
 
 }
 
@@ -45,6 +46,9 @@ bool FireGimmic::Start()
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/fire.efk");
 
 	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/fire.wav");
+
+	m_fireTriggerFloor = FindGO<FireTriggerFloor>("firetriggerfloor");
+	m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "firetriggerfloor");
 
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
@@ -93,13 +97,25 @@ bool FireGimmic::Start()
 
 EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale)
 {
+	if (m_fireTriggerFloor == nullptr)
+	{
+		m_fireTriggerFloor = FindGO<FireTriggerFloor>("firetriggerfloor");
+	}
 	//effectの設定
 	EffectEmitter* effect = NewGO<EffectEmitter>(0);
 	effect->Init(name);
 	effect->SetPosition(pos);
 	effect->SetRotation(rot);
 	effect->SetScale(scale);
-	effect->Play();
+	if (m_fireTriggerFloor->m_onFireTriggerFloor == false)
+	{
+		effect->Play();
+	}
+
+	else
+	{
+		effect->Stop();
+	}
 	return effect;
 }
 

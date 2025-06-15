@@ -43,11 +43,8 @@
     <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="Scene\StageManager.cpp" />
     <ClCompile Include="Tips.cpp" />
-
-    <ClCompile Include="Pyramid.cpp" />
-
+    <ClCompile Include="NextStageTrigger.cpp" />
     <ClCompile Include="Offering.cpp" />
-
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -86,10 +83,7 @@
     <ClInclude Include="BackGroundThree.h" />
     <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="Tips.h" />
-
-    <ClInclude Include="Pyramid.h" />
-
+    <ClInclude Include="NextStageTrigger.h" />
     <ClInclude Include="Offering.h" />
-
   </ItemGroup>
 </Project>

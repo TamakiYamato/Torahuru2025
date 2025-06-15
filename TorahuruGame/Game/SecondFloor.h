@@ -6,6 +6,7 @@ class BlindFloor;
 class FloorManager;
 class FirstFloor;
 class FireGimmic;
+class PuzzleCube;
 class Stairs;
 class GameClear;
 class Player;
@@ -60,7 +61,7 @@ private:
 	Player* m_player = nullptr;
 	Enemy* m_enemy = nullptr;
 	FirstFloor * m_firstFloor = nullptr;	//1階
-
+	PuzzleCube* m_puzzleCube = nullptr;
 	Pyramid* m_pyramid = nullptr;
 	
 private:
@@ -68,8 +69,4 @@ private:
 	bool m_isLoadingDeleted = false;
 	Loading* m_loading = nullptr;				//ローディング画面
 	EnemyAnimation* m_enemyAnimation = nullptr;	//敵のアニメーション
-
-
-
-
 };
