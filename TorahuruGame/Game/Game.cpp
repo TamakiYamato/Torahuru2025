@@ -19,6 +19,7 @@
 #include "TutorialUI.h"
 #include"SecondFloor.h"
 #include"RotationFloor.h"
+#include"PuzzleCube.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 #include"FireTriggerFloor.h"
@@ -36,8 +37,9 @@ Game::~Game() {
 	DeleteGO(m_stairs);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_setStamina);
+	DeleteGO(m_puzzleCube);
 //	DeleteGO(m_stageManager);
-	DeleteGO(m_Load);
+	//DeleteGO(m_Load);
 	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -116,6 +118,11 @@ void Game::SetSutamina()
 	m_setStamina = NewGO<Stamina>(0, "sutamina");
 }
 
+void Game::SetPuzzleCube()
+{
+	m_puzzleCube = NewGO<PuzzleCube>(0, "puzzleCube");
+}
+
 // ロード用。
 void Game::SetLoading()
 {
@@ -153,6 +160,7 @@ bool Game::Start()
 	TimerUI();
 	InitSky();
 	SetSutamina();
+	SetPuzzleCube();
 	//PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
@@ -209,7 +217,7 @@ void Game::Update()
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 	m_modelRender.Update();
-	
+
 	//floor2のクリア条件
 	if (m_player->m_playerTouchFlag == true) {	//プレイヤーがfloor2にいるとき
 		if(m_dedicationItemCount == 3) {	//床にある献納アイテムをすべて集めた場合
@@ -217,6 +225,13 @@ void Game::Update()
 		}
 	}
 	
+	// floor3のクリア条件。
+	// 全ての絵合わせギミックがクリア判定になったら。
+	if (m_puzzleCube->m_clear == true) {
+		NewGO<GameClear>(0, "gameClear");
+		DeleteGO(this);
+	}
+
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {	//タイマーが0になった場合
 		NewGO<Gameover>(0, "Gameover");

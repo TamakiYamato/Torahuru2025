@@ -32,10 +32,10 @@ Player::Player()
 Player::~Player()
 {
 	// 状態をdelete。
-	for (int i = 0; i < enPlayerState_Max; ++i) {
+	/*for (int i = 0; i < enPlayerState_Max; ++i) {
 		delete m_playerStateList[i];
 		m_playerStateList[i] = nullptr;
-	}
+	}*/
 }
 
 // constでファイルを読み取る。

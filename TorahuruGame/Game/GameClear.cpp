@@ -29,9 +29,8 @@ void GameClear::Update()
 	{
 		DeleteGO(m_player);
 		DeleteGO(m_stairs);
-
-		NewGO<Title>(0, "title");
 		DeleteGO(this);
+		NewGO<Title>(0, "title");
 		//閾ｪ霄ｫ繧貞炎髯､縺吶ｋ
 	}
 	//逕ｻ蜒上・譖ｴ譁ｰ縲・

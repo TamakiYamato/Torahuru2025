@@ -27,8 +27,8 @@ bool Title::Start() {
     m_startButtonRender.SetPosition(Vector3(BUTTON_POSITION));
     
     // BGMを読み込む。
-    g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
-    // soundSourceを作成する
+    //g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
+    //// soundSourceを作成する。
     //m_bgm = NewGO<SoundSource>(3);
     //m_bgm->Init(3);
     //// BGMをループさせる。
@@ -48,7 +48,6 @@ void Title::Update() {
             // タイトルを削除。
             DeleteGO(this);
         }
-
     }
     else {
         // Aボタンを押したら。
