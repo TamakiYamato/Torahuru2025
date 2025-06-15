@@ -66,6 +66,8 @@ void PuzzleCube::SetRotation()
 	m_rotation.SetRotationDegY(m_rotationY);
 	m_rotation2.SetRotationDegY(m_rotation2Y);
 	m_rotation3.SetRotationDegY(m_rotation3Y);
+
+	SetClear();
 }
 
 void PuzzleCube::Rotation()
@@ -103,9 +105,9 @@ void PuzzleCube::Update()
 		}
 		m_modelRender3.SetRotation(m_rotation3);
 	}
-	/*if (SetClear()) {
+	if (SetClear()) {
 		m_clear = true;
-	}*/
+	}
 	SetRotation();
 	// 絵合わせギミックの更新。
 	m_modelRender.Update();
@@ -121,13 +123,13 @@ bool PuzzleCube::SetClear() const
 	return (fabsf(m_rotationY) < epsilon) &&
 		(fabsf(m_rotation2Y) < epsilon) &&
 		(fabsf(m_rotation3Y) < epsilon);*/
-	for (int i = 0; i <= 3; i++) {
-		if (m_rotationY == 90 * i && m_rotation2Y == 90 * i && m_rotation3Y == 90 * i) {
+	
+		if (m_rotationY == 90 && m_rotation2Y == 90 && m_rotation3Y == 90) {
 			// クリア判定にする。
-			// m_clear = true;
-			NewGO<GameClear>(0, "gameclear");
+			return true;
 		}
-	}
+
+	return false;
 }
 
 void PuzzleCube::Render(RenderContext& rc)

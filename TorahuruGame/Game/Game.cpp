@@ -39,7 +39,7 @@ Game::~Game() {
 	DeleteGO(m_setStamina);
 	DeleteGO(m_puzzleCube);
 //	DeleteGO(m_stageManager);
-	DeleteGO(m_Load);
+	//DeleteGO(m_Load);
 	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -227,10 +227,10 @@ void Game::Update()
 	
 	// floor3のクリア条件。
 	// 全ての絵合わせギミックが指定した角度になった場合。
-	/*if (m_puzzleCube->m_clear == true) {
+	if (m_puzzleCube->m_clear == true) {
 		NewGO<GameClear>(0, "gameClear");
 		DeleteGO(this);
-	}*/
+	}
 
 	//ゲームオーバー条件
 	if (m_timer <= 0.0f) {	//タイマーが0になった場合
