@@ -1,25 +1,55 @@
 #pragma once
 class ThirdFloor;
+class Player;
+class GameClear;
 class PuzzleCube : public IGameObject
 {
 public:
 	PuzzleCube();
 	~PuzzleCube();
 	bool Start();
+	void Rotation();
+	void SetRotation();
+	bool SetClear()const;
 	void Update();
 	void Render(RenderContext& rc);
-	void SetPosition(const Vector3& position)
 
-	{
-		m_position = position;
-	}
-	void SetScale(const Vector3& scale) {
-		m_scale = scale;
-	}
+	enum EnmodelRender {
+		enModelRender,
+		enModelRender2,
+		enModelRender3,
+		enModelRender_Num
+	};
 
+	// 追加: Y軸回転角度（度数法）
+	float m_rotationY = 0.0f;
+	float m_rotation2Y = 0.0f;
+	float m_rotation3Y = 0.0f;
+
+	// 追加: 回転角度の取得・設定
+	float GetRotationY() const { return m_rotationY; }
+	void SetRotationY(float deg) { m_rotationY = deg; }
+
+	bool m_clear = false;
+
+private:
+	Player* m_player;
+	//GameClear m_gameClear;
 	ModelRender m_modelRender;
+	ModelRender m_modelRender2;
+	ModelRender m_modelRender3;
+	ModelRender m_modelRender4;
+	ModelRender m_modelRender5;
+	ModelRender m_modelRender6;
 	Vector3 m_position;
-	Vector3 m_scale = Vector3::One;
+	float m_posi = 0.0f;
+	float m_posi2 = 0.0f;
+	float m_posi3 = 0.0f;
+	float i = 0.0f;
 	FontRender m_fontRender;
+	Vector3 m_scale;
+	Quaternion m_rotation;
+	Quaternion m_rotation2;
+	Quaternion m_rotation3;
 };
 

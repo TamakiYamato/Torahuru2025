@@ -20,6 +20,7 @@ class GameClear;
 class Gameover;
 class Loading;
 class FireGimmic;
+class PuzzleCube;
 class SecondFloor;
 class RotationFloor;
 class FireTriggerFloor;
@@ -36,6 +37,7 @@ public:
 	void SetLoading();
 	void SetGameClear();
 	void SetSutamina();
+	void SetPuzzleCube();
 	void InitSky();
 	void LightSetting();
 	void TimerUI();
@@ -60,6 +62,9 @@ private:
 	Stairs*						m_stairs = nullptr;					//階段
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
 	FireTriggerFloor*           m_fireTriggerFloor;
+	PuzzleCube*					m_puzzleCube;				//パズルキューブ
+	PuzzleCube*					m_puzzleCube2;				//パズルキューブ
+	PuzzleCube*					m_puzzleCube3;				//パズルキューブ
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
 	SpriteRender				m_spriteRender;
