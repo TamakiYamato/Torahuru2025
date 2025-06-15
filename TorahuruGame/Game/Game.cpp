@@ -147,6 +147,7 @@ void Game::TimerUI()
 
 bool Game::Start()
 {
+	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
 	m_player			     = NewGO<Player>(0, "player");
 	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
@@ -156,7 +157,7 @@ bool Game::Start()
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
-	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
+	
 	TimerUI();
 	InitSky();
 	SetSutamina();
