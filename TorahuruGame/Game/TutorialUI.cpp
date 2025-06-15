@@ -6,7 +6,7 @@
 #include "BlindFloor.h"
 #include "Player.h"
 #include "Game.h"
-
+#include"Stairs.h"
 namespace
 {
 

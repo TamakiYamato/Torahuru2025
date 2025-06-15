@@ -38,7 +38,7 @@ SecondFloor::~SecondFloor()
 	for (BlindFloor* blindFloor : m_blindFloorList) {
 		DeleteGO(blindFloor);
 	}
-
+	DeleteGO(m_secondFloor);
 	
 }
 
@@ -54,8 +54,8 @@ bool SecondFloor::Start()
 	m_player->m_playerTouchFlag = true;	//プレイヤーがfloor2についたかどうかのフラグをtrueにする
 	//プレイヤーの取得
 	////レベル実装
-	//当たり判定の可視化
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	////当たり判定の可視化
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	m_levelRender.Init("Assets/level/BackGround2second.tkl", [&](LevelObjectData& objData) {	//floor1の実装
 		if (objData.ForwardMatchName(L"Stage2second") == true) {								//ステージ
 			BackGroundTwo* backgroundTwo = NewGO<BackGroundTwo>(0, "backgroundtwo");

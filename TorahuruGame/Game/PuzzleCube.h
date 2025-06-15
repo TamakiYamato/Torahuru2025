@@ -2,6 +2,7 @@
 class ThirdFloor;
 class Player;
 class GameClear;
+class SecondFloor;
 class PuzzleCube : public IGameObject
 {
 public:

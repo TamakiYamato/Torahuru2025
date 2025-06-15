@@ -147,6 +147,15 @@ void Game::TimerUI()
 
 bool Game::Start()
 {
+
+	ModelRender brindFloor;
+	ModelRender reverseFloor;
+	ModelRender slowFloor;
+
+	brindFloor.Init("Assets/modelData/BlindFloor/blindFloor.tkm");
+	reverseFloor.Init("Assets/modelData/ReverseFloor/reverseFloor.tkm");
+	slowFloor.Init("Assets/modelData/SlowFloor/SlowFloorSecond.tkm");
+
 	m_player			     = NewGO<Player>(0, "player");
 	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段

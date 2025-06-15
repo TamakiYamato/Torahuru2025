@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PuzzleCube.h"
-#include"ThirdFloor.h"
+#include"SecondFloor.h"
 #include "Player.h"
 #include "GameClear.h"
 
@@ -12,6 +12,7 @@ namespace {
 
 PuzzleCube::PuzzleCube()
 {
+
 }
 
 PuzzleCube::~PuzzleCube()
@@ -72,6 +73,7 @@ void PuzzleCube::SetRotation()
 
 void PuzzleCube::Rotation()
 {
+
 }
 
 void PuzzleCube::Update()

@@ -41,12 +41,12 @@ bool ThirdFloor::Start()
 			m_player->SetPosition(objData.position);
 			return true;
 		}
-		/*else if (objData.ForwardMatchName(L"PuzzleCube") == true) {
-			PuzzleCube* m_puzzleCube = NewGO<PuzzleCube>(0, "puzzlecube");
-			m_puzzleCube->SetPosition(objData.position);
-			m_puzzleCube->SetScale(objData.scale);
-			return true;
-		}*/
+		//else if (objData.ForwardMatchName(L"PuzzleCube") == true) {
+		//	PuzzleCube* m_puzzleCube = NewGO<PuzzleCube>(0, "puzzlecube");
+		//	m_puzzleCube->SetPosition(objData.position);
+		//	m_puzzleCube->SetScale(objData.scale);
+		//	return true;
+		//}
 		/*else if (objData.ForwardMatchName(L"Ch24_nonPBR") == true) {
 			Enemy* m_enemy = NewGO<Enemy>(0, "enemy");
 			m_enemy->SetPosition(objData.position);
