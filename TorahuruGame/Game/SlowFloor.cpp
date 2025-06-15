@@ -17,12 +17,11 @@ SlowFloor::SlowFloor()
 SlowFloor::~SlowFloor()
 {
 	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
-
 }
 
 bool SlowFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/Stage1/SlowFloor/SlowFloor.tkm");		//鈍足床の初期化
+	m_modelRender.Init("Assets/modelData/SlowFloor/SlowFloorSecond.tkm");		//鈍足床の初期化
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 

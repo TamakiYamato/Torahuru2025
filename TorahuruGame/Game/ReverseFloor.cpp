@@ -6,7 +6,7 @@
 namespace 
 {
 	const Vector3 COLLISION_HEIGHT = Vector3(0.0f, 10.0f, 0.0f);
-	const Vector3 COLLISION_SIZE = Vector3(320.0f, 150.0f, 320.0f);//コリジョンの大きさ
+	const Vector3 COLLISION_SIZE = Vector3(300.0f, 100.0f, 300.0f);//コリジョンの大きさ
 
 }
 
@@ -23,7 +23,7 @@ ReverseFloor::~ReverseFloor()
 
 bool ReverseFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/Stage1/ReverseFloor/ReverseFloor.tkm");		//あべこべ床の初期化
+	m_modelRender.Init("Assets/modelData/ReverseFloor/ReverseFloor.tkm");		//あべこべ床の初期化
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 

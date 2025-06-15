@@ -6,7 +6,7 @@
 #include "BlindFloor.h"
 #include "Player.h"
 #include "Game.h"
-
+#include"Stairs.h"
 namespace
 {
 
@@ -72,6 +72,8 @@ void TutorialUI::DisplayText()
 		break; 
 
 	case enFireTrigger:
+		swprintf_s(textUI, 256, L"<火炎放射ON/OFF>この上にのると、火炎放射を止めたり、出したりすることができる!!\n<条件>ステージ内の火炎放射をかわすために\n床を踏んで炎を止めよう!!");
+
 		// 何か表示したいならここに書いてください。
 		break;
 

@@ -19,7 +19,9 @@ class Enemy;
 class EnemyAnimation;
 class Pyramid;
 class ThirdFloor;
-
+class Loading;
+class TutorialUI;
+class GameCamera;
 class SecondFloor : public IGameObject
 {
 public:
@@ -32,6 +34,23 @@ public:
 	
 	void GoToNeoStage();
 	void SetPosition();
+
+	BlindFloor* m_blindFloor = nullptr;
+	ReverseFloor* m_reverseFloor = nullptr;
+	std::vector<ReverseFloor*> m_reverseFloorList;				    //あべこべ床
+	std::vector<SlowFloor*>    m_slowFloorList;//ここ二フロアを府登録s瑠う
+	std::vector<BlindFloor*>   m_blindFloorList;
+	std::vector<FireGimmic*>m_fireGimmicList;
+	std::vector<Pyramid*>m_stairsGimmicList;
+	std::vector<TutorialUI*>m_tutorialUIList;
+	TutorialUI* m_tutorialUI;
+	FloorManager* m_floorManager;					//特殊床の管理
+	SpriteRender m_pressButton;
+	SpriteRender m_spriteRender;//
+	GameCamera   *m_gamecamera;
+	SecondFloor* m_secondFloor;
+	BackGroundTwo* m_backgroundTwo = nullptr;
+	CollisionObject* m_collisitonObject = nullptr;
 
 
 
