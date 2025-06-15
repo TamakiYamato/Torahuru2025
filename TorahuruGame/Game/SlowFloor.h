@@ -25,7 +25,6 @@ public:
 	ModelRender					m_modelRender;
 	CollisionObject*			m_collisionObject = nullptr;
 	Player*						m_player;
-
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 

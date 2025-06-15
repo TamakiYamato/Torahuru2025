@@ -4,13 +4,13 @@
 #include "Player.h"
 #include "RotationFloor.h"
 #include "Loading.h"
-
 #include"Enemy.h"
 #include"FirstFloor.h"
+#include"PuzzleCube.h"
 #include"EnemyAnimation.h"
 #include"Pyramid.h"
 #include"ThirdFloor.h"
-
+#include "GameClear.h"
 
 SecondFloor::SecondFloor()
 {
@@ -37,6 +37,10 @@ bool SecondFloor::Start()
 	}
 	m_enemy = FindGO<Enemy>("enemy");
 	m_enemyAnimation = FindGO<EnemyAnimation>("enemyAnimation");
+	// 絵合わせギミックを探す。
+	if (m_puzzleCube == nullptr) {
+		m_puzzleCube = FindGO<PuzzleCube>("PuzzleCube");
+	}
 	
 	m_player->m_playerTouchFlag = true;	//プレイヤーがfloor2についたかどうかのフラグをtrueにする
 	//プレイヤーの取得
@@ -79,14 +83,13 @@ bool SecondFloor::Start()
 		
 		});
 
+	m_puzzleCube = NewGO<PuzzleCube>(0, "puzzleCube");
+
 	return true;
 }
 
 void SecondFloor::Update()
 {
-
-
-
 	if (m_pyramid && m_player) {
 		Vector3 playerPos = m_player->GetPosition();
 		Vector3 pyramidPos = m_pyramid->GetPosition();
@@ -109,13 +112,7 @@ void SecondFloor::Update()
 			GoToNeoStage();
 
 		}
-
-
-}
-
-	
-
-
+    }
 } // namespace GameEngine2D
 
 void SecondFloor::GoToNeoStage() {

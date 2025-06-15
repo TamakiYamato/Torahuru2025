@@ -51,6 +51,7 @@ public:
 	SkyCube* m_skyCube = nullptr;				  
 
 	int m_dedicationItemCount = 0;
+
 private:
 	FloorManager*				m_floorManager=nullptr;
 	Player*						m_player;
@@ -62,9 +63,7 @@ private:
 	Stairs*						m_stairs = nullptr;					//階段
 	GameCamera*					m_gamecamera = nullptr;				//ゲームカメラ
 	FireTriggerFloor*           m_fireTriggerFloor;
-	PuzzleCube*					m_puzzleCube;				//パズルキューブ
-	PuzzleCube*					m_puzzleCube2;				//パズルキューブ
-	PuzzleCube*					m_puzzleCube3;				//パズルキューブ
+	PuzzleCube*	  			    m_puzzleCube = nullptr;				//パズルキューブ
 	TutorialUI*					m_tutorialUI;
 	FontRender					m_fontRender;
 	SpriteRender				m_spriteRender;
