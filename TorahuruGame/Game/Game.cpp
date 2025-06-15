@@ -32,13 +32,16 @@ Game::Game()
 
 Game::~Game() {
 	DeleteGO(m_bgm);
+	DeleteGO(m_firstFloor);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
+	//m_gamecamera = nullptr;
 	DeleteGO(m_stairs);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_setStamina);
-//	DeleteGO(m_stageManager);
-	//DeleteGO(m_Load);
+	DeleteGO(m_puzzleCube);
+	
+	//DeleteGO(m_stageManager);
 	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -156,12 +159,11 @@ bool Game::Start()
 
 	m_player			     = NewGO<Player>(0, "player");
 	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
-	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
-	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
+
 	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
 	
 	TimerUI();
@@ -233,10 +235,17 @@ void Game::Update()
 		}
 	}
 	
-	// 絵合わせのクリア判定。
-	PuzzleCube* puzzleCube = FindGO<PuzzleCube>("puzzleCube");
-	if (puzzleCube && puzzleCube->m_clear) {
+	// クリア判定
+	if (m_puzzleCube->m_clear == true && !m_isGameClearRequested) {
 		NewGO<GameClear>(0, "gameClear");
+		m_isGameClearRequested = true; // フラグを立てる
+		return; // 以降の処理をスキップ
+	}
+
+	// フラグが立っていたら次のフレームでDeleteGO
+	if (m_isGameClearRequested) {
+		DeleteGO(this);
+		return;
 	}
 
 	//ゲームオーバー条件

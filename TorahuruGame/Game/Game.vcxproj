@@ -243,7 +243,6 @@
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MakeEffect.cpp" />
-    <ClCompile Include="NextStageTrigger.cpp" />
     <ClCompile Include="Offering.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -286,7 +285,6 @@
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="MakeEffect.h" />
-    <ClInclude Include="NextStageTrigger.h" />
     <ClInclude Include="Offering.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />

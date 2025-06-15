@@ -47,7 +47,7 @@ bool FireGimmic::Start()
 
 	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/fire.wav");
 
-	m_fireTriggerFloor = FindGO<FireTriggerFloor>("firetriggerfloor");
+	//m_fireTriggerFloor = FindGO<FireTriggerFloor>("firetriggerfloor");
 	m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "firetriggerfloor");
 
 	m_game = FindGO<Game>("game");

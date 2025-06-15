@@ -21,7 +21,11 @@ Title::~Title() {
 
 bool Title::Start() {
     m_spriteRender.Init("Assets/modelData/Title/title.DDS", 1920, 1080);
-    m_Loading = NewGO<Loading>(1, "loading");
+
+    if(m_Loading == nullptr) {
+        // ロード中のオブジェクトがない場合は作成する。
+        m_Loading = NewGO<Loading>(1, "loading");
+	}
 
     m_startButtonRender.Init("Assets/modelData/Title/startButtonText.DDS",1920, 1080);
     m_startButtonRender.SetPosition(Vector3(BUTTON_POSITION));

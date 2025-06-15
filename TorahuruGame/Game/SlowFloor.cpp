@@ -17,6 +17,8 @@ SlowFloor::SlowFloor()
 SlowFloor::~SlowFloor()
 {
 	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
+	m_collisionObject = nullptr;
+
 }
 
 bool SlowFloor::Start()

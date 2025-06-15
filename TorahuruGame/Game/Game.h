@@ -50,10 +50,12 @@ public:
 
 	SkyCube* m_skyCube = nullptr;				  
 
+	bool						m_isGameClearRequested = false;
 	int m_dedicationItemCount = 0;
 
 private:
 	FloorManager*				m_floorManager=nullptr;
+	FirstFloor*					m_firstFloor = nullptr;			//1階
 	Player*						m_player;
 	Stamina*                    m_setStamina;
 	Enemy*						m_enemy	= nullptr;
@@ -78,6 +80,7 @@ private:
 	Vector3						m_pos;
 
 	bool						m_isWaitLoadOut;
+	
 	int	m_skycubeType	= enSkyCubeType_NightToon;
 	float	m_timer			= 600.0f;
 	

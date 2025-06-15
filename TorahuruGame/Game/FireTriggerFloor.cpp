@@ -17,8 +17,8 @@ FireTriggerFloor::FireTriggerFloor()
 
 FireTriggerFloor::~FireTriggerFloor()
 {
-	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
-
+	DeleteGO(m_collisionObject);
+	m_collisionObject = nullptr;
 }
 
 bool FireTriggerFloor::Start()
@@ -34,6 +34,7 @@ bool FireTriggerFloor::Start()
 		COLLISION_SIZE					//大きさ
 	);
 
+	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 	m_enemy = FindGO<Enemy>("enemy");
 	m_firstFloor = FindGO<FirstFloor>("firstfloor");
@@ -55,7 +56,8 @@ void FireTriggerFloor::FireTriggerControlFloor()
 }
 void FireTriggerFloor::Update() 
 {
-	FireTriggerControlFloor();//エラーが起こる
+	if (m_game->m_isGameClearRequested) return; //ゲーム削除後は何もしない
+	FireTriggerControlFloor();
 }
 
 void FireTriggerFloor::Render(RenderContext& rc)

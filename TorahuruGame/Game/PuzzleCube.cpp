@@ -118,6 +118,11 @@ void PuzzleCube::Update()
 	m_modelRender.Update();
 	m_modelRender2.Update();
 	m_modelRender3.Update();
+
+	if (SetClear()) {
+		m_clear = true;
+	}
+
 }
 
 bool PuzzleCube::SetClear() const

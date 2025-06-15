@@ -40,6 +40,7 @@ public:
 	FirstFloor* m_firstFloor = nullptr;
 	ThirdFloor* m_thirdFloor = nullptr;
 	SecondFloor* m_secondFloor ;
+	Game* m_game = nullptr;
 	BackGround* m_background = nullptr;
 	FireTriggerFloor* m_fireTriggerFloor = nullptr;			//火炎放射器のトリガー
 	GameCamera* m_gamecamera;

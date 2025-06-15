@@ -7,15 +7,16 @@
 #include "FloorManager.h"
 #include "FireGimmic.h"
 #include "Stairs.h"
-#include"GameClear.h"
-#include"Player.h"
-#include"SecondFloor.h"
-#include"GameCamera.h"
-#include"Stamina.h"
-#include"Scene.h"
-#include"TutorialUI.h"
-#include"Loading.h"
-#include"FireTriggerFloor.h"
+#include "Game.h"
+#include "GameClear.h"
+#include "Player.h"
+#include "SecondFloor.h"
+#include "GameCamera.h"
+#include "Stamina.h"
+#include "Scene.h"
+#include "TutorialUI.h"
+#include "Loading.h"
+#include "FireTriggerFloor.h"
 #include "PuzzleCube.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
@@ -34,8 +35,6 @@ FirstFloor::~FirstFloor()
 	DeleteGO(m_fireGimmic);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_stamina);
-	DeleteGO(m_collisitonObject);
-	DeleteGO(m_fireTriggerFloor);
 	
 	for(ReverseFloor* reverseFloor : m_reverseFloorList) {
 		DeleteGO(reverseFloor);
@@ -55,12 +54,12 @@ FirstFloor::~FirstFloor()
 	for(FireTriggerFloor* fireTriggerFloor : m_fireTriggerFloorList) {
 		DeleteGO(fireTriggerFloor);
 	}
-	
+
 }
 
 bool FirstFloor::Start()
 {
-
+	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 	m_gamecamera = FindGO<GameCamera>("gamecamera");
@@ -130,7 +129,9 @@ bool FirstFloor::Start()
 
 void FirstFloor::Update()
 {
-	if (m_stairs  && m_player ) {
+	if (m_game->m_isGameClearRequested) return; //ゲーム削除後は何もしない
+
+	if (m_stairs  && m_player) {
 		Vector3 playerPos = m_player->GetPosition();
 		Vector3 stairsPos = m_stairs->GetPosition();
 		float distance = (playerPos - stairsPos).Length();

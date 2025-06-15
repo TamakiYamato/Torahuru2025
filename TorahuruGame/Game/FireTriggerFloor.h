@@ -1,4 +1,5 @@
 #pragma once
+class Game;
 class Player;
 class Enemy;
 class FloorManager;
@@ -29,11 +30,11 @@ public:
 	PhysicsStaticObject	m_physicsStaticObject;
 	ModelRender	m_modelRender;
 	CollisionObject* m_collisionObject;
+	Game* m_game = nullptr;
 	Player* m_player;
 	Enemy* m_enemy;
 	FirstFloor* m_firstFloor = nullptr;
 	SecondFloor* m_secondFloor = nullptr;
-	FireTriggerFloor* m_fireTriggerFloor = nullptr;
 	Vector3						m_scale;
 	Vector3						m_position = Vector3::Zero;
 

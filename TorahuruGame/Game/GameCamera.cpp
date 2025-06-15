@@ -15,6 +15,7 @@ GameCamera::~GameCamera()
 
 bool GameCamera::Start()
 {
+	m_game = FindGO<Game>("Game");
 	//playerを見つける
 	m_player = FindGO<Player>("player");
 	//カメラの座標設定

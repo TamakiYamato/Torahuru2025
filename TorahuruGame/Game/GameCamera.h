@@ -3,6 +3,7 @@
 #include "camera/SpringCamera.h"
 
 // 繧ｯ繝ｩ繧ｹ螳｣險縲・
+class Game;
 class Player;
 
 class GameCamera :public IGameObject
@@ -15,6 +16,7 @@ public:
 
 	void Refresh();//refresh:当たり判定を直す
 
+	Game* m_game;
 	Player* m_player;
 	SpringCamera m_springCamera;   
 	GameCamera *m_gamecamera;

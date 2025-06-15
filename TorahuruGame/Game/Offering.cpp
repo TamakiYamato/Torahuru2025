@@ -47,11 +47,11 @@ void Offering::Update()
 
 	//コリジョンとplayerが当たった場合
 	//floorManagerで効果を与える
-	if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
-	{
-		m_game->m_dedicationItemCount++;
-		DeleteGO(this);	//自分自身を削除
-	}
+	//if (m_collisionObject->IsHit(m_player->GetCharacterController()) == true)
+	//{
+	//	m_game->m_dedicationItemCount++;
+	//	DeleteGO(this);	//自分自身を削除
+	//}
 	//絵描きさんの更新処理。
 	m_modelRender->Update();
 }
