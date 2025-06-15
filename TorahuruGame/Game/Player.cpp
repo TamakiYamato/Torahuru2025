@@ -273,7 +273,7 @@ void Player::FireState()
 {
 	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
 
-	const int INVINCIBLE_TIME = 300.0f;	//無敵時間の定数。
+	const int INVINCIBLE_TIME = 200.0f;	//無敵時間の定数。
 
 	if (m_isInvincible == true)
 	{
