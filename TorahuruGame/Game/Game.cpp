@@ -226,7 +226,7 @@ void Game::Update()
 	}
 	
 	// floor3のクリア条件。
-	// 全ての絵合わせギミックが指定した角度になった場合。
+	// 全ての絵合わせギミックがクリア判定になったら。
 	if (m_puzzleCube->m_clear == true) {
 		NewGO<GameClear>(0, "gameClear");
 		DeleteGO(this);

@@ -118,16 +118,10 @@ void PuzzleCube::Update()
 bool PuzzleCube::SetClear() const
 {
 	// クリア判定。
-	  // 角度の誤差を許容する場合
-	/*const float epsilon = 180.0f;
-	return (fabsf(m_rotationY) < epsilon) &&
-		(fabsf(m_rotation2Y) < epsilon) &&
-		(fabsf(m_rotation3Y) < epsilon);*/
-	
-		if (m_rotationY == 90 && m_rotation2Y == 90 && m_rotation3Y == 90) {
-			// クリア判定にする。
-			return true;
-		}
+	if (m_rotationY == 90 && m_rotation2Y == 90 && m_rotation3Y == 90) {
+		// クリア判定にする。
+		//return true;
+	}
 
 	return false;
 }
