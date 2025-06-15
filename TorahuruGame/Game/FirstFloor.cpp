@@ -16,6 +16,7 @@
 #include"TutorialUI.h"
 #include"Loading.h"
 #include"FireTriggerFloor.h"
+#include "PuzzleCube.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 FirstFloor::FirstFloor()
