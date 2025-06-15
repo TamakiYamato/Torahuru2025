@@ -230,17 +230,15 @@ void Game::Update()
 
 	//floor2のクリア条件
 	if (m_player->m_playerTouchFlag == true) {	//プレイヤーがfloor2にいるとき
-		if(m_dedicationItemCount == 3) {	//床にある献納アイテムをすべて集めた場合
-			
+		// クリア判定
+		if (m_puzzleCube->m_clear == true && !m_isGameClearRequested) {
+			NewGO<GameClear>(0, "gameClear");
+			m_isGameClearRequested = true; // フラグを立てる
+			return; // 以降の処理をスキップ
 		}
 	}
 	
-	// クリア判定
-	if (m_puzzleCube->m_clear == true && !m_isGameClearRequested) {
-		NewGO<GameClear>(0, "gameClear");
-		m_isGameClearRequested = true; // フラグを立てる
-		return; // 以降の処理をスキップ
-	}
+
 
 	// フラグが立っていたら次のフレームでDeleteGO
 	if (m_isGameClearRequested) {
