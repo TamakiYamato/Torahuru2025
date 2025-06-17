@@ -32,10 +32,8 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
-    <ClCompile Include="ThirdFloor.cpp" />
     <ClCompile Include="PuzzleCube.cpp" />
     <ClCompile Include="PuzzleCubeManager.cpp" />
-    <ClCompile Include="BackGroundThree.cpp" />
     <ClCompile Include="BackGroundTwo.cpp" />
     <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="RotationFloor.cpp" />
@@ -43,7 +41,6 @@
     <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="Scene\StageManager.cpp" />
     <ClCompile Include="Tips.cpp" />
-    <ClCompile Include="NextStageTrigger.cpp" />
     <ClCompile Include="Offering.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -77,13 +74,10 @@
     <ClInclude Include="BackGroundTwo.h" />
     <ClInclude Include="Scene\StageManager.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="ThirdFloor.h" />
     <ClInclude Include="PuzzleCube.h" />
     <ClInclude Include="PuzzleCubeManager.h" />
-    <ClInclude Include="BackGroundThree.h" />
     <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="Tips.h" />
-    <ClInclude Include="NextStageTrigger.h" />
     <ClInclude Include="Offering.h" />
   </ItemGroup>
 </Project>
