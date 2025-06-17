@@ -12,13 +12,12 @@ namespace
 
 BlindFloor::BlindFloor()
 {
+
 }
 
 BlindFloor::~BlindFloor()
 {
-
 	DeleteGO(m_collisionObject);	//コリジョンオブジェクトを削除
-
 }
 
 bool BlindFloor::Start()

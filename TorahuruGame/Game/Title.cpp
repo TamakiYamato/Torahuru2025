@@ -25,14 +25,6 @@ bool Title::Start() {
 
     m_startButtonRender.Init("Assets/modelData/Title/startButtonText.DDS",1920, 1080);
     m_startButtonRender.SetPosition(Vector3(BUTTON_POSITION));
-    
-    // BGMを読み込む。
-    //g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
-    //// soundSourceを作成する。
-    //m_bgm = NewGO<SoundSource>(3);
-    //m_bgm->Init(3);
-    //// BGMをループさせる。
-    //m_bgm->Play(true);
 
     // 効果音を読み込む。
     g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");
@@ -70,7 +62,7 @@ void Title::Update() {
     //α値を変化させる。
     if (m_isWaitLoadOut)
     {
-        //m_Loading->
+       
     }
     else
     {
