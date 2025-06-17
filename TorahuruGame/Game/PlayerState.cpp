@@ -6,7 +6,6 @@
 // 待機ステート。
 void PlayerIdleState::Enter()
 {
-	// TODO: tamaki Idle状態のアニメーションを再生。
 }
 
 void PlayerIdleState::Update()
@@ -228,7 +227,6 @@ void PlayerCrouchWalkState::Update()
 		// ステートを待機状態に切り替える。
 		m_player->m_requestPlayerState = enPlayerState_Idle;
 	}
-	// TODO: tamaki JキーとKキーを同時押しした状態で移動すると、ダッシュ時の移動速度でしゃがみ歩きするので修正する。
 	// パッドの入力がある、かつBボタンが押されていなかったら。
 	else if (LStickPower.Length() >= 0.01f && !g_pad[0]->IsPress(enButtonB)) {
 		// 状態を歩きに切り替える

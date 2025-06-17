@@ -32,8 +32,6 @@ bool PuzzleCube::Start()
 	m_modelRender5.Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
 	m_modelRender6.Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
 
-
-	// TODO: tamaki レベルできるようになるまでポジションをここで定義する。
 	// ブロックの位置。
 	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
 	m_modelRender2.SetPosition(Vector3(CUBE2_POSITION));

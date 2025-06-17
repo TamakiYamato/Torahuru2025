@@ -120,7 +120,6 @@ public:
 	float m_stamina = m_max_stamina; // 現在のスタミナ。
 	// スタミナの有無フラグ。
 	// 初期状態はスタミナがあるのでfalse。
-	// TODO: tamaki		ここのフラグの名前を変更する。
 	bool m_staminaFlag = false;
 	bool m_dashFlag = false; // 走り判定。
 	bool m_playerTouchFlag = false; //プレイヤーがfloor2についたかどうかのフラグ
