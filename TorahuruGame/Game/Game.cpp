@@ -107,6 +107,7 @@ void Game::PlayBGM()
 	m_bgm = NewGO<SoundSource>(0);
 	m_bgm->Init(0);
 	m_bgm->Play(true);
+	m_bgm->SetVolume(0.3f);
 };
 
 
@@ -162,7 +163,7 @@ bool Game::Start()
 	TimerUI();
 	InitSky();
 	SetSutamina();
-	//PlayBGM();
+	PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
