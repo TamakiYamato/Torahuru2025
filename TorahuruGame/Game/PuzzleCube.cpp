@@ -51,8 +51,13 @@ bool PuzzleCube::Start()
 	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
 	m_modelRender2.SetPosition(Vector3(CUBE2_POSITION));
 	m_modelRender3.SetPosition(Vector3(CUBE3_POSITION));
-
+	// Updateをかけることで、生成されたコリジョンもポジションが変更される。
+	// Updateをかけることでワールド行列(ポジションとか)を再計算するする。
+	m_modelRender.Update();
+	m_modelRender2.Update();
+	m_modelRender3.Update();
 	// 土台の位置。
+
 	m_modelRender4.SetPosition(Vector3(CUBE4_POSITION));
 	m_modelRender5.SetPosition(Vector3(CUBE5_POSITION));
 	m_modelRender6.SetPosition(Vector3(CUBE6_POSITION));
@@ -62,6 +67,11 @@ bool PuzzleCube::Start()
 	m_modelRender4.Update();
 	m_modelRender5.Update();
 	m_modelRender6.Update();
+
+	// 初期状態でコリジョンを生成
+	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	m_physicsStaticObject2.CreateFromModel(m_modelRender2.GetModel(), m_modelRender2.GetModel().GetWorldMatrix());
+	m_physicsStaticObject3.CreateFromModel(m_modelRender3.GetModel(), m_modelRender3.GetModel().GetWorldMatrix());
 
 	return true;
 }
@@ -118,7 +128,16 @@ void PuzzleCube::Update()
 		m_clear = true;
 	}
 
-	SetRotation();
+	//// コリジョンを再生成。
+	//m_physicsStaticObject.Release();
+	//m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+
+	//m_physicsStaticObject2.Release();
+	//m_physicsStaticObject2.CreateFromModel(m_modelRender2.GetModel(), m_modelRender2.GetModel().GetWorldMatrix());
+
+	//m_physicsStaticObject3.Release();
+	//m_physicsStaticObject3.CreateFromModel(m_modelRender3.GetModel(), m_modelRender3.GetModel().GetWorldMatrix());
+
 	// 絵合わせギミックの更新。
 	m_modelRender.Update();
 	m_modelRender2.Update();

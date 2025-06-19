@@ -154,7 +154,7 @@ bool Game::Start()
 	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
 
 	m_player			     = NewGO<Player>(0, "player");
-	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM

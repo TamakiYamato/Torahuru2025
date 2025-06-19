@@ -45,5 +45,8 @@ private:
 	Quaternion m_rotation;
 	Quaternion m_rotation2;
 	Quaternion m_rotation3;
+	PhysicsStaticObject m_physicsStaticObject;
+	PhysicsStaticObject m_physicsStaticObject2;
+	PhysicsStaticObject m_physicsStaticObject3;
 };
 
