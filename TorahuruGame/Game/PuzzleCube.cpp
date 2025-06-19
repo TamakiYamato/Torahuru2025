@@ -3,11 +3,19 @@
 #include"SecondFloor.h"
 #include "Player.h"
 #include "GameClear.h"
+#include <array>
 
 namespace {
+	// 絵合わせブロックの位置。
 	Vector3 CUBE1_POSITION = Vector3(1790.0f, 40.0f, -2270.0f);
 	Vector3 CUBE2_POSITION = Vector3(-500.0f, 30.0f, -3100.0f);
-	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f, -2470.0f);
+	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f,-2440.0f);
+	// 絵合わせの土台の位置。
+	Vector3 CUBE4_POSITION = Vector3(1790.0f, 10.0f, -2270.0f);
+	Vector3 CUBE5_POSITION = Vector3(-500.0f, 0.0f, -3100.0f);
+	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2440.0f);
+	// 絵合わせの大きさ。
+	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
 }
 
 PuzzleCube::PuzzleCube()
@@ -22,33 +30,32 @@ PuzzleCube::~PuzzleCube()
 
 bool PuzzleCube::Start()
 {
-	// 絵合わせギミックの読み込み。
 	// ブロック。
-	m_modelRender.Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
-	m_modelRender2.Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
-	m_modelRender3.Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
+	std::array<ModelRender*, 3> modelRenders = { &m_modelRender, &m_modelRender2, &m_modelRender3 };
+	for (auto& render : modelRenders) {
+		// ファイルを読み込む。
+		render->Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
+		// 大きさを変更する。
+		render->SetScale(CUBE_SCALE);
+	}
 	// 土台。
-	m_modelRender4.Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
-	m_modelRender5.Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
-	m_modelRender6.Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
+	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
+	for (auto& render2 : modelRenders2) {
+		// ファイルを読み込む。
+		render2->Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
+		// 大きさを変更する。
+		render2->SetScale(CUBE_SCALE);
+	}
 
 	// ブロックの位置。
 	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
 	m_modelRender2.SetPosition(Vector3(CUBE2_POSITION));
 	m_modelRender3.SetPosition(Vector3(CUBE3_POSITION));
-	// 大きさ。
-	m_modelRender.SetScale({ 3.0f,3.0f,3.0f });
-	m_modelRender2.SetScale({ 3.0f,3.0f,3.0f });
-	m_modelRender3.SetScale({ 3.0f,3.0f,3.0f });
 
 	// 土台の位置。
-	m_modelRender4.SetPosition(Vector3(1790.0f, 10.0f, -2270.0f));
-	m_modelRender5.SetPosition(Vector3(-500.0f, 0.0f, -3100.0f));
-	m_modelRender6.SetPosition(Vector3(-1200.0f, 0.0f, -2470.0f));
-	// 大きさ。
-	m_modelRender4.SetScale({ 3.0f,3.0f,3.0f });
-	m_modelRender5.SetScale({ 3.0f,3.0f,3.0f });
-	m_modelRender6.SetScale({ 3.0f,3.0f,3.0f });
+	m_modelRender4.SetPosition(Vector3(CUBE4_POSITION));
+	m_modelRender5.SetPosition(Vector3(CUBE5_POSITION));
+	m_modelRender6.SetPosition(Vector3(CUBE6_POSITION));
 
 	m_player = FindGO<Player>("player");
 
@@ -132,10 +139,10 @@ bool PuzzleCube::SetClear() const
 void PuzzleCube::Render(RenderContext& rc)
 {
 	// 絵合わせギミックの描画。
-	m_modelRender.Draw(rc);
-	m_modelRender2.Draw(rc);
-	m_modelRender3.Draw(rc);
-	m_modelRender4.Draw(rc);
-	m_modelRender5.Draw(rc);
-	m_modelRender6.Draw(rc);
+	std::array<ModelRender*, 6> modelRenders3 = { &m_modelRender, &m_modelRender2, &m_modelRender3, &m_modelRender4, &m_modelRender5, &m_modelRender6 };
+	for (auto& render3 : modelRenders3) {
+		// ファイルを読み込む。
+		// 大きさを変更する。
+		render3->Draw(rc);
+	}
 }

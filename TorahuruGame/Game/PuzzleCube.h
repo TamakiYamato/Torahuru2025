@@ -15,13 +15,6 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	enum EnmodelRender {
-		enModelRender,
-		enModelRender2,
-		enModelRender3,
-		enModelRender_Num
-	};
-
 	// 追加: Y軸回転角度（度数法）
 	float m_rotationY = 0.0f;
 	float m_rotation2Y = 0.0f;
