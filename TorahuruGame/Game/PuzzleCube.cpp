@@ -16,16 +16,30 @@ namespace {
 	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2440.0f);
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
+	// UIの位置。
+	Vector3 CUBE_UI = Vector3(0.0f,0.0f,0.0f);
+	// UIの大きさ。
+	Vector3 CUBE_UI_SCALE = Vector3(0.4f, 0.8f, 0.7f);
+	// UIの色。
+	Vector4 CUBE_UI_COLOR = Vector4(1.0f, 1.0f, 1.0f, 0.7f);
 }
 
 PuzzleCube::PuzzleCube()
 {
-
 }
 
 PuzzleCube::~PuzzleCube()
 {
+}
 
+void PuzzleCube::SetUI()
+{
+	// タイマーの背景。
+	//m_spriteRender.Init("Assets/modelData/item/UIPanel1.dds", 600.0f, 100.0f);
+	m_spriteRender.Init("Assets/modelData/item/green.dds", 600.0f, 100.0f);
+	m_spriteRender.SetPosition(Vector3(-10.0f, 460.0f, 0.0f));
+	m_spriteRender.SetScale(Vector3(0.4f, 0.8f, 0.7f));
+	m_spriteRender.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, 0.7f));
 }
 
 bool PuzzleCube::Start()
@@ -37,6 +51,7 @@ bool PuzzleCube::Start()
 		render->Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
 		// 大きさを変更する。
 		render->SetScale(CUBE_SCALE);
+		//render->Update();
 	}
 	// 土台。
 	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
@@ -88,16 +103,19 @@ void PuzzleCube::SetRotation()
 
 void PuzzleCube::Rotation()
 {
-
-}
-
-void PuzzleCube::Update()
-{
 	// 距離計算。
-	float distToCube1 = ( m_player->m_position - CUBE1_POSITION ).Length();
-	float distToCube2 = ( m_player->m_position - CUBE2_POSITION ).Length();
-	float distToCube3 = ( m_player->m_position - CUBE3_POSITION ).Length();
+	float distToCube1 = (m_player->m_position - CUBE1_POSITION).Length();
+	float distToCube2 = (m_player->m_position - CUBE2_POSITION).Length();
+	float distToCube3 = (m_player->m_position - CUBE3_POSITION).Length();
 
+	// 絵合わせギミックのUIを表示。
+	if (distToCube1 < 150.0f || distToCube2 < 150.0f || distToCube3 < 150.0f) {
+		m_uiFlag = true;
+	}
+	// 
+	else {
+		m_uiFlag = false;
+	}
 	// ブロックの回転（近いキューブのみ）
 	if (distToCube1 <= 100.0f && g_pad[0]->IsTrigger(enButtonLeft)) {
 		m_rotationY += 90.0f;
@@ -107,7 +125,7 @@ void PuzzleCube::Update()
 	}
 	if (distToCube2 <= 100.0f && g_pad[0]->IsTrigger(enButtonUp)) {
 		m_rotation2Y += 90.0f;
-		if (m_rotation2Y > 360){
+		if (m_rotation2Y > 360) {
 			m_rotation2Y = 0;
 		}
 	}
@@ -117,7 +135,13 @@ void PuzzleCube::Update()
 			m_rotation3Y = 0;
 		}
 	}
+}
 
+void PuzzleCube::Update()
+{
+	
+	// 距離計算、回転処理。
+	Rotation();
 	// モデルに回転を反映
 	SetRotation();
 	m_modelRender.SetRotation(m_rotation);
@@ -127,16 +151,6 @@ void PuzzleCube::Update()
 	if (SetClear()) {
 		m_clear = true;
 	}
-
-	//// コリジョンを再生成。
-	//m_physicsStaticObject.Release();
-	//m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-
-	//m_physicsStaticObject2.Release();
-	//m_physicsStaticObject2.CreateFromModel(m_modelRender2.GetModel(), m_modelRender2.GetModel().GetWorldMatrix());
-
-	//m_physicsStaticObject3.Release();
-	//m_physicsStaticObject3.CreateFromModel(m_modelRender3.GetModel(), m_modelRender3.GetModel().GetWorldMatrix());
 
 	// 絵合わせギミックの更新。
 	m_modelRender.Update();
@@ -163,5 +177,9 @@ void PuzzleCube::Render(RenderContext& rc)
 		// ファイルを読み込む。
 		// 大きさを変更する。
 		render3->Draw(rc);
+	}
+	if (m_uiFlag == true) {
+		SetUI();
+		m_spriteRender.Draw(rc);
 	}
 }

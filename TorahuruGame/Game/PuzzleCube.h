@@ -12,6 +12,8 @@ public:
 	void Rotation();
 	void SetRotation();
 	bool SetClear()const;
+	void SetUI();
+	
 	void Update();
 	void Render(RenderContext& rc);
 
@@ -25,6 +27,7 @@ public:
 	void SetRotationY(float deg) { m_rotationY = deg; }
 
 	bool m_clear = false;
+	bool m_uiFlag = false;
 
 private:
 	Player* m_player;
@@ -35,6 +38,7 @@ private:
 	ModelRender m_modelRender4;
 	ModelRender m_modelRender5;
 	ModelRender m_modelRender6;
+	SpriteRender m_spriteRender;
 	Vector3 m_position;
 	float m_posi = 0.0f;
 	float m_posi2 = 0.0f;
