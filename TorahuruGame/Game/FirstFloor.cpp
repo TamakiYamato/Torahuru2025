@@ -135,7 +135,7 @@ void FirstFloor::Update()
 		Vector3 stairsPos = m_stairs->GetPosition();
 		float distance = (playerPos - stairsPos).Length();
 		
-		if (distance < 100.0f) {
+		if (distance < 200.0f) {
 			//先にここで暗くする処理とそれを終わらせる処理
 			m_loading = FindGO<Loading>("loading");
 			//⇂ここで暗くする処理

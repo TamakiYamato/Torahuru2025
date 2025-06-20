@@ -12,6 +12,7 @@ namespace
 
 Loading::Loading()
 {
+
 }
 
 Loading::~Loading()
