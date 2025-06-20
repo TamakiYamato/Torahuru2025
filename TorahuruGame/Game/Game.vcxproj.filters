@@ -42,6 +42,7 @@
     <ClCompile Include="Scene\StageManager.cpp" />
     <ClCompile Include="Tips.cpp" />
     <ClCompile Include="Offering.cpp" />
+    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -79,5 +80,6 @@
     <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="Tips.h" />
     <ClInclude Include="Offering.h" />
+    <ClInclude Include="GameManager.h" />
   </ItemGroup>
 </Project>

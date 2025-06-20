@@ -23,7 +23,7 @@
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
 #include"FireTriggerFloor.h"
-
+//#include"StageManager.h"
 
 Game::Game()
 {
@@ -37,8 +37,8 @@ Game::~Game() {
 	DeleteGO(m_stairs);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_setStamina);
-
-
+//	DeleteGO(m_stageManager);
+	//DeleteGO(m_Load);
 	
 	//あべこべ床をすべて見つける
 	const auto& reverseFloors = FindGOs<ReverseFloor>("ReverseFloor");
@@ -79,6 +79,8 @@ void Game::InitSky() {
 // Directionライトの設定
 void Game::LightSetting()
 {
+	// IBLテクスチャの設定
+	//g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 1.0f);
 	g_renderingEngine->SetAmbient(Vector3(0.5f, 0.5f, 0.5f));
 	// 上からの光
 	{
@@ -107,7 +109,6 @@ void Game::PlayBGM()
 	m_bgm = NewGO<SoundSource>(0);
 	m_bgm->Init(0);
 	m_bgm->Play(true);
-	m_bgm->SetVolume(0.3f);
 };
 
 
@@ -155,15 +156,18 @@ bool Game::Start()
 
 	m_player			     = NewGO<Player>(0, "player");
 	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
-
+	//m_stairs		      		= NewGO<Stairs>(0, "stairs");		//階段
+	//m_stairs->m_position	= { 1000.0f,-10.0f,20.0f };			//階段の座標設定
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
+	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
+	
 	TimerUI();
 	InitSky();
 	SetSutamina();
-	PlayBGM();
+	//PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();

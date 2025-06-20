@@ -130,10 +130,11 @@ public:
 
 	int m_currentPlayerState; // 現在の状態
 	int m_requestPlayerState; // 次に使いたい状態(リクエスト)
-	int m_InvincibleTime = 0.0f; // 無敵時間の更新用の時間。
+	int m_InvincibleTime = 0; // 無敵時間の更新用の時間。
 	
 private:
 	ModelRender* m_modelRender = nullptr;
 	FireGimmic* m_fireGimmic = nullptr;	//火炎放射器
 	Vector3 m_addForce;
+	int m_drawTime = 0;
 };
