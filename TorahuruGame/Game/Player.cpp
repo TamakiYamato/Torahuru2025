@@ -397,11 +397,15 @@ void Player::Render(RenderContext& rc) {
 		if (m_isTest == true)
 		{
 			m_modelRender->Draw(rc);
-			m_isTest = false;
+			m_drawTime++;
+			if (m_drawTime > 2) {
+				m_isTest = false;
+			}
 		}
 		else
 		{
 			m_isTest = true;
+			m_drawTime = 0;
 		}
 	}
 }

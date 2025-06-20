@@ -96,6 +96,7 @@ namespace nsK2EngineLow {
 			return m_effect.IsPlay();
 		}
 
+
 		void SetIsOutDelete(bool isOutDelete)
 		{
 			m_isOutDelete = isOutDelete;

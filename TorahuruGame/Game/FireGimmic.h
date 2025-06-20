@@ -13,7 +13,8 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	void Collision();											//コリジョン
+	void PlayCollision();											//コリジョン
+	void IntervalCollision();
 	void PlaySE();												//効果音
 
 	void SetPosition(const Vector3& position)
@@ -26,19 +27,7 @@ public:
 		m_scale = scale;
 	}
 	void SetRotation(const Quaternion& rotation) {
-		m_rotaion = rotation;
-	}
-	// effectを出す時間までの時間
-	void SetEffectInterval(const float& time)
-	{
-		m_effectInterval = time;
-	}
-
-	// 発射スピードと放射時間
-	void SetSppedLimit(const float& speed, const float& limit)
-	{
-		m_speed = speed;
-		m_limit = limit;
+		m_rotation = rotation;
 	}
 
 
@@ -57,6 +46,7 @@ private:
 	};
 	Status					m_status = enStatus_Idle;
 	ModelRender				m_modelRender;
+
 	EffectEmitter* m_fire = nullptr;					//
 	EffectEmitter* m_fire2 = nullptr;					//
 	SoundSource* m_se;									//se
@@ -66,20 +56,26 @@ private:
 
 
 	SpriteRender			m_mapSprite;				//画像
+	Quaternion              m_rotation;
 	Quaternion m_fireRot_North;                         //北側
 	Quaternion m_fireRot_South;                         //南側
 	Quaternion m_fireRot_East;                          //東側
 	Quaternion m_fireRot_West;                          //西側
 	CollisionObject* m_fireCollision;
+	CollisionObject* m_fireCollision2;
 
 	Vector3					m_position = Vector3::Zero;
+	Vector3					m_position2 = Vector3::Zero;
 	Vector3                 m_scale = Vector3::Zero;
-    Quaternion              m_rotaion;
-	Vector3					m_firstPosition = Vector3::Zero;
+	Vector3                 m_scale2 = Vector3::Zero;
 
-	bool					m_moveFlag = false;					//動いているかのフラグ
-	float					m_effectIntervalTimer = 0.0f;		//火炎放射器を動かさない時間の計測
-	float					m_effectInterval = 5.0f;			//火炎放射器を動かさない時間
+	bool					m_moveFlag = true;					//動かしたかどうかのフラグ
+	bool					m_isMoveFireFlag = true;			//動かすかどうかのフラグ
+
+	float					m_effectPlayTimer = 0.0f;			//火炎放射器を動いている間の時間計測
+	const float				m_effectPlay = 3.0f;				//火炎放射器を動かす時間
+	float					m_effectIntervalTimer = 0.0f;		//火炎放射器を止まっている間の時間計測
+	const float				m_effectInterval = 2.5f;			//火炎放射器を止める時間
 	float					m_limit = 100.0f;
 	float					m_speed = 20.0f;
 
