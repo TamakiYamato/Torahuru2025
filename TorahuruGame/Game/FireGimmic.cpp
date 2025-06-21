@@ -2,7 +2,6 @@
 #include "FireGimmic.h"
 #include "Game.h"
 #include "Player.h"
-#include "FireTriggerFloor.h"
 #include "FirstFloor.h"
 #include "collision/CollisionObject.h"
 #include "graphics/effect/EffectEmitter.h"

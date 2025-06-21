@@ -15,7 +15,6 @@
 #include"Scene.h"
 #include"TutorialUI.h"
 #include"Loading.h"
-#include"FireTriggerFloor.h"
 #include "PuzzleCube.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
@@ -30,12 +29,10 @@ FirstFloor::~FirstFloor()
 	DeleteGO(m_stairs);
 	DeleteGO(m_background);
 	DeleteGO(m_firstFloor);
-	//DeleteGO(m_floorManager);
 	DeleteGO(m_fireGimmic);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_stamina);
 	DeleteGO(m_collisitonObject);
-	DeleteGO(m_fireTriggerFloor);
 	
 	for(ReverseFloor* reverseFloor : m_reverseFloorList) {
 		DeleteGO(reverseFloor);
@@ -52,9 +49,9 @@ FirstFloor::~FirstFloor()
 	for (Stairs* stairs : m_stairsGimmicList) {
 		DeleteGO(stairs);
 	}
-	for(FireTriggerFloor* fireTriggerFloor : m_fireTriggerFloorList) {
+	/*for(FireTriggerFloor* fireTriggerFloor : m_fireTriggerFloorList) {
 		DeleteGO(fireTriggerFloor);
-	}
+	}*/
 	
 }
 
@@ -115,13 +112,7 @@ bool FirstFloor::Start()
 				m_stairs->SetRotation(objData.rotation);
 				return true;
 			}
-			/*else if (objData.ForwardMatchName(L"FireTrigger") == true) {
-				m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "FireTriggerFloor");
-				m_fireTriggerFloorList.push_back(m_fireTriggerFloor);
-				m_fireTriggerFloor->SetPosition(objData.position);
-				m_fireTriggerFloor->SetScale(objData.scale);
-				return true;
-			}*/
+	
 		});
 
 	return true;
