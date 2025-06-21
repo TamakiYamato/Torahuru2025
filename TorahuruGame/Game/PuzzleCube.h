@@ -13,7 +13,7 @@ public:
 	void SetRotation();
 	bool SetClear()const;
 	void SetUI();
-	
+	void SetText();
 	void Update();
 	void Render(RenderContext& rc);
 
@@ -39,6 +39,7 @@ private:
 	ModelRender m_modelRender5;
 	ModelRender m_modelRender6;
 	SpriteRender m_spriteRender;
+	FontRender m_fomtRender;
 	Vector3 m_position;
 	float m_posi = 0.0f;
 	float m_posi2 = 0.0f;

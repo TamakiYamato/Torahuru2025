@@ -17,11 +17,17 @@ namespace {
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
 	// UIの位置。
-	Vector3 CUBE_UI = Vector3(0.0f,0.0f,0.0f);
+	Vector3 CUBE_UI_POSITION = Vector3(800.0f, 200.0f, 0.0f);
 	// UIの大きさ。
-	Vector3 CUBE_UI_SCALE = Vector3(0.4f, 0.8f, 0.7f);
+	Vector3 CUBE_UI_SCALE = Vector3(1.0f, 1.0f, 0.2f);
 	// UIの色。
-	Vector4 CUBE_UI_COLOR = Vector4(1.0f, 1.0f, 1.0f, 0.7f);
+	Vector4 CUBE_UI_COLOR = Vector4(1.0f, 1.0f, 1.0f, 0.8f);
+	// ボタンUIの位置。
+	Vector3 BUTTON_UI_POSITION = Vector3{480.0f, 265.0f, 0.0f};
+	// ボタンUIの大きさ。
+	float BUTTON_UI_SCALE = 1.0f;
+	// ボタンUIの色。
+	Vector4 BUTTON_UI_COLOR = Vector4(g_vec4White);
 }
 
 PuzzleCube::PuzzleCube()
@@ -34,12 +40,23 @@ PuzzleCube::~PuzzleCube()
 
 void PuzzleCube::SetUI()
 {
-	// タイマーの背景。
-	//m_spriteRender.Init("Assets/modelData/item/UIPanel1.dds", 600.0f, 100.0f);
-	m_spriteRender.Init("Assets/modelData/item/green.dds", 600.0f, 100.0f);
-	m_spriteRender.SetPosition(Vector3(-10.0f, 460.0f, 0.0f));
-	m_spriteRender.SetScale(Vector3(0.4f, 0.8f, 0.7f));
-	m_spriteRender.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, 0.7f));
+	// テキスト
+	m_spriteRender.Init("Assets/modelData/stage3/gimmick/PuzzleCube/puzzleCubeUI.dds", 1920.0f, 1080.0f);
+	m_spriteRender.SetPosition(Vector3(CUBE_UI_POSITION));
+	m_spriteRender.SetScale(Vector3(CUBE_UI_SCALE));
+	m_spriteRender.SetMulColor(Vector4(CUBE_UI_COLOR));
+	Update();
+}
+
+void PuzzleCube::SetText() 
+{
+	// テキストを表示する。
+	m_fontRender.SetText(L"Yボタンで回転させる。");
+	m_fontRender.SetPosition(BUTTON_UI_POSITION);
+	m_fontRender.SetScale(BUTTON_UI_SCALE);
+	m_fontRender.SetColor(BUTTON_UI_COLOR);
+	Update();
+	// Startのコード汚いから直す。
 }
 
 bool PuzzleCube::Start()
@@ -48,7 +65,7 @@ bool PuzzleCube::Start()
 	std::array<ModelRender*, 3> modelRenders = { &m_modelRender, &m_modelRender2, &m_modelRender3 };
 	for (auto& render : modelRenders) {
 		// ファイルを読み込む。
-		render->Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
+		render->Init("Assets/modelData/stage3/gimmick/PuzzleCube.tkm");
 		// 大きさを変更する。
 		render->SetScale(CUBE_SCALE);
 		//render->Update();
@@ -57,7 +74,7 @@ bool PuzzleCube::Start()
 	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
 	for (auto& render2 : modelRenders2) {
 		// ファイルを読み込む。
-		render2->Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
+		render2->Init("Assets/modelData/stage3/gimmick/PuzzleCubeFoundation.tkm");
 		// 大きさを変更する。
 		render2->SetScale(CUBE_SCALE);
 	}
@@ -117,19 +134,19 @@ void PuzzleCube::Rotation()
 		m_uiFlag = false;
 	}
 	// ブロックの回転（近いキューブのみ）
-	if (distToCube1 <= 100.0f && g_pad[0]->IsTrigger(enButtonLeft)) {
+	if (distToCube1 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
 		m_rotationY += 90.0f;
 		if (m_rotationY > 360) {
 			m_rotationY = 0;
 		}
 	}
-	if (distToCube2 <= 100.0f && g_pad[0]->IsTrigger(enButtonUp)) {
+	if (distToCube2 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
 		m_rotation2Y += 90.0f;
 		if (m_rotation2Y > 360) {
 			m_rotation2Y = 0;
 		}
 	}
-	if (distToCube3 <= 100.0f && g_pad[0]->IsTrigger(enButtonRight)) {
+	if (distToCube3 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
 		m_rotation3Y += 90.0f;
 		if (m_rotation3Y > 360) {
 			m_rotation3Y = 0;
@@ -139,7 +156,8 @@ void PuzzleCube::Rotation()
 
 void PuzzleCube::Update()
 {
-	
+	m_spriteRender.Update();
+	m_fontRender.Update();
 	// 距離計算、回転処理。
 	Rotation();
 	// モデルに回転を反映
@@ -180,6 +198,8 @@ void PuzzleCube::Render(RenderContext& rc)
 	}
 	if (m_uiFlag == true) {
 		SetUI();
+		SetText();
 		m_spriteRender.Draw(rc);
+		m_fontRender.Draw(rc);
 	}
 }
