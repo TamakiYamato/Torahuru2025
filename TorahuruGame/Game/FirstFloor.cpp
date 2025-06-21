@@ -49,10 +49,6 @@ FirstFloor::~FirstFloor()
 	for (Stairs* stairs : m_stairsGimmicList) {
 		DeleteGO(stairs);
 	}
-	/*for(FireTriggerFloor* fireTriggerFloor : m_fireTriggerFloorList) {
-		DeleteGO(fireTriggerFloor);
-	}*/
-	
 }
 
 bool FirstFloor::Start()
