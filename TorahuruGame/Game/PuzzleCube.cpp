@@ -34,7 +34,7 @@ bool PuzzleCube::Start()
 	std::array<ModelRender*, 3> modelRenders = { &m_modelRender, &m_modelRender2, &m_modelRender3 };
 	for (auto& render : modelRenders) {
 		// ファイルを読み込む。
-		render->Init("Assets/modelData/Stage3/gimmick/PuzzleCube.tkm");
+		render->Init("Assets/modelData/Stage2/gimmick/PuzzleCube.tkm");
 		// 大きさを変更する。
 		render->SetScale(CUBE_SCALE);
 	}
@@ -42,7 +42,7 @@ bool PuzzleCube::Start()
 	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
 	for (auto& render2 : modelRenders2) {
 		// ファイルを読み込む。
-		render2->Init("Assets/modelData/Stage3/gimmick/PuzzleCubeFoundation.tkm");
+		render2->Init("Assets/modelData/Stage2/gimmick/PuzzleCubeFoundation.tkm");
 		// 大きさを変更する。
 		render2->SetScale(CUBE_SCALE);
 	}
