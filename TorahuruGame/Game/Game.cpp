@@ -22,7 +22,6 @@
 #include"PuzzleCube.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
-#include"FireTriggerFloor.h"
 //#include"StageManager.h"
 
 Game::Game()
