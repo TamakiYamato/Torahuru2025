@@ -17,15 +17,21 @@ namespace {
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
 	// UIの位置。
-	Vector3 CUBE_UI_POSITION = Vector3(800.0f, 200.0f, 0.0f);
+	//Vector3 CUBE_UI_POSITION = Vector3(800.0f, 200.0f, 0.0f);
+	Vector3 CUBE_UI_POSITION = Vector3(400.0f, -10.0f, 0.0f);
 	// UIの大きさ。
-	Vector3 CUBE_UI_SCALE = Vector3(1.0f, 1.0f, 0.2f);
+	//Vector3 CUBE_UI_SCALE = Vector3(1.0f, 1.0f, 0.2f);
+	Vector3 CUBE_UI_SCALE = Vector3(0.5f, 0.5f, 0.2f);
 	// UIの色。
 	Vector4 CUBE_UI_COLOR = Vector4(1.0f, 1.0f, 1.0f, 0.8f);
 	// ボタンUIの位置。
-	Vector3 BUTTON_UI_POSITION = Vector3{480.0f, 265.0f, 0.0f};
+	//Vector3 BUTTON_UI_POSITION = Vector3{480.0f, 265.0f, 0.0f};
+	// スケールが1.0の時のポジション。
+	//Vector3 BUTTON_UI_POSITION = Vector3{ 230.0f, 30.0f, 0.0f };
+	Vector3 BUTTON_UI_POSITION = Vector3{ 260.0f, 26.0f, 0.0f };
 	// ボタンUIの大きさ。
-	float BUTTON_UI_SCALE = 1.0f;
+	//float BUTTON_UI_SCALE = 1.0f;
+	float BUTTON_UI_SCALE = 0.8f;
 	// ボタンUIの色。
 	Vector4 BUTTON_UI_COLOR = Vector4(g_vec4White);
 }
@@ -78,6 +84,8 @@ bool PuzzleCube::Start()
 		// 大きさを変更する。
 		render2->SetScale(CUBE_SCALE);
 	}
+
+
 
 	// ブロックの位置。
 	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
