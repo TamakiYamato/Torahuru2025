@@ -23,9 +23,9 @@ FireTriggerFloor::~FireTriggerFloor()
 
 bool FireTriggerFloor::Start()
 {
-	m_modelRender.Init("Assets/modelData/FireTriggerFloor/FireTrigger.tkm"); //モデルを実装
+	//m_modelRender.Init("Assets/modelData/FireTriggerFloor/FireTrigger.tkm"); //モデルを実装
 	m_modelRender.Update();
-	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	//m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 	//m_fireTriggerFloor->m_position = { 20.0f,100.0f,0.0f };//モデルの座標を取得
 	m_collisionObject = NewGO<CollisionObject>(0, "collisionObject");
 	m_collisionObject->CreateBox(
@@ -60,5 +60,5 @@ void FireTriggerFloor::Update()
 
 void FireTriggerFloor::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
+	//m_modelRender.Draw(rc);
 }

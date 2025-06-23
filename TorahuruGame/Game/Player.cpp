@@ -75,15 +75,7 @@ bool Player::Start()
 	m_fireModel.Init("Assets/modelData/playerDamage/Fire/playerFire.tkm", m_animationClips, enAnimationClip_Num);
 
 	// 現在のモデルを設定
-	m_modelRender = &m_normalModel;	//m_modelRenderはポインタ型なので、&をつける。
-	/*ModelInitData modelInitData;
-	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
-	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
-	modelInitData.m_vsSkinEntryPointFunc = "VSMainSkin";
-	modelInitData.m_psEntryPointFunc = "PSMainHardShadow";
-	modelInitData.animationClips = m_animationClips;
-	modelInitData.numAnimationClips = enAnimationClip_Num;
-	m_modelRender->InitForwardRendering(modelInitData);*/
+	m_modelRender = &m_normalModel;		//m_modelRenderはポインタ型なので、&をつける。
 	// キャラクターの更新。
 	m_modelRender->Update();
 	// キャラクターの向きを変える。
@@ -132,10 +124,10 @@ void Player::Update() {
 	K2_ASSERT(m_currentPlayerState != enPlayerState_None, "状態が正しく設定されていません。");
 	m_playerStateList[m_currentPlayerState]->Update();
 #endif
-	FireState();			//火炎放射器に当たった時のモデル更新。
-	AddFireEffect();		//火炎放射器に当たった時のモデル更新。
-	UpdateModelByState();	//ステートによってモデルのアップデートを変更
-	Rotation();				//キャラクターの回転
+	FireState();					//火炎放射器に当たった時のモデル更新。
+	AddFireEffect();				//火炎放射器に当たった時のモデル更新。
+	UpdateModelByState();			//ステートによってモデルのアップデートを変更
+	Rotation();						//キャラクターの回転
 	StaminaCalc();
 	m_modelRender->SetPosition(m_position);
 	m_modelRender->Update();		//モデル更新。
@@ -231,13 +223,6 @@ void Player::SetGravity()
 	m_modelRender->SetPosition(m_position);
 }
 
-//void Player::SetPosition(const Vector3& position) {
-//	m_position = position;
-//	m_charCon.SetPosition(m_position);
-//	m_modelRender->SetPosition(m_position);
-//	m_modelRender->Update();	//モデル更新。
-//}
-
 void Player::Rotation()
 {
 	// NOTE: 早期リターンとは？→条件が満たされない場合に、早期に関数から抜け出す手法。
@@ -260,7 +245,7 @@ void Player::DashStaminaCalk()
 		//g_gameTime->GetFrameDeltaTime(); → フレームレートに関係なく一定のスピードで処理を進められる。
 		// 60FPSが1フレームにかかる時間 → 1秒 ÷ 60 = 約0.06秒。
 		// これを好きな数で乗算→FPSに左右されずに減らせる。
-	m_stamina -= 20.0f * g_gameTime->GetFrameDeltaTime();// 1秒で減る。
+	m_stamina -= 20.0f * g_gameTime->GetFrameDeltaTime();		// 1秒で減る。
 	// スタミナが0以下になったら。
 	if (m_stamina <= 0)
 	{
@@ -273,7 +258,7 @@ void Player::FireState()
 {
 	const auto& collisions = g_collisionObjectManager->FindCollisionObjects("fireCollision");
 
-	const int INVINCIBLE_TIME = 200.0f;	//無敵時間の定数。
+	const int INVINCIBLE_TIME = 200.0f;							//無敵時間の定数。
 
 	if (m_isInvincible == true)
 	{
@@ -281,10 +266,11 @@ void Player::FireState()
 		// 無敵時間が0以下になったら。
 		if (m_InvincibleTime <= 0.0f)
 		{
-			m_isInvincible = false;	//無敵状態をfalseにする。
-			m_InvincibleTime = 0.0f;	//無敵時間を0にする。
-			m_modelRender = &m_normalModel;	//無敵状態が終わったら、通常モデルに戻す。
-			m_floorManager->m_playerFloorTimer = 7.0f;	//プレイヤーが床の効果を得られるようにする
+			m_isInvincible = false;								//無敵状態をfalseにする。
+			m_InvincibleTime = 0.0f;							//無敵時間を0にする。
+
+			m_modelRender = &m_normalModel;						//無敵状態が終わったら、通常モデルに戻す。
+			m_floorManager->m_playerFloorTimer = 7.0f;			//プレイヤーが床の効果を得られるようにする
 		}
 	}
 
@@ -293,13 +279,13 @@ void Player::FireState()
 			if (collision->IsHit(m_charCon) == true) {
 				// プレイヤーが火炎放射器に当たったら。
 				m_isHitFireCollision = true;
-				m_InvincibleTime = INVINCIBLE_TIME;	//無敵時間を設定する。
-				m_floorManager->m_playerFloorTimer = 0.0f; //プレイヤーの床の状態を通常に戻す。
+				m_InvincibleTime = INVINCIBLE_TIME;				 //無敵時間を設定する。
+				m_floorManager->m_playerFloorTimer = 0.0f;		 //プレイヤーの床の状態を通常に戻す。
 				return;
 			}
 			// プレイヤーが火炎放射器に当たっていない時。
 			else {
-				m_isHitFireCollision = false;	//火炎放射器に当たっていない時、フラグをfalseにする。
+				m_isHitFireCollision = false;					//火炎放射器に当たっていない時、フラグをfalseにする。
 			}
 		}
 	}
@@ -309,14 +295,7 @@ void Player::AddFireEffect()
 {
 	if(m_isHitFireCollision == true)
 	{
-		m_modelRender = &m_fireModel;				//火炎放射器に当たった時のモデルに切り替える。
-		//m_moveDir = 0.0f;
-	}
-	else
-	{
-		//m_modelRender = &m_normalModel;				//火炎放射器に当たっていない時、通常モデルに戻す。
-		//m_floorManager->m_playerFloorState = m_floorManager->Normal;	//プレイヤーの床の状態を通常に戻す。
-		//m_moveDir = 1.0f;							//移動方向を元に戻す。
+		m_modelRender = &m_fireModel;							//火炎放射器に当たった時のモデルに切り替える。
 	}
 }
 
