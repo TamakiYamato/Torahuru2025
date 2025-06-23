@@ -11,11 +11,11 @@ namespace {
 	// 絵合わせブロックの位置。
 	Vector3 CUBE1_POSITION = Vector3(1790.0f, 40.0f, -2270.0f);
 	Vector3 CUBE2_POSITION = Vector3(-500.0f, 30.0f, -3100.0f);
-	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f,-2440.0f);
+	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f,-2580.0f);
 	// 絵合わせの土台の位置。
 	Vector3 CUBE4_POSITION = Vector3(1790.0f, 10.0f, -2270.0f);
 	Vector3 CUBE5_POSITION = Vector3(-500.0f, 0.0f, -3100.0f);
-	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2440.0f);
+	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2580.0f);
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
 	// UIの位置。
