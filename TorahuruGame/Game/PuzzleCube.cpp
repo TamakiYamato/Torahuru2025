@@ -3,6 +3,8 @@
 #include"SecondFloor.h"
 #include "Player.h"
 #include "GameClear.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 #include <array>
 
 namespace {
@@ -84,8 +86,8 @@ bool PuzzleCube::Start()
 		// 大きさを変更する。
 		render2->SetScale(CUBE_SCALE);
 	}
-
-
+	// 効果音。
+	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/puzzleCube.wav");
 
 	// ブロックの位置。
 	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
@@ -143,22 +145,40 @@ void PuzzleCube::Rotation()
 	}
 	// ブロックの回転（近いキューブのみ）
 	if (distToCube1 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
+		m_rotationFlag = true;
+
 		m_rotationY += 90.0f;
 		if (m_rotationY > 360) {
 			m_rotationY = 0;
 		}
 	}
 	if (distToCube2 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
+		m_rotationFlag = true;
+
 		m_rotation2Y += 90.0f;
 		if (m_rotation2Y > 360) {
 			m_rotation2Y = 0;
 		}
 	}
 	if (distToCube3 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
+		m_rotationFlag = true;
+
 		m_rotation3Y += 90.0f;
 		if (m_rotation3Y > 360) {
 			m_rotation3Y = 0;
 		}
+	}
+	// もしギミックの回転処理が行われたら。
+	if (m_rotationFlag == true) {
+		// 連続して回転させると、音が重なるので、それを防ぐ。
+		//効果音を再生。
+		SoundSource* se = NewGO<SoundSource>(4);
+		se->Init(4);
+		//効果音はループさせないのでfalse。
+		se->Play(false);
+		//音量。
+		se->SetVolume(4.0f);
+		m_rotationFlag = false;
 	}
 }
 

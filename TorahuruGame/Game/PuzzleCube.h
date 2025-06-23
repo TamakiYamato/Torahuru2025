@@ -28,6 +28,7 @@ public:
 
 	bool m_clear = false;
 	bool m_uiFlag = false;
+	bool m_rotationFlag = false;
 
 private:
 	Player* m_player;
