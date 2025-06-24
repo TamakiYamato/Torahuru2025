@@ -54,5 +54,11 @@ private:
 	PhysicsStaticObject m_physicsStaticObject;
 	PhysicsStaticObject m_physicsStaticObject2;
 	PhysicsStaticObject m_physicsStaticObject3;
+
+	CollisionObject m_collisionObject;
+
+	BoxCollider m_boxCollider;	
+	RigidBody m_rigidBody;
+
 };
 

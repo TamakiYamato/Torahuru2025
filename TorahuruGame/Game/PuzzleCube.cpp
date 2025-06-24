@@ -18,6 +18,8 @@ namespace {
 	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2580.0f);
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
+	// 絵合わせのコリジョンの大きさ
+	Vector3 CUBE_COLLISION = Vector3(100.0f,100.0f,100.0f);
 	// UIの位置。
 	//Vector3 CUBE_UI_POSITION = Vector3(800.0f, 200.0f, 0.0f);
 	Vector3 CUBE_UI_POSITION = Vector3(400.0f, -10.0f, 0.0f);
@@ -53,7 +55,7 @@ void PuzzleCube::SetUI()
 	m_spriteRender.SetPosition(Vector3(CUBE_UI_POSITION));
 	m_spriteRender.SetScale(Vector3(CUBE_UI_SCALE));
 	m_spriteRender.SetMulColor(Vector4(CUBE_UI_COLOR));
-	Update();
+	SetText();
 }
 
 void PuzzleCube::SetText() 
@@ -63,7 +65,6 @@ void PuzzleCube::SetText()
 	m_fontRender.SetPosition(BUTTON_UI_POSITION);
 	m_fontRender.SetScale(BUTTON_UI_SCALE);
 	m_fontRender.SetColor(BUTTON_UI_COLOR);
-	Update();
 	// Startのコード汚いから直す。
 }
 
@@ -76,7 +77,6 @@ bool PuzzleCube::Start()
 		render->Init("Assets/modelData/stage3/gimmick/PuzzleCube.tkm");
 		// 大きさを変更する。
 		render->SetScale(CUBE_SCALE);
-		//render->Update();
 	}
 	// 土台。
 	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
@@ -114,6 +114,37 @@ bool PuzzleCube::Start()
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 	m_physicsStaticObject2.CreateFromModel(m_modelRender2.GetModel(), m_modelRender2.GetModel().GetWorldMatrix());
 	m_physicsStaticObject3.CreateFromModel(m_modelRender3.GetModel(), m_modelRender3.GetModel().GetWorldMatrix());
+
+	//NOTE: コリジョンの不具合に備えて、下のコメントアウトのコードを一応残しておきます。
+	/*MeshCollider m_meshCollider;
+	m_meshCollider.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	RigidBodyInitData rbInfo;
+	rbInfo.collider = &m_meshCollider;
+	rbInfo.mass = 0.0f;
+	rbInfo.restitution = 0.0f;
+	m_rigidBody.Init(rbInfo);*/
+
+	// ここの引数が上手くいってない。
+	//// CreateBoxは、ゴーストコリジョン→実体のないコリジョン。
+	//m_collisionObject.CreateBox(
+	//	CUBE1_POSITION,
+	//	Quaternion::Identity,
+	//	CUBE_COLLISION
+	//);
+
+	//// 引数を見ながら、Createを書く。
+	//// boxColliderは、実体のあるコリジョン。
+	//m_boxCollider.Create(
+	//	// スケール。
+	//	CUBE_COLLISION
+	//);		
+	//RigidBodyInitData rbInfo;
+	//rbInfo.collider = &m_boxCollider;
+	//rbInfo.mass = 0.0f;
+	//rbInfo.restitution = 0.0f;
+	//m_rigidBody.Init(rbInfo);
+
+	//g_collisionObjectManager->AddCollisionObject(this);
 
 	return true;
 }
@@ -184,6 +215,13 @@ void PuzzleCube::Rotation()
 
 void PuzzleCube::Update()
 {
+	// コリジョンとプレイヤーのキャラコンが衝突したら。
+	//if (m_collisionObject.IsHit(m_player->m_charCon)) {
+	//	// 当たった判定を返す。
+	//	bool isHit = true;
+	//}
+	//PhysicsWorld::GetInstance()->AddCollisionObject(&m_boxCollider);
+
 	m_spriteRender.Update();
 	m_fontRender.Update();
 	// 距離計算、回転処理。
@@ -226,7 +264,6 @@ void PuzzleCube::Render(RenderContext& rc)
 	}
 	if (m_uiFlag == true) {
 		SetUI();
-		SetText();
 		m_spriteRender.Draw(rc);
 		m_fontRender.Draw(rc);
 	}
