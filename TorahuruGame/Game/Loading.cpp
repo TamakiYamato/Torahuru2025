@@ -2,11 +2,11 @@
 #include "Loading.h"
 #include"FirstFloor.h"
 #include"SecondFloor.h"
-#include"ThirdFloor.h"
+#include "GameManager.h"
 namespace
 {
 	// 大きさ。
-	const Vector3	SCALE = Vector3(2.16f, 2.16f, 1.0f);
+	const Vector3	SCALE = Vector3(1.2f, 1.0f, 1.0f);
 	// 位置。
 	const Vector3	POSITIOIN = Vector3(-140.0f, 10.0, 0.0f);
 }
@@ -23,12 +23,14 @@ bool Loading::Start()
 {
 	// 画像を読み込む。
 	m_spriteRender.Init("Assets/modelData/Title/Loading.DDS", 1920, 1080.);
-	//// 大きさ。
-	//m_spriteRender.SetScale(SCALE);
-	//// 位置。
-	//m_spriteRender.SetPosition(POSITIOIN);
+	// 大きさ。
+	m_spriteRender.SetScale(SCALE);
+	// 位置。
+	m_spriteRender.SetPosition(POSITIOIN);
 	// 更新。
 	m_spriteRender.Update();
+
+	StartLoadOut();
 	return true;
 }
 
@@ -41,14 +43,15 @@ void Loading::Update()
 		// α値を徐々に減らす。→徐々に明るくする。
 		// GetFrameDeltaTimeを使用する事で、一定のスピードで処理が可能。
 		m_currentAlpha -= 1.0f * g_gameTime->GetFrameDeltaTime();
-		if (m_currentAlpha <= 0.0f) {
-			// α値が0.0の時→透明状態→ゲームプレイ。
+
+		if (m_currentAlpha <= 0.0f) { // α値が0.0の時→透明状態→ゲームプレイ。
 
 			m_currentAlpha = 0.0f;
-			// ステートを変更。
-			m_state = enState_Idle;
-
+			m_state = enState_Idle; // ステートを変更。
 			m_waitingTime = 3.0f;
+			
+			m_gameManager->DeleteLoading(); // Loadingオブジェクトを削除
+
 		}
 		break;
 		// シーン切り替え時。 暗転後にシーン変更。
@@ -63,6 +66,8 @@ void Loading::Update()
 
 			m_isstate = true;
 			// シーンを切り替える。
+			TransitionToNextScene();
+			// Timeを3秒にする
 			m_waitingTime = 3.0f;
 		}
 		break;
@@ -75,6 +80,8 @@ void Loading::Update()
 
 		break;
 	}
+
+	m_spriteRender.Update();
 }
 
 void Loading::Render(RenderContext& rc)
@@ -86,3 +93,28 @@ void Loading::Render(RenderContext& rc)
 		m_spriteRender.Draw(rc);
 	}
 }
+
+void Loading::TransitionToNextScene()
+{
+	if (m_gameManager == nullptr) {
+		m_gameManager = FindGO<GameManager>("gameManager");
+	}
+
+	switch (m_gameManager->GetNextScene()) { // シーンを切り替える。
+	case enGameScene_Game:
+		m_gameManager->CreateFirstFloor();	//フロア1を生成
+		m_gameManager->CreateGame(); // Gameオブジェクトを作成
+		break;
+
+	case enGameScene_Stage2:
+		m_gameManager->CreateSecondFloor(); // Gameオブジェクトを作成
+		m_gameManager->DeleteFirstFloor(); //フロア1の削除
+		break;
+	default:
+		break;
+	}	
+	// 画面の明るさを徐々に上げる。
+	StartLoading();
+}
+
+

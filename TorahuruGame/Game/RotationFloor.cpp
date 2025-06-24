@@ -49,12 +49,14 @@ bool RotationFloor::Start() {
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
-
+	m_game = FindGO<Game>("game");
 
 	return true;
 }
 	
 void RotationFloor::Update() {
+	if (m_game->m_isGameClearRequested or m_game->m_dead) return; //ゲーム削除後は何もしない
+
 	// 回転床の角速度
 	float angularVelocityPerSec = 10.0f; // 度/秒
 	// 1フレームあたりの角度変化量

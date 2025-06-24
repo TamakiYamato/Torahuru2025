@@ -64,7 +64,7 @@ bool ThirdFloor::Start()
 void ThirdFloor::Update()
 {
 	m_loading = FindGO<Loading>("loading");
-	m_loading->StartLoading();
+	//m_loading->StartLoading();
 }
 
 void ThirdFloor::Render(RenderContext& rc)

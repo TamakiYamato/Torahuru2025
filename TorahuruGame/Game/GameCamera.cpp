@@ -101,6 +101,5 @@ void GameCamera::Update()
 void GameCamera::Refresh()
 {
 	m_springCamera.Refresh();
-
 	m_springCamera.Update();
 }

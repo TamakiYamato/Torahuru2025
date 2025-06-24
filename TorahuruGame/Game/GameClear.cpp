@@ -4,6 +4,7 @@
 #include"Player.h"
 #include"Enemy.h"
 #include"Title.h"
+#include "GameManager.h"
 
 GameClear::GameClear()
 {
@@ -17,9 +18,6 @@ GameClear::~GameClear() {
 bool GameClear:: Start() {
 	
 	m_spriteRender.Init("Assets/modelData/GameClear/GameClear.DDS", 1920, 1080);
-	m_player = FindGO<Player>("player");
-	m_stairs = FindGO<Stairs>("stairs");
-
 	return true;
 }
 void GameClear::Update()
@@ -27,11 +25,13 @@ void GameClear::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		DeleteGO(m_player);
-		DeleteGO(m_stairs);
-		DeleteGO(this);
-		NewGO<Title>(0, "title");
-		//閾ｪ霄ｫ繧貞炎髯､縺吶ｋ
+		m_isReturnTitle = true;
+	}
+	if(m_isReturnTitle)
+	{
+		m_gameManager = FindGO<GameManager>("gameManager");
+		m_gameManager->CreateTitle();
+		m_gameManager->DeleteGameClear();
 	}
 	//逕ｻ蜒上・譖ｴ譁ｰ縲・
 	m_spriteRender.Update();

@@ -11,6 +11,7 @@
 #include "FloorManager.h"
 #include "Stairs.h"
 #include "Stamina.h"
+#include "GameManager.h"
 #include "GameClear.h"
 #include "Gameover.h"
 #include "Loading.h"
@@ -22,7 +23,6 @@
 #include"PuzzleCube.h"
 #include "sound/SoundSource.h"
 #include "sound/SoundEngine.h"
-#include"FireTriggerFloor.h"
 //#include"StageManager.h"
 
 Game::Game()
@@ -32,10 +32,8 @@ Game::Game()
 
 Game::~Game() {
 	DeleteGO(m_bgm);
-	DeleteGO(m_firstFloor);
 	DeleteGO(m_player);
 	DeleteGO(m_gamecamera);
-	//m_gamecamera = nullptr;
 	DeleteGO(m_stairs);
 	DeleteGO(m_tutorialUI);
 	DeleteGO(m_setStamina);
@@ -112,7 +110,8 @@ void Game::PlayBGM()
 	m_bgm = NewGO<SoundSource>(0);
 	m_bgm->Init(0);
 	m_bgm->Play(true);
-};
+}
+
 
 
 void Game::SetSutamina()
@@ -120,11 +119,6 @@ void Game::SetSutamina()
 	m_setStamina = NewGO<Stamina>(0, "sutamina");
 }
 
-// ロード用。
-void Game::SetLoading()
-{
-
-}
 
 
 void Game::SetGameClear()
@@ -144,18 +138,8 @@ void Game::TimerUI()
 
 bool Game::Start()
 {
-
-
-	ModelRender brindFloor;
-	ModelRender reverseFloor;
-	ModelRender slowFloor;
-
-	brindFloor.Init("Assets/modelData/BlindFloor/blindFloor.tkm");
-	reverseFloor.Init("Assets/modelData/ReverseFloor/reverseFloor.tkm");
-	slowFloor.Init("Assets/modelData/SlowFloor/SlowFloorSecond.tkm");
-
-
-	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
+	m_gameManager = FindGO<GameManager>("gameManager");
+	m_Load = FindGO<Loading>("loading");
 
 	m_player			     = NewGO<Player>(0, "player");
 	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
@@ -164,35 +148,32 @@ bool Game::Start()
 	m_se					= NewGO<SoundSource>(0, "se");
 	m_tutorialUI			= NewGO<TutorialUI>(0,"tutorialUI");
 
-	//m_stageManager=NewGO<StageManager>(0, "stageManager");//ステージマネージャー
-	
+
 	TimerUI();
 	InitSky();
-	SetSutamina();
-	//PlayBGM();
-	m_modelRender.SetPosition(m_position);
-	// ゲームの読み込みが終わった後、画面を明るくする。
-	SetLoading();
+	SetSutamina();	
+
   
 	return true;
 }
 
 void Game::Update()
 {
-	m_Load = FindGO<Loading>("loading");//数字が数字の設定準
-	m_enemy = FindGO<Enemy>("enemy");
 	if (m_puzzleCube == nullptr) {
 		m_puzzleCube = FindGO<PuzzleCube>("puzzleCube");
 	}
-	// 画面の明るさを徐々に上げる。
-	m_Load->StartLoading();
-
 	if (m_floorManager == nullptr) {
 		m_floorManager = FindGO<FloorManager>("floorManager");
 	}
 	if (m_stairs == nullptr) {
 		m_stairs = FindGO<Stairs>("stairs");
 	}
+	if (m_player->m_playerSecondFloorTouchFlag == true) {	//プレイヤーがfloor2にいる場合
+		if (m_enemy == nullptr) {
+			m_enemy = FindGO<Enemy>("enemy");
+		}
+	}
+
 	// カメラライト
 	if (m_floorManager!=nullptr&&m_floorManager->LightCount != 1)
 	{
@@ -226,44 +207,50 @@ void Game::Update()
 	// 文字の色
 	m_fontRender.SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
-	m_modelRender.Update();
+	CheckGameOver();	//ゲームオーバーのチェック
 
-	//floor2のクリア条件
-	if (m_player->m_playerTouchFlag == true) {	//プレイヤーがfloor2にいるとき
-		// クリア判定
-		if (m_puzzleCube->m_clear == true && !m_isGameClearRequested) {
-			NewGO<GameClear>(0, "gameClear");
-			m_isGameClearRequested = true; // フラグを立てる
-			return; // 以降の処理をスキップ
-		}
-	}
-	
-
-
-	// フラグが立っていたら次のフレームでDeleteGO
+	// クリアフラグがたっている場合
 	if (m_isGameClearRequested) {
-		DeleteGO(this);
+		m_gameManager = FindGO<GameManager>("gameManager");
+		m_gameManager->CreateGameClear();	//ゲームクリアの生成
+		m_gameManager->DeleteGame();	//ゲームの削除
 		return;
 	}
 
-	//ゲームオーバー条件
-	if (m_timer <= 0.0f) {	//タイマーが0になった場合
-		NewGO<Gameover>(0, "Gameover");
-		DeleteGO(this);
-	}
+	//死亡フラグが立っている場合
+	if(m_dead) {
 
-	if(m_player->m_position.y<=-800.0f)
-	{
-		NewGO<Gameover>(0, "Gameover");
-		DeleteGO(this);
-	}
-	if (m_player->m_playerTouchFlag == true) {	//プレイヤーが床に触れた場合
-		if (m_enemy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
-			NewGO<Gameover>(0, "Gameover");
-			DeleteGO(this);
+		if (m_player->m_playerSecondFloorTouchFlag) { //フロア2にいる場合
+			m_gameManager->DeleteSecondFloor();
 		}
+		else {
+			m_gameManager->DeleteFirstFloor(); //フロア1にいる場合
+		}
+
+		m_gameManager = FindGO<GameManager>("gameManager");
+		m_gameManager->CreateGameOver();	//ゲームオーバーの生成
+		m_gameManager->DeleteGame();	//ゲームの削除
+		return;
 	}
 }
+
+void Game::CheckGameOver()
+{
+	//ゲームオーバー条件
+	if (m_timer <= 0.0f) {	//タイマーが0になった場合
+		m_dead = true;	//ゲームオーバー
+	}
+
+	if (m_player->m_position.y <= -800.0f)
+	{
+		m_dead = true;	//プレイヤーが床より下にいる場合
+	}
+	if (m_player->m_playerSecondFloorTouchFlag == true) {	//プレイヤーがfloor2にいる場合
+		if (m_enemy->m_enemyState == m_enemy->enEnemyState_Attack) {	//敵に攻撃された場合
+			m_dead = true;	//ゲームオーバー
+		}
+	}
+};
 
 void SetPosition(const Vector3 position) {
 	

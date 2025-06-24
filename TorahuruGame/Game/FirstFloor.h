@@ -15,11 +15,12 @@ class TutorialUI;
 class GameCamera;
 class Stamina;
 class TutorialUI;
-class Scene;
+class GameManager;
 class TutorialUI;
 class Loading;
 class Title;
 class Game;
+class GameManager;
 class FireTriggerFloor;
 class FirstFloor : public IGameObject
 {
@@ -29,8 +30,7 @@ public:
 	
 	bool Start();
 	void Update();
-	void SetLoading();//Loading
-	void GoToNextStage();
+	void SetupSecondFloorTransition();
 	void Render(RenderContext& rc);
 	void SetPosition();
 	void Refresh();//refresh:当たり判定を直す
@@ -41,8 +41,8 @@ public:
 	ThirdFloor* m_thirdFloor = nullptr;
 	SecondFloor* m_secondFloor ;
 	Game* m_game = nullptr;
+	GameManager* m_gameManager = nullptr;
 	BackGround* m_background = nullptr;
-	FireTriggerFloor* m_fireTriggerFloor = nullptr;			//火炎放射器のトリガー
 	GameCamera* m_gamecamera;
 	FloorManager* m_floorManager;					//特殊床の管理
 	TutorialUI* m_tutorialUI;
@@ -54,7 +54,6 @@ public:
 	std::vector<FireGimmic*>m_fireGimmicList;
 	std::vector<Stairs*>m_stairsGimmicList;
 	std::vector<TutorialUI*>m_tutorialUIList;
-	std::vector<FireTriggerFloor*> m_fireTriggerFloorList;//火炎放射器のトリガーのリスト
 	SlowFloor* m_slowFloor;						    //鈍足床
 	BlindFloor* m_blindFloor;						//視界制限床
 	FireGimmic* m_fireGimmic = nullptr;				//火炎放射器
@@ -68,6 +67,7 @@ public:
 	bool m_isStageChanging = false;
 	bool m_isWaitLoadOut = false;
 	bool m_isLoadingStarted = false;
+	bool m_isNextStageFlag = false; //次のステージに進むフラグ
 
 	float m_fadeAlpha = 0.0f;
 	float		m_alpha = 0.0f;

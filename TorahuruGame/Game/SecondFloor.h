@@ -13,7 +13,7 @@ class Player;
 class Game;
 class RotationFloor;
 class BackGroundTwo;
-class Scene;
+class GameManager;
 class Loading;
 class Enemy;
 class EnemyAnimation;

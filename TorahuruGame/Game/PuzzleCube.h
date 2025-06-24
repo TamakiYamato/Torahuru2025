@@ -32,6 +32,7 @@ public:
 	void SetRotationY(float deg) { m_rotationY = deg; }
 
 	bool m_clear = false;
+	
 
 private:
 	Player* m_player;

@@ -62,7 +62,6 @@ private:
 	SoundSource* m_se;									//se
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
-	FireTriggerFloor* m_fireTriggerFloor = nullptr;
 
 
 	SpriteRender			m_mapSprite;				//画像

@@ -2,7 +2,7 @@
 class Game;
 class Player;
 class Title;
-class GameClear;
+class GameManager;
 
 class Gameover:public IGameObject
 {
@@ -14,8 +14,10 @@ public:
 	void Render(RenderContext& rc);
 
 	Player*			m_player;
+	GameManager* m_gameManager;
 	SpriteRender	m_spriteRender;
 
-	float			m_timer = 120.0f;
+private:
+	bool				m_isReturnTitle = false;
 };
 

@@ -6,7 +6,6 @@ class FloorManager;
 class ReverseFloor;       
 class SlowFloor;         
 class BlindFloor;         
-class FireTrigger;
 class TutorialUI:public IGameObject
 {
 public:
@@ -48,7 +47,6 @@ public:
 	SlowFloor*			m_slowFloor = nullptr;
 	BlindFloor*			m_blindFloor = nullptr;
 	enUIText			m_textState = enReverse;
-	FireTrigger* m_firetrigger;
 	wchar_t m_textUI[256];
 	bool m_onGimmicPassed = true;		//次のUIを表示してよいかのフラグ。
 

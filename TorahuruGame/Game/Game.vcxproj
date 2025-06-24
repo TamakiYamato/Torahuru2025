@@ -233,12 +233,12 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimation.cpp" />
     <ClCompile Include="FireGimmic.cpp" />
-    <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameClear.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="main.cpp" />
@@ -251,7 +251,6 @@
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="ReverseFloor.cpp" />
     <ClCompile Include="RotationFloor.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="SlowFloor.cpp" />
     <ClCompile Include="Scene\StageManager.cpp" />
@@ -276,12 +275,12 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAnimation.h" />
     <ClInclude Include="FireGimmic.h" />
-    <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="FirstFloor.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameClear.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="MakeEffect.h" />
@@ -293,7 +292,6 @@
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="ReverseFloor.h" />
     <ClInclude Include="RotationFloor.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="SecondFloor.h" />
     <ClInclude Include="SlowFloor.h" />
     <ClInclude Include="Scene\StageManager.h" />

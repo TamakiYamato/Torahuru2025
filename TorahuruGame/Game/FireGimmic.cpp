@@ -3,7 +3,6 @@
 
 #include "Game.h"
 #include "Player.h"
-#include "FireTriggerFloor.h"
 #include "collision/CollisionObject.h"
 #include "graphics/effect/EffectEmitter.h"
 #include "sound/SoundSource.h"
@@ -46,9 +45,6 @@ bool FireGimmic::Start()
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/fire.efk");
 
 	g_soundEngine->ResistWaveFileBank(0, "Assets/sound/fire.wav");
-
-	//m_fireTriggerFloor = FindGO<FireTriggerFloor>("firetriggerfloor");
-	m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "firetriggerfloor");
 
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
@@ -97,25 +93,13 @@ bool FireGimmic::Start()
 
 EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale)
 {
-	if (m_fireTriggerFloor == nullptr)
-	{
-		m_fireTriggerFloor = FindGO<FireTriggerFloor>("firetriggerfloor");
-	}
 	//effectの設定
 	EffectEmitter* effect = NewGO<EffectEmitter>(0);
 	effect->Init(name);
 	effect->SetPosition(pos);
 	effect->SetRotation(rot);
 	effect->SetScale(scale);
-	if (m_fireTriggerFloor->m_onFireTriggerFloor == false)
-	{
-		effect->Play();
-	}
 
-	else
-	{
-		effect->Stop();
-	}
 	return effect;
 }
 

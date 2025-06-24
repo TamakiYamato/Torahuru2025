@@ -3,7 +3,8 @@ class Player;
 class Tips;
 class Loading;
 class Game;
-//class GameManager;
+class GameManager;
+
 class Title :public IGameObject
 
 {
@@ -15,17 +16,20 @@ public:
 	void Render(RenderContext& rc);
 	void Buttontext();
 
+	bool		m_sceneTransformFlag = false; // Scene切り替えフラグ
 private:
 	SpriteRender m_spriteRender;
 	SpriteRender m_startButtonRender;
 	SoundSource* m_bgm = nullptr;
 	SoundSource* se;
+	SpriteRender m_pressButton;
 
-	Loading		* m_Loading;
-	Tips* m_tips;
+	Loading* m_Loading = nullptr;
+	GameManager* m_gameManager = nullptr;
+	Tips* m_tips = nullptr;
 	bool		m_isWaitLoadOut = false;
 	float		m_alpha = 0.0f;
-	SpriteRender m_pressButton;
+	
 };
 
 

@@ -3,8 +3,10 @@
 #include"Game.h"
 #include"Player.h"
 #include"Title.h"
+#include "GameManager.h"
+
 Gameover::Gameover() {
-	m_timer = 0;
+
 }
 Gameover::~Gameover() {
 
@@ -20,9 +22,15 @@ bool Gameover::Start()
 
 void Gameover::Update() {
 	if (g_pad[0]->IsTrigger(enButtonA)) {
-		NewGO<Title>(0, "Title");
-		DeleteGO(this);
+		m_isReturnTitle = true;
 	}
+	if (m_isReturnTitle) {
+		m_isReturnTitle = false;
+		m_gameManager = FindGO<GameManager>("gameManager");
+		m_gameManager->CreateTitle();
+		m_gameManager->DeleteGameOver();
+	}
+
 	m_spriteRender.Update();
 }
 void Gameover::Render(RenderContext& rc) {

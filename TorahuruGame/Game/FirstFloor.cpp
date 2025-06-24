@@ -12,11 +12,10 @@
 #include "Player.h"
 #include "SecondFloor.h"
 #include "GameCamera.h"
+#include "GameManager.h"
 #include "Stamina.h"
-#include "Scene.h"
 #include "TutorialUI.h"
 #include "Loading.h"
-#include "FireTriggerFloor.h"
 #include "PuzzleCube.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
@@ -51,16 +50,12 @@ FirstFloor::~FirstFloor()
 	for (Stairs* stairs : m_stairsGimmicList) {
 		DeleteGO(stairs);
 	}
-	for(FireTriggerFloor* fireTriggerFloor : m_fireTriggerFloorList) {
-		DeleteGO(fireTriggerFloor);
-	}
 
 }
 
 bool FirstFloor::Start()
 {
 	m_game = FindGO<Game>("game");
-	m_player = FindGO<Player>("player");
 	m_floorManager = NewGO<FloorManager>(0, "floorManager");
 	m_gamecamera = FindGO<GameCamera>("gamecamera");
 
@@ -114,13 +109,7 @@ bool FirstFloor::Start()
 				m_stairs->SetRotation(objData.rotation);
 				return true;
 			}
-			else if (objData.ForwardMatchName(L"FireTrigger") == true) {
-				m_fireTriggerFloor = NewGO<FireTriggerFloor>(0, "FireTriggerFloor");
-				m_fireTriggerFloorList.push_back(m_fireTriggerFloor);
-				m_fireTriggerFloor->SetPosition(objData.position);
-				m_fireTriggerFloor->SetScale(objData.scale);
-				return true;
-			}
+
 		});
 
 	return true;
@@ -130,6 +119,7 @@ bool FirstFloor::Start()
 void FirstFloor::Update()
 {
 	if (m_game->m_isGameClearRequested) return; //ゲーム削除後は何もしない
+	if (m_player == nullptr) { m_player = FindGO<Player>("player"); }
 
 	if (m_stairs  && m_player) {
 		Vector3 playerPos = m_player->GetPosition();
@@ -137,27 +127,17 @@ void FirstFloor::Update()
 		float distance = (playerPos - stairsPos).Length();
 		
 		if (distance < 100.0f) {
-			//先にここで暗くする処理とそれを終わらせる処理
-			m_loading = FindGO<Loading>("loading");
-			//⇂ここで暗くする処理
-			//ここでLoadingを生成して、次のステージに行く処理をする
-			if (m_loading) {
-				m_loading->StartLoadOut();
-			}
-			
-			if (m_loading->IsFadeOutEnd() == false)
-			{
-				return;
-			}
-
-			GoToNextStage();
-			
+			m_gameManager = FindGO<GameManager>("gameManager");
+			m_gameManager->m_gameScene = enGameScene_Stage2;
+			m_gameManager->CreateLoading();
+			SetupSecondFloorTransition();
+			m_isNextStageFlag = true; // 次のステージへ進むフラグを立てる
 		}
 	}
 }
 
-void FirstFloor::GoToNextStage() {
-	m_gamecamera->Refresh();//refreshでコリジョンのバグを解消する
+void FirstFloor::SetupSecondFloorTransition() {
+	//m_gamecamera->Refresh();//refreshでコリジョンのバグを解消する
 	// 階段の効果音を再生。
 	SoundSource* se = NewGO<SoundSource>(0);
 	se->Init(2);
@@ -166,12 +146,7 @@ void FirstFloor::GoToNextStage() {
 	//音量。
 	// TODO: 後で音量を調節する。ゲーム側も。
 	se->SetVolume(5.0f);
-	//SetLoading(); // ローディング画面を生成
-	m_secondFloor = NewGO<SecondFloor>(0, "secondFloor");  // 次のステージを生成
 	SetPosition();
-
-	//LoadingとSecondFloorの切り替えを行うコードを書いておく!!
-	DeleteGO(this);  // 現在のステージを削除
 }
 
 void FirstFloor::SetPosition() {

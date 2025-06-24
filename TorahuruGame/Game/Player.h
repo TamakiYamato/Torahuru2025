@@ -123,7 +123,7 @@ public:
 	// TODO: tamaki		ここのフラグの名前を変更する。
 	bool m_staminaFlag = false;
 	bool m_dashFlag = false; // 走り判定。
-	bool m_playerTouchFlag = false; //プレイヤーがfloor2についたかどうかのフラグ
+	bool m_playerSecondFloorTouchFlag = false; //プレイヤーがfloor2についたかどうかのフラグ
 	bool m_requestChangeModel = false; 
 	bool m_isHitFireCollision = false; //火炎放射に当たったかの確認
 	bool m_isInvincible = false; // 無敵状態のフラグ。

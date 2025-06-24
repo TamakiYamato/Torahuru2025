@@ -7,6 +7,7 @@
 #include"BackGround.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
+#include "GameManager.h"
 
 namespace {
     Vector3 BUTTON_POSITION = Vector3(0.0f, -200.0f, 0.0f);
@@ -22,21 +23,16 @@ Title::~Title() {
 bool Title::Start() {
     m_spriteRender.Init("Assets/modelData/Title/title.DDS", 1920, 1080);
 
-    if(m_Loading == nullptr) {
-        // ロード中のオブジェクトがない場合は作成する。
-        m_Loading = NewGO<Loading>(1, "loading");
-	}
-
     m_startButtonRender.Init("Assets/modelData/Title/startButtonText.DDS",1920, 1080);
     m_startButtonRender.SetPosition(Vector3(BUTTON_POSITION));
     
     // BGMを読み込む。
-    //g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
-    //// soundSourceを作成する。
-    //m_bgm = NewGO<SoundSource>(3);
-    //m_bgm->Init(3);
-    //// BGMをループさせる。
-    //m_bgm->Play(true);
+    g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
+    // soundSourceを作成する。
+    m_bgm = NewGO<SoundSource>(3);
+    m_bgm->Init(3);
+    // BGMをループさせる。
+    m_bgm->Play(true);
 
     // 効果音を読み込む。
     g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");
@@ -46,29 +42,26 @@ bool Title::Start() {
 
 void Title::Update() {
     // シーンを切り替える時。
-    if (m_isWaitLoadOut) {
-        if (!m_Loading->IsLoading()) {
-            NewGO<Game>(0, "game");
-            // タイトルを削除。
-            DeleteGO(this);
-        }
-    }
-    else {
-        // Aボタンを押したら。
-        if (g_pad[0]->IsTrigger(enButtonA)) {
-			// 効果音を再生。
-            SoundSource* se = NewGO<SoundSource>(0);
-            se->Init(1);
-            // 効果音はループさせない。
-            se->Play(false);
-            // 音量。
-            se->SetVolume(2.0f);
-            // シーン切り替え開始。
-            m_isWaitLoadOut = true;
-            m_Loading->StartLoadOut();
-            // BGMを停止。
-            DeleteGO(m_bgm);
-        }
+    // Aボタンを押したら。
+    if (g_pad[0]->IsTrigger(enButtonA)) {
+		// 効果音を再生。
+        SoundSource* se = NewGO<SoundSource>(0);
+        se->Init(1);
+        // 効果音はループさせない。
+        se->Play(false);
+        // 音量。
+        se->SetVolume(2.0f);
+        // シーン切り替え開始。
+        m_isWaitLoadOut = true;
+        // BGMを停止。
+        DeleteGO(m_bgm);
+
+		// Loadingシーンを開始する。
+		m_gameManager = FindGO<GameManager>("gameManager");
+        m_gameManager->CreateLoading();
+        m_gameManager->DeleteTitle();
+		m_gameManager->m_gameScene = enGameScene_Game;
+		
     }
 
     //α値を変化させる。

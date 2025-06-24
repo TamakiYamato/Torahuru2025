@@ -3,6 +3,7 @@ class Game;
 class Player;
 class Stairs;
 class Title;
+class GameManager;
 class GameClear :public IGameObject
 {
 public:
@@ -10,10 +11,15 @@ public:
 	~GameClear();
 	bool Start() ;
 	void Update() ;
-	void Render(RenderContext& rc);				//繧ｲ繝ｼ繝繧ｯ繝ｪ繧｢繧呈戟縺｣縺ｦ縺上ｋ縺溘ａ
+	void Render(RenderContext& rc);
 
 	Player*				m_player;
+	GameManager*		m_gameManager;
 	SpriteRender		m_spriteRender;
-	Stairs*				m_stairs = nullptr;		//縺薙％縺縺ｨ髫取ｮｵ縺ｮ繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ繧剃ｿ晄戟縺吶ｋ
+	Stairs*				m_stairs = nullptr;
+
+private:
+	//タイトルに戻るかのフラグ
+	bool				m_isReturnTitle = false;
 };
 

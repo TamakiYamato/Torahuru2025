@@ -51,14 +51,14 @@ bool SecondFloor::Start()
 	if (m_player == nullptr) {
 		m_player = NewGO<Player>(0, "player");
 	}
-	m_enemy = FindGO<Enemy>("enemy");
+	m_game = FindGO<Game>("game");
 	m_enemyAnimation = FindGO<EnemyAnimation>("enemyAnimation");
 	// 絵合わせギミックを探す。
 	if (m_puzzleCube == nullptr) {
 		m_puzzleCube = FindGO<PuzzleCube>("PuzzleCube");
 	}
 	
-	m_player->m_playerTouchFlag = true;	//プレイヤーがfloor2についたかどうかのフラグをtrueにする
+	m_player->m_playerSecondFloorTouchFlag = true;	//プレイヤーがfloor2についたかどうかのフラグをtrueにする
 	//プレイヤーの取得
 	////レベル実装
 	////当たり判定の可視化
@@ -83,7 +83,7 @@ bool SecondFloor::Start()
 			return true;
 		}
 		else if (objData.ForwardMatchName(L"Ch24_nonPBR") == true) {
-			Enemy* m_enemy = NewGO<Enemy>(0, "enemy");
+			m_enemy = NewGO<Enemy>(0, "enemy");
 			m_enemy->SetPosition(objData.position);
 			m_enemy->SetRotation(objData.rotation);
 			m_enemy->SetScale(objData.scale);
@@ -131,36 +131,13 @@ bool SecondFloor::Start()
 
 void SecondFloor::Update()
 {
-	if (m_pyramid && m_player) {
-		Vector3 playerPos = m_player->GetPosition();
-		Vector3 pyramidPos = m_pyramid->GetPosition();
-		float distance = (playerPos - pyramidPos).Length();
-
-		if (distance < 100.0f) {
-			//先にここで暗くする処理とそれを終わらせる処理
-			m_loading = FindGO<Loading>("loading");
-			//⇂ここで暗くする処理
-			//ここでLoadingを生成して、次のステージに行く処理をする
-			if (m_loading) {
-				m_loading->StartLoadOut();
-			}
-
-			if (m_loading->IsFadeOutEnd() == false)
-			{
-				return;
-			}
-
-			GoToNeoStage();
-
-		}
-    }
-} // namespace GameEngine2D
+	// クリア判定
+	if (m_puzzleCube->m_clear == true) {
+		m_game->m_isGameClearRequested = true; // フラグを立てる
+	}
+} 
 
 void SecondFloor::GoToNeoStage() {
-	m_thirdFloor = NewGO<ThirdFloor>(0, "thirdFloor");  // 次のステージを生成
-
-	SetPosition();
-
 	//LoadingとSecondFloorの切り替えを行うコードを書いておく!!
 	DeleteGO(this);  // 現在のステージを削除
 }
