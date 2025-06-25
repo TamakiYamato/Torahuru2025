@@ -159,7 +159,7 @@ bool Game::Start()
 	TimerUI();
 	InitSky();
 	SetSutamina();
-	//PlayBGM();
+	PlayBGM();
 	m_modelRender.SetPosition(m_position);
 	// ゲームの読み込みが終わった後、画面を明るくする。
 	SetLoading();
