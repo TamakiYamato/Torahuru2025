@@ -12,6 +12,8 @@ public:
 	void Rotation();
 	void SetRotation();
 	bool SetClear()const;
+	void SetUI();
+	void SetText();
 	void Update();
 	void Render(RenderContext& rc);
 
@@ -25,6 +27,8 @@ public:
 	void SetRotationY(float deg) { m_rotationY = deg; }
 
 	bool m_clear = false;
+	bool m_uiFlag = false;
+	bool m_rotationFlag = false;
 
 private:
 	Player* m_player;
@@ -35,6 +39,8 @@ private:
 	ModelRender m_modelRender4;
 	ModelRender m_modelRender5;
 	ModelRender m_modelRender6;
+	SpriteRender m_spriteRender;
+	FontRender m_fomtRender;
 	Vector3 m_position;
 	float m_posi = 0.0f;
 	float m_posi2 = 0.0f;
@@ -45,5 +51,14 @@ private:
 	Quaternion m_rotation;
 	Quaternion m_rotation2;
 	Quaternion m_rotation3;
+	PhysicsStaticObject m_physicsStaticObject;
+	PhysicsStaticObject m_physicsStaticObject2;
+	PhysicsStaticObject m_physicsStaticObject3;
+
+	CollisionObject m_collisionObject;
+
+	BoxCollider m_boxCollider;	
+	RigidBody m_rigidBody;
+
 };
 

@@ -3,29 +3,69 @@
 #include"SecondFloor.h"
 #include "Player.h"
 #include "GameClear.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 #include <array>
 
 namespace {
 	// 絵合わせブロックの位置。
 	Vector3 CUBE1_POSITION = Vector3(1790.0f, 40.0f, -2270.0f);
 	Vector3 CUBE2_POSITION = Vector3(-500.0f, 30.0f, -3100.0f);
-	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f,-2440.0f);
+	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f,-2580.0f);
 	// 絵合わせの土台の位置。
 	Vector3 CUBE4_POSITION = Vector3(1790.0f, 10.0f, -2270.0f);
 	Vector3 CUBE5_POSITION = Vector3(-500.0f, 0.0f, -3100.0f);
-	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2440.0f);
+	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2580.0f);
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
+	// 絵合わせのコリジョンの大きさ
+	Vector3 CUBE_COLLISION = Vector3(100.0f,100.0f,100.0f);
+	// UIの位置。
+	//Vector3 CUBE_UI_POSITION = Vector3(800.0f, 200.0f, 0.0f);
+	Vector3 CUBE_UI_POSITION = Vector3(400.0f, -10.0f, 0.0f);
+	// UIの大きさ。
+	//Vector3 CUBE_UI_SCALE = Vector3(1.0f, 1.0f, 0.2f);
+	Vector3 CUBE_UI_SCALE = Vector3(0.5f, 0.5f, 0.2f);
+	// UIの色。
+	Vector4 CUBE_UI_COLOR = Vector4(1.0f, 1.0f, 1.0f, 0.8f);
+	// ボタンUIの位置。
+	//Vector3 BUTTON_UI_POSITION = Vector3{480.0f, 265.0f, 0.0f};
+	// スケールが1.0の時のポジション。
+	//Vector3 BUTTON_UI_POSITION = Vector3{ 230.0f, 30.0f, 0.0f };
+	Vector3 BUTTON_UI_POSITION = Vector3{ 260.0f, 26.0f, 0.0f };
+	// ボタンUIの大きさ。
+	//float BUTTON_UI_SCALE = 1.0f;
+	float BUTTON_UI_SCALE = 0.8f;
+	// ボタンUIの色。
+	Vector4 BUTTON_UI_COLOR = Vector4(g_vec4White);
 }
 
 PuzzleCube::PuzzleCube()
 {
-
 }
 
 PuzzleCube::~PuzzleCube()
 {
+}
 
+void PuzzleCube::SetUI()
+{
+	// テキスト
+	m_spriteRender.Init("Assets/modelData/stage3/gimmick/PuzzleCube/puzzleCubeUI.dds", 1920.0f, 1080.0f);
+	m_spriteRender.SetPosition(Vector3(CUBE_UI_POSITION));
+	m_spriteRender.SetScale(Vector3(CUBE_UI_SCALE));
+	m_spriteRender.SetMulColor(Vector4(CUBE_UI_COLOR));
+	SetText();
+}
+
+void PuzzleCube::SetText() 
+{
+	// テキストを表示する。
+	m_fontRender.SetText(L"Yボタンで回転させる。");
+	m_fontRender.SetPosition(BUTTON_UI_POSITION);
+	m_fontRender.SetScale(BUTTON_UI_SCALE);
+	m_fontRender.SetColor(BUTTON_UI_COLOR);
+	// Startのコード汚いから直す。
 }
 
 bool PuzzleCube::Start()
@@ -34,7 +74,7 @@ bool PuzzleCube::Start()
 	std::array<ModelRender*, 3> modelRenders = { &m_modelRender, &m_modelRender2, &m_modelRender3 };
 	for (auto& render : modelRenders) {
 		// ファイルを読み込む。
-		render->Init("Assets/modelData/Stage2/gimmick/PuzzleCube.tkm");
+		render->Init("Assets/modelData/stage3/gimmick/PuzzleCube.tkm");
 		// 大きさを変更する。
 		render->SetScale(CUBE_SCALE);
 	}
@@ -42,17 +82,24 @@ bool PuzzleCube::Start()
 	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
 	for (auto& render2 : modelRenders2) {
 		// ファイルを読み込む。
-		render2->Init("Assets/modelData/Stage2/gimmick/PuzzleCubeFoundation.tkm");
+		render2->Init("Assets/modelData/stage3/gimmick/PuzzleCubeFoundation.tkm");
 		// 大きさを変更する。
 		render2->SetScale(CUBE_SCALE);
 	}
+	// 効果音。
+	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/puzzleCube.wav");
 
 	// ブロックの位置。
 	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
 	m_modelRender2.SetPosition(Vector3(CUBE2_POSITION));
 	m_modelRender3.SetPosition(Vector3(CUBE3_POSITION));
-
+	// Updateをかけることで、生成されたコリジョンもポジションが変更される。
+	// Updateをかけることでワールド行列(ポジションとか)を再計算するする。
+	m_modelRender.Update();
+	m_modelRender2.Update();
+	m_modelRender3.Update();
 	// 土台の位置。
+
 	m_modelRender4.SetPosition(Vector3(CUBE4_POSITION));
 	m_modelRender5.SetPosition(Vector3(CUBE5_POSITION));
 	m_modelRender6.SetPosition(Vector3(CUBE6_POSITION));
@@ -62,6 +109,42 @@ bool PuzzleCube::Start()
 	m_modelRender4.Update();
 	m_modelRender5.Update();
 	m_modelRender6.Update();
+
+	// 初期状態でコリジョンを生成
+	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	m_physicsStaticObject2.CreateFromModel(m_modelRender2.GetModel(), m_modelRender2.GetModel().GetWorldMatrix());
+	m_physicsStaticObject3.CreateFromModel(m_modelRender3.GetModel(), m_modelRender3.GetModel().GetWorldMatrix());
+
+	//NOTE: コリジョンの不具合に備えて、下のコメントアウトのコードを一応残しておきます。
+	/*MeshCollider m_meshCollider;
+	m_meshCollider.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	RigidBodyInitData rbInfo;
+	rbInfo.collider = &m_meshCollider;
+	rbInfo.mass = 0.0f;
+	rbInfo.restitution = 0.0f;
+	m_rigidBody.Init(rbInfo);*/
+
+	// ここの引数が上手くいってない。
+	//// CreateBoxは、ゴーストコリジョン→実体のないコリジョン。
+	//m_collisionObject.CreateBox(
+	//	CUBE1_POSITION,
+	//	Quaternion::Identity,
+	//	CUBE_COLLISION
+	//);
+
+	//// 引数を見ながら、Createを書く。
+	//// boxColliderは、実体のあるコリジョン。
+	//m_boxCollider.Create(
+	//	// スケール。
+	//	CUBE_COLLISION
+	//);		
+	//RigidBodyInitData rbInfo;
+	//rbInfo.collider = &m_boxCollider;
+	//rbInfo.mass = 0.0f;
+	//rbInfo.restitution = 0.0f;
+	//m_rigidBody.Init(rbInfo);
+
+	//g_collisionObjectManager->AddCollisionObject(this);
 
 	return true;
 }
@@ -78,36 +161,71 @@ void PuzzleCube::SetRotation()
 
 void PuzzleCube::Rotation()
 {
-
-}
-
-void PuzzleCube::Update()
-{
 	// 距離計算。
-	float distToCube1 = ( m_player->m_position - CUBE1_POSITION ).Length();
-	float distToCube2 = ( m_player->m_position - CUBE2_POSITION ).Length();
-	float distToCube3 = ( m_player->m_position - CUBE3_POSITION ).Length();
+	float distToCube1 = (m_player->m_position - CUBE1_POSITION).Length();
+	float distToCube2 = (m_player->m_position - CUBE2_POSITION).Length();
+	float distToCube3 = (m_player->m_position - CUBE3_POSITION).Length();
 
+	// 絵合わせギミックのUIを表示。
+	if (distToCube1 < 150.0f || distToCube2 < 150.0f || distToCube3 < 150.0f) {
+		m_uiFlag = true;
+	}
+	// 
+	else {
+		m_uiFlag = false;
+	}
 	// ブロックの回転（近いキューブのみ）
-	if (distToCube1 <= 100.0f && g_pad[0]->IsTrigger(enButtonLeft)) {
+	if (distToCube1 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
+		m_rotationFlag = true;
+
 		m_rotationY += 90.0f;
 		if (m_rotationY > 360) {
 			m_rotationY = 0;
 		}
 	}
-	if (distToCube2 <= 100.0f && g_pad[0]->IsTrigger(enButtonUp)) {
+	if (distToCube2 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
+		m_rotationFlag = true;
+
 		m_rotation2Y += 90.0f;
-		if (m_rotation2Y > 360){
+		if (m_rotation2Y > 360) {
 			m_rotation2Y = 0;
 		}
 	}
-	if (distToCube3 <= 100.0f && g_pad[0]->IsTrigger(enButtonRight)) {
+	if (distToCube3 <= 150.0f && g_pad[0]->IsTrigger(enButtonY)) {
+		m_rotationFlag = true;
+
 		m_rotation3Y += 90.0f;
 		if (m_rotation3Y > 360) {
 			m_rotation3Y = 0;
 		}
 	}
+	// もしギミックの回転処理が行われたら。
+	if (m_rotationFlag == true) {
+		// 連続して回転させると、音が重なるので、それを防ぐ。
+		//効果音を再生。
+		SoundSource* se = NewGO<SoundSource>(4);
+		se->Init(4);
+		//効果音はループさせないのでfalse。
+		se->Play(false);
+		//音量。
+		se->SetVolume(4.0f);
+		m_rotationFlag = false;
+	}
+}
 
+void PuzzleCube::Update()
+{
+	// コリジョンとプレイヤーのキャラコンが衝突したら。
+	//if (m_collisionObject.IsHit(m_player->m_charCon)) {
+	//	// 当たった判定を返す。
+	//	bool isHit = true;
+	//}
+	//PhysicsWorld::GetInstance()->AddCollisionObject(&m_boxCollider);
+
+	m_spriteRender.Update();
+	m_fontRender.Update();
+	// 距離計算、回転処理。
+	Rotation();
 	// モデルに回転を反映
 	SetRotation();
 	m_modelRender.SetRotation(m_rotation);
@@ -118,7 +236,6 @@ void PuzzleCube::Update()
 		m_clear = true;
 	}
 
-	SetRotation();
 	// 絵合わせギミックの更新。
 	m_modelRender.Update();
 	m_modelRender2.Update();
@@ -144,5 +261,10 @@ void PuzzleCube::Render(RenderContext& rc)
 		// ファイルを読み込む。
 		// 大きさを変更する。
 		render3->Draw(rc);
+	}
+	if (m_uiFlag == true) {
+		SetUI();
+		m_spriteRender.Draw(rc);
+		m_fontRender.Draw(rc);
 	}
 }
