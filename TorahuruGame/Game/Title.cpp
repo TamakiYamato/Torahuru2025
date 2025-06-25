@@ -29,6 +29,15 @@ bool Title::Start() {
     // 効果音を読み込む。
     g_soundEngine->ResistWaveFileBank(1,"Assets/sound/wadaiko.wav");
     m_tips = FindGO<Tips>("tips");
+
+    // BGMを読み込む。
+    g_soundEngine->ResistWaveFileBank(3, "Assets/sound/titleBGM.wav");
+    // soundSourceを作成する
+    m_bgm = NewGO<SoundSource>(3);
+    m_bgm->Init(3);
+    // BGMをループさせる。
+    m_bgm->Play(true);
+
     return true;
 }
 
@@ -37,6 +46,8 @@ void Title::Update() {
     if (m_isWaitLoadOut) {
         if (!m_Loading->IsLoading()) {
             NewGO<Game>(0, "game");
+            // BGMを停止。
+            DeleteGO(m_bgm);
             // タイトルを削除。
             DeleteGO(this);
         }
