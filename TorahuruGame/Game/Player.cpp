@@ -31,11 +31,7 @@ Player::Player()
 
 Player::~Player()
 {
-	// 状態をdelete。
-	/*for (int i = 0; i < enPlayerState_Max; ++i) {
-		delete m_playerStateList[i];
-		m_playerStateList[i] = nullptr;
-	}*/
+
 }
 
 // constでファイルを読み取る。
@@ -76,14 +72,6 @@ bool Player::Start()
 
 	// 現在のモデルを設定
 	m_modelRender = &m_normalModel;	//m_modelRenderはポインタ型なので、&をつける。
-	/*ModelInitData modelInitData;
-	modelInitData.m_tkmFilePath = "Assets/modelData/player/player.tkm";
-	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
-	modelInitData.m_vsSkinEntryPointFunc = "VSMainSkin";
-	modelInitData.m_psEntryPointFunc = "PSMainHardShadow";
-	modelInitData.animationClips = m_animationClips;
-	modelInitData.numAnimationClips = enAnimationClip_Num;
-	m_modelRender->InitForwardRendering(modelInitData);*/
 	// キャラクターの更新。
 	m_modelRender->Update();
 	// キャラクターの向きを変える。
@@ -231,13 +219,6 @@ void Player::SetGravity()
 	m_modelRender->SetPosition(m_position);
 }
 
-//void Player::SetPosition(const Vector3& position) {
-//	m_position = position;
-//	m_charCon.SetPosition(m_position);
-//	m_modelRender->SetPosition(m_position);
-//	m_modelRender->Update();	//モデル更新。
-//}
-
 void Player::Rotation()
 {
 	// NOTE: 早期リターンとは？→条件が満たされない場合に、早期に関数から抜け出す手法。
@@ -310,13 +291,6 @@ void Player::AddFireEffect()
 	if(m_isHitFireCollision == true)
 	{
 		m_modelRender = &m_fireModel;				//火炎放射器に当たった時のモデルに切り替える。
-		//m_moveDir = 0.0f;
-	}
-	else
-	{
-		//m_modelRender = &m_normalModel;				//火炎放射器に当たっていない時、通常モデルに戻す。
-		//m_floorManager->m_playerFloorState = m_floorManager->Normal;	//プレイヤーの床の状態を通常に戻す。
-		//m_moveDir = 1.0f;							//移動方向を元に戻す。
 	}
 }
 

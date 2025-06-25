@@ -202,45 +202,6 @@ void FireGimmic::Update()
 		m_fireCollision->SetIsEnable(false);
 		m_fireCollision2->SetIsEnable(false);
 	}
-
-	
-
-	//一旦コメントアウト
-	//if (m_status == enStatus_Idle) {
-	//	Collision();
-
-	//	if (enStatus_Fire)										//(g_pad[0]->IsPress(enButtonSelect))
-	//	{
-	//		m_fireCollision->SetIsEnable(true);
-	//		m_fireCollision2->SetIsEnable(true);
-	//	}
-	//}
-	//else {
-	//	// 
-	//	// 
-	//	Vector3 toPlayer = m_player->m_position - COLLISION_POSITION;
-	//	float disToPlayer = toPlayer.Length();
-	//	//
-	//	m_effectIntervalTimer += g_gameTime->GetFrameDeltaTime();
-	//	if (m_effectIntervalTimer >= m_effectInterval || disToPlayer > LENGTH)
-	//	{
-	//		// 
-	//		if (m_se->IsPlaying())
-	//		{
-	//			m_se->Stop();
-	//		}
-	//		m_isMoveFireFlag = false;
-	//		DeleteGO(m_se);
-	//		DeleteGO(m_fire);
-	//		DeleteGO(m_fire2);
-	//		m_se = nullptr;
-	//		m_fire = nullptr;
-	//		m_fire2 = nullptr;
-	//		m_fireCollision->SetIsEnable(false);
-	//		m_fireCollision2->SetIsEnable(false);
-	//		m_status = enStatus_Idle;
-	//	}
-	//}
 }
 
 void FireGimmic::Render(RenderContext& rc)
