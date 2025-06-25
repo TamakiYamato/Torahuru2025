@@ -3,7 +3,6 @@
 #include "ReverseFloor.h"
 #include "SlowFloor.h"
 #include "BlindFloor.h"
-#include "FireTriggerFloor.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "TutorialUI.h"
@@ -111,23 +110,7 @@ void FloorManager::FindFloor()
 		}
 	}
 
-	////////////////////////////////////////////////
-	//ステージ内の火炎放射をすべて見つける
-	const auto& fireTriggerFloors = FindGOs<FireTriggerFloor>("FireTriggerFloor");
-
-	for (auto fireTriggerFloor : fireTriggerFloors) {
-		//フロア内の視界制限床を踏んだ場合、状態を変更
-		if (fireTriggerFloor->m_onFireTriggerFloor == true && m_playerSaveState == Normal)
-		{
-			//プレイヤーの状態異常ステートの変更
-			m_playerFloorState = FireTriggerState;
-
-			//UIがこの床の説明の時、ステートを切り替える
-			if (m_tutorialUI->m_textState = m_tutorialUI->enFireTrigger) {
-				m_tutorialUI->m_onGimmicPassed = true;
-			}
-		}
-	}
+	
 }
 
 

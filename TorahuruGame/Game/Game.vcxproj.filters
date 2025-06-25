@@ -35,13 +35,13 @@
     <ClCompile Include="PuzzleCube.cpp" />
     <ClCompile Include="PuzzleCubeManager.cpp" />
     <ClCompile Include="BackGroundTwo.cpp" />
-    <ClCompile Include="FireTriggerFloor.cpp" />
     <ClCompile Include="RotationFloor.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="Scene\StageManager.cpp" />
     <ClCompile Include="Tips.cpp" />
     <ClCompile Include="Offering.cpp" />
+    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -76,8 +76,8 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="PuzzleCube.h" />
     <ClInclude Include="PuzzleCubeManager.h" />
-    <ClInclude Include="FireTriggerFloor.h" />
     <ClInclude Include="Tips.h" />
     <ClInclude Include="Offering.h" />
+    <ClInclude Include="GameManager.h" />
   </ItemGroup>
 </Project>

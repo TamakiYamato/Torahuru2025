@@ -5,7 +5,7 @@ class TutorialUI;
 class ReverseFloor;
 class SlowFloor;
 class BlindFloor;
-class FireTriggerFloor;
+
 
 class FloorManager : public IGameObject
 {
@@ -40,7 +40,7 @@ public:
 	ReverseFloor* m_reverseFloor;	//あべこべ床
 	SlowFloor* m_slowFloor;	//鈍足床
 	BlindFloor* m_blindFloor;	//視界制限床
-	FireTriggerFloor* m_fireTriggerFloor;	//火炎放射器
+	
 	SpriteRender* m_spriteRender;	//画像
 	FontRender* m_fontRender;	//文字
 	PointLight* m_pointL;	//ポイントライト
