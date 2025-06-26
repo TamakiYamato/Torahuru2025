@@ -13,9 +13,9 @@ namespace {
 	Vector3 CUBE2_POSITION = Vector3(-500.0f, 30.0f, -3100.0f);
 	Vector3 CUBE3_POSITION = Vector3(-1200.0f, 30.0f,-2580.0f);
 	// 絵合わせの土台の位置。
-	Vector3 CUBE4_POSITION = Vector3(1790.0f, 10.0f, -2270.0f);
-	Vector3 CUBE5_POSITION = Vector3(-500.0f, 0.0f, -3100.0f);
-	Vector3 CUBE6_POSITION = Vector3(-1200.0f, 0.0f, -2580.0f);
+	Vector3 PEDESTAL1_POSITION = Vector3(1790.0f, 10.0f, -2270.0f);
+	Vector3 PEDESTAL2_POSITION = Vector3(-500.0f, 0.0f, -3100.0f);
+	Vector3 PEDESTAL3_POSITION = Vector3(-1200.0f, 0.0f, -2580.0f);
 	// 絵合わせの大きさ。
 	Vector3 CUBE_SCALE = Vector3(3.0f, 3.0f, 3.0f);
 	// 絵合わせのコリジョンの大きさ
@@ -70,50 +70,55 @@ void PuzzleCube::SetText()
 
 bool PuzzleCube::Start()
 {
-	// ブロック。
-	std::array<ModelRender*, 3> modelRenders = { &m_modelRender, &m_modelRender2, &m_modelRender3 };
-	for (auto& render : modelRenders) {
+	// ブロックの位置。
+	m_cubeRender.SetPosition(Vector3(CUBE1_POSITION));
+	m_cubeRender2.SetPosition(Vector3(CUBE2_POSITION));
+	m_cubeRender3.SetPosition(Vector3(CUBE3_POSITION));
+	// 土台の位置。
+	m_pedestalRender.SetPosition(Vector3(PEDESTAL1_POSITION));
+	m_pedestalRender2.SetPosition(Vector3(PEDESTAL2_POSITION));
+	m_pedestalRender3.SetPosition(Vector3(PEDESTAL3_POSITION));
+
+	// モデルレンダーの共通化。
+	std::array<ModelRender*, 3> cubeRenders = { &m_cubeRender, &m_cubeRender2, &m_cubeRender3 };
+	for (auto& render : cubeRenders) {
 		// ファイルを読み込む。
 		render->Init("Assets/modelData/stage2/gimmick/PuzzleCube.tkm");
 		// 大きさを変更する。
 		render->SetScale(CUBE_SCALE);
+		render->Update();
 	}
 	// 土台。
-	std::array<ModelRender*, 3> modelRenders2 = { &m_modelRender4, &m_modelRender5, &m_modelRender6 };
-	for (auto& render2 : modelRenders2) {
+	std::array<ModelRender*, 3> pedestalRenders = { &m_pedestalRender, &m_pedestalRender2, &m_pedestalRender3 };
+	for (auto& render2 : pedestalRenders) {
 		// ファイルを読み込む。
-		render2->Init("Assets/modelData/stage2/gimmick/PuzzleCubeFoundation.tkm");
+		render2->Init("Assets/modelData/stage2/gimmick/PuzzleCubePedestal.tkm");
 		// 大きさを変更する。
 		render2->SetScale(CUBE_SCALE);
+		render2->Update();
 	}
 	// 効果音。
 	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/puzzleCube.wav");
 
-	// ブロックの位置。
-	m_modelRender.SetPosition(Vector3(CUBE1_POSITION));
-	m_modelRender2.SetPosition(Vector3(CUBE2_POSITION));
-	m_modelRender3.SetPosition(Vector3(CUBE3_POSITION));
+	
 	// Updateをかけることで、生成されたコリジョンもポジションが変更される。
 	// Updateをかけることでワールド行列(ポジションとか)を再計算するする。
-	m_modelRender.Update();
+	/*m_modelRender.Update();
 	m_modelRender2.Update();
-	m_modelRender3.Update();
-	// 土台の位置。
+	m_modelRender3.Update();*/
 
-	m_modelRender4.SetPosition(Vector3(CUBE4_POSITION));
-	m_modelRender5.SetPosition(Vector3(CUBE5_POSITION));
-	m_modelRender6.SetPosition(Vector3(CUBE6_POSITION));
+	
 
 	m_player = FindGO<Player>("player");
 
-	m_modelRender4.Update();
+	/*m_modelRender4.Update();
 	m_modelRender5.Update();
-	m_modelRender6.Update();
+	m_modelRender6.Update();*/
 
 	// 初期状態でコリジョンを生成
-	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-	m_physicsStaticObject2.CreateFromModel(m_modelRender2.GetModel(), m_modelRender2.GetModel().GetWorldMatrix());
-	m_physicsStaticObject3.CreateFromModel(m_modelRender3.GetModel(), m_modelRender3.GetModel().GetWorldMatrix());
+	m_physicsStaticObject.CreateFromModel(m_cubeRender.GetModel(), m_cubeRender.GetModel().GetWorldMatrix());
+	m_physicsStaticObject2.CreateFromModel(m_cubeRender2.GetModel(), m_cubeRender2.GetModel().GetWorldMatrix());
+	m_physicsStaticObject3.CreateFromModel(m_cubeRender3.GetModel(), m_cubeRender3.GetModel().GetWorldMatrix());
 
 	//NOTE: コリジョンの不具合に備えて、下のコメントアウトのコードを一応残しておきます。
 	/*MeshCollider m_meshCollider;
@@ -228,18 +233,18 @@ void PuzzleCube::Update()
 	Rotation();
 	// モデルに回転を反映
 	SetRotation();
-	m_modelRender.SetRotation(m_rotation);
-	m_modelRender2.SetRotation(m_rotation2);
-	m_modelRender3.SetRotation(m_rotation3);
+	m_cubeRender.SetRotation(m_rotation);
+	m_cubeRender2.SetRotation(m_rotation2);
+	m_cubeRender3.SetRotation(m_rotation3);
 
 	if (SetClear()) {
 		m_clear = true;
 	}
 
 	// 絵合わせギミックの更新。
-	m_modelRender.Update();
-	m_modelRender2.Update();
-	m_modelRender3.Update();
+	m_cubeRender.Update();
+	m_cubeRender2.Update();
+	m_cubeRender3.Update();
 }
 
 bool PuzzleCube::SetClear() const
@@ -256,7 +261,7 @@ bool PuzzleCube::SetClear() const
 void PuzzleCube::Render(RenderContext& rc)
 {
 	// 絵合わせギミックの描画。
-	std::array<ModelRender*, 6> modelRenders3 = { &m_modelRender, &m_modelRender2, &m_modelRender3, &m_modelRender4, &m_modelRender5, &m_modelRender6 };
+	std::array<ModelRender*, 6> modelRenders3 = { &m_cubeRender, &m_cubeRender2, &m_cubeRender3, &m_pedestalRender, &m_pedestalRender2, &m_pedestalRender3 };
 	for (auto& render3 : modelRenders3) {
 		// ファイルを読み込む。
 		// 大きさを変更する。

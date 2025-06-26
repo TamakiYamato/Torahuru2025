@@ -33,12 +33,14 @@ public:
 private:
 	Player* m_player;
 	//GameClear m_gameClear;
-	ModelRender m_modelRender;
-	ModelRender m_modelRender2;
-	ModelRender m_modelRender3;
-	ModelRender m_modelRender4;
-	ModelRender m_modelRender5;
-	ModelRender m_modelRender6;
+	// ブロック部分のモデルレンダラー。
+	ModelRender m_cubeRender;
+	ModelRender m_cubeRender2;
+	ModelRender m_cubeRender3;
+	// 土台部分のモデルレンダラー。
+	ModelRender m_pedestalRender;
+	ModelRender m_pedestalRender2;
+	ModelRender m_pedestalRender3;
 	SpriteRender m_spriteRender;
 	FontRender m_fomtRender;
 	Vector3 m_position;
