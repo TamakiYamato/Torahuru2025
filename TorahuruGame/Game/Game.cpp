@@ -151,7 +151,7 @@ bool Game::Start()
 	FirstFloor* firstFloor = NewGO<FirstFloor>(0, "firstFloor");	//最初の床
 
 	m_player			     = NewGO<Player>(0, "player");
-	m_player->m_position  	= { 0.0f,0.0f,0.0f };				//プレイヤーの座標設定	
+	m_player->m_position  	= { 910.0f,0.0f,0.0f };				//プレイヤーの座標設定	
 	m_gamecamera            = NewGO<GameCamera>(0, "gamecamera");
 	m_bgm					= NewGO<SoundSource>(0, "bgm");	//BGM
 	m_se					= NewGO<SoundSource>(0, "se");
@@ -227,7 +227,7 @@ void Game::Update()
 	
 	// 絵合わせのクリア判定。
 	PuzzleCube* puzzleCube = FindGO<PuzzleCube>("puzzleCube");
-	if (puzzleCube && puzzleCube->m_clear) {
+	if (puzzleCube && puzzleCube->GetClear()) {
 		NewGO<GameClear>(0, "gameClear");
 	}
 
