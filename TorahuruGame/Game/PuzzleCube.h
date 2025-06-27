@@ -6,12 +6,13 @@ class SecondFloor;
 class PuzzleCube : public IGameObject
 {
 public:
-	PuzzleCube();
-	~PuzzleCube();
+	PuzzleCube() {};
+	~PuzzleCube() {};
 	bool Start();
+	void SetPuzzleCubePosition();
 	void Rotation();
-	void SetRotation();
-	bool SetClear()const;
+	void CubeSetRotation();
+	void ToggleClear();
 	void SetUI();
 	void SetText();
 	void Update();
@@ -26,11 +27,14 @@ public:
 	float GetRotationY() const { return m_rotationY; }
 	void SetRotationY(float deg) { m_rotationY = deg; }
 
-	bool m_clear = false;
+	bool GetClear() const {	return m_clear;	}
+
+	
 	bool m_uiFlag = false;
 	bool m_rotationFlag = false;
 
 private:
+	bool m_clear = false;
 	Player* m_player;
 	//GameClear m_gameClear;
 	// ブロック部分のモデルレンダラー。

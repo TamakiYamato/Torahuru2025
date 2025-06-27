@@ -227,7 +227,7 @@ void Game::Update()
 	
 	// 絵合わせのクリア判定。
 	PuzzleCube* puzzleCube = FindGO<PuzzleCube>("puzzleCube");
-	if (puzzleCube && puzzleCube->m_clear) {
+	if (puzzleCube && puzzleCube->GetClear()) {
 		NewGO<GameClear>(0, "gameClear");
 	}
 
