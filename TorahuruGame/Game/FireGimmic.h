@@ -10,70 +10,129 @@ class FireTriggerFloor;
 /// </summary>
 class FireGimmic :public IGameObject
 {
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	FireGimmic();
+
+	/// <summary>
+	/// 火炎放射の位置を設定
+	/// </summary>
+	void SetPosition(const Vector3& position)
+	{
+		m_firePos = position;
+	}
+
+	/// <summary>
+	/// 火炎放射の大きさの設定
+	/// </summary>
+	void SetScale(const Vector3& scale)
+	{
+		m_fireScl = scale;
+	}
+
+	/// <summary>
+	/// 火炎放射の向きの設定
+	/// </summary>
+	void SetRotation(const Quaternion& rotation)
+	{
+		m_rotation = rotation;
+	}
+
 private:
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~FireGimmic();
+
+	/// <summary>
+	/// スタート
+	/// </summary>
 	bool Start();
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	/// <param name="rc"></param>
 	void Render(RenderContext& rc);
-	void PlayCollision();										//コリジョン
+
+	/// <summary>
+	/// 炎の当たり判定の作成
+	/// </summary>
+	void CreateFireCollision();
+
+	/// <summary>
+	/// 火炎放射の再生
+	/// </summary>
+	void Fire();
+
+	/// <summary>
+	/// 火炎放射の停止
+	/// </summary>
 	void IntervalCollision();
-	void PlaySE();												//効果音
-	// 火炎放射器が動いているか
+
+	/// <summary>
+	/// 効果音の再生
+	/// </summary>
+	void PlaySE();
+
+	/// <summary>
+	/// 当たり判定の有効・無効を確認するフラグを確認
+	/// </summary>
+	void CheckFireFlag(bool isMoveFire);
+
+	/// <summary>
+	/// 火炎放射が再生されているかフラグで確認
+	/// </summary>
+	/// <param name="flag"></param>
 	void SetMoveFlag(const bool& flag)
 	{
 		m_moveFlag = flag;
 	}
 
-	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);//effectの再生
+	/// <summary>
+	/// エフェクトの再生処理
+	/// </summary>
+	EffectEmitter* PlayEffect(EffectName name, Vector3 pos, Quaternion rot, Vector3 scale);
 
-	enum Status {
+	/// <summary>
+	/// 火炎放射の状態を列挙型で確認
+	/// </summary>
+	enum Status
+	{
 		enStatus_Idle,	// 待機
 		enStatus_Fire,	// 放射中
 	};
-	Status					m_status = enStatus_Idle;
-	ModelRender				m_modelRender;
 
-	EffectEmitter* m_fire = nullptr;					//
-	EffectEmitter* m_fire2 = nullptr;					//
-	SoundSource* m_se;									//se
+	Status m_status = enStatus_Idle;		//火炎放射が発射してるか停止してるかのステータス
+	EffectEmitter* m_fire = nullptr;		//1つ目の火炎放射
+	EffectEmitter* m_fireSecond = nullptr;	//2つ目の火炎放射
+	SoundSource* m_se;						//火炎放射の効果音
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
-	FireTriggerFloor* m_fireTriggerFloor = nullptr;
 
+	Quaternion m_rotation;
+	Quaternion m_fireRot_North;	//火炎放射の向き：北側
+	Quaternion m_fireRot_South;	//火炎放射の向き：南側
+	Quaternion m_fireRot_East;	//火炎放射の向き：東側
+	Quaternion m_fireRot_West;	//火炎放射の向き：西側
+	CollisionObject* m_fireCollision;			//1つ目の火炎放射の当たり判定の大きさ
+	CollisionObject* m_fireSecondCollision;		//2つ目の火炎放射の当たり判定の大きさ
 
-	SpriteRender			m_mapSprite;				//画像
-	Quaternion              m_rotation;
-	Quaternion m_fireRot_North;                         //北側
-	Quaternion m_fireRot_South;                         //南側
-	Quaternion m_fireRot_East;                          //東側
-	Quaternion m_fireRot_West;                          //西側
-	CollisionObject* m_fireCollision;
-	CollisionObject* m_fireCollision2;
+	Vector3	m_firePos = Vector3::Zero;		 //1つ目の火炎放射の位置
+	Vector3 m_fireSecondPos = Vector3::Zero; //2つ目の火炎放射の位置
+	Vector3 m_fireScl = Vector3::Zero;		 //1つ目の火炎放射の大きさ
+	Vector3 m_fireSecondScl = Vector3::Zero; //2つ目の火炎放射の大きさ
 
-	Vector3					m_position = Vector3::Zero;
-	Vector3					m_position2 = Vector3::Zero;
-	Vector3                 m_scale = Vector3::Zero;
-	Vector3                 m_scale2 = Vector3::Zero;
+	bool m_moveFlag = true;			//動かしたかどうかのフラグ
+	bool m_isMoveFire = true;	//動かすかどうかのフラグ
 
-	bool					m_moveFlag = true;					//動かしたかどうかのフラグ
-	bool					m_isMoveFireFlag = true;			//動かすかどうかのフラグ
-
-	float					m_effectPlayTimer = 0.0f;			//火炎放射器を動いている間の時間計測
-	float					m_effectIntervalTimer = 0.0f;		//火炎放射器を止まっている間の時間計測
-
-public:
-	void SetPosition(const Vector3& position)
-	{
-		m_position = position;
-	}
-
-	void SetScale(const Vector3& scale)
-	{
-		m_scale = scale;
-	}
-	void SetRotation(const Quaternion& rotation) {
-		m_rotation = rotation;
-	}
-
-	FireGimmic();
+	float m_effectPlayTimer = 0.0f;		//火炎放射器を動いている間の時間計測
+	float m_effectIntervalTimer = 0.0f;	//火炎放射器を止まっている間の時間計測
 };
