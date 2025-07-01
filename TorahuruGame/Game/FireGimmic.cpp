@@ -21,6 +21,11 @@ namespace {
 
 	const Quaternion FIREQUATERNION = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
+	const float	EFFECTPLAY = 3.0f;				//火炎放射器を動かす時間
+	const float	EFFECTINTERVAL = 2.5f;			//火炎放射器を止める時間
+	const float	LIMIT = 100.0f;
+	const float	SPEED = 20.0f;
+
 	const float FIREROT_NORTH = 270.0f;
 	const float FIREROT_SOUTH = 90.0f;
 	const float FIREROT_EAST = 180.0f;
@@ -31,15 +36,23 @@ namespace {
 
 }
 
+FireGimmic::FireGimmic()
+{
+
+}
+
 FireGimmic::~FireGimmic()
 {
-	if (m_se != nullptr) {
+	if (m_se != nullptr)
+	{
 		DeleteGO(m_se);
 	}
-	if (m_fire != nullptr) {
+	if (m_fire != nullptr) 
+	{
 		DeleteGO(m_fire);
 	}
-	if (m_fire2 != nullptr) {
+	if (m_fire2 != nullptr) 
+	{
 		DeleteGO(m_fire2);
 	}
 
@@ -96,7 +109,10 @@ EffectEmitter* FireGimmic::PlayEffect(EffectName name, Vector3 pos, Quaternion r
 {
 	//effectの設定
 	EffectEmitter* effect = NewGO<EffectEmitter>(0);
-	if (!effect)return nullptr;
+	if (!effect)
+	{
+		return nullptr;
+	}
 
 	effect->Init(name);
 	effect->SetPosition(pos);
@@ -116,14 +132,15 @@ void FireGimmic::PlayCollision()
 	m_effectPlayTimer += g_gameTime->GetFrameDeltaTime();
 
 	//再生時間内の間
-	if (m_effectPlayTimer <= m_effectPlay && disToPlayer <= LENGTH)
+	if (m_effectPlayTimer <= EFFECTPLAY && disToPlayer <= LENGTH)
 	{
 		m_fireRot_North.SetRotationDegY(FIREROT_NORTH);
 		m_fireRot_South.SetRotationDegY(FIREROT_SOUTH);
 		m_fireRot_East.SetRotationDegY(FIREROT_EAST);
 		m_fireRot_West.SetRotationDegY(FIREROT_WEST);
 
-		if (m_moveFlag) {
+		if (m_moveFlag) 
+		{
 			m_fire = PlayEffect(enEffectName_Fire, FIREPOSITION, m_fireRot_North, FIRESCALE);
 			m_fire2 = PlayEffect(enEffectName_Fire, FIREPOSITION2, m_fireRot_North, FIRESCALE2);
 			PlaySE();
@@ -132,7 +149,8 @@ void FireGimmic::PlayCollision()
 	}
 
 	//再生時間外の場合
-	else if(m_effectPlayTimer >= m_effectPlay){
+	else if(m_effectPlayTimer >= EFFECTPLAY)
+	{
 		m_effectPlayTimer = 0.0f;
 		m_status = enStatus_Idle;
 		m_isMoveFireFlag = false;
@@ -149,10 +167,11 @@ void FireGimmic::IntervalCollision()
 	m_effectIntervalTimer += g_gameTime->GetFrameDeltaTime();
 
 	//火炎放射器を止める間
-	if (m_effectIntervalTimer <= m_effectInterval && disToPlayer > LENGTH)
+	if (m_effectIntervalTimer <= EFFECTINTERVAL && disToPlayer > LENGTH)
 	{
 		//火炎放射器のエフェクトの再生を止める
-		if (m_fire && m_fire->IsPlay()) {
+		if (m_fire && m_fire->IsPlay()) 
+		{
 			m_fire->Stop();
 			m_fire2->Stop();
 		}
@@ -172,7 +191,8 @@ void FireGimmic::IntervalCollision()
 	}
 
 	//火炎放射器を動かす時間になった時
-	else if (m_effectIntervalTimer >= m_effectInterval) {
+	else if (m_effectIntervalTimer >= EFFECTINTERVAL) 
+	{
 		m_isMoveFireFlag = true;
 		m_status = enStatus_Fire;
 		m_effectIntervalTimer = 0.0f;
@@ -190,20 +210,24 @@ void FireGimmic::PlaySE()
 
 void FireGimmic::Update()
 {
-	if (m_status == enStatus_Fire) {
+	if (m_status == enStatus_Fire) 
+	{
 		PlayCollision();
 	}
 
-	else if(m_status == enStatus_Idle){
+	else if(m_status == enStatus_Idle)
+	{
 		IntervalCollision();
 	}
 
 	// m_isMoveFireFlag によって当たり判定の有効・無効を制御
-	if (m_isMoveFireFlag) {
+	if (m_isMoveFireFlag) 
+	{
 		m_fireCollision->SetIsEnable(true);
 		m_fireCollision2->SetIsEnable(true);
 	}
-	else {
+	else 
+	{
 		m_fireCollision->SetIsEnable(false);
 		m_fireCollision2->SetIsEnable(false);
 	}
@@ -211,4 +235,5 @@ void FireGimmic::Update()
 
 void FireGimmic::Render(RenderContext& rc)
 {
+
 }
