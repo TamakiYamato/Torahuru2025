@@ -37,8 +37,8 @@ void FloorManager::Update()
 
 	////視界制限時、ポイントライトの位置をプレイヤーの上に設定///
 	if (m_playerSaveState == BlindState) {
-		pointLightPosition = m_player->m_position +Vector3(0.0f,200.0f,0.0f);
-		m_pointL->SetPosition(pointLightPosition);
+		m_pointLightPosition = m_player->m_position +Vector3(0.0f,200.0f,0.0f);
+		m_pointL->SetPosition(m_pointLightPosition);
 	}
 }
 
@@ -53,7 +53,6 @@ void FloorManager::Render(RenderContext& rc)
 		m_fontRender->Draw(rc);
 	}
 }
-
 
 void FloorManager::FindFloor()
 {
@@ -193,7 +192,7 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 
 				g_renderingEngine->SetDirectionLight(0, g_vec3Zero, g_vec3Zero);
 				g_renderingEngine->SetDirectionLight(1, g_vec3Zero, g_vec3Zero);
-				LightCount = 1;
+				m_lightCount = 1;
 				// Gameクラスでやっているカメラライトをオフにする
 
 				// 明るさの明度率
@@ -217,9 +216,7 @@ void FloorManager::AddStatus()	/////デバフをかける/////
 	}
 }
 
-/// <summary>
-/// 効果時間と画像の表示
-/// </summary>
+
 void FloorManager::AddStatusTimer()
 {
 	//効果時間の設定
@@ -238,32 +235,26 @@ void FloorManager::AddStatusTimer()
 	
 }
 
-/// <summary>
-/// ポイントライトのセット
-/// </summary>
+
 void FloorManager::SetPointLight()
 {
 	m_pointL = NewGO<PointLight>(0,"pointLight");
 	
 	m_pointL->Init();
-	m_pointL->SetPosition(pointLightPosition);
+	m_pointL->SetPosition(m_pointLightPosition);
 	m_pointL->SetAffectPowParam(0.7f);				//影響率
 	m_pointL->SetColor(Vector3(5.0f, 5.0f, 5.0f));
 	m_pointL->SetRange(250.0f);
 	m_pointL->Update();	
 }
 
-/// <summary>
-/// ポイントライトの削除
-/// </summary>
+
 void FloorManager::DeletePointLight()
 {
 	DeleteGO(m_pointL);
 }
 
-/// <summary>
-/// 効果時間の減少
-/// </summary>
+
 void FloorManager::PlayerCalcStatusTime()
 {
 	if (m_playerSaveState != Normal) {
@@ -282,9 +273,7 @@ void FloorManager::PlayerCalcStatusTime()
 	
 }
 
-/// <summary>
-/// 効果をリセット
-/// </summary>
+
 void FloorManager::PlayerRevertState()
 {
 	if (m_playerSaveState != Normal) {	//プレイヤーの効果を戻す

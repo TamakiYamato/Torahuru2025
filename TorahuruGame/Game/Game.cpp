@@ -31,6 +31,7 @@ Game::Game()
 Game::~Game() {
 	DeleteGO(m_bgm);
 	DeleteGO(m_player);
+	m_player == nullptr;
 	DeleteGO(m_gamecamera);
 	DeleteGO(m_stairs);
 	DeleteGO(m_tutorialUI);
@@ -184,7 +185,7 @@ void Game::Update()
 		m_stairs = FindGO<Stairs>("stairs");
 	}
 	// カメラライト
-	if (m_floorManager!=nullptr&&m_floorManager->LightCount != 1)
+	if (m_floorManager!=nullptr&&m_floorManager->m_lightCount != 1)
 	{
 		Vector3 dir = g_camera3D->GetForward();
 		dir.Normalize();
@@ -193,7 +194,7 @@ void Game::Update()
 		LightSetting();
 
 		g_renderingEngine->SetDirectionLight(2, dir, dirColor);
-		m_floorManager->LightCount = 0;			
+		m_floorManager->m_lightCount = 0;			
 	}
 	else 
 	{

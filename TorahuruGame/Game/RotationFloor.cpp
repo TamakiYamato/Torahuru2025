@@ -12,6 +12,7 @@
 #include "FloorManager.h"
 #include "Stairs.h"
 #include "Stamina.h"
+#include "Game.h"
 #include "GameClear.h"
 #include "Gameover.h"
 #include "Loading.h"
@@ -44,7 +45,7 @@ bool RotationFloor::Start() {
 	
 	//playerの呼びこみやUpdateの初期化などを行う
 	m_player = FindGO<Player>("player");
-	
+	m_game = FindGO<Game>("game");
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.Update();
 	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
@@ -55,6 +56,8 @@ bool RotationFloor::Start() {
 }
 	
 void RotationFloor::Update() {
+	if (m_game == nullptr) return; //ゲーム削除後は何もしない
+	if (m_player == nullptr) return;
 	// 回転床の角速度
 	float angularVelocityPerSec = 10.0f; // 度/秒
 	// 1フレームあたりの角度変化量

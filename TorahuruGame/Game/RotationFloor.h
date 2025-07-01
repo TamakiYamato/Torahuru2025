@@ -52,7 +52,7 @@ public:
 
 	ModelRender m_modelRender;
 	Player* m_player = nullptr;
-	
+	Game* m_game = nullptr;
 	Quaternion     m_rotation;
 	int			moveState = 0;		
 	FirstFloor* m_firstfloor = nullptr;

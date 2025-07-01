@@ -9,9 +9,9 @@ using namespace std;
 
 namespace {
 
-	const float SEARCH_LENGTH = 700.0f;			//プレイヤーを発見する距離。
-	const float ENEMY_ATTACKRANGE = 100.0f;		//enemyの攻撃範囲、入ると即死。
-	const float COMPLATION_RATIO = 1.0f;		//補完率。
+	const float SEARCH_LENGTH = 700.0f; //プレイヤーを発見する距離。
+	const float ENEMY_ATTACKRANGE = 100.0f; //enemyの攻撃範囲、入ると即死。
+	const float COMPLATION_RATIO = 1.0f; //補完率。
 }
 
 Enemy::Enemy()
@@ -21,7 +21,6 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	DeleteGO(m_enemyAnim); //エネミーアニメーションの削除
 }
 
 
@@ -54,6 +53,7 @@ bool Enemy::Start()
 	return true;
 }
 
+
 void Enemy::Update()
 {
 	// キャラクターコントローラーの位置を更新
@@ -68,11 +68,13 @@ void Enemy::Update()
 	m_modelRender.Update();
 }
 
+
 void Enemy::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);
 
 }
+
 
 
 void Enemy::SetGravity()
@@ -95,13 +97,16 @@ void Enemy::SetGravity()
 	m_modelRender.SetPosition(m_position);
 }
 
+
 void Enemy::CommonStateTransitionProcess()
 {
+	// プレイヤーが死んでいる場合は何もしない
 	if (m_enemyState == enEnemyState_Attack) return;
 
-	Vector3 toInitialPos = m_initialPosition - m_position;
-	Vector3 diff = m_player->GetPosition() - m_position;
+	Vector3 toInitialPos = m_initialPosition - m_position;// 初期位置へのベクトル
+	Vector3 diff = m_player->GetPosition() - m_position;// プレイヤーへのベクトル
 
+	// プレイヤーを見つけたかどうか
 	if (SearchPlayer()) {
 		diff.Normalize();
 		m_moveSpeed = diff * 150.0f;
@@ -133,9 +138,8 @@ void Enemy::CommonStateTransitionProcess()
 		m_isReadyIdle = true;
 	}
 }
-/// <summary>
-/// プレイヤを探す。
-/// </summary>
+
+
 bool Enemy::SearchPlayer()
 {
 	Vector3 diff = m_player->GetPosition() - m_position;
@@ -163,24 +167,16 @@ bool Enemy::SearchPlayer()
 
 }
 
-/// <summary>
-/// 移動速度を消し、その場でplayerが来るのを待つ
-/// </summary>
+
 void Enemy::Stand()
 {
 	m_moveSpeed = Vector3::Zero;
 	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_idleTimer += g_gameTime->GetFrameDeltaTime();
-	//if(m_idleTimer >= 3.0f) {
-	//	// 3秒経過したら元の位置に戻る
-	//	m_isReadyIdle = false; //Idle状態にならないようにする
-	//	m_idleTimer = 0.0f; //タイマーをリセット
-	//}
+
 }
 
-/// <summary>
-/// 最初の位置に戻る。
-/// </summary>
+
 void Enemy::ReturnToSpawn()
 {	
 	Vector3 toInitialPos = m_initialPosition - m_position;
@@ -207,9 +203,7 @@ void Enemy::ReturnToSpawn()
 	}
 }
 
-/// <summary>
-/// プレイヤーを追跡。
-/// </summary>
+
 void Enemy::Chase()
 {
 	m_position = m_charCon.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -229,6 +223,7 @@ void Enemy::Chase()
 	}
 }
 
+
 void Enemy::Rotation()
 {
 	// 移動方向に基づいて回転を計算
@@ -244,9 +239,7 @@ void Enemy::Rotation()
 	m_currentRotation.Apply(m_forward);
 }
 
-/// <summary>
-/// ステート管理。
-/// </summary>
+
 void Enemy::ManageState()
 {
 	switch (m_enemyState) {
@@ -264,9 +257,7 @@ void Enemy::ManageState()
 	}
 }
 
-/// <summary>
-/// アニメーションの管理
-/// </summary>
+
 void Enemy::PlayAnimation(int m_enemyState)
 {
 	switch (m_enemyState) {
@@ -287,9 +278,7 @@ void Enemy::PlayAnimation(int m_enemyState)
 	}
 }
 
-/// <summary>
-/// プレイヤーがエネミーに一定距離近づいたら即死ステートに変更
-/// </summary>
+
 void Enemy::CheckPlayerProximityAndDie()
 {
 	Vector3 diff = m_player->GetPosition() - m_position;
