@@ -9,17 +9,22 @@
 #include "sound/SoundEngine.h"
 
 namespace {
-	Vector3 COLLISION_SIZE = Vector3(150.0f, 250.0f, 900.0f);
-	Vector3 COLLISION_SIZE2 = Vector3(150.0f, 250.0f, 450.0f);
-	Vector3 COLLISION_POSITION = Vector3(10.0f, 0.0f, 10.0f);
+	const Vector3 COLLISION_SIZE = Vector3(150.0f, 250.0f, 900.0f);
+	const Vector3 COLLISION_SIZE2 = Vector3(150.0f, 250.0f, 450.0f);
+	const Vector3 COLLISION_POSITION = Vector3(10.0f, 0.0f, 10.0f);
 
-	Vector3 firePosition = Vector3(-470.0f, 70.0f, -400.0f);
-	Vector3 firePosition2 = Vector3(1750.0f, 70.0f, -1200.0f);
+	const Vector3 FIREPOSITION = Vector3(-470.0f, 70.0f, -400.0f);
+	const Vector3 FIREPOSITION2 = Vector3(1750.0f, 70.0f, -1200.0f);
 
-	Quaternion fireQuaternion = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+	const Vector3 FIRESCALE = Vector3(20.0f, 10.0f, 10.0f);
+	const Vector3 FIRESCALE2 = Vector3(15.0f, 10.0f, 10.0f);
 
-	Vector3 fireScale = Vector3(20.0f, 10.0f, 10.0f);
-	Vector3 fireScale2 = Vector3(15.0f, 10.0f, 10.0f);
+	const Quaternion FIREQUATERNION = Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+
+	const float FIREROT_NORTH = 270.0f;
+	const float FIREROT_SOUTH = 90.0f;
+	const float FIREROT_EAST = 180.0f;
+	const float FIREROT_WEST = 360.0f;
 
 	const float LENGTH = 3000.0f;			//長さ
 	const float SE_VOLUME = 0.01f;
@@ -50,8 +55,8 @@ bool FireGimmic::Start()
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 
-	m_position = firePosition;
-	m_position2 = firePosition2;
+	m_position = FIREPOSITION;
+	m_position2 = FIREPOSITION2;
 
 	m_scale = COLLISION_SIZE;
 	m_scale2 = COLLISION_SIZE2;
@@ -113,14 +118,14 @@ void FireGimmic::PlayCollision()
 	//再生時間内の間
 	if (m_effectPlayTimer <= m_effectPlay && disToPlayer <= LENGTH)
 	{
-		m_fireRot_North.SetRotationDegY(270.0f);
-		m_fireRot_South.SetRotationDegY(90.0f);
-		m_fireRot_East.SetRotationDegY(180.0f);
-		m_fireRot_West.SetRotationDegY(360.0f);
+		m_fireRot_North.SetRotationDegY(FIREROT_NORTH);
+		m_fireRot_South.SetRotationDegY(FIREROT_SOUTH);
+		m_fireRot_East.SetRotationDegY(FIREROT_EAST);
+		m_fireRot_West.SetRotationDegY(FIREROT_WEST);
 
 		if (m_moveFlag) {
-			m_fire = PlayEffect(enEffectName_Fire, firePosition, m_fireRot_North, fireScale);
-			m_fire2 = PlayEffect(enEffectName_Fire, firePosition2, m_fireRot_North, fireScale2);
+			m_fire = PlayEffect(enEffectName_Fire, FIREPOSITION, m_fireRot_North, FIRESCALE);
+			m_fire2 = PlayEffect(enEffectName_Fire, FIREPOSITION2, m_fireRot_North, FIRESCALE2);
 			PlaySE();
 			m_moveFlag = false;
 		}
