@@ -11,7 +11,7 @@ class SecondFloor;
 /// <summary>
 /// 回転床のGameObject。
 /// </summary>
-/// 
+
 class  RotationFloor:public IGameObject 
 {
 public:
@@ -23,28 +23,23 @@ public:
 	/// <summary>
 	/// スタート。
 	/// </summary>
-	/// <returns></returns>
 	 bool Start();
-	
 	
 	/// <summary>
 	/// アップデート。
 	/// </summary>
 	 void Update();
-	
-	
+		
 	 /// <summary>
-	 ///回転。
+	 /// 回転。
 	 /// </summary>
 	 void Rotation();
 	
 	/// <summary>
-	//モデルレンダラー:描画。
+	// モデルレンダラー:描画。
 	/// </summary>
-	/// <param name="renderContext"></param>
 	 void Render(RenderContext& renderContext);
-	
-	
+		
 	/// <summary>
 	/// 座標を取得。
 	/// </summary>
@@ -52,6 +47,7 @@ public:
 	 {
 		 return m_position;
 	 }
+
 	 void SetPosition(const Vector3& position)
 	 {
 		 m_position = position;
@@ -61,10 +57,10 @@ public:
 	 {
 		 m_scale = scale;
 	 }
+
 	 void SetRotation(const Quaternion& rotation) {
 		 m_rotation = rotation;
 		 m_modelRender.SetRotation(rotation);
-
 	 }
 
 private:
@@ -76,32 +72,30 @@ private:
 	/// <summary>
 	/// 回転床のスピード
 	/// </summary>
-	/// <param name="addMoveSpeed"></param>
 	void AddMoveSpeed(const Vector3& addMoveSpeed)
 	{
 		m_moveSpeed += addMoveSpeed;
 	}
 
 	/// <summary>
-	///RotationFloorCale:回転床の計算処理
+	/// 回転床の計算処理
 	/// </summary>
 	void RotationFloorCalc();
 	
 private:
-
 	float m_rotationAngle = 1.0f; //回転軸。
 	float m_rotationSpeed = 0.1f; //回転速度。
 
 	PhysicsStaticObject	m_physicsStaticObject;//静的オブジェクト。
-	ModelRender	m_modelRender;//モデルの描画。
+	ModelRender	m_modelRender; //モデルの描画。
 
-	Quaternion m_rotation;//回転参照。
+	Quaternion m_rotation; //回転参照。
 
-	Vector3	m_position;//回転床のポジション。
+	Vector3	m_position; //回転床のポジション。
 	Vector3 m_scale = Vector3::One*10;
 	Vector3 m_moveSpeed = Vector3::Zero;
 
-	Player* m_player = nullptr;//クラス参照。
+	Player* m_player = nullptr; //クラス参照。
 	FirstFloor* m_firstfloor = nullptr;
 	SecondFloor* m_secondfloor = nullptr;
 };

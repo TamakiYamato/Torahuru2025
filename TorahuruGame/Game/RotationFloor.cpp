@@ -40,12 +40,39 @@
 	 return true;
  }
 
+ void RotationFloor::Update()
+ {
+	 m_modelRender.SetRotation(m_rotation);
+	 m_modelRender.SetPosition(m_position);
+
+	 RotationFloorCalc(); //回転床の計算処理
+
+	 m_modelRender.Update();
+
+	 //コリジョンを毎フレーム再生成
+	 m_physicsStaticObject.Release();
+	 m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+ }
+
+ void RotationFloor::Rotation()
+ {
+	 m_rotation.AddRotationDegY(ROTATION_DEG_Y); //毎フレームごとにY軸に5ずつ移動する処理
+
+	 m_modelRender.SetRotation(m_rotation);
+ }
+
+ /// 回転床のモデルの描画
+ void RotationFloor::Render(RenderContext& renderContext)
+ {
+	 m_modelRender.Draw(renderContext);
+ }
+
  void RotationFloor::RotationFloorCalc()
  {
 	 // 回転床の角速度
 	 float angularVelocityPerSec = 10.0f;
 	 float angularVelocityPerFrame = angularVelocityPerSec * g_gameTime->GetFrameDeltaTime();
-	 m_rotation.AddRotationDegY(angularVelocityPerFrame);//回転軸はY軸
+	 m_rotation.AddRotationDegY(angularVelocityPerFrame); //回転軸はY軸
 
 	 //床とプレイヤーの当たり判定を行う
 	 Vector3 diff = m_player->GetPosition() - m_position;
@@ -77,7 +104,7 @@
 		 //Y軸ごとの回転するフレームの更新
 		 rot.SetRotationDegY(angularVelocityPerFrame); 
 		 rot.Apply(toPlayer); //プレイヤーの回転
-		 rot.Apply(offset); //回転した座標のリセット
+		 rot.Apply(offset);  //回転した座標のリセット
 
 		 //新しい座標を生成する
 		 Vector3 newPlayerPos = posXZ + toPlayer; 
@@ -95,31 +122,4 @@
 		 //動く床の移動速度をキャラクターの移動速度に加算
 		 m_player->AddForce(addForce); 
 	 }
- }
-
- void RotationFloor::Update() 
- {
-	 m_modelRender.SetRotation(m_rotation);	
-	 m_modelRender.SetPosition(m_position);
-
-	 RotationFloorCalc(); //回転床の計算処理
-
-	 m_modelRender.Update();
-
-	 //コリジョンを毎フレーム再生成
-	 m_physicsStaticObject.Release();  
-	 m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix()); 
- }
-
- void RotationFloor::Rotation() 
- {
-    m_rotation.AddRotationDegY(ROTATION_DEG_Y); //毎フレームごとにY軸に5ずつ移動する処理
-
-    m_modelRender.SetRotation(m_rotation); 
- }
-
- /// 回転床のモデルの描画
- void RotationFloor::Render(RenderContext& renderContext)
- {
-	m_modelRender.Draw(renderContext);
  }
