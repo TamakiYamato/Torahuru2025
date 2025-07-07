@@ -20,91 +20,106 @@
 #include "TutorialUI.h"
 #include"SecondFloor.h"
 
-namespace {
-	const Vector3 COLLISION_HEIGHT (0.0f, 0.0f, 0.0f);//当たり判定の高さ
-	const Vector3 COLLISION_SIZE_Z (100.0f,100.0f, 100.0f);//当たり判定の大きさ
+ namespace 
+ {
+	const Vector3 COLLISION_HEIGHT(0.0f, 0.0f, 0.0f);		//当たり判定の高さ
+	const Vector3 COLLISION_SIZE_Z(100.0f, 100.0f, 100.0f);	//当たり判定の大きさ
+
+	const float ROTATION_DEG_Y = 5.0f; //回転床がY軸に毎フレームごとに5進む
 }
 
-RotationFloor::RotationFloor() {
+ bool RotationFloor::Start() 
+ {
+	 m_modelRender.Init("Assets/modelData/Stage2/RotationFloor/kaitenyukasecond.tkm");	
+	 m_modelRender.SetPosition(m_position);	
+	 m_modelRender.SetScale(m_scale);
+	 m_modelRender.Update();
 
-}
+	 m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	 m_player = FindGO<Player>("player");
+	 return true;
+ }
 
-RotationFloor::~RotationFloor() {
+ void RotationFloor::RotationFloorCalc()
+ {
+	 // 回転床の角速度
+	 float angularVelocityPerSec = 10.0f;
+	 float angularVelocityPerFrame = angularVelocityPerSec * g_gameTime->GetFrameDeltaTime();
+	 m_rotation.AddRotationDegY(angularVelocityPerFrame);//回転軸はY軸
 
-}
+	 //床とプレイヤーの当たり判定を行う
+	 Vector3 diff = m_player->GetPosition() - m_position;
+	 // 回転床とプレイヤーのY座標の初期化
+	 diff.y = 0.0f; 
 
-bool RotationFloor::Start() {
-	m_modelRender.Init("Assets/modelData/Stage2/RotationFloor/kaitenyukasecond.tkm");	//回転床の修正
-	//当たり判定を可視化する。
-    //PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-	//コリジョンオブジェクトを。
-		//動く床の上に設置する(キャラクターが上に乗ったら反応するようにしたいため)。
+	 float halfWidth = m_scale.x * 0.5f; //x座標の計算
+	 float halfDepth = m_scale.z * 0.5f; //z座標の計算
 
-	m_modelRender.SetPosition(m_position);
-	
-	//playerの呼びこみやUpdateの初期化などを行う
-	m_player = FindGO<Player>("player");
-	
-	m_modelRender.SetScale(m_scale);
-	m_modelRender.Update();
-	m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	 //回転床の半径をもとに弧の長さを計算
+	 if (diff.Length() < m_scale.x) 
+	 {
+		 //回転床の回転処理の結果を保存するための変数
+		 auto posXZ = m_position; 
+		 //回転床のｙ座標を0にする
+		 posXZ.y = 0; 
+		 //プレイヤーの現在地点の値を更新する為の変数
+		 auto playerPosXZ = m_player->GetPosition(); 
+		 //プレイヤーのｙ座標を0にする
+		 playerPosXZ.y = 0; 
+		 //回転床の回転に応じてプレイヤーのモデルが同じ方向に回転する処理
+		 Vector3 toPlayer = playerPosXZ - posXZ; 
+		 //過去の座標の値を消す
+		 Vector3 offset = m_player->GetPosition() - m_position; 
 
+		 //回転軸
+		 Quaternion rot; 
+		 
+		 //Y軸ごとの回転するフレームの更新
+		 rot.SetRotationDegY(angularVelocityPerFrame); 
+		 rot.Apply(toPlayer); //プレイヤーの回転
+		 rot.Apply(offset); //回転した座標のリセット
 
+		 //新しい座標を生成する
+		 Vector3 newPlayerPos = posXZ + toPlayer; 
 
-	return true;
-}
-	
-void RotationFloor::Update() {
-	// 回転床の角速度
-	float angularVelocityPerSec = 10.0f; // 度/秒
-	// 1フレームあたりの角度変化量
-	float angularVelocityPerFrame = angularVelocityPerSec * g_gameTime->GetFrameDeltaTime();
-	m_rotation.AddRotationDegY(angularVelocityPerFrame);
-	m_modelRender.SetRotation(m_rotation);
-	m_modelRender.SetPosition(m_position);
-	// 床とプレイヤーの当たり判定を行う
-	Vector3 diff = m_player->GetPosition() - m_position;
-	diff.y = 0.0f; // Y軸の差分は無視する
-	float halfWidth = m_scale.x * 0.5f; // 床の半分の幅
-	float halfDepth = m_scale.z * 0.5f; //
-	if (diff.Length() < m_scale.x)//abs(diff.x)<halfWidth&&abs(diff.z)<halfDepth
-	{
+		 //プレイヤーの座標の更新
+		 m_player->SetPosition(newPlayerPos);
 
-	   // プレイヤーの位置を回転床で回転させた結果の座標を求める
-	   auto posXZ = m_position;
-	   posXZ.y = 0;
-	   auto playerPosXZ = m_player->GetPosition();
-	   playerPosXZ.y = 0;
-	   Vector3 toPlayer = playerPosXZ - posXZ;
-	   Vector3 offset = m_player->GetPosition() - m_position;
-	   
-	   Quaternion rot;
-	   rot.SetRotationDegY(angularVelocityPerFrame);
-	   rot.Apply(toPlayer);
-	   rot.Apply(offset);
-	  
-	   Vector3 newPlayerPos = posXZ + toPlayer;
-	   //Vector3 newPlayerPos = m_position + offset;
-	   m_player->SetPosition(newPlayerPos);
-	   Vector3 addForce = newPlayerPos - playerPosXZ;
-	   addForce /= g_gameTime->GetFrameDeltaTime(); // フレーム時間で割ってcm/frame->cm/秒に単位を変換
-	  // m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-	   //動く床の移動速度をキャラクターの移動速度に加算。
-	   m_player->AddForce(addForce);
-	}
+		 //回転床が動いた分の座標をプレイヤーにも適用する
+		 Vector3 addForce = newPlayerPos - playerPosXZ; 
 
-	   m_modelRender.Update();
-	   // コリジョンを毎フレーム再生成
-	   m_physicsStaticObject.Release(); // 既存の剛体を破棄
-	   m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());// 新しい剛体を生成
-}
+		 //フレーム時間で割ってcm/frame->cm/秒に単位を変換していく
+		 //ヒューマンエラー対策 : Max側とK2Engine側の値設定ミスを防ぐため
+		 addForce /= g_gameTime->GetFrameDeltaTime();  
 
-void RotationFloor::Rotation() {
-	m_rotation.AddRotationDegY(5.0f);
+		 //動く床の移動速度をキャラクターの移動速度に加算
+		 m_player->AddForce(addForce); 
+	 }
+ }
 
-	m_modelRender.SetRotation(m_rotation);
-}
-void RotationFloor::Render(RenderContext& renderContext)
-{
+ void RotationFloor::Update() 
+ {
+	 m_modelRender.SetRotation(m_rotation);	
+	 m_modelRender.SetPosition(m_position);
+
+	 RotationFloorCalc(); //回転床の計算処理
+
+	 m_modelRender.Update();
+
+	 //コリジョンを毎フレーム再生成
+	 m_physicsStaticObject.Release();  
+	 m_physicsStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix()); 
+ }
+
+ void RotationFloor::Rotation() 
+ {
+    m_rotation.AddRotationDegY(ROTATION_DEG_Y); //毎フレームごとにY軸に5ずつ移動する処理
+
+    m_modelRender.SetRotation(m_rotation); 
+ }
+
+ /// 回転床のモデルの描画
+ void RotationFloor::Render(RenderContext& renderContext)
+ {
 	m_modelRender.Draw(renderContext);
-}
+ }
