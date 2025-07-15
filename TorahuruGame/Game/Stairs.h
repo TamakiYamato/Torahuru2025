@@ -59,15 +59,15 @@ private:
 	/// </summary>
 	~Stairs() {};
 private:
-	PhysicsStaticObject			m_physicsStaticObject;// 静的オブジェクト
-	ModelRender m_modelRender;// モデルの描画
-	Quaternion     m_rotation;// 回転
+	PhysicsStaticObject	   m_physicsStaticObject;// 静的オブジェクト
+	ModelRender            m_modelRender;// モデルの描画
+	Quaternion             m_rotation;// 回転
 
 	Player*		m_player = nullptr;                // プレイヤークラス参照
 	FirstFloor* m_firstfloor = nullptr;           // ファーストフロアの定義
 	CollisionObject* m_collisionObject = nullptr;// 当たり判定
 
-	Vector3	m_scale;// 階段のスケール
+	Vector3	m_scale;     // 階段のスケール
 	Vector3	m_position ;// 階段のポジション
 };
 
