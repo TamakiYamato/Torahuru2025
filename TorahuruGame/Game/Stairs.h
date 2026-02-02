@@ -3,16 +3,40 @@ class Game;
 class Player;
 class GameClear;
 class FirstFloor;
+
+/// <summary>
+/// StairsのGameObject
+/// </summary>
 class Stairs :public IGameObject
 {
 public:
-	Stairs();
-	~Stairs();
-	bool Start() ;
-	void Update() ;
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Stairs() {};
+
+	/// <summary>
+	/// スタート
+	/// </summary>
+	/// <returns></returns>
+	bool Start();
+
+	/// <summary>
+	/// アップデート
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// モデルレンダラー
+	/// </summary>
 	void Render(RenderContext& renderContext);
 
-	// 座標を取得
+	/// <summary>
+	/// 座標を取得
+	/// </summary>
+	/// <returns></returns>
+	
 	const Vector3& GetPosition() const
 	{
 		return m_position;
@@ -30,16 +54,20 @@ public:
 		m_rotation = rotation;
 	}
 private:
-	PhysicsStaticObject			m_physicsStaticObject;
-	ModelRender m_modelRender;
-	Player*		m_player = nullptr;
-	CollisionObject* m_collisionObject = nullptr;//当たり判定
-	Quaternion     m_rotation;
-	int			moveState = 0;		//荳翫↓遘ｻ蜍輔°荳九↓遘ｻ蜍・
-	FirstFloor* m_firstfloor = nullptr;
-	Vector3						m_scale;
-	Vector3						m_position ;
-	
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Stairs() {};
+private:
+	PhysicsStaticObject	   m_physicsStaticObject;// 静的オブジェクト
+	ModelRender            m_modelRender;// モデルの描画
+	Quaternion             m_rotation;// 回転
 
+	Player*		m_player = nullptr;                // プレイヤークラス参照
+	FirstFloor* m_firstfloor = nullptr;           // ファーストフロアの定義
+	CollisionObject* m_collisionObject = nullptr;// 当たり判定
+
+	Vector3	m_scale;     // 階段のスケール
+	Vector3	m_position ;// 階段のポジション
 };
 
